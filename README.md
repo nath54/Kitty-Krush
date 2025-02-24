@@ -20,6 +20,6 @@ We followed a standard global organization for C++ projects with a ressource fil
 
 ## Conclusion
 
-Bon, bah c'était cool.
+Well done, it was really fun to play with you ! ⸜(｡˃ ᵕ ˂ )⸝♡
 
 UwU.
