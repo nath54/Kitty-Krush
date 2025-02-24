@@ -1,11 +1,13 @@
 #include <SDL.h>
 #include <iostream>
+#include <cstdio>
 
 #include <model.hpp>
 
 static const int WIN_SIZE_WIDTH = 900;
 static const int WIN_SIZE_HEIGHT = 700;
 
+static const char SDL_ERROR_BUFFER[1000];
 
 
 class MainView{
@@ -20,10 +22,10 @@ class MainView{
         // Reference to game_model
         GameModel* game_model = nullptr;
 
-        void sdl_error(char* error_msg){
+        void sdl_error(char error_msg[]){
 
             // Display & log error message
-            SDL_Log("SDL_CreateRenderer: %s", SDL_GetError());
+            SDL_Log(error_msg);
 
             //
             if(this->sdl_window != nullptr){
@@ -52,9 +54,8 @@ class MainView{
 
             if (SDL_Init(SDL_INIT_VIDEO) != 0 )
             {
-                std::cerr <<"Echec de l'initialisation de la SDL "<<SDL_GetError() << std::endl;
-                exit(1);
-            }
+                sprintf(SDL_ERROR_BUFFER, "SDL_Init Error: %s", SDL_GetError());
+                this->sdl_error(SDL_ERROR_BUFFER);            }
 
 
             // Window creation
@@ -64,15 +65,20 @@ class MainView{
                                                 WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT,
                                                 SDL_WINDOW_SHOWN
             );
-
+            //
+            if(!this->sdl_window){
+                sprintf(SDL_ERROR_BUFFER, "SDL_CreateWindow Error: %s", SDL_GetError());
+                this->sdl_error(SDL_ERROR_BUFFER);
+            }
 
             // Create renderer with vsync to limit frame rate
-            SDL_Renderer* renderer = SDL_CreateRenderer(this->sdl_window, -1,
+            this->sdl_renderer = SDL_CreateRenderer(this->sdl_window, -1,
                                                         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
             //
-            if (!renderer) {
-                
+            if (!this->sdl_renderer) {
+                sprintf(SDL_ERROR_BUFFER, "SDL_CreateRenderer Error: %s", SDL_GetError());
+                this->sdl_error(SDL_ERROR_BUFFER);
             }
 
             // Get the window surface
