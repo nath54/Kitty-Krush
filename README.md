@@ -1,22 +1,22 @@
 # Le_Jeu_ProgAvancee
 
-Groupe:
+Team members:
     - Nathan CERISARA
-    - Ysee Jacquet
+    - Ysée JACQUET
 
-## Description du projet
+## Description
 
-TODO: Il nous faudrait le sujet quand même.
+*TODO: Il nous faudrait le sujet quand même. OwO*
 
-## Organisation du projet
+## Organization
 
-Nous avons respecté une organisation globale de projets en c++, avec un dossier ressources, un dossier src, un dossier include et un MAKEFILE.
+We followed a standard global organization for C++ projects with a ressource file, a source file, an include file and a makefile.
 
-TODO: Organisation des classes
+*TODO: Organisation des classes OwO*
 
 ## Tests
 
-TODO: Faire des tests pour vérifier que le jeu fonctionne bien, et les décrire ici
+*TODO: Faire des tests pour vérifier que le jeu fonctionne bien, et les décrire ici*
 
 ## Conclusion
 
