@@ -2,6 +2,7 @@
 #pragma once
 //
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <cstdio>
 //
@@ -13,12 +14,18 @@ static const int WIN_SIZE_HEIGHT = 700;
 //
 static char SDL_ERROR_BUFFER[1000];
 
-
 // Class MainView, manages the SDL environment & SDL Window
 class MainView{
 
     // Private attributes & functions
     private:
+
+        //
+        bool sdl_initialized = false;
+        bool ttf_initialized = false;
+
+        //
+        Uint32 startTime = 0;
 
         // SDL related attributes
         SDL_Window* sdl_window = nullptr;
@@ -46,6 +53,9 @@ class MainView{
 
         // Main update display method
         void update_display();
+
+        // Render text function
+        void render_text(std::string text, int fontSize, std::string font_path);
 
 };
 

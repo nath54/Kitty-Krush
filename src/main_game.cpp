@@ -40,6 +40,9 @@ void MainGame::mainloop(){
         //
         this->game_controller->manage_events();
 
+        //
+        this->main_view->update_display();
+
     }
 
 }
