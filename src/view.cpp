@@ -17,6 +17,7 @@ const char* TEXT = "UwU";
 const int BASE_FONT_SIZE = 50;
 const int AMPLITUDE = 20;
 const float FREQUENCY = 2.0f;
+const float FREQUENCY2 = 0.1;
 
 
 //
@@ -144,9 +145,9 @@ void MainView::update_display(){
     float time = (SDL_GetTicks() - this->startTime) / 1000.0f;
     int fontSize = BASE_FONT_SIZE + AMPLITUDE * sin(FREQUENCY * time);
     Color color = Color(
-        (int)(255 * sin(FREQUENCY * time)),
+        (int)(255 * sin(FREQUENCY2 * time)),
         128,
-        (int)(255 - 128 * sin(FREQUENCY * time))
+        (int)(255 - 128 * sin(FREQUENCY2 * time))
     );
     //
     this->render_text(TEXT, color, fontSize, FONT_PATH);
