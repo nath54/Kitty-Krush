@@ -11,7 +11,7 @@ Class Player:
     TODO: the rest will depend on the type of game
 
 Class GameModel:
-    - players (dict[str, Player*]): players are linked here, indexed by there player_name
+    - players (dict[str, Player*]): Players are linked here, indexed by there player_name
 
 
 ## MVC - Controller
@@ -39,5 +39,5 @@ TODO: add the other stuff here or in other sub-categories.
 Class MainGame:
     - game_model (GameModel*): pointer toward game model
     - main_view (MainView*): pointer toward game view
-    - game_controller (GameControler*): pointer toward game controller
+    - game_controller (GameController*): pointer toward game controller
 

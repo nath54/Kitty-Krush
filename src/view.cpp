@@ -1,12 +1,16 @@
+//
 #include "view.hpp"
-
+//
+#include <iostream>
+#include <string>
+#include <unistd.h>
 
 
 //
-void MainView::sdl_error(char error_msg[]){
+void MainView::sdl_error(const char* error_msg){
 
     // Display & log error message
-    SDL_Log(error_msg);
+    SDL_Log( error_msg );
 
     // Destroy all the allocated SDL memory for a clean exit
     this->destroy_all_created();
@@ -22,7 +26,6 @@ void MainView::destroy_all_created(){
 
     // Destroy the sdl window surface
     if(this->sdl_window_surface != nullptr){
-        SDL_DestroyWindowSurface(this->sdl_window_surface);
         this->sdl_window_surface = nullptr;
     }
 
@@ -55,7 +58,7 @@ MainView::MainView(GameModel* game_model)
     // Window creation
     this->sdl_window = SDL_CreateWindow(
                                         "The Game",
-                                        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                         WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT,
                                         SDL_WINDOW_SHOWN
     );
@@ -83,6 +86,13 @@ MainView::MainView(GameModel* game_model)
         sprintf(SDL_ERROR_BUFFER, "SDL_GetWindowSurface Error: %s", SDL_GetError());
         this->sdl_error(SDL_ERROR_BUFFER);
     }
+
+    //
+    this->update_display();
+
+    //
+    std::cout << "SDL Initialized & Window created !\n/ᐠ > ˕ <マ ₊˚⊹♡\n";
+
 }
 
 // Destructor
@@ -96,14 +106,5 @@ MainView::~MainView(){
 
 // Main update display method
 void MainView::update_display(){
-    SDL_UpdateWindowSurface(this->sdl_surface);
+    SDL_UpdateWindowSurface(this->sdl_window);
 }
-
-
-
-
-
-
-
-
-
