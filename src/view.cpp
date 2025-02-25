@@ -1,5 +1,6 @@
 //
 #include "view.hpp"
+#include "color.hpp"
 //
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -142,8 +143,13 @@ void MainView::update_display(){
     //
     float time = (SDL_GetTicks() - this->startTime) / 1000.0f;
     int fontSize = BASE_FONT_SIZE + AMPLITUDE * sin(FREQUENCY * time);
+    Color color = Color(
+        (int)(255 * sin(FREQUENCY * time)),
+        128,
+        (int)(255 - 128 * sin(FREQUENCY * time))
+    );
     //
-    this->render_text(TEXT, fontSize, FONT_PATH);
+    this->render_text(TEXT, color, fontSize, FONT_PATH);
 
     // 💡 Update the renderer to show the new frame
     SDL_RenderPresent(this->sdl_renderer);
@@ -151,7 +157,7 @@ void MainView::update_display(){
 
 
 // Render text function
-void MainView::render_text(std::string text, int fontSize, std::string font_path) {
+void MainView::render_text(std::string text, Color cl, int fontSize, std::string font_path) {
 
     //
     TTF_Font* dynamicFont = TTF_OpenFont(font_path.c_str(), fontSize);
@@ -161,7 +167,7 @@ void MainView::render_text(std::string text, int fontSize, std::string font_path
     }
 
     //
-    SDL_Color color = {255, 255, 255, 255};
+    SDL_Color color = {cl.r, cl.g, cl.b, cl.a};
     SDL_Surface* surface = TTF_RenderText_Solid(dynamicFont, text.c_str(), color);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(this->sdl_renderer, surface);
 

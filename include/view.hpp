@@ -6,7 +6,8 @@
 #include <iostream>
 #include <cstdio>
 //
-#include <model.hpp>
+#include "color.hpp"
+#include "model.hpp"
 
 //
 static const int WIN_SIZE_WIDTH = 900;
@@ -55,7 +56,7 @@ class MainView{
         void update_display();
 
         // Render text function
-        void render_text(std::string text, int fontSize, std::string font_path);
+        void render_text(std::string text, Color cl, int fontSize, std::string font_path);
 
 };
 
