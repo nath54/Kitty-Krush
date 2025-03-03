@@ -6,18 +6,22 @@
 #include <string>
 #include <string_view>
 
+using namespace std;
+typedef unsigned short int usint;
 
 //
 class Player{
 
+    private:
+
+        const string name;
+        const usint color;
+
     public:
 
-        // Player name, it is in the name   ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧
-        const std::string player_name;
-
         // Constructor
-        Player(const std::string player_name)
-            : player_name(player_name) {};  // Automatic variable initialisation
+        Player(const string player_name, const int player_color)
+            : name(player_name), color(player_color) {};  // Automatic variable initialisation
 };
 
 
@@ -26,8 +30,8 @@ class GameModel{
 
     private:
 
-        // Players are linked here, indexed by there player_name
-        std::map<std::string, Player*> players;
+        // Players are linked here, indexed by there name
+        map<string, Player*> players;
 
     public:
 

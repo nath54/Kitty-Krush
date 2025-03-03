@@ -32,4 +32,7 @@
 *.app
 
 #
+*log*
+.*
+*.json
 **/build

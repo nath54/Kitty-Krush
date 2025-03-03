@@ -2,15 +2,16 @@ cmake_minimum_required(VERSION 3.10)
 project(TheGame)
 
 # Set the C++ standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Find SDL2 package
 find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED)
+find_package(Threads REQUIRED)
 
 # Include directories
-include_directories(include ${SDL2_INCLUDE_DIRS})
+include_directories(/usr/include include)
 
 # Collect all source and header files
 file(GLOB_RECURSE SOURCES src/*.cpp)
