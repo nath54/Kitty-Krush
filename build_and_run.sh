@@ -1,1 +1,1 @@
-./build.sh && ./build/bin/TheGame
+./build.sh && ./build/bin/KittyKrush
