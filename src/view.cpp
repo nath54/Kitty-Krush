@@ -82,7 +82,7 @@ MainView::MainView(GameModel* game_model)
 
     // Window creation
     this->sdl_window = SDL_CreateWindow(
-                                        "The Game",
+                                        "Kitty Krush",
                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                         WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT,
                                         SDL_WINDOW_SHOWN

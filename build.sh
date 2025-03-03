@@ -38,4 +38,4 @@ cd ..
 
 # Success message
 echo -e "${GREEN}Build completed successfully!${NC}"
-echo -e "${GREEN}Executable is located in: ${BUILD_DIR}/bin/TheGame${NC}"
+echo -e "${GREEN}Executable is located in: ${BUILD_DIR}/bin/KittyKrush${NC}"
