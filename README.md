@@ -1,4 +1,4 @@
-# Le_Jeu_ProgAvancee
+# Kitty Krush
 
 Team members:
     - Nathan CERISARA
