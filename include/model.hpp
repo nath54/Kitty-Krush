@@ -47,6 +47,8 @@ class Element {
     
     protected:
 
+        usint x;       // x position of the element
+        usint y;       // y position of the element
         usint color;  // owner of the element 
         usint defense; // level (= defense) of the element
 
@@ -58,6 +60,8 @@ class Element {
         virtual ~Element() {}; // Virtual destructor
 
         // Getters
+        virtual usint _x() const;
+        virtual usint _y() const;
         virtual usint _color() const;
         virtual usint _defense() const;
 };
@@ -67,14 +71,16 @@ class Unit : public Element {
 
     private:
 
+        usint x;
+        usint y;
         usint color;
         usint defense;
 
     public:
 
         // Constructor
-        Unit(usint unit_color, usint unit_defense)
-            : color(unit_color), defense(unit_defense) {};
+        Unit(usint unit_x, usint unit_y, usint unit_color, usint unit_defense)
+            : x(unit_x), y(unit_y), color(unit_color), defense(unit_defense) {};
         // Destructor
         ~Unit() {}; // Default destructor
 
@@ -88,19 +94,20 @@ class Building : public Element {
 
     private:
 
+        usint x;
+        usint y;
         usint color;
         usint defense;
 
     public:
 
         // Constructor
-        Building(usint building_color, usint building_defense)
-            : color(building_color), defense(building_defense) {};
+        Building(usint building_x, usint building_y, usint building_color, usint building_defense)
+            : x(building_x), y(building_y), color(building_color), defense(building_defense) {};
         // Destructor
         ~Building() {}; // Default destructor
 
         // Functions
-        
 };
 
 
@@ -138,10 +145,26 @@ class Map {
 
     private:
 
+        usint size;
         vector<Tile*> tiles_layer;
         vector<Element*> elements_layer;
 
     public:
+
+    // Constructor
+    Map(usint map_size) : size(map_size) {
+        // Create the map
+        for (usint i = 0; i < size; i++) {
+            for (usint j = 0; j < size; j++) {
+                tiles_layer.push_back(new Tile(i, j));
+            }
+        }
+    };
+    // Destructor
+    ~Map() {}; // Default destructor
+
+    // Getters
+    usint _size() const;
 };
 
 
@@ -152,7 +175,7 @@ class GameModel {
 
         // Players are linked here, indexed by there name
         map<string, Player*> players;
-        Map game_map;
+        Map* game_map;
 
     public:
 
