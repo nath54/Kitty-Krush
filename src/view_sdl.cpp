@@ -4,6 +4,7 @@
 //
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
 //
 #include <iostream>
 #include <string>
@@ -75,7 +76,7 @@ void MainView::render_text(std::string text, Color cl, int fontSize, std::string
     //
     int textWidth = surface->w;
     int textHeight = surface->h;
-    SDL_Rect destRect = {(WIN_SIZE_WIDTH - textWidth) / 2, (WIN_SIZE_HEIGHT - textHeight) / 2, textWidth, textHeight};
+    SDL_Rect destRect = {(this->win_width - textWidth) / 2, (this->win_height - textHeight) / 2, textWidth, textHeight};
 
     //
     SDL_FreeSurface(surface);

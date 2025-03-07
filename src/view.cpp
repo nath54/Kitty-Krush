@@ -34,9 +34,14 @@ MainView::MainView(GameModel* game_model)
     this->sdl_window = SDL_CreateWindow(
                                         "Kitty Krush",
                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                        WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT,
+                                        WIN_SIZE_WIDTH_INIT, WIN_SIZE_HEIGHT_INIT,
                                         SDL_WINDOW_SHOWN
     );
+
+    // Set window size
+    this->win_width = WIN_SIZE_WIDTH_INIT;
+    this->win_height = WIN_SIZE_HEIGHT_INIT;
+
 
     // Verify window creation
     if(!this->sdl_window){
@@ -46,7 +51,7 @@ MainView::MainView(GameModel* game_model)
 
     // Create renderer with vsync to limit frame rate
     this->sdl_renderer = SDL_CreateRenderer(this->sdl_window, -1,
-                                                SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+                                            SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     // Verify renderer
     if (!this->sdl_renderer) {
@@ -87,6 +92,9 @@ MainView::~MainView(){
 
 // Main update display method
 void MainView::update_display(int menu_state){
+
+    // Get window size
+    SDL_GetWindowSize(this->sdl_window, &(this->win_width), &(this->win_height));
 
     // Clean screen
     SDL_SetRenderDrawColor(this->sdl_renderer, 0, 0, 0, 255);

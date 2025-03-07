@@ -10,8 +10,8 @@
 #include "model.hpp"
 
 //
-static const int WIN_SIZE_WIDTH = 900;
-static const int WIN_SIZE_HEIGHT = 700;
+static const int WIN_SIZE_WIDTH_INIT = 900;
+static const int WIN_SIZE_HEIGHT_INIT = 700;
 //
 static char SDL_ERROR_BUFFER[1000];
 
@@ -29,6 +29,10 @@ class MainView{
 
         //
         Uint32 startTime = 0;
+
+        // Window related attributes
+        int win_width = WIN_SIZE_WIDTH_INIT;
+        int win_height = WIN_SIZE_HEIGHT_INIT;
 
         // SDL related attributes
         SDL_Window* sdl_window = nullptr;
