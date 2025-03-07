@@ -19,6 +19,12 @@ class MainGame{
         // Controller
         GameController* game_controller;
 
+        // Menu State
+        //   - 0 = Main Menu
+        //   - 1 = Game Settings
+        //   - 2 = In Game
+        int menu_state = 0;
+
     public:
 
         // Constructor
