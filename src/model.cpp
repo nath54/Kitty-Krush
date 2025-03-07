@@ -16,17 +16,21 @@ Ground Tile::_type() const { return type; }
 
 void Tile::convert_type(Ground new_type) { type = new_type; }
 
+
 bool Tile::is_adjacent(const Tile* tile) {
     usint diff_x = abs(x - tile->_x());
     usint diff_y = abs(y - tile->_y());
+
     if ((diff_x <= 1) && (diff_y <= 1) && (diff_x + diff_y > 0)) {
+
         if (diff_x == 1 && diff_y == 1) {
-            if ((tile->_x() < x) && (tile->_y() > y) || (tile->_x() > x) && (tile->_y() < y)) {
-                return false;
-            }
-        return true;
+            if ((tile->_x() < x) && (tile->_y() > y) || (tile->_x() > x) && (tile->_y() < y))
+                return false; // Diagonal non adjacent
         }
+
+        return true;
     }
+    
     return false;
 }
 
