@@ -27,20 +27,6 @@ const float FREQUENCY2 = 0.1;
 // Draw Main Menu
 void MainView::display_menu_main(){
 
-    // Dessiner un bouton rectangulaire avec coins arrondis
-    int x = 100, y = 100, w = 200, h = 80, r = 20; // Position, dimensions et rayon des coins
-    Uint32 couleur = 0xFF0000FF; // Rouge avec opacité maximale
-
-    // Coins arrondis
-    filledCircleColor(this->sdl_renderer, x + r, y + r, r, couleur);
-    filledCircleColor(this->sdl_renderer, x + w - r, y + r, r, couleur);
-    filledCircleColor(this->sdl_renderer, x + r, y + h - r, r, couleur);
-    filledCircleColor(this->sdl_renderer, x + w - r, y + h - r, r, couleur);
-
-    // Rectangles reliant les coins
-    boxColor(this->sdl_renderer, x + r, y, x + w - r, y + h, couleur);
-    boxColor(this->sdl_renderer, x, y + r, x + w, y + h - r, couleur);
-
 
 
 }

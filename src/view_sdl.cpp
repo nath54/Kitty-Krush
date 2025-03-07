@@ -35,6 +35,11 @@ void MainView::sdl_error(const char* error_msg){
 //
 void MainView::destroy_all_created(){
 
+    // Iterate & Destroy all the fonts
+    for (const auto& [key, value] : this->ttf_fonts) {
+        // std::cout << "Key: " << key << ", Value: " << value << std::endl;
+    }
+
     // Destroy the sdl window surface
     if(this->sdl_window_surface != nullptr){
         this->sdl_window_surface = nullptr;
@@ -54,17 +59,40 @@ void MainView::destroy_all_created(){
 }
 
 
-
-
-// Render text function
-void MainView::render_text(std::string text, Color cl, int fontSize, std::string font_path) {
+//
+TTF_Font* MainView::get_font(int fontSize){
 
     //
+    std::map<int, TTF_Font*>::iterator res_iter = this->ttf_fonts.find(fontSize);
+    if( res_iter != this->ttf_fonts.end() ){
+
+        // res_iter->first is the key, res_iter->second is the value
+        return res_iter->second;
+
+    }
+
+    // If not exists
     TTF_Font* dynamicFont = TTF_OpenFont(font_path.c_str(), fontSize);
     if (!dynamicFont) {
         sprintf(SDL_ERROR_BUFFER, "Failed to load font! TTF_OpenFont Error: %s", TTF_GetError());
         this->sdl_error(SDL_ERROR_BUFFER);
     }
+
+    //
+    this->ttf_fonts[fontSize] = dynamicFont;
+
+    //
+    return dynamicFont;
+
+}
+
+
+
+// Render text function
+void MainView::render_text(std::string text, Color cl, int fontSize) {
+
+    //
+    TTF_Font* dynamicFont = this->get_font(fontSize);
 
     //
     SDL_Color color = {(Uint8)cl.r, (Uint8)cl.g, (Uint8)cl.b, (Uint8)cl.a};
@@ -82,11 +110,16 @@ void MainView::render_text(std::string text, Color cl, int fontSize, std::string
     SDL_FreeSurface(surface);
     SDL_RenderCopy(this->sdl_renderer, texture, nullptr, &destRect);
     SDL_DestroyTexture(texture);
-    TTF_CloseFont(dynamicFont);
 
 }
 
 
+
+void MainView::render_button_1(int x, int y, int w, int h, std::string text, int fontSize){
+
+
+
+}
 
 
 

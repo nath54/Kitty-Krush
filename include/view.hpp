@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <cstdio>
+#include <map>
 //
 #include "color.hpp"
 #include "model.hpp"
@@ -39,6 +40,9 @@ class MainView{
         SDL_Surface* sdl_window_surface = nullptr;
         SDL_Renderer* sdl_renderer = nullptr;
 
+        // SDL ttf related attributes
+        map<int, TTF_Font*> ttf_fonts;
+
         // Reference to game_model
         GameModel* game_model = nullptr;
 
@@ -70,7 +74,10 @@ class MainView{
         // Draw In Game
         void display_menu_in_game();
 
+        // Get font
+        TTF_Font* get_font(int fontSize);
+
         // Render text function
-        void render_text(std::string text, Color cl, int fontSize, std::string font_path);
+        void render_text(std::string text, Color cl, int fontSize);
 
 };
