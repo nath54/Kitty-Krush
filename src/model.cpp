@@ -1,14 +1,18 @@
 #include "model.hpp"
 
-// Elements
+// === Elements ===
 
+usint Element::_x() const { return x; }
+usint Element::_y() const { return y; }
 usint Element::_color() const { return color; }
 usint Element::_defense() const { return defense; }
 
 void Unit::upgrade() { defense++; }
 void Unit::convert_bandit() { color = 0; defense = 1; }
 
-// Map
+// === Map ===
+
+usint Map::_size() const { return size; }
 
 usint Tile::_x() const { return x; }
 usint Tile::_y() const { return y; }
@@ -30,7 +34,7 @@ bool Tile::is_adjacent(const Tile* tile) {
 
         return true;
     }
-    
+
     return false;
 }
 
