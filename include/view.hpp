@@ -15,6 +15,8 @@ static const int WIN_SIZE_HEIGHT = 700;
 //
 static char SDL_ERROR_BUFFER[1000];
 
+
+
 // Class MainView, manages the SDL environment & SDL Window
 class MainView{
 
@@ -53,11 +55,18 @@ class MainView{
         ~MainView();
 
         // Main update display method
-        void update_display();
+        void update_display(int menu_state);
+
+        // Draw Main Menu
+        void display_menu_main();
+
+        // Draw Game Settings Menu
+        void display_menu_game_settings();
+
+        // Draw In Game
+        void display_menu_in_game();
 
         // Render text function
         void render_text(std::string text, Color cl, int fontSize, std::string font_path);
 
 };
-
-
