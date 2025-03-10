@@ -166,7 +166,7 @@ void MainView::draw_button_1(int x, int y, int w, int h, std::string text, int f
     Color color = Color(255, 100, 150);
 
     // Tests de collision avec la souris
-    if( is_point_in_rect(this->x_mouse, this->y_mouse, x, y, w, h) ){
+    if( is_point_in_rect(this->mouse_x, this->mouse_y, x, y, w, h) ){
 
         //
         color = Color(200, 100, 200);

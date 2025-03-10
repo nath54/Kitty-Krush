@@ -90,14 +90,14 @@ MainView::~MainView(){
 }
 
 //
-void MainView::get_mouse_position(){
+void MainView::update_mouse_state(){
 
     // Get mouse position
-    SDL_GetGlobalMouseState( &(this->x_mouse), &(this->y_mouse) );
+    uint32_t mouse_state = SDL_GetGlobalMouseState( &(this->mouse_x), &(this->mouse_y) );
 
     // Update from window position
-    this->x_mouse -= this->win_x;
-    this->y_mouse -= this->win_y;
+    this->mouse_x -= this->win_x;
+    this->mouse_y -= this->win_y;
 
 }
 
@@ -112,7 +112,7 @@ void MainView::update_display(int menu_state){
     SDL_GetWindowSize(this->sdl_window, &(this->win_width), &(this->win_height));
 
     // Get mouse position
-    this->get_mouse_position();
+    this->update_mouse_state();
 
     // Clean screen
     SDL_SetRenderDrawColor(this->sdl_renderer, 0, 0, 0, 255);
