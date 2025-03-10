@@ -72,7 +72,7 @@ TTF_Font* MainView::get_font(int fontSize){
     }
 
     // If not exists
-    TTF_Font* dynamicFont = TTF_OpenFont(font_path.c_str(), fontSize);
+    TTF_Font* dynamicFont = TTF_OpenFont(this->font_path, fontSize);
     if (!dynamicFont) {
         sprintf(SDL_ERROR_BUFFER, "Failed to load font! TTF_OpenFont Error: %s", TTF_GetError());
         this->sdl_error(SDL_ERROR_BUFFER);
@@ -89,7 +89,7 @@ TTF_Font* MainView::get_font(int fontSize){
 
 
 // Render text function
-void MainView::render_text(std::string text, Color cl, int fontSize) {
+void MainView::render_text(std::string text, Color cl, int fontSize, int x, int y, int w, int h) {
 
     //
     TTF_Font* dynamicFont = this->get_font(fontSize);
@@ -104,7 +104,18 @@ void MainView::render_text(std::string text, Color cl, int fontSize) {
     //
     int textWidth = surface->w;
     int textHeight = surface->h;
-    SDL_Rect destRect = {(this->win_width - textWidth) / 2, (this->win_height - textHeight) / 2, textWidth, textHeight};
+
+    //
+    if (w != -1 && h != -1){
+
+        //
+        x = x + (w - textWidth) / 2;
+        y = y + (h - textHeight) / 2;
+
+    }
+
+    //
+    SDL_Rect destRect = {x, y, textWidth, textHeight};
 
     //
     SDL_FreeSurface(surface);
@@ -114,18 +125,55 @@ void MainView::render_text(std::string text, Color cl, int fontSize) {
 }
 
 
+//
+bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh){
 
-void MainView::render_button_1(int x, int y, int w, int h, std::string text, int fontSize){
+    //
+    if( px < rx || px > rx + rw || py < ry || py > ry + rh){
+        return false;
+    }
+
+    //
+    return true;
+}
 
 
-
+//
+Uint32 convert_RGBA_to_HEX(int r, int g, int b, int a) {
+    //
+    return ((a & 0xff) << 24) + ((b & 0xff) << 16) + ((g & 0xff) << 8) + (r & 0xff);
 }
 
 
 
+//
+void MainView::render_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r){
 
+    // Dessiner un bouton rectangulaire avec coins arrondis
 
+    //
+    Uint32 couleur = convert_RGBA_to_HEX(255, 100, 150, 255); // Rouge avec opacité maximale
 
+    // Tests de collision avec la souris
+    if( is_point_in_rect(this->x_mouse, this->y_mouse, x, y, w, h) ){
 
+        //
+        couleur = convert_RGBA_to_HEX(200, 100, 200, 255);
 
+    }
+
+    // Coins arrondis
+    filledCircleColor(this->sdl_renderer, x + r, y + r, r, couleur);
+    filledCircleColor(this->sdl_renderer, x + w - r, y + r, r, couleur);
+    filledCircleColor(this->sdl_renderer, x + r, y + h - r, r, couleur);
+    filledCircleColor(this->sdl_renderer, x + w - r, y + h - r, r, couleur);
+
+    // Rectangles reliant les coins
+    boxColor(this->sdl_renderer, x + r, y, x + w - r, y + h, couleur);
+    boxColor(this->sdl_renderer, x, y + r, x + w, y + h - r, couleur);
+
+    // Rendre le texte
+    this->render_text(text, Color(255, 255, 255), fontSize, x, y, w, h);
+
+}
 

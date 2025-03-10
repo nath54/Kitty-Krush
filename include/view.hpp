@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstdio>
 #include <map>
+#include <string>
 //
 #include "color.hpp"
 #include "model.hpp"
@@ -15,7 +16,6 @@ static const int WIN_SIZE_WIDTH_INIT = 900;
 static const int WIN_SIZE_HEIGHT_INIT = 700;
 //
 static char SDL_ERROR_BUFFER[1000];
-
 
 
 // Class MainView, manages the SDL environment & SDL Window
@@ -32,6 +32,8 @@ class MainView{
         Uint32 startTime = 0;
 
         // Window related attributes
+        int win_x = 0;
+        int win_y = 0;
         int win_width = WIN_SIZE_WIDTH_INIT;
         int win_height = WIN_SIZE_HEIGHT_INIT;
 
@@ -39,6 +41,12 @@ class MainView{
         SDL_Window* sdl_window = nullptr;
         SDL_Surface* sdl_window_surface = nullptr;
         SDL_Renderer* sdl_renderer = nullptr;
+
+        // Mouse position
+        int x_mouse = 0, y_mouse = 0;
+
+        // Font path
+        const char* font_path = "res/fonts/blinky_star/BlinkyStar.otf";
 
         // SDL ttf related attributes
         map<int, TTF_Font*> ttf_fonts;
@@ -65,6 +73,9 @@ class MainView{
         // Main update display method
         void update_display(int menu_state);
 
+        // Get mouse position
+        void get_mouse_position();
+
         // Draw Main Menu
         void display_menu_main();
 
@@ -78,6 +89,9 @@ class MainView{
         TTF_Font* get_font(int fontSize);
 
         // Render text function
-        void render_text(std::string text, Color cl, int fontSize);
+        void render_text(std::string text, Color cl, int fontSize, int x, int y, int w = -1, int h = -1);
+
+        //
+        void render_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r = 20);
 
 };

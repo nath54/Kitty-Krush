@@ -12,9 +12,6 @@
 #include <unistd.h>
 
 
-
-//
-const char* FONT_PATH = "res/fonts/blinky_star/BlinkyStar.otf";
 //
 const char* TEXT = "UwU";
 const int BASE_FONT_SIZE = 50;
@@ -27,7 +24,9 @@ const float FREQUENCY2 = 0.1;
 // Draw Main Menu
 void MainView::display_menu_main(){
 
+    int bt_w = 200;
 
+    this->render_button_1( (this->win_width - bt_w) / 2, 140, bt_w, 100, "Play !", 40);
 
 }
 
@@ -47,7 +46,6 @@ void MainView::display_menu_game_settings(){
 // Draw In Game
 void MainView::display_menu_in_game(){
 
-
     //
     float time = (SDL_GetTicks() - this->startTime) / 1000.0f;
     int fontSize = BASE_FONT_SIZE + AMPLITUDE * sin(FREQUENCY * time);
@@ -57,7 +55,7 @@ void MainView::display_menu_in_game(){
         (int)(255 - 128 * sin(FREQUENCY2 * time))
     );
     //
-    this->render_text(TEXT, color, fontSize, FONT_PATH);
+    this->render_text(TEXT, color, fontSize, 20, 40);
 
 
 
