@@ -8,6 +8,8 @@
 #include <map>
 #include <string>
 //
+#include <stdint.h>
+//
 #include "color.hpp"
 #include "model.hpp"
 
@@ -29,7 +31,7 @@ class MainView{
         bool ttf_initialized = false;
 
         //
-        Uint32 startTime = 0;
+        uint32_t startTime = 0;
 
         // Window related attributes
         int win_x = 0;
@@ -89,9 +91,12 @@ class MainView{
         TTF_Font* get_font(int fontSize);
 
         // Render text function
-        void render_text(std::string text, Color cl, int fontSize, int x, int y, int w = -1, int h = -1);
+        void draw_text(std::string text, Color cl, int fontSize, int x, int y, int w = -1, int h = -1);
 
         //
-        void render_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r = 20);
+        void draw_rounded_rect(int x, int y, int w, int h, int r, Color color);
+
+        //
+        void draw_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r = 20);
 
 };

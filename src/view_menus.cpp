@@ -26,7 +26,7 @@ void MainView::display_menu_main(){
 
     int bt_w = 200;
 
-    this->render_button_1( (this->win_width - bt_w) / 2, 140, bt_w, 100, "Play !", 40);
+    this->draw_button_1( (this->win_width - bt_w) / 2, 140, bt_w, 100, "Play !", 40);
 
 }
 
@@ -55,7 +55,7 @@ void MainView::display_menu_in_game(){
         (int)(255 - 128 * sin(FREQUENCY2 * time))
     );
     //
-    this->render_text(TEXT, color, fontSize, 20, 40);
+    this->draw_text(TEXT, color, fontSize, 20, 40);
 
 
 

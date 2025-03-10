@@ -89,7 +89,7 @@ TTF_Font* MainView::get_font(int fontSize){
 
 
 // Render text function
-void MainView::render_text(std::string text, Color cl, int fontSize, int x, int y, int w, int h) {
+void MainView::draw_text(std::string text, Color cl, int fontSize, int x, int y, int w, int h) {
 
     //
     TTF_Font* dynamicFont = this->get_font(fontSize);
@@ -138,42 +138,46 @@ bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh){
 }
 
 
+
 //
-Uint32 convert_RGBA_to_HEX(int r, int g, int b, int a) {
+void MainView::draw_rounded_rect(int x, int y, int w, int h, int r, Color color){
+
     //
-    return ((a & 0xff) << 24) + ((b & 0xff) << 16) + ((g & 0xff) << 8) + (r & 0xff);
+    uint32_t hex_cl = color.to_hex();
+
+    // Rounded corners
+    filledCircleColor(this->sdl_renderer, x + r, y + r, r, hex_cl);
+    filledCircleColor(this->sdl_renderer, x + w - r, y + r, r, hex_cl);
+    filledCircleColor(this->sdl_renderer, x + r, y + h - r, r, hex_cl);
+    filledCircleColor(this->sdl_renderer, x + w - r, y + h - r, r, hex_cl);
+
+    // the boxes
+    boxColor(this->sdl_renderer, x + r, y, x + w - r, y + h, hex_cl);
+    boxColor(this->sdl_renderer, x, y + r, x + w, y + h - r, hex_cl);
+
 }
 
 
 
 //
-void MainView::render_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r){
-
-    // Dessiner un bouton rectangulaire avec coins arrondis
+void MainView::draw_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r){
 
     //
-    Uint32 couleur = convert_RGBA_to_HEX(255, 100, 150, 255); // Rouge avec opacité maximale
+    Color color = Color(255, 100, 150);
 
     // Tests de collision avec la souris
     if( is_point_in_rect(this->x_mouse, this->y_mouse, x, y, w, h) ){
 
         //
-        couleur = convert_RGBA_to_HEX(200, 100, 200, 255);
+        color = Color(200, 100, 200);
 
     }
 
-    // Coins arrondis
-    filledCircleColor(this->sdl_renderer, x + r, y + r, r, couleur);
-    filledCircleColor(this->sdl_renderer, x + w - r, y + r, r, couleur);
-    filledCircleColor(this->sdl_renderer, x + r, y + h - r, r, couleur);
-    filledCircleColor(this->sdl_renderer, x + w - r, y + h - r, r, couleur);
-
-    // Rectangles reliant les coins
-    boxColor(this->sdl_renderer, x + r, y, x + w - r, y + h, couleur);
-    boxColor(this->sdl_renderer, x, y + r, x + w, y + h - r, couleur);
+    //
+    this->draw_rounded_rect(x, y, w, h, r, color);
 
     // Rendre le texte
-    this->render_text(text, Color(255, 255, 255), fontSize, x, y, w, h);
+    this->draw_text(text, Color(255, 255, 255), fontSize, x, y, w, h);
 
 }
 
