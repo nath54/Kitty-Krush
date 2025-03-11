@@ -10,16 +10,8 @@
 using namespace std;
 typedef unsigned short int usint;
 
-// type of tiles
-typedef enum Ground {
-    LOCK, // can't be possessed
-    NEUTRAL, // can be possessed
-    // possessed by player 1-4:
-    P1, 
-    P2,
-    P3,
-    P4
-} Ground;
+#define LOCK -1
+#define NEUTRAL 0
 
 
 // ========== [ Players ] ==========
@@ -37,6 +29,10 @@ class Player {
         // Constructor
         Player(const string player_name, const usint player_color)
             : name(player_name), color(player_color) {};  // Automatic variable initialisation
+
+        // Getters
+        string _name() const;
+        usint _color() const;
 };
 
 
@@ -120,23 +116,25 @@ class Tile {
 
         usint x;
         usint y;
-        Ground type;
+        usint type;
+        Element* element;
 
     public:
 
         // Constructor
-        Tile(usint tile_x, usint tile_y, Ground tile_type=NEUTRAL)
-            : x(tile_x), y(tile_y), type(tile_type) {};
+        Tile(usint tile_x, usint tile_y, usint tile_type=NEUTRAL, Element* tile_element=nullptr)
+            : x(tile_x), y(tile_y), type(tile_type), element(tile_element) {};
         // Destructor
         ~Tile() {}; // Default destructor
 
         // Getters
         usint _x() const;
         usint _y() const;
-        Ground _type() const;
+        usint _type() const;
+        Element* _element() const;
 
         // Functions
-        void convert_type(Ground new_type);
+        void convert_type(usint new_type);
         bool is_adjacent(const Tile* tile);
 };
 
@@ -165,8 +163,14 @@ class Map {
 
     // Getters
     usint _size() const;
+
+    // Functions
+    Tile* get_tile(usint x, usint y);
+    bool adjacent_to_player(Tile *t, Player* p);
 };
 
+
+// ========== [ Game Model ] ==========
 
 
 class GameModel {
@@ -187,4 +191,7 @@ class GameModel {
 };
 
 
+// ========== [ Tools functions ] ==========
+
+usint max(usint a, usint b);
 
