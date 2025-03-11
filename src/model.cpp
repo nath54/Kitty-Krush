@@ -3,13 +3,13 @@
 // === Players ===
 
 string Player::_name() const { return name; }
-usint Player::_color() const { return color; }
+short Player::_color() const { return color; }
 
 // === Elements ===
 
 usint Element::_x() const { return x; }
 usint Element::_y() const { return y; }
-usint Element::_color() const { return color; }
+short Element::_color() const { return color; }
 usint Element::_defense() const { return defense; }
 
 void Unit::upgrade() { defense++; }
@@ -19,16 +19,16 @@ void Unit::convert_bandit() { color = 0; defense = 1; }
 
 usint Tile::_x() const { return x; }
 usint Tile::_y() const { return y; }
-usint Tile::_type() const { return type; }
+short Tile::_type() const { return type; }
 Element* Tile::_element() const { return element; }
 
-void Tile::convert_type(usint new_type) { type = new_type; }
+void Tile::convert_type(short int new_type) { type = new_type; }
 
 
 bool Tile::is_adjacent(const Tile* tile)
 {
-    short int diff_x = x - tile->_x();
-    short int diff_y = y - tile->_y();
+    short diff_x = x - tile->_x();
+    short diff_y = y - tile->_y();
 
     if (diff_x == -diff_y) return false; // wrong diagonal
     if (abs(diff_x) > 1 || abs(diff_y) > 1) return false; // too far
