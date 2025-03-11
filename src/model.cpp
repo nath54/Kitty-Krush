@@ -11,6 +11,7 @@ usint Element::_x() const { return x; }
 usint Element::_y() const { return y; }
 short Element::_color() const { return color; }
 usint Element::_defense() const { return defense; }
+usint Element::_cost() const { return cost; }
 
 void Unit::upgrade() { defense++; }
 void Unit::convert_bandit() { color = 0; defense = 1; }

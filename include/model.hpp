@@ -47,6 +47,7 @@ class Element {
         usint y;       // y position of the element
         short color;  // owner of the element 
         usint defense; // level (= defense) of the element
+        usint cost; // Cost of the element
 
     public:
 
@@ -60,6 +61,7 @@ class Element {
         virtual usint _y() const;
         virtual short _color() const;
         virtual usint _defense() const;
+        virtual usint _cost() const;
 };
 
 
@@ -71,12 +73,13 @@ class Unit : public Element {
         usint y;
         short color;
         usint defense;
+        usint cost;
 
     public:
 
         // Constructor
-        Unit(usint unit_x, usint unit_y, short unit_color, usint unit_defense)
-            : x(unit_x), y(unit_y), color(unit_color), defense(unit_defense) {};
+        Unit(usint unit_x, usint unit_y, short unit_color, usint unit_defense = 1, usint unit_cost = 0)
+            : x(unit_x), y(unit_y), color(unit_color), defense(unit_defense), cost(unit_cost) {};
         // Destructor
         ~Unit() {}; // Default destructor
 
@@ -94,12 +97,13 @@ class Building : public Element {
         usint y;
         short color;
         usint defense;
+        usint cost;
 
     public:
 
         // Constructor
-        Building(usint building_x, usint building_y, short building_color, usint building_defense)
-            : x(building_x), y(building_y), color(building_color), defense(building_defense) {};
+        Building(usint building_x, usint building_y, short building_color, usint building_defense = 1, usint building_cost = 0)
+            : x(building_x), y(building_y), color(building_color), defense(building_defense), cost(building_cost) {};
         // Destructor
         ~Building() {}; // Default destructor
 
