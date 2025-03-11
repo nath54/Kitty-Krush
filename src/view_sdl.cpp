@@ -1,15 +1,15 @@
 //
+#include <iostream>
+#include <string>
+#include <cmath>
+#include <unistd.h>
+//
 #include "view.hpp"
 #include "color.hpp"
 //
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
-//
-#include <iostream>
-#include <string>
-#include <cmath>
-#include <unistd.h>
 
 
 
