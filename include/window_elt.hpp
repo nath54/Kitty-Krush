@@ -1,7 +1,7 @@
 //
 #include <vector>
 #include <string>
-
+#include <map>
 
 
 
@@ -14,7 +14,7 @@ class WindowElt{
         //
         void draw_elt();
 
-}
+};
 
 
 
@@ -34,7 +34,7 @@ class WindowPage{
         //
         void draw_page();
 
-}
+};
 
 
 
@@ -45,13 +45,13 @@ class WindowPagesManager{
     public:
 
         //
-        map<std::string, WindowPage> pages;
+        std::map<std::string, WindowPage> pages;
 
         //
-        WindowPagesManager( map<std::string, WindowPage> pages )
+        WindowPagesManager( std::map<std::string, WindowPage> pages )
             : pages(pages) {}
 
-}
+};
 
 
 

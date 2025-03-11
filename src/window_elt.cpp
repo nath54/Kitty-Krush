@@ -1,6 +1,13 @@
 //
-#include "Window_elt.hpp"
+#include "window_elt.hpp"
 
+
+//
+void WindowElt::draw_elt(){
+
+    // Template abstract class
+
+}
 
 
 
@@ -8,14 +15,13 @@
 void WindowPage::draw_page(){
 
     // Draw each element
-    for ( Window_elt elt : this->elts ) {
+    for ( WindowElt elt : this->elts ) {
 
         elt.draw_elt();
 
     }
 
 }
-
 
 
 
