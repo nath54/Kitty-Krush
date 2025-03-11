@@ -44,8 +44,11 @@ class MainView{
         SDL_Surface* sdl_window_surface = nullptr;
         SDL_Renderer* sdl_renderer = nullptr;
 
-        // Mouse position
-        int x_mouse = 0, y_mouse = 0;
+        // Mouse position & mouse buttons states
+        int mouse_x = 0;
+        int mouse_y = 0;
+        bool mouse_bt_left = false;
+        bool mouse_bt_right = false;
 
         // Font path
         const char* font_path = "res/fonts/blinky_star/BlinkyStar.otf";
@@ -75,8 +78,8 @@ class MainView{
         // Main update display method
         void update_display(int menu_state);
 
-        // Get mouse position
-        void get_mouse_position();
+        // Get mouse position & buttons states
+        void update_mouse_state();
 
         // Draw Main Menu
         void display_menu_main();
