@@ -22,17 +22,17 @@ class Player {
     private:
 
         const string name; // name of the player
-        const usint color; // color of the player
+        const short color; // color of the player
 
     public:
 
         // Constructor
-        Player(const string player_name, const usint player_color)
+        Player(const string player_name, const short player_color)
             : name(player_name), color(player_color) {};  // Automatic variable initialisation
 
         // Getters
         string _name() const;
-        usint _color() const;
+        short _color() const;
 };
 
 
@@ -45,7 +45,7 @@ class Element {
 
         usint x;       // x position of the element
         usint y;       // y position of the element
-        usint color;  // owner of the element 
+        short color;  // owner of the element 
         usint defense; // level (= defense) of the element
 
     public:
@@ -58,7 +58,7 @@ class Element {
         // Getters
         virtual usint _x() const;
         virtual usint _y() const;
-        virtual usint _color() const;
+        virtual short _color() const;
         virtual usint _defense() const;
 };
 
@@ -69,13 +69,13 @@ class Unit : public Element {
 
         usint x;
         usint y;
-        usint color;
+        short color;
         usint defense;
 
     public:
 
         // Constructor
-        Unit(usint unit_x, usint unit_y, usint unit_color, usint unit_defense)
+        Unit(usint unit_x, usint unit_y, short unit_color, usint unit_defense)
             : x(unit_x), y(unit_y), color(unit_color), defense(unit_defense) {};
         // Destructor
         ~Unit() {}; // Default destructor
@@ -92,13 +92,13 @@ class Building : public Element {
 
         usint x;
         usint y;
-        usint color;
+        short color;
         usint defense;
 
     public:
 
         // Constructor
-        Building(usint building_x, usint building_y, usint building_color, usint building_defense)
+        Building(usint building_x, usint building_y, short building_color, usint building_defense)
             : x(building_x), y(building_y), color(building_color), defense(building_defense) {};
         // Destructor
         ~Building() {}; // Default destructor
@@ -116,13 +116,13 @@ class Tile {
 
         usint x;
         usint y;
-        usint type;
+        short type;
         Element* element;
 
     public:
 
         // Constructor
-        Tile(usint tile_x, usint tile_y, usint tile_type=NEUTRAL, Element* tile_element=nullptr)
+        Tile(usint tile_x, usint tile_y, short tile_type=NEUTRAL, Element* tile_element=nullptr)
             : x(tile_x), y(tile_y), type(tile_type), element(tile_element) {};
         // Destructor
         ~Tile() {}; // Default destructor
@@ -130,11 +130,11 @@ class Tile {
         // Getters
         usint _x() const;
         usint _y() const;
-        usint _type() const;
+        short _type() const;
         Element* _element() const;
 
         // Functions
-        void convert_type(usint new_type);
+        void convert_type(short new_type);
         bool is_adjacent(const Tile* tile);
 };
 
