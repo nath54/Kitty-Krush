@@ -26,7 +26,7 @@ void MainView::display_menu_main(){
 
     int bt_w = 200;
 
-    this->draw_button_1( (this->win_width - bt_w) / 2, 140, bt_w, 100, "Play !", 40);
+    this->draw_button_1( (this->win_attr.win_width - bt_w) / 2, 140, bt_w, 100, "Play !", 40);
 
 }
 

@@ -32,15 +32,15 @@ MainView::MainView(GameModel* game_model)
 
     // Window creation
     this->sdl_window = SDL_CreateWindow(
-                                        "Kitty Krush",
+                                        "Kitty Krush !",
                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                         WIN_SIZE_WIDTH_INIT, WIN_SIZE_HEIGHT_INIT,
                                         SDL_WINDOW_SHOWN
     );
 
     // Set window size
-    this->win_width = WIN_SIZE_WIDTH_INIT;
-    this->win_height = WIN_SIZE_HEIGHT_INIT;
+    this->win_attr.win_width = WIN_SIZE_WIDTH_INIT;
+    this->win_attr.win_height = WIN_SIZE_HEIGHT_INIT;
 
 
     // Verify window creation
@@ -93,11 +93,11 @@ MainView::~MainView(){
 void MainView::update_mouse_state(){
 
     // Get mouse position
-    uint32_t mouse_state = SDL_GetGlobalMouseState( &(this->mouse_x), &(this->mouse_y) );
+    uint32_t mouse_state = SDL_GetGlobalMouseState( &(this->win_attr.mouse_x), &(this->win_attr.mouse_y) );
 
     // Update from window position
-    this->mouse_x -= this->win_x;
-    this->mouse_y -= this->win_y;
+    this->win_attr.mouse_x -= this->win_attr.win_x;
+    this->win_attr.mouse_y -= this->win_attr.win_y;
 
 }
 
@@ -106,10 +106,10 @@ void MainView::update_mouse_state(){
 void MainView::update_display(int menu_state){
 
     // Get window position
-    SDL_GetWindowPosition(this->sdl_window, &(this->win_x), &(this->win_y));
+    SDL_GetWindowPosition(this->sdl_window, &(this->win_attr.win_x), &(this->win_attr.win_y));
 
     // Get window size
-    SDL_GetWindowSize(this->sdl_window, &(this->win_width), &(this->win_height));
+    SDL_GetWindowSize(this->sdl_window, &(this->win_attr.win_width), &(this->win_attr.win_height));
 
     // Get mouse position
     this->update_mouse_state();
@@ -148,6 +148,11 @@ void MainView::update_display(int menu_state){
             //
             std::cerr << "Error : Unkown Menu State - " << menu_state << "\n";
 
+    }
+
+    //
+    if(this->win_page_manager != nullptr){
+        this->win_page_manager->draw_current_page( &(this->win_attr) );
     }
 
     // 💡 Update the renderer to show the new frame

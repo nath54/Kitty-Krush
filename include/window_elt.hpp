@@ -4,7 +4,76 @@
 #include <map>
 //
 #include "color.hpp"
+#include "window_elt_style.hpp"
+#include "window_attributes.hpp"
 
+
+//
+class Value{
+
+    public:
+
+        //
+        int value;
+
+        //
+        Value(int value): value(value) {}
+
+        //
+        int get_value(){
+            //
+            return this->value;
+        }
+
+};
+
+
+
+//
+class ValuePercentWinWidth: public Value{
+
+    public:
+
+        //
+        float percent;
+
+        //
+        WindowAttributes* win_attr;
+
+        //
+        ValuePercentWinWidth(float percent, WindowAttributes* win_attr): Value(0), percent(percent) {}
+
+        //
+        int get_value(){
+            //
+            return (int)(this->percent * 100.0 / this->win_attr->win_width);
+        }
+
+};
+
+
+
+//
+class ValuePercentWinHeight: public Value{
+
+    public:
+
+        //
+        float percent;
+
+        //
+        WindowAttributes* win_attr;
+
+        //
+        ValuePercentWinHeight(float percent, WindowAttributes* win_attr): Value(0), percent(percent) {}
+
+        //
+        int get_value(){
+            //
+            return (int)(this->percent * 100.0 / this->win_attr->win_height);
+        }
+
+};
 
 
 //
@@ -12,17 +81,21 @@ class WindowElt{
 
     public:
 
-        int x;
-        int y;
-        int w = 1;
-        int h = 1;
+        //
+        Value x;
+        Value y;
+        Value w;
+        Value h;
 
         //
-        WindowElt(int x, int y, int w = 1, int h = 1)
-            : x(x), y(y), w(w), h(h) {};
+        Style* style;
 
         //
-        void draw_elt();
+        WindowElt(Style* style, Value x, Value y, Value w = Value(1), Value h = Value(1))
+            : style(style), x(x), y(y), w(w), h(h) {};
+
+        //
+        void draw_elt(WindowAttributes* win_attr);
 
 };
 
@@ -34,14 +107,29 @@ class WindowEltText : public WindowElt {
 
         //
         std::string txt;
+
+        //
+        WindowEltText(Style* style, std::string txt, Value x, Value y, Value w = Value(-1), Value h = Value(-1))
+            : WindowElt(style, x, y, w, h), txt(txt) {};
+
+};
+
+
+//
+class WindowEltButton : public WindowElt {
+
+    public:
+
+        //
+        std::string txt;
         //
         Color color;
         //
         int fontSize;
 
         //
-        WindowEltText(std::string txt, Color color, int fontSize, int x, int y, int w = 1, int h = 1)
-        : WindowElt(x, y, w, h), txt(txt), color(color), fontSize(fontSize) {};
+        WindowEltButton(Style* style, std::string txt, Value x, Value y, Value w, Value h)
+        : WindowElt(style, x, y, w, h), txt(txt) {};
 
 };
 
@@ -56,12 +144,16 @@ class WindowPage{
         //
         std::vector<WindowElt> elts;
 
+
+        // Constructeur par défaut
+        WindowPage() = default;
+
         //
         WindowPage( std::vector<WindowElt> elts )
             : elts(elts) {}
 
         //
-        void draw_page();
+        void draw_page(WindowAttributes* win_attr);
 
 };
 
@@ -75,10 +167,17 @@ class WindowPagesManager{
 
         //
         std::map<std::string, WindowPage> pages;
+        std::string current_page;
 
         //
-        WindowPagesManager( std::map<std::string, WindowPage> pages )
-            : pages(pages) {}
+        WindowPagesManager( std::map<std::string, WindowPage> pages, std::string current_page )
+            : pages(pages), current_page(current_page) {}
+
+        //
+        void draw_current_page( WindowAttributes* win_attr );
+
+        //
+        void set_current_page( std::string new_current_page );
 
 };
 

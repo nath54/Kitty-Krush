@@ -12,6 +12,8 @@
 //
 #include "color.hpp"
 #include "model.hpp"
+#include "window_attributes.hpp"
+#include "window_elt.hpp"
 
 //
 static const int WIN_SIZE_WIDTH_INIT = 900;
@@ -34,21 +36,15 @@ class MainView{
         uint32_t startTime = 0;
 
         // Window related attributes
-        int win_x = 0;
-        int win_y = 0;
-        int win_width = WIN_SIZE_WIDTH_INIT;
-        int win_height = WIN_SIZE_HEIGHT_INIT;
+        WindowAttributes win_attr;
+
+        // Window pages
+        WindowPagesManager* win_page_manager = nullptr;
 
         // SDL related attributes
         SDL_Window* sdl_window = nullptr;
         SDL_Surface* sdl_window_surface = nullptr;
         SDL_Renderer* sdl_renderer = nullptr;
-
-        // Mouse position & mouse buttons states
-        int mouse_x = 0;
-        int mouse_y = 0;
-        bool mouse_bt_left = false;
-        bool mouse_bt_right = false;
 
         // Font path
         const char* font_path = "res/fonts/blinky_star/BlinkyStar.otf";
@@ -74,6 +70,9 @@ class MainView{
 
         // Destructor
         ~MainView();
+
+        // Create the pages for each menu
+        void init_window_pages();
 
         // Main update display method
         void update_display(int menu_state);
