@@ -144,7 +144,6 @@ class WindowPage{
         //
         std::vector<WindowElt> elts;
 
-
         // Constructeur par défaut
         WindowPage() = default;
 

@@ -14,6 +14,11 @@ typedef unsigned short int usint;
 #define NEUTRAL 0
 
 
+// ========== [ Forward Definition ] ==========
+
+class Province;
+
+
 // ========== [ Players ] ==========
 
 
@@ -40,12 +45,12 @@ class Player {
 
 
 class Element {
-    
+
     protected:
 
         usint x;        // x position of the element
         usint y;        // y position of the element
-        short color;    // owner of the element 
+        short color;    // owner of the element
         usint defense;  // level (= defense) of the element
         usint cost;     // Cost of the element
 
@@ -182,7 +187,7 @@ class Map {
 };
 
 class Province : public Map {
-    
+
     private:
 
         short color;
