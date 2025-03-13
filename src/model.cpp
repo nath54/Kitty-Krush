@@ -13,8 +13,11 @@ short Element::_color() const { return color; }
 usint Element::_defense() const { return defense; }
 usint Element::_cost() const { return cost; }
 
-void Unit::upgrade() { defense++; }
-void Unit::convert_bandit() { color = 0; defense = 1; }
+void Unit::upgrade()
+{ defense++; cost *= 3; }
+
+void Unit::convert_bandit()
+{ color = -1; defense = 0; cost = 0; }
 
 // === Map ===
 
@@ -23,7 +26,8 @@ usint Tile::_y() const { return y; }
 short Tile::_type() const { return type; }
 Element* Tile::_element() const { return element; }
 
-void Tile::convert_type(short int new_type) { type = new_type; }
+void Tile::convert_type(short new_type)
+{ type = new_type; }
 
 
 bool Tile::is_adjacent(const Tile* tile)

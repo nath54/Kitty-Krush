@@ -78,7 +78,7 @@ class Unit : public Element {
     public:
 
         // Constructor
-        Unit(usint unit_x, usint unit_y, short unit_color, usint unit_defense = 1, usint unit_cost = 0)
+        Unit(usint unit_x, usint unit_y, short unit_color, usint unit_defense = 1, usint unit_cost = 2)
             : x(unit_x), y(unit_y), color(unit_color), defense(unit_defense), cost(unit_cost) {};
         // Destructor
         ~Unit() {}; // Default destructor
