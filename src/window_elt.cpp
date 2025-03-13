@@ -1,7 +1,38 @@
 //
 #include "view.hpp"
 
+//
+int Value::get_value(){
+    //
+    return -2;
+}
 
+//
+int ValueInt::get_value(){
+    //
+    return this->value;
+}
+
+
+//
+int ValuePercentWinWidth::get_value(){
+
+    //
+    cout << "AA FAFAE " << this->win_attr->win_width << " noij " << this->percent << "\n";
+
+    //
+    return (int)(this->percent * this->win_attr->win_width / 100.0 );
+}
+
+
+//
+int ValuePercentWinHeight::get_value(){
+    //
+    cout << "BB FBAFAE " << this->win_attr->win_width << " noij " << this->percent << "\n";
+
+    //
+    return (int)(this->percent * this->win_attr->win_height / 100.0 );
+}
 
 
 //
@@ -133,6 +164,9 @@ void WindowPage::draw_page(MainView* main_view){
 
     // Draw each element
     for ( WindowElt elt : this->elts ) {
+
+        //
+        cout << "DEBUG | " << elt.get_x() << ", " << elt.get_y() << ", " << elt.get_w() << ", " << elt.get_h() << "\n";
 
         //
         elt.draw_elt(main_view);

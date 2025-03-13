@@ -122,19 +122,23 @@ class Value{
     public:
 
         //
-        int value;
-
-        //
-        Value(int value): value(value) {}
-
-        //
-        int get_value(){
-            //
-            return this->value;
-        }
+        virtual int get_value();
 
 };
 
+
+
+//
+class ValueInt: public Value{
+
+    public:
+
+        int value;
+
+        ValueInt(int value): value(value) {}
+
+        int get_value();
+};
 
 
 //
@@ -149,13 +153,10 @@ class ValuePercentWinWidth: public Value{
         WindowAttributes* win_attr;
 
         //
-        ValuePercentWinWidth(float percent, WindowAttributes* win_attr): Value(0), percent(percent) {}
+        ValuePercentWinWidth(float percent, WindowAttributes* win_attr): percent(percent), win_attr(win_attr) {}
 
         //
-        int get_value(){
-            //
-            return (int)(this->percent * 100.0 / this->win_attr->win_width);
-        }
+        int get_value();
 
 };
 
@@ -173,13 +174,10 @@ class ValuePercentWinHeight: public Value{
         WindowAttributes* win_attr;
 
         //
-        ValuePercentWinHeight(float percent, WindowAttributes* win_attr): Value(0), percent(percent) {}
+        ValuePercentWinHeight(float percent, WindowAttributes* win_attr): percent(percent), win_attr(win_attr) {}
 
         //
-        int get_value(){
-            //
-            return (int)(this->percent * 100.0 / this->win_attr->win_height);
-        }
+        int get_value();
 
 };
 
@@ -199,7 +197,7 @@ class WindowElt{
         Style* style;
 
         //
-        WindowElt(Style* style, Value x, Value y, Value w = Value(1), Value h = Value(1))
+        WindowElt(Style* style, Value x, Value y, Value w = ValueInt(1), Value h = ValueInt(1))
             : style(style), x(x), y(y), w(w), h(h) {};
 
         //
@@ -232,7 +230,7 @@ class WindowEltText : public WindowElt {
         std::string txt;
 
         //
-        WindowEltText(Style* style, std::string txt, Value x, Value y, Value w = Value(-1), Value h = Value(-1))
+        WindowEltText(Style* style, std::string txt, Value x, Value y, Value w = ValueInt(-1), Value h = ValueInt(-1))
             : WindowElt(style, x, y, w, h), txt(txt) {};
 
         //

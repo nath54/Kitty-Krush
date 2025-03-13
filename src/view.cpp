@@ -68,6 +68,9 @@ MainView::MainView(GameModel* game_model)
         this->sdl_error(SDL_ERROR_BUFFER);
     }
 
+    // Init pages
+    this->init_window_pages();
+
     //
     this->startTime = SDL_GetTicks();
 
