@@ -24,11 +24,11 @@ void Unit::convert_bandit()
 usint Tile::_x() const { return x; }
 usint Tile::_y() const { return y; }
 short Tile::_type() const { return type; }
+usint Tile::_defense() const { return defense; }
 Element* Tile::_element() const { return element; }
 
 void Tile::convert_type(short new_type)
 { type = new_type; }
-
 
 bool Tile::is_adjacent(const Tile* tile)
 {
@@ -40,25 +40,25 @@ bool Tile::is_adjacent(const Tile* tile)
     return true;
 }
 
+bool Tile::adjacent_to_province(Province* p)
+{
+    for (const Tile* t : p->_tiles()) {
+        if (is_adjacent(t))
+            return true;
+    }
+    return false;
+}
+
+
+short Province::_color() const { return color; }
+vector<Tile*> Province::_tiles() const { return tiles_layer; }
+vector<Element*> Province::_elements() const { return elements_layer; }
+
+
 usint Map::_size() const { return size; }
 
 Tile* Map::get_tile(usint x, usint y)
 { return (x < size && y < size) ? tiles_layer[y*size+x] : nullptr; }
-
-bool Map::adjacent_to_player(Tile *t, Player *p)
-{
-    for (usint x = max(t->_x(), 1) - 1; x <= t->_x()+1; x++) {
-        for (usint y = max(t->_y(),1) - 1; y <= t->_y()+1; y++) {
-
-            Tile* adj = get_tile(x, y);
-
-            if (adj != nullptr && t->is_adjacent(adj) && adj->_type() == p->_color())
-                return true;
-        }
-    }
-
-    return false;
-}
 
 // === Game ===
 
