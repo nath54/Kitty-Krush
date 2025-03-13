@@ -125,19 +125,6 @@ void MainView::draw_text(std::string text, Color cl, int fontSize, int x, int y,
 }
 
 
-//
-bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh){
-
-    //
-    if( px < rx || px > rx + rw || py < ry || py > ry + rh){
-        return false;
-    }
-
-    //
-    return true;
-}
-
-
 
 //
 void MainView::draw_rounded_rect(int x, int y, int w, int h, int r, Color color){
@@ -160,24 +147,13 @@ void MainView::draw_rounded_rect(int x, int y, int w, int h, int r, Color color)
 
 
 //
-void MainView::draw_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r){
+void MainView::draw_button_1(int x, int y, int w, int h, std::string text, Color fg_cl, Color bg_cl, int fontSize, int r){
 
     //
-    Color color = Color(255, 100, 150);
-
-    // Tests de collision avec la souris
-    if( is_point_in_rect(this->win_attr.mouse_x, this->win_attr.mouse_y, x, y, w, h) ){
-
-        //
-        color = Color(200, 100, 200);
-
-    }
+    this->draw_rounded_rect(x, y, w, h, r, bg_cl);
 
     //
-    this->draw_rounded_rect(x, y, w, h, r, color);
-
-    // Rendre le texte
-    this->draw_text(text, Color(255, 255, 255), fontSize, x, y, w, h);
+    this->draw_text(text, fg_cl, fontSize, x, y, w, h);
 
 }
 

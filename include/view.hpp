@@ -7,19 +7,27 @@
 #include <cstdio>
 #include <map>
 #include <string>
+#include <vector>
 //
 #include <stdint.h>
 //
 #include "color.hpp"
 #include "model.hpp"
+#include "window_elt_style.hpp"
 #include "window_attributes.hpp"
-#include "window_elt.hpp"
 
 //
 static const int WIN_SIZE_WIDTH_INIT = 900;
 static const int WIN_SIZE_HEIGHT_INIT = 700;
 //
 static char SDL_ERROR_BUFFER[1000];
+
+
+// Forward declaration
+
+class WindowPagesManager;
+
+
 
 
 // Class MainView, manages the SDL environment & SDL Window
@@ -80,6 +88,9 @@ class MainView{
         // Get mouse position & buttons states
         void update_mouse_state();
 
+        //
+        WindowAttributes* get_win_attr();
+
         // Draw Main Menu
         void display_menu_main();
 
@@ -99,6 +110,204 @@ class MainView{
         void draw_rounded_rect(int x, int y, int w, int h, int r, Color color);
 
         //
-        void draw_button_1(int x, int y, int w, int h, std::string text, int fontSize, int r = 20);
+        void draw_button_1(int x, int y, int w, int h, std::string text, Color fg_cl, Color bg_cl, int fontSize, int r);
 
 };
+
+
+
+//
+class Value{
+
+    public:
+
+        //
+        int value;
+
+        //
+        Value(int value): value(value) {}
+
+        //
+        int get_value(){
+            //
+            return this->value;
+        }
+
+};
+
+
+
+//
+class ValuePercentWinWidth: public Value{
+
+    public:
+
+        //
+        float percent;
+
+        //
+        WindowAttributes* win_attr;
+
+        //
+        ValuePercentWinWidth(float percent, WindowAttributes* win_attr): Value(0), percent(percent) {}
+
+        //
+        int get_value(){
+            //
+            return (int)(this->percent * 100.0 / this->win_attr->win_width);
+        }
+
+};
+
+
+
+//
+class ValuePercentWinHeight: public Value{
+
+    public:
+
+        //
+        float percent;
+
+        //
+        WindowAttributes* win_attr;
+
+        //
+        ValuePercentWinHeight(float percent, WindowAttributes* win_attr): Value(0), percent(percent) {}
+
+        //
+        int get_value(){
+            //
+            return (int)(this->percent * 100.0 / this->win_attr->win_height);
+        }
+
+};
+
+
+//
+class WindowElt{
+
+    public:
+
+        //
+        Value x;
+        Value y;
+        Value w;
+        Value h;
+
+        //
+        Style* style;
+
+        //
+        WindowElt(Style* style, Value x, Value y, Value w = Value(1), Value h = Value(1))
+            : style(style), x(x), y(y), w(w), h(h) {};
+
+        //
+        void draw_elt(MainView* main_view);
+
+        //
+        int get_elt_state(WindowAttributes* win_attr);
+
+        //
+        int get_x();
+
+        //
+        int get_y();
+
+        //
+        int get_w();
+
+        //
+        int get_h();
+
+};
+
+
+//
+class WindowEltText : public WindowElt {
+
+    public:
+
+        //
+        std::string txt;
+
+        //
+        WindowEltText(Style* style, std::string txt, Value x, Value y, Value w = Value(-1), Value h = Value(-1))
+            : WindowElt(style, x, y, w, h), txt(txt) {};
+
+        //
+        void draw_elt(MainView* main_view);
+
+};
+
+
+//
+class WindowEltButton : public WindowElt {
+
+    public:
+
+        //
+        std::string txt;
+        //
+        Color color;
+        //
+        int fontSize;
+
+        //
+        WindowEltButton(Style* style, std::string txt, Value x, Value y, Value w, Value h)
+        : WindowElt(style, x, y, w, h), txt(txt) {};
+
+        //
+        void draw_elt(MainView* main_view);
+
+};
+
+
+//
+class WindowPage{
+
+    public:
+
+        //
+        std::vector<WindowElt> elts;
+
+        // Constructeur par défaut
+        WindowPage() = default;
+
+        //
+        WindowPage( std::vector<WindowElt> elts )
+            : elts(elts) {}
+
+        //
+        void draw_page(MainView* main_view);
+
+};
+
+
+
+
+//
+class WindowPagesManager{
+
+    public:
+
+        //
+        std::map<std::string, WindowPage> pages;
+        std::string current_page;
+
+        //
+        WindowPagesManager( std::map<std::string, WindowPage> pages, std::string current_page )
+            : pages(pages), current_page(current_page) {}
+
+        //
+        void draw_current_page( MainView* main_view );
+
+        //
+        void set_current_page( std::string new_current_page );
+
+};
+
+
+
+
+

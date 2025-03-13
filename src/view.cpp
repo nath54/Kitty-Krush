@@ -152,11 +152,16 @@ void MainView::update_display(int menu_state){
 
     //
     if(this->win_page_manager != nullptr){
-        this->win_page_manager->draw_current_page( &(this->win_attr) );
+        this->win_page_manager->draw_current_page( this );
     }
 
     // 💡 Update the renderer to show the new frame
     SDL_RenderPresent(this->sdl_renderer);
 }
 
+
+
+WindowAttributes* MainView::get_win_attr(){
+    return &(this->win_attr);
+}
 
