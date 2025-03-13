@@ -43,25 +43,27 @@ class Element {
     
     protected:
 
-        usint x;       // x position of the element
-        usint y;       // y position of the element
-        short color;  // owner of the element 
-        usint defense; // level (= defense) of the element
-        usint cost; // Cost of the element
+        usint x;        // x position of the element
+        usint y;        // y position of the element
+        short color;    // owner of the element 
+        usint defense;  // level (= defense) of the element
+        usint cost;     // Cost of the element
 
     public:
 
         // Constructor
         Element () {}; // Default constructor
+        Element(usint element_x, usint element_y, short element_color, usint element_defense = 0, usint element_cost = 0)
+            : x(element_x), y(element_y), color(element_color), defense(element_defense), cost(element_cost) {};
         // Destructor
         virtual ~Element() {}; // Virtual destructor
 
         // Getters
-        virtual usint _x() const;
-        virtual usint _y() const;
-        virtual short _color() const;
-        virtual usint _defense() const;
-        virtual usint _cost() const;
+        usint _x() const;
+        usint _y() const;
+        short _color() const;
+        usint _defense() const;
+        usint _cost() const;
 };
 
 
@@ -79,7 +81,7 @@ class Unit : public Element {
 
         // Constructor
         Unit(usint unit_x, usint unit_y, short unit_color, usint unit_defense = 1, usint unit_cost = 2)
-            : x(unit_x), y(unit_y), color(unit_color), defense(unit_defense), cost(unit_cost) {};
+            : Element(unit_x, unit_y, unit_color, unit_defense, unit_cost) {};
         // Destructor
         ~Unit() {}; // Default destructor
 
@@ -103,7 +105,7 @@ class Building : public Element {
 
         // Constructor
         Building(usint building_x, usint building_y, short building_color, usint building_defense = 1, usint building_cost = 0)
-            : x(building_x), y(building_y), color(building_color), defense(building_defense), cost(building_cost) {};
+            : Element(building_x, building_y, building_color, building_defense, building_cost) {};
         // Destructor
         ~Building() {}; // Default destructor
 
@@ -121,13 +123,14 @@ class Tile {
         usint x;
         usint y;
         short type;
+        usint defense;
         Element* element;
 
     public:
 
         // Constructor
-        Tile(usint tile_x, usint tile_y, short tile_type=NEUTRAL, Element* tile_element=nullptr)
-            : x(tile_x), y(tile_y), type(tile_type), element(tile_element) {};
+        Tile(usint tile_x, usint tile_y, short tile_type=NEUTRAL, usint tile_defense=0, Element* tile_element=nullptr)
+            : x(tile_x), y(tile_y), type(tile_type), defense(tile_defense), element(tile_element) {};
         // Destructor
         ~Tile() {}; // Default destructor
 
@@ -135,11 +138,13 @@ class Tile {
         usint _x() const;
         usint _y() const;
         short _type() const;
+        usint _defense() const;
         Element* _element() const;
 
         // Functions
         void convert_type(short new_type);
         bool is_adjacent(const Tile* tile);
+        bool adjacent_to_province(Province* p);
 };
 
 
@@ -148,12 +153,19 @@ class Map {
     private:
 
         usint size;
+
+        // Getter
+        usint _size() const;
+
+    protected:
+
         vector<Tile*> tiles_layer;
         vector<Element*> elements_layer;
 
     public:
 
     // Constructor
+    Map() {}; // Default constructor
     Map(usint map_size) : size(map_size) {
         // Create the map
         for (usint i = 0; i < size; i++) {
@@ -163,14 +175,37 @@ class Map {
         }
     };
     // Destructor
-    ~Map() {}; // Default destructor
-
-    // Getters
-    usint _size() const;
+    virtual ~Map() {}; // Default destructor
 
     // Functions
     Tile* get_tile(usint x, usint y);
-    bool adjacent_to_player(Tile *t, Player* p);
+};
+
+class Province : public Map {
+    
+    private:
+
+        short color;
+        vector<Tile*> tiles_layer;
+        vector<Element*> elements_layer;
+
+    public:
+
+    // Constructor
+    Province(vector<Tile*> tiles) : tiles_layer(tiles) {
+        for (Tile* t : tiles) {
+            if (t->_element() != nullptr)
+                elements_layer.push_back(t->_element());
+        }
+    };
+    // Destructor
+    ~Province() override {}; // Default destructor
+    // delete vectors but NOT their content
+
+    // Getters
+    short _color() const;
+    vector<Tile*> _tiles() const;
+    vector<Element*> _elements() const;
 };
 
 
