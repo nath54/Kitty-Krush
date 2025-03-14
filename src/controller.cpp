@@ -1,11 +1,12 @@
 //
 #include "controller.hpp"
+#include "window_attributes.hpp"
 //
 #include <SDL2/SDL.h>
 
 
 //
-void GameController::manage_events(){
+void GameController::manage_events(WindowAttributes* win_attr){
 
     //
     this->polled_events = 0;
@@ -24,6 +25,18 @@ void GameController::manage_events(){
             case SDL_QUIT:
                 //
                 this->game_model->is_running = false;
+                break;
+
+            //
+            case SDL_MOUSEBUTTONDOWN:
+                //
+                win_attr->update_mouse_button_state(event.button.button, true);
+                break;
+
+            //
+            case SDL_MOUSEBUTTONUP:
+                //
+                win_attr->update_mouse_button_state(event.button.button, false);
                 break;
 
             //

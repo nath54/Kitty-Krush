@@ -4,6 +4,10 @@
 #include <cstdint>
 #include <iostream>
 
+//
+#define MOUSE_BUTTON_LEFT 1
+#define MOUSE_BUTTON_RIGHT 3
+
 
 //
 uint64_t timeSinceEpochMillisec();

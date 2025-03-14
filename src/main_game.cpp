@@ -38,7 +38,7 @@ void MainGame::mainloop(){
     while(this->game_model->is_running){
 
         //
-        this->game_controller->manage_events();
+        this->game_controller->manage_events(this->main_view->get_win_attr());
 
         //
         this->main_view->update_display(this->menu_state);

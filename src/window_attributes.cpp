@@ -1,5 +1,8 @@
 //
+#include <iostream>
+//
 #include <window_attributes.hpp>
+
 
 
 //
@@ -19,10 +22,10 @@ void WindowAttributes::update_mouse_button_state(int button, bool pressed){
         uint64_t time = timeSinceEpochMillisec();
 
         //
-        if( button == 0 ){
+        if( button == MOUSE_BUTTON_LEFT ){
             mouse_left_bt_clicked = time;
         }
-        else if ( button == 1 ){
+        else if ( button == MOUSE_BUTTON_RIGHT ){
             mouse_right_bt_clicked = time;
         }
     }
@@ -31,10 +34,10 @@ void WindowAttributes::update_mouse_button_state(int button, bool pressed){
     else{
 
         //
-        if( button == 0 ){
+        if( button == MOUSE_BUTTON_LEFT ){
             mouse_left_bt_clicked = 0;
         }
-        else if ( button == 1 ){
+        else if ( button == MOUSE_BUTTON_RIGHT ){
             mouse_right_bt_clicked = 0;
         }
     }
