@@ -10,61 +10,46 @@
 #include <string>
 #include <cmath>
 #include <unistd.h>
+#include <map>
+#include <vector>
 
 
 
 
 // Init Pages
-void MainView::init_window_pages(){
+void MainView::init_window_pages() {
 
     //
     Style default_style = Style();
 
     //
-    std::map<std::string, WindowPage> pages = {
+    this->win_page_manager = new WindowPagesManager();
 
-        {
-            // Window Page "main_menu"
+    // Create Main Menu
+    this->win_page_manager->pages["main_menu"] = std::make_unique<WindowPage>();
 
-            "main_menu", {
-                // Elts vector
-                {
-                    WindowEltButton(
-                        &default_style, // style
-                        "Play !",       // text
-                        ValuePercentWinWidth(40, this->get_win_attr()), // x
-                        ValuePercentWinHeight(30, this->get_win_attr()), // y
-                        ValuePercentWinWidth(20, this->get_win_attr()), // w
-                        ValueInt(40)  // h
-                    )
-                }
-            },
+    this->win_page_manager->pages["main_menu"]->elts.insert(
 
-        },
+        //
+        std::make_unique<WindowEltButton>(
+            &default_style,
+            "Play !",
+            std::make_unique<ValuePercentWinWidth>(40, this->get_win_attr()),
+            std::make_unique<ValuePercentWinHeight>(30, this->get_win_attr()),
+            std::make_unique<ValuePercentWinWidth>(20, this->get_win_attr()),
+            std::make_unique<ValueInt>(40)
+        )
 
-        {
-            // Window Page game settings
-
-            "game_settings", {
-                // Elts vector
-                {}
-            },
-
-        },
-
-        {
-            // Window Page in game
-
-            "in_game", {
-                // Elts vector
-                {}
-            }
-        }
-    };
-    std::string current_page = "main_menu";
+    );
 
     //
-    this->win_page_manager = new WindowPagesManager(pages, current_page);
+    this->win_page_manager->pages["game_settings"] = std::make_unique<WindowPage>();
+
+    //
+    this->win_page_manager->pages["in_game"] = std::make_unique<WindowPage>();
+
+    //
+    this->win_page_manager->current_page = "main_menu";
 
 }
 

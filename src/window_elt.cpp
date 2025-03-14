@@ -81,25 +81,25 @@ int WindowElt::get_elt_state(WindowAttributes* win_attr){
 //
 int WindowElt::get_x(){
     //
-    return this->x.get_value();
+    return this->x->get_value();
 }
 
 //
 int WindowElt::get_y(){
     //
-    return this->y.get_value();
+    return this->y->get_value();
 }
 
 //
 int WindowElt::get_w(){
     //
-    return this->w.get_value();
+    return this->w->get_value();
 }
 
 //
 int WindowElt::get_h(){
     //
-    return this->h.get_value();
+    return this->h->get_value();
 }
 
 //
@@ -163,13 +163,13 @@ void WindowEltButton::draw_elt(MainView* main_view){
 void WindowPage::draw_page(MainView* main_view){
 
     // Draw each element
-    for ( WindowElt elt : this->elts ) {
+    for ( std::unique_ptr<WindowElt> elt : this->elts ) {
 
         //
-        cout << "DEBUG | " << elt.get_x() << ", " << elt.get_y() << ", " << elt.get_w() << ", " << elt.get_h() << "\n";
+        cout << "DEBUG | " << elt->get_x() << ", " << elt->get_y() << ", " << elt->get_w() << ", " << elt->get_h() << "\n";
 
         //
-        elt.draw_elt(main_view);
+        elt->draw_elt(main_view);
 
     }
 
@@ -185,7 +185,7 @@ void WindowPagesManager::draw_current_page( MainView* main_view ){
     }
 
     //
-    this->pages[this->current_page].draw_page(main_view);
+    this->pages[this->current_page]->draw_page(main_view);
 
 }
 

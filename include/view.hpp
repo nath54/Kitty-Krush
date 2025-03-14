@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 //
 #include <stdint.h>
 //
@@ -122,7 +123,7 @@ class Value{
     public:
 
         //
-        virtual int get_value();
+        virtual int get_value() = 0;
 
 };
 
@@ -188,17 +189,22 @@ class WindowElt{
     public:
 
         //
-        Value x;
-        Value y;
-        Value w;
-        Value h;
+        std::unique_ptr<Value> x;
+        std::unique_ptr<Value> y;
+        std::unique_ptr<Value> w;
+        std::unique_ptr<Value> h;
 
         //
         Style* style;
 
         //
-        WindowElt(Style* style, Value x, Value y, Value w = ValueInt(1), Value h = ValueInt(1))
-            : style(style), x(x), y(y), w(w), h(h) {};
+        WindowElt( Style* style,
+                   std::unique_ptr<Value> x,
+                   std::unique_ptr<Value> y,
+                   std::unique_ptr<Value> w = std::make_unique<ValueInt>(1),
+                   std::unique_ptr<Value> h = std::make_unique<ValueInt>(1)
+                )
+            : style(style), x(std::move(x)), y(std::move(y)), w(std::move(w)), h(std::move(h)) {};
 
         //
         void draw_elt(MainView* main_view);
@@ -230,8 +236,14 @@ class WindowEltText : public WindowElt {
         std::string txt;
 
         //
-        WindowEltText(Style* style, std::string txt, Value x, Value y, Value w = ValueInt(-1), Value h = ValueInt(-1))
-            : WindowElt(style, x, y, w, h), txt(txt) {};
+        WindowEltText( Style* style,
+                       std::string txt,
+                       std::unique_ptr<Value> x,
+                       std::unique_ptr<Value> y,
+                       std::unique_ptr<Value> w = std::make_unique<ValueInt>(-1),
+                       std::unique_ptr<Value> h = std::make_unique<ValueInt>(-1)
+                    )
+            : WindowElt(style, std::move(x), std::move(y), std::move(w), std::move(h)), txt(txt) {};
 
         //
         void draw_elt(MainView* main_view);
@@ -252,8 +264,14 @@ class WindowEltButton : public WindowElt {
         int fontSize;
 
         //
-        WindowEltButton(Style* style, std::string txt, Value x, Value y, Value w, Value h)
-        : WindowElt(style, x, y, w, h), txt(txt) {};
+        WindowEltButton( Style* style,
+                         std::string txt,
+                         std::unique_ptr<Value> x,
+                         std::unique_ptr<Value> y,
+                         std::unique_ptr<Value> w,
+                         std::unique_ptr<Value> h
+                        )
+        : WindowElt(style, std::move(x), std::move(y), std::move(w), std::move(h)), txt(txt) {};
 
         //
         void draw_elt(MainView* main_view);
@@ -267,14 +285,15 @@ class WindowPage{
     public:
 
         //
-        std::vector<WindowElt> elts;
+        std::unique_ptr< std::vector< std::unique_ptr<WindowElt> > > elts;
 
         // Constructeur par défaut
-        WindowPage() = default;
+        WindowPage() {
 
-        //
-        WindowPage( std::vector<WindowElt> elts )
-            : elts(elts) {}
+            //
+            this->elts = std::make_unique< std::vector< std::unique_ptr<WindowElt> > >();
+
+        };
 
         //
         void draw_page(MainView* main_view);
@@ -290,12 +309,16 @@ class WindowPagesManager{
     public:
 
         //
-        std::map<std::string, WindowPage> pages;
+        std::unique_ptr< std::map<std::string, std::unique_ptr<WindowPage> > > pages;
         std::string current_page;
 
         //
-        WindowPagesManager( std::map<std::string, WindowPage> pages, std::string current_page )
-            : pages(pages), current_page(current_page) {}
+        WindowPagesManager() {
+
+            //
+            this->pages = std::make_unique<std::map<std::string, std::unique_ptr<WindowPage>>>();
+
+        }
 
         //
         void draw_current_page( MainView* main_view );
