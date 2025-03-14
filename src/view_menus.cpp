@@ -26,27 +26,27 @@ void MainView::init_window_pages() {
     this->win_page_manager = new WindowPagesManager();
 
     // Create Main Menu
-    this->win_page_manager->pages["main_menu"] = std::make_unique<WindowPage>();
+    this->win_page_manager->pages["main_menu"] = new WindowPage();
 
-    this->win_page_manager->pages["main_menu"]->elts.insert(
+    this->win_page_manager->pages["main_menu"]->elts.push_back(
 
         //
-        std::make_unique<WindowEltButton>(
+        new WindowEltButton(
             &default_style,
             "Play !",
-            std::make_unique<ValuePercentWinWidth>(40, this->get_win_attr()),
-            std::make_unique<ValuePercentWinHeight>(30, this->get_win_attr()),
-            std::make_unique<ValuePercentWinWidth>(20, this->get_win_attr()),
-            std::make_unique<ValueInt>(40)
+            new ValuePercentWinWidth(40, this->get_win_attr()),
+            new ValuePercentWinHeight(30, this->get_win_attr()),
+            new ValuePercentWinWidth(20, this->get_win_attr()),
+            new ValueInt(40)
         )
 
     );
 
     //
-    this->win_page_manager->pages["game_settings"] = std::make_unique<WindowPage>();
+    this->win_page_manager->pages["game_settings"] = new WindowPage();
 
     //
-    this->win_page_manager->pages["in_game"] = std::make_unique<WindowPage>();
+    this->win_page_manager->pages["in_game"] = new WindowPage();
 
     //
     this->win_page_manager->current_page = "main_menu";

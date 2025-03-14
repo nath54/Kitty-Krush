@@ -189,22 +189,22 @@ class WindowElt{
     public:
 
         //
-        std::unique_ptr<Value> x;
-        std::unique_ptr<Value> y;
-        std::unique_ptr<Value> w;
-        std::unique_ptr<Value> h;
+        Value* x;
+        Value* y;
+        Value* w;
+        Value* h;
 
         //
         Style* style;
 
         //
         WindowElt( Style* style,
-                   std::unique_ptr<Value> x,
-                   std::unique_ptr<Value> y,
-                   std::unique_ptr<Value> w = std::make_unique<ValueInt>(1),
-                   std::unique_ptr<Value> h = std::make_unique<ValueInt>(1)
+                   Value* x,
+                   Value* y,
+                   Value* w = new ValueInt(1),
+                   Value* h = new ValueInt(1)
                 )
-            : style(style), x(std::move(x)), y(std::move(y)), w(std::move(w)), h(std::move(h)) {};
+            : style(style), x(x), y(y), w(w), h(h) {};
 
         //
         void draw_elt(MainView* main_view);
@@ -238,12 +238,12 @@ class WindowEltText : public WindowElt {
         //
         WindowEltText( Style* style,
                        std::string txt,
-                       std::unique_ptr<Value> x,
-                       std::unique_ptr<Value> y,
-                       std::unique_ptr<Value> w = std::make_unique<ValueInt>(-1),
-                       std::unique_ptr<Value> h = std::make_unique<ValueInt>(-1)
+                       Value* x,
+                       Value* y,
+                       Value* w = new ValueInt(-1),
+                       Value* h = new ValueInt(-1)
                     )
-            : WindowElt(style, std::move(x), std::move(y), std::move(w), std::move(h)), txt(txt) {};
+            : WindowElt(style, x, y, w, h), txt(txt) {};
 
         //
         void draw_elt(MainView* main_view);
@@ -266,12 +266,12 @@ class WindowEltButton : public WindowElt {
         //
         WindowEltButton( Style* style,
                          std::string txt,
-                         std::unique_ptr<Value> x,
-                         std::unique_ptr<Value> y,
-                         std::unique_ptr<Value> w,
-                         std::unique_ptr<Value> h
+                         Value* x,
+                         Value* y,
+                         Value* w,
+                         Value* h
                         )
-        : WindowElt(style, std::move(x), std::move(y), std::move(w), std::move(h)), txt(txt) {};
+        : WindowElt(style, x, y, w, h), txt(txt) {};
 
         //
         void draw_elt(MainView* main_view);
@@ -285,15 +285,10 @@ class WindowPage{
     public:
 
         //
-        std::unique_ptr< std::vector< std::unique_ptr<WindowElt> > > elts;
+        std::vector< WindowElt* > elts;
 
         // Constructeur par défaut
-        WindowPage() {
-
-            //
-            this->elts = std::make_unique< std::vector< std::unique_ptr<WindowElt> > >();
-
-        };
+        WindowPage() {}
 
         //
         void draw_page(MainView* main_view);
@@ -309,16 +304,11 @@ class WindowPagesManager{
     public:
 
         //
-        std::unique_ptr< std::map<std::string, std::unique_ptr<WindowPage> > > pages;
+        std::map<std::string, WindowPage* > pages;
         std::string current_page;
 
         //
-        WindowPagesManager() {
-
-            //
-            this->pages = std::make_unique<std::map<std::string, std::unique_ptr<WindowPage>>>();
-
-        }
+        WindowPagesManager() {}
 
         //
         void draw_current_page( MainView* main_view );
@@ -327,8 +317,3 @@ class WindowPagesManager{
         void set_current_page( std::string new_current_page );
 
 };
-
-
-
-
-

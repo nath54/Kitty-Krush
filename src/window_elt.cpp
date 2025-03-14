@@ -16,10 +16,6 @@ int ValueInt::get_value(){
 
 //
 int ValuePercentWinWidth::get_value(){
-
-    //
-    cout << "AA FAFAE " << this->win_attr->win_width << " noij " << this->percent << "\n";
-
     //
     return (int)(this->percent * this->win_attr->win_width / 100.0 );
 }
@@ -27,9 +23,6 @@ int ValuePercentWinWidth::get_value(){
 
 //
 int ValuePercentWinHeight::get_value(){
-    //
-    cout << "BB FBAFAE " << this->win_attr->win_width << " noij " << this->percent << "\n";
-
     //
     return (int)(this->percent * this->win_attr->win_height / 100.0 );
 }
@@ -163,14 +156,9 @@ void WindowEltButton::draw_elt(MainView* main_view){
 void WindowPage::draw_page(MainView* main_view){
 
     // Draw each element
-    for ( std::unique_ptr<WindowElt> elt : this->elts ) {
-
-        //
-        cout << "DEBUG | " << elt->get_x() << ", " << elt->get_y() << ", " << elt->get_w() << ", " << elt->get_h() << "\n";
-
+    for ( WindowElt* elt : this->elts ) {
         //
         elt->draw_elt(main_view);
-
     }
 
 }
