@@ -29,7 +29,7 @@ class Style{
         // Background Color
         Color base_bg_color = Color(200, 100, 150);
         Color hover_bg_color = Color(180, 100, 170);
-        Color clicked_bg_color = Color(220, 200, 130);
+        Color clicked_bg_color = Color(220, 100, 130);
 
         // Radius
         int base_radius = 22;
