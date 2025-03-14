@@ -58,13 +58,13 @@ class AllYourStyles{
     public:
 
         //
-        std::map<std::string, Style> styles;
+        std::map<std::string, Style*> styles;
 
         //
         AllYourStyles(){
 
             //
-            this->styles["default"] = Style();
+            this->styles["default"] = new Style();
 
         }
 
@@ -75,11 +75,11 @@ class AllYourStyles{
             //
             if(this->styles.find(style_name) == this->styles.end()){
                 //
-                return &(this->styles["default"]);
+                return this->styles["default"];
             }
 
             //
-            return &(this->styles[style_name]);
+            return this->styles[style_name];
 
         }
 

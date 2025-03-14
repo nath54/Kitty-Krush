@@ -207,7 +207,7 @@ class WindowElt{
             : style(style), x(x), y(y), w(w), h(h) {};
 
         //
-        void draw_elt(MainView* main_view);
+        virtual void draw_elt(MainView* main_view);
 
         //
         int get_elt_state(WindowAttributes* win_attr);

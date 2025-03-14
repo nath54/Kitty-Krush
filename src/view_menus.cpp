@@ -20,7 +20,7 @@
 void MainView::init_window_pages() {
 
     //
-    Style default_style = Style();
+    Style* default_style = new Style();
 
     //
     this->win_page_manager = new WindowPagesManager();
@@ -32,7 +32,7 @@ void MainView::init_window_pages() {
 
         //
         new WindowEltButton(
-            &default_style,
+            default_style,
             "Play !",
             new ValuePercentWinWidth(40, this->get_win_attr()),
             new ValuePercentWinHeight(30, this->get_win_attr()),
