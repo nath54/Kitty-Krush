@@ -1,4 +1,3 @@
-#pragma once
 //
 #include "color.hpp"
 #include "window_elt_style.hpp"

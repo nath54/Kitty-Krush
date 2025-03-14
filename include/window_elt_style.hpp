@@ -28,12 +28,12 @@ class Style{
 
         // Background Color
         Color base_bg_color = Color(200, 100, 150);
-        Color hover_bg_color = Color(200, 100, 150);
-        Color clicked_bg_color = Color(200, 100, 150);
+        Color hover_bg_color = Color(180, 100, 170);
+        Color clicked_bg_color = Color(220, 200, 130);
 
         // Radius
-        int base_radius = 20;
-        int hover_radius = 21;
+        int base_radius = 22;
+        int hover_radius = 15;
         int clicked_radius = 19;
 
 

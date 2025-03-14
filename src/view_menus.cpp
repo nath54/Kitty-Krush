@@ -37,7 +37,7 @@ void MainView::init_window_pages() {
             new ValuePercentWinWidth(40, this->get_win_attr()),
             new ValuePercentWinHeight(30, this->get_win_attr()),
             new ValuePercentWinWidth(20, this->get_win_attr()),
-            new ValueInt(40)
+            new ValueInt(60)
         )
 
     );
