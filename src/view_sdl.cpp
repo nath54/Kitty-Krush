@@ -37,23 +37,42 @@ void MainView::sdl_error(const char* error_msg){
 void MainView::destroy_all_created(){
 
     // Iterate & Destroy all the fonts
-    for (const auto& [key, value] : this->ttf_fonts) {
-        // std::cout << "Key: " << key << ", Value: " << value << std::endl;
+    for (const auto& [font_size, font] : this->ttf_fonts) {
+
+        //
+        TTF_CloseFont(font);
     }
+    //
+    this->ttf_fonts.clear();
+
+    // Iterate & Destroy all the textures
+    for (const auto& [img_path, texture] : this->loaded_textures) {
+
+        //
+        SDL_DestroyTexture(texture);
+    }
+    //
+    this->loaded_textures.clear();
 
     // Destroy the sdl window surface
     if(this->sdl_window_surface != nullptr){
+
+        //
         this->sdl_window_surface = nullptr;
     }
 
     // Destroy the sdl renderer
     if(this->sdl_renderer != nullptr){
+
+        //
         SDL_DestroyRenderer(this->sdl_renderer);
         this->sdl_renderer = nullptr;
     }
 
     // Destroy the sdl window
     if(this->sdl_window != nullptr){
+
+        //
         SDL_DestroyWindow(this->sdl_window);
         this->sdl_window = nullptr;
     }
@@ -94,6 +113,15 @@ TTF_Font* MainView::get_font(int fontSize){
 SDL_Texture* MainView::get_texture(std::string img_path){
 
     //
+    std::map<std::string, SDL_Texture*>::iterator res_iter = this->loaded_textures.find(img_path);
+    if( res_iter != this->loaded_textures.end() ){
+
+        // res_iter->first is the key, res_iter->second is the value
+        return res_iter->second;
+
+    }
+
+    //
     SDL_Texture* texture = nullptr;
     SDL_Surface* loadedSurface = IMG_Load(img_path.c_str());
 
@@ -116,6 +144,9 @@ SDL_Texture* MainView::get_texture(std::string img_path){
         this->sdl_error(SDL_ERROR_BUFFER);
 
     }
+
+    //
+    this->loaded_textures[img_path] = texture;
 
     //
     return texture;
@@ -200,27 +231,15 @@ void MainView::draw_button_1(int x, int y, int w, int h, std::string text, Color
 
 
 // Render img function
-void MainView::draw_image(std::string img_path, int x, int y, int w, int h, int angle, bool flip_horizontal, bool flip_vertical){
+void MainView::draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w, int src_h, int dest_x, int dest_y, int dest_w, int dest_h, int angle, bool flip_horizontal, bool flip_vertical){
 
     //
-    SDL_Texture* texture = this->get_texture(img_path);
+    SDL_Rect src_rect = { src_x, src_y, src_w, src_h };
+    SDL_Rect dest_rect = { dest_x, dest_y, dest_w, dest_h };
+    SDL_Point center = { dest_rect.w / 2, dest_rect.h / 2 };  // Rotation around the center
 
     //
-    int tw;
-    int th;
-    SDL_QueryTexture(texture, nullptr, nullptr, &tw, &th);
-
-    //
-    if ( w == -1 ){ w = tw; }
-    if ( h == -1 ){ h = th; }
-
-    //
-    SDL_Rect dstRect = { x, y, w, h };
-    SDL_Rect srcRect = { 0, 0, tw, th };
-    SDL_Point center = { dstRect.w / 2, dstRect.h / 2 };  // Rotation around the center
-
-    //
-    SDL_RendererFlip flip;
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
     //
     if(flip_horizontal){ flip = SDL_FLIP_HORIZONTAL; }
     if(flip_vertical){
@@ -234,6 +253,6 @@ void MainView::draw_image(std::string img_path, int x, int y, int w, int h, int 
     }
 
     //
-    SDL_RenderCopyEx(this->sdl_renderer, texture, &srcRect, &dstRect, angle, &center, flip);
+    SDL_RenderCopyEx(this->sdl_renderer, texture, &src_rect, &dest_rect, angle, &center, flip);
 
 }

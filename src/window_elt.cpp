@@ -153,6 +153,113 @@ void WindowEltButton::draw_elt(MainView* main_view){
 
 
 //
+void WindowEltSprite::draw_elt(MainView* main_view){
+
+    //
+    // int elt_state = this->get_elt_state( main_view->get_win_attr() );
+
+    SDL_Texture* texture = main_view->get_texture(img_path);
+    //
+
+    //
+    int dest_x = this->get_x();
+    int dest_y = this->get_y();
+    int dest_w = this->get_w();
+    int dest_h = this->get_h();
+    //
+    int src_x = 0;
+    int src_y = 0;
+    int src_w;
+    int src_h;
+    SDL_QueryTexture(texture, nullptr, nullptr, &src_w, &src_h);
+
+    //
+    int angle = this->angle->get_value();
+    // 🔥 APPLY CROPPING STRATEGY
+    switch (crop_mode) {
+        case CropMode::NO_CROP:
+            // Use the full image
+            break;
+
+        case CropMode::CENTER_CROP:
+            {
+                float aspect_src = (float)src_w / src_h;
+                float aspect_dest = (float)dest_w / dest_h;
+
+                if (aspect_src > aspect_dest) {
+                    // Crop width (wider source image)
+                    crop_w = (int)(src_h * aspect_dest);
+                    crop_h = src_h;
+                    crop_x = (src_w - crop_w) / 2;
+                    crop_y = 0;
+                } else {
+                    // Crop height (taller source image)
+                    crop_w = src_w;
+                    crop_h = (int)(src_w / aspect_dest);
+                    crop_x = 0;
+                    crop_y = (src_h - crop_h) / 2;
+                }
+            }
+            break;
+
+        case CropMode::TOP_LEFT_CROP:
+            // Just set the crop region (default values)
+            crop_x = 0;
+            crop_y = 0;
+            crop_w = dest_w;
+            crop_h = dest_h;
+            break;
+
+        case CropMode::CUSTOM_CROP:
+            // Use user-specified crop coordinates
+            break;
+    }
+
+    //
+    // 🔥 APPLY LAYOUT (RESIZING STRATEGY)
+    switch (layout_mode) {
+        case LayoutMode::STRETCH:
+            // Force the image to stretch exactly
+            break;
+
+        case LayoutMode::FIT:
+            {
+                float scale = std::min((float)dest_w / crop_w, (float)dest_h / crop_h);
+                int new_w = (int)(crop_w * scale);
+                int new_h = (int)(crop_h * scale);
+                dest_x += (dest_w - new_w) / 2;
+                dest_y += (dest_h - new_h) / 2;
+                dest_w = new_w;
+                dest_h = new_h;
+            }
+            break;
+
+        case LayoutMode::COVER:
+            {
+                float scale = std::max((float)dest_w / crop_w, (float)dest_h / crop_h);
+                int new_w = (int)(crop_w * scale);
+                int new_h = (int)(crop_h * scale);
+                dest_x += (dest_w - new_w) / 2;
+                dest_y += (dest_h - new_h) / 2;
+                dest_w = new_w;
+                dest_h = new_h;
+            }
+            break;
+
+        case LayoutMode::CUSTOM_SCALE:
+            // Scale manually
+            dest_w = (int)(crop_w * custom_scale);
+            dest_h = (int)(crop_h * custom_scale);
+            break;
+    }
+
+
+    //
+    main_view->draw_image( texture, src_x, src_y, src_w, src_h, dest_x, dest_y, dest_w, dest_h, angle, this->flip_h, this->flip_v );
+
+}
+
+//
 void WindowPage::draw_page(MainView* main_view){
 
     // Draw each element

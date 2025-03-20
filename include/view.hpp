@@ -112,7 +112,7 @@ class MainView{
         SDL_Texture* get_texture(std::string img_path);
 
         // Render img function
-        void draw_image(std::string img_path, int x, int y, int w = -1, int h = -1, int angle = 0, bool flip_horizontal = false, bool flip_vertical = false);
+        void draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w, int src_h, int dest_x, int dest_y, int dest_w, int dest_h, int angle = 0, bool flip_horizontal = false, bool flip_vertical = false);
 
 
         // Render text function
@@ -160,6 +160,8 @@ class ValuePercentWinWidth: public Value{
 
         //
         float percent;
+        float min_value = 0.0;
+        float max_value = 0.0;
 
         //
         WindowAttributes* win_attr;
@@ -290,8 +292,6 @@ class WindowEltButton : public WindowElt {
 };
 
 
-
-
 //
 class WindowEltSprite : public WindowElt {
 
@@ -305,6 +305,30 @@ class WindowEltSprite : public WindowElt {
         bool flip_v = false;
 
         //
+        enum class LayoutMode {
+            STRETCH,   // Stretch to fit (can distort)
+            FIT,       // Scale to fit inside (letterbox)
+            COVER,     // Scale to fill (crop excess)
+            CUSTOM_SCALE // Manual scaling
+        };
+
+        //
+        enum class CropMode {
+            NO_CROP,       // Use full image
+            CENTER_CROP,   // Crop from center
+            TOP_LEFT_CROP, // Crop from top-left
+            CUSTOM_CROP    // Use custom coordinates
+        };
+
+        //
+        LayoutMode layout_mode = LayoutMode::FIT;
+        CropMode crop_mode = CropMode::NO_CROP;
+
+        //
+        float custom_scale = 1.0f;
+        int crop_x = 0, crop_y = 0, crop_w = 0, crop_h = 0;
+
+        //
         WindowEltSprite( Style* style,
                          std::string img_path,
                          Value* x,
@@ -313,9 +337,31 @@ class WindowEltSprite : public WindowElt {
                          Value* h,
                          Value* angle = new ValueInt(0),
                          bool flip_h = false,
-                         bool flip_v = false
+                         bool flip_v = false,
+                         bool resize = false,
+                         bool resize_center = false,
+                         LayoutMode layout_mode = LayoutMode::FIT,
+                         CropMode crop_mode = CropMode::NO_CROP,
+                         float custom_scale = 1.0f,
+                         int crop_x = 0,
+                         int crop_y = 0,
+                         int crop_w = 0,
+                         int crop_h = 0
                         )
-        : WindowElt(style, x, y, w, h), img_path(img_path), angle(angle), flip_h(flip_h), flip_v(flip_v) {};
+        :
+            WindowElt(style, x, y, w, h),
+            img_path(img_path),
+            angle(angle),
+            flip_h(flip_h),
+            flip_v(flip_v),
+            layout_mode(layout_mode),
+            crop_mode(crop_mode),
+            custom_scale(custom_scale),
+            crop_x(crop_x),
+            crop_y(crop_y),
+            crop_w(crop_w),
+            crop_h(crop_h)
+        {};
 
         //
         void draw_elt(MainView* main_view);
@@ -338,8 +384,6 @@ class WindowPage{
         void draw_page(MainView* main_view);
 
 };
-
-
 
 
 //

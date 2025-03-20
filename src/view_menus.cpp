@@ -28,6 +28,22 @@ void MainView::init_window_pages() {
     // Create Main Menu
     this->win_page_manager->pages["main_menu"] = new WindowPage();
 
+    //
+    this->win_page_manager->pages["main_menu"]->elts.push_back(
+
+        //
+        new WindowEltSprite(
+            default_style,
+            "res/bgs/bg_main_menu.png",
+            new ValueInt(0),
+            new ValueInt(0),
+            new ValuePercentWinWidth(100, this->get_win_attr()),
+            new ValuePercentWinHeight(100, this->get_win_attr())
+        )
+
+    );
+
+    //
     this->win_page_manager->pages["main_menu"]->elts.push_back(
 
         //
