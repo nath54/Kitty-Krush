@@ -326,7 +326,12 @@ class WindowEltSprite : public WindowElt {
 
         //
         float custom_scale = 1.0f;
-        int crop_x = 0, crop_y = 0, crop_w = 0, crop_h = 0;
+
+        //
+        int custom_crop_x = 0;
+        int custom_crop_y = 0;
+        int custom_crop_w = 0;
+        int custom_crop_h = 0;
 
         //
         WindowEltSprite( Style* style,
@@ -338,15 +343,13 @@ class WindowEltSprite : public WindowElt {
                          Value* angle = new ValueInt(0),
                          bool flip_h = false,
                          bool flip_v = false,
-                         bool resize = false,
-                         bool resize_center = false,
                          LayoutMode layout_mode = LayoutMode::FIT,
                          CropMode crop_mode = CropMode::NO_CROP,
                          float custom_scale = 1.0f,
-                         int crop_x = 0,
-                         int crop_y = 0,
-                         int crop_w = 0,
-                         int crop_h = 0
+                         int custom_crop_x = 0,
+                         int custom_crop_y = 0,
+                         int custom_crop_w = 0,
+                         int custom_crop_h = 0
                         )
         :
             WindowElt(style, x, y, w, h),
@@ -357,10 +360,10 @@ class WindowEltSprite : public WindowElt {
             layout_mode(layout_mode),
             crop_mode(crop_mode),
             custom_scale(custom_scale),
-            crop_x(crop_x),
-            crop_y(crop_y),
-            crop_w(crop_w),
-            crop_h(crop_h)
+            custom_crop_x(custom_crop_x),
+            custom_crop_y(custom_crop_y),
+            custom_crop_w(custom_crop_w),
+            custom_crop_h(custom_crop_h)
         {};
 
         //

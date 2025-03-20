@@ -175,8 +175,18 @@ void WindowEltSprite::draw_elt(MainView* main_view){
 
     //
     int angle = this->angle->get_value();
+
+
     // 🔥 APPLY CROPPING STRATEGY
-    switch (crop_mode) {
+
+    //
+    int crop_x = 0;
+    int crop_y = 0;
+    int crop_w = src_w;
+    int crop_h = src_h;
+
+    //
+    switch (this->crop_mode) {
         case CropMode::NO_CROP:
             // Use the full image
             break;
@@ -212,12 +222,16 @@ void WindowEltSprite::draw_elt(MainView* main_view){
 
         case CropMode::CUSTOM_CROP:
             // Use user-specified crop coordinates
+            crop_x = this->custom_crop_x;
+            crop_y = this->custom_crop_y;
+            crop_w = this->custom_crop_w;
+            crop_h = this->custom_crop_h;
             break;
     }
 
     //
     // 🔥 APPLY LAYOUT (RESIZING STRATEGY)
-    switch (layout_mode) {
+    switch (this->layout_mode) {
         case LayoutMode::STRETCH:
             // Force the image to stretch exactly
             break;
@@ -248,11 +262,13 @@ void WindowEltSprite::draw_elt(MainView* main_view){
 
         case LayoutMode::CUSTOM_SCALE:
             // Scale manually
-            dest_w = (int)(crop_w * custom_scale);
-            dest_h = (int)(crop_h * custom_scale);
+            dest_w = (int)(crop_w * this->custom_scale);
+            dest_h = (int)(crop_h * this->custom_scale);
             break;
     }
 
+    //
+    cout << " src_x = " << src_x << " | src_y = " << src_y << " | src_w = " << src_w << " | src_h = " << src_h << " | dst_x = " << dest_x << " | dst_y = " << dest_y << " | dst_w = " << dest_w << " | dst_h = " << dest_h << "\n";
 
     //
     main_view->draw_image( texture, src_x, src_y, src_w, src_h, dest_x, dest_y, dest_w, dest_h, angle, this->flip_h, this->flip_v );

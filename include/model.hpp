@@ -216,7 +216,7 @@ class Province : public Map {
     public:
 
     // Constructor
-    Province(short c, int t=0, vector<Tile*> tiles)
+    Province(short c, int t, vector<Tile*> tiles)
         : color(c), treasury(t), tiles_layer(tiles) {};
     // Destructor
     ~Province() override {}; // Default destructor

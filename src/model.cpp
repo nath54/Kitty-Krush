@@ -117,9 +117,9 @@ void Map::init_map(int nb_players, int nb_provinces, bool bandits)
             seed = rand() % size*size;
 
         tiles_layer[seed]->convert_type(p);
-        Province* province = new Province(p);
-        province->add_tile(tiles_layer[seed]);
-        add_province(province);
+        // Province* province = new Province(p);
+        // province->add_tile(tiles_layer[seed]);
+        // add_province(province);
         // ! TODO : continuer
     }
 }
