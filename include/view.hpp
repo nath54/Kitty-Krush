@@ -3,6 +3,7 @@
 //
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 #include <cstdio>
 #include <map>
@@ -61,6 +62,9 @@ class MainView{
         // SDL ttf related attributes
         map<int, TTF_Font*> ttf_fonts;
 
+        // SDL image related attributes
+        map<std::string, SDL_Texture*> loaded_textures;
+
         // Reference to game_model
         GameModel* game_model = nullptr;
 
@@ -103,6 +107,13 @@ class MainView{
 
         // Get font
         TTF_Font* get_font(int fontSize);
+
+        // Get a texture
+        SDL_Texture* get_texture(std::string img_path);
+
+        // Render img function
+        void draw_image(std::string img_path, int x, int y, int w = -1, int h = -1, int angle = 0, bool flip_horizontal = false, bool flip_vertical = false);
+
 
         // Render text function
         void draw_text(std::string text, Color cl, int fontSize, int x, int y, int w = -1, int h = -1);
@@ -272,6 +283,39 @@ class WindowEltButton : public WindowElt {
                          Value* h
                         )
         : WindowElt(style, x, y, w, h), txt(txt) {};
+
+        //
+        void draw_elt(MainView* main_view);
+
+};
+
+
+
+
+//
+class WindowEltSprite : public WindowElt {
+
+    public:
+
+        //
+        std::string img_path;
+        //
+        Value* angle = 0;
+        bool flip_h = false;
+        bool flip_v = false;
+
+        //
+        WindowEltSprite( Style* style,
+                         std::string img_path,
+                         Value* x,
+                         Value* y,
+                         Value* w,
+                         Value* h,
+                         Value* angle = new ValueInt(0),
+                         bool flip_h = false,
+                         bool flip_v = false
+                        )
+        : WindowElt(style, x, y, w, h), img_path(img_path), angle(angle), flip_h(flip_h), flip_v(flip_v) {};
 
         //
         void draw_elt(MainView* main_view);

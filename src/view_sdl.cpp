@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_image.h>
 
 
 
@@ -88,6 +89,46 @@ TTF_Font* MainView::get_font(int fontSize){
 
 
 
+
+// Get a texture
+SDL_Texture* MainView::get_texture(std::string img_path){
+
+    //
+    SDL_Texture* texture = nullptr;
+    SDL_Surface* loadedSurface = IMG_Load(img_path.c_str());
+
+    //
+    if (!loadedSurface) {
+
+        sprintf(SDL_ERROR_BUFFER, "SDL IMG_Load Error: %s for image at path : %s \n", IMG_GetError(), img_path.c_str());
+        this->sdl_error(SDL_ERROR_BUFFER);
+
+    } else {
+
+        texture = SDL_CreateTextureFromSurface(this->sdl_renderer, loadedSurface);
+        SDL_FreeSurface(loadedSurface);
+    }
+
+
+    if (!texture) {
+
+        sprintf(SDL_ERROR_BUFFER, "DL_CreateTextureFromSurface Error: %s for image at path : %s \n", SDL_GetError(), img_path.c_str());
+        this->sdl_error(SDL_ERROR_BUFFER);
+
+    }
+
+    //
+    return texture;
+
+}
+
+
+
+
+
+
+
+
 // Render text function
 void MainView::draw_text(std::string text, Color cl, int fontSize, int x, int y, int w, int h) {
 
@@ -157,3 +198,42 @@ void MainView::draw_button_1(int x, int y, int w, int h, std::string text, Color
 
 }
 
+
+// Render img function
+void MainView::draw_image(std::string img_path, int x, int y, int w, int h, int angle, bool flip_horizontal, bool flip_vertical){
+
+    //
+    SDL_Texture* texture = this->get_texture(img_path);
+
+    //
+    int tw;
+    int th;
+    SDL_QueryTexture(texture, nullptr, nullptr, &tw, &th);
+
+    //
+    if ( w == -1 ){ w = tw; }
+    if ( h == -1 ){ h = th; }
+
+    //
+    SDL_Rect dstRect = { x, y, w, h };
+    SDL_Rect srcRect = { 0, 0, tw, th };
+    SDL_Point center = { dstRect.w / 2, dstRect.h / 2 };  // Rotation around the center
+
+    //
+    SDL_RendererFlip flip;
+    //
+    if(flip_horizontal){ flip = SDL_FLIP_HORIZONTAL; }
+    if(flip_vertical){
+        //
+        if(flip_horizontal){
+            flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+        }
+        else{
+            flip = SDL_FLIP_VERTICAL;
+        }
+    }
+
+    //
+    SDL_RenderCopyEx(this->sdl_renderer, texture, &srcRect, &dstRect, angle, &center, flip);
+
+}
