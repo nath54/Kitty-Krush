@@ -36,3 +36,5 @@
 .*
 *.json
 **/build
+
+vgcore*

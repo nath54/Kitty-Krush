@@ -33,12 +33,22 @@ void MainView::init_window_pages() {
 
         //
         new WindowEltSprite(
-            default_style,
-            "res/bgs/bg_main_menu.png",
-            new ValueInt(0),
-            new ValueInt(0),
-            new ValuePercentWinWidth(100, this->get_win_attr()),
-            new ValuePercentWinHeight(100, this->get_win_attr())
+            default_style,                                          // Style*       style,
+            "res/bgs/bg_main_menu.png",                             // std::string  img_path,
+            new ValueInt(0),                                        // Value*       x,
+            new ValueInt(0),                                        // Value*       y,
+            new ValuePercentWinWidth(100, this->get_win_attr()),    // Value*       w,
+            new ValuePercentWinHeight(100, this->get_win_attr()),   // Value*       h,
+            new ValueInt(0),                                        // Value*       angle           = new ValueInt(0),
+            false,                                                  // bool         flip_h          = false,
+            false,                                                  // bool         flip_v          = false,
+            LayoutMode::FIT,                                      // LayoutMode   layout_mode     = LayoutMode::FIT,
+            CropMode::NO_CROP,                                      // CropMode     crop_mode       = CropMode::NO_CROP,
+            1.0f,                                                   // float        custom_scale    = 1.0f,
+            0,                                                      // int          custom_crop_x   = 0,
+            0,                                                      // int          custom_crop_y   = 0,
+            0,                                                      // int          custom_crop_w   = 0,
+            0                                                       // int          custom_crop_h   = 0
         )
 
     );

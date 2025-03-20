@@ -293,6 +293,23 @@ class WindowEltButton : public WindowElt {
 
 
 //
+enum class LayoutMode {
+    STRETCH,   // Stretch to fit (can distort)
+    FIT,       // Scale to fit inside (letterbox)
+    COVER,     // Scale to fill (crop excess)
+    CUSTOM_SCALE // Manual scaling
+};
+
+//
+enum class CropMode {
+    NO_CROP,       // Use full image
+    CENTER_CROP,   // Crop from center
+    TOP_LEFT_CROP, // Crop from top-left
+    CUSTOM_CROP    // Use custom coordinates
+};
+
+
+//
 class WindowEltSprite : public WindowElt {
 
     public:
@@ -303,22 +320,6 @@ class WindowEltSprite : public WindowElt {
         Value* angle = 0;
         bool flip_h = false;
         bool flip_v = false;
-
-        //
-        enum class LayoutMode {
-            STRETCH,   // Stretch to fit (can distort)
-            FIT,       // Scale to fit inside (letterbox)
-            COVER,     // Scale to fill (crop excess)
-            CUSTOM_SCALE // Manual scaling
-        };
-
-        //
-        enum class CropMode {
-            NO_CROP,       // Use full image
-            CENTER_CROP,   // Crop from center
-            TOP_LEFT_CROP, // Crop from top-left
-            CUSTOM_CROP    // Use custom coordinates
-        };
 
         //
         LayoutMode layout_mode = LayoutMode::FIT;

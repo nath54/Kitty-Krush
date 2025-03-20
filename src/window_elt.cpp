@@ -214,18 +214,22 @@ void WindowEltSprite::draw_elt(MainView* main_view){
 
         case CropMode::TOP_LEFT_CROP:
             // Just set the crop region (default values)
-            crop_x = 0;
-            crop_y = 0;
-            crop_w = dest_w;
-            crop_h = dest_h;
+            {
+                crop_x = 0;
+                crop_y = 0;
+                crop_w = dest_w;
+                crop_h = dest_h;
+            }
             break;
 
         case CropMode::CUSTOM_CROP:
             // Use user-specified crop coordinates
-            crop_x = this->custom_crop_x;
-            crop_y = this->custom_crop_y;
-            crop_w = this->custom_crop_w;
-            crop_h = this->custom_crop_h;
+            {
+                crop_x = this->custom_crop_x;
+                crop_y = this->custom_crop_y;
+                crop_w = this->custom_crop_w;
+                crop_h = this->custom_crop_h;
+            }
             break;
     }
 
@@ -262,8 +266,10 @@ void WindowEltSprite::draw_elt(MainView* main_view){
 
         case LayoutMode::CUSTOM_SCALE:
             // Scale manually
-            dest_w = (int)(crop_w * this->custom_scale);
-            dest_h = (int)(crop_h * this->custom_scale);
+            {
+                dest_w = (int)(crop_w * this->custom_scale);
+                dest_h = (int)(crop_h * this->custom_scale);
+            }
             break;
     }
 
