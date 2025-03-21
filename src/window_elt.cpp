@@ -13,6 +13,12 @@ int ValueInt::get_value(){
     return this->value;
 }
 
+//
+float ValuePercent::get_value(){
+    //
+    return this->percent;
+}
+
 
 //
 int ValuePercentWinWidth::get_value(){
@@ -25,6 +31,97 @@ int ValuePercentWinWidth::get_value(){
 int ValuePercentWinHeight::get_value(){
     //
     return (int)(this->percent * this->win_attr->win_height / 100.0 );
+}
+
+
+//
+ValueInt* nvi(int value){
+    return new ValueInt(value);
+}
+
+
+//
+ValuePercent* nvp(float percent){
+    return new ValuePercent(percent);
+}
+
+//
+ValuePercentWinWidth* nvpww(float prct, WindowAttributes* win_attr){
+    return new ValuePercentWinWidth(prct, win_attr);
+}
+
+//
+ValuePercentWinHeight* nvpwh(float prct, WindowAttributes* win_attr){
+    return new ValuePercentWinHeight(prct, win_attr);
+}
+
+
+//
+SpriteCrop* SPRITE_NO_CROP(){
+    //
+    return new SpriteCrop( nvp(0), nvp(0), nvp(1), nvp(1) );
+}
+
+//
+SpriteCrop* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h){
+    //
+    return new SpriteCrop( nvp(src_x), nvp(src_y), nvp(src_w), nvp(src_h) );
+}
+
+
+//
+SpriteRatio* SPRITE_RATIO_ORIGINAL(){
+    //
+    return new SpriteRatio(true, nullptr, nullptr);
+}
+
+//
+SpriteRatio* SPRITE_RATIO_CUSTOM(float prc_dest_w, float prc_dest_h){
+    //
+    return new SpriteRatio(false, nvp(prc_dest_w), nvp(prc_dest_h));
+}
+
+
+//
+SpriteResize* SPRITE_RESIZE_KEEP_ORIGINAL(float resize_factor){
+    //
+    return new SpriteResize(SPRITE_ENUM_RESIZE_KEEP_ORIGINAL, resize_factor);
+}
+
+//
+SpriteResize* SPRITE_RESIZE_FIT(float resize_factor){
+    //
+    return new SpriteResize(SPRITE_ENUM_RESIZE_FIT, resize_factor);
+}
+
+//
+SpriteResize* SPRITE_RESIZE_COVER(float resize_factor){
+    //
+    return new SpriteResize(SPRITE_ENUM_RESIZE_COVER, resize_factor);
+}
+
+//
+SpritePosition* SPRITE_POS_ALIGN_START(){
+    //
+    return new SpritePosition(0, 0);
+}
+
+//
+SpritePosition* SPRITE_POS_ALIGN_CENTER(){
+    //
+    return new SpritePosition(0.5, 0);
+}
+
+//
+SpritePosition* SPRITE_POS_ALIGN_END(){
+    //
+    return new SpritePosition(1, 0);
+}
+
+//
+SpritePosition* SPRITE_POS_CUSTOM(float percent, int delta){
+    //
+    return new SpritePosition(percent, delta);
 }
 
 
@@ -176,105 +273,21 @@ void WindowEltSprite::draw_elt(MainView* main_view){
     //
     int angle = this->angle->get_value();
 
+    // CROP
 
-    // 🔥 APPLY CROPPING STRATEGY
+    // ...
 
-    //
-    int crop_x = 0;
-    int crop_y = 0;
-    int crop_w = src_w;
-    int crop_h = src_h;
+    // RATIO
 
-    //
-    switch (this->crop_mode) {
-        case CropMode::NO_CROP:
-            // Use the full image
-            break;
+    // ...
 
-        case CropMode::CENTER_CROP:
-            {
-                float aspect_src = (float)src_w / src_h;
-                float aspect_dest = (float)dest_w / dest_h;
+    // RESIZE
 
-                if (aspect_src > aspect_dest) {
-                    // Crop width (wider source image)
-                    crop_w = (int)(src_h * aspect_dest);
-                    crop_h = src_h;
-                    crop_x = (src_w - crop_w) / 2;
-                    crop_y = 0;
-                } else {
-                    // Crop height (taller source image)
-                    crop_w = src_w;
-                    crop_h = (int)(src_w / aspect_dest);
-                    crop_x = 0;
-                    crop_y = (src_h - crop_h) / 2;
-                }
-            }
-            break;
+    // ...
 
-        case CropMode::TOP_LEFT_CROP:
-            // Just set the crop region (default values)
-            {
-                crop_x = 0;
-                crop_y = 0;
-                crop_w = dest_w;
-                crop_h = dest_h;
-            }
-            break;
+    // POSITION
 
-        case CropMode::CUSTOM_CROP:
-            // Use user-specified crop coordinates
-            {
-                crop_x = this->custom_crop_x;
-                crop_y = this->custom_crop_y;
-                crop_w = this->custom_crop_w;
-                crop_h = this->custom_crop_h;
-            }
-            break;
-    }
-
-    //
-    // 🔥 APPLY LAYOUT (RESIZING STRATEGY)
-    switch (this->layout_mode) {
-        case LayoutMode::STRETCH:
-            // Force the image to stretch exactly
-            break;
-
-        case LayoutMode::FIT:
-            {
-                float scale = std::min((float)dest_w / crop_w, (float)dest_h / crop_h);
-                int new_w = (int)(crop_w * scale);
-                int new_h = (int)(crop_h * scale);
-                dest_x += (dest_w - new_w) / 2;
-                dest_y += (dest_h - new_h) / 2;
-                dest_w = new_w;
-                dest_h = new_h;
-            }
-            break;
-
-        case LayoutMode::COVER:
-            {
-                float scale = std::max((float)dest_w / crop_w, (float)dest_h / crop_h);
-                int new_w = (int)(crop_w * scale);
-                int new_h = (int)(crop_h * scale);
-                dest_x += (dest_w - new_w) / 2;
-                dest_y += (dest_h - new_h) / 2;
-                dest_w = new_w;
-                dest_h = new_h;
-            }
-            break;
-
-        case LayoutMode::CUSTOM_SCALE:
-            // Scale manually
-            {
-                dest_w = (int)(crop_w * this->custom_scale);
-                dest_h = (int)(crop_h * this->custom_scale);
-            }
-            break;
-    }
-
-    //
-    cout << " src_x = " << src_x << " | src_y = " << src_y << " | src_w = " << src_w << " | src_h = " << src_h << " | dst_x = " << dest_x << " | dst_y = " << dest_y << " | dst_w = " << dest_w << " | dst_h = " << dest_h << "\n";
+    // ...
 
     //
     main_view->draw_image( texture, src_x, src_y, src_w, src_h, dest_x, dest_y, dest_w, dest_h, angle, this->flip_h, this->flip_v );

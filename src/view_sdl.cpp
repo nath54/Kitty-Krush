@@ -168,9 +168,9 @@ void MainView::draw_text(std::string text, Color cl, int fontSize, int x, int y,
 
     //
     SDL_Color color = {(Uint8)cl.r, (Uint8)cl.g, (Uint8)cl.b, (Uint8)cl.a};
-    // SDL_Surface* surface = TTF_RenderText_Solid(dynamicFont, text.c_str(), color);     // No anti-aliasing (blocky text).
-    // SDL_Surface* surface = TTF_RenderText_Shaded(dynamicFont, text.c_str(), color);     // Anti-aliasing with background color.
-    SDL_Surface* surface = TTF_RenderText_Blended(dynamicFont, text.c_str(), color);     // Best anti-aliasing, recommended for smooth text.
+    // SDL_Surface* surface = TTF_RenderText_Solid(dynamicFont, text.c_str(), color);   // No anti-aliasing (blocky text).
+    // SDL_Surface* surface = TTF_RenderText_Shaded(dynamicFont, text.c_str(), color);  // Anti-aliasing with background color.
+    SDL_Surface* surface = TTF_RenderText_Blended(dynamicFont, text.c_str(), color);    // Best anti-aliasing, recommended for smooth text.
     SDL_Texture* texture = SDL_CreateTextureFromSurface(this->sdl_renderer, surface);
 
     //

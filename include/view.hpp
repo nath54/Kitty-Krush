@@ -136,6 +136,7 @@ class Value{
         //
         virtual int get_value() = 0;
 
+
 };
 
 
@@ -153,6 +154,20 @@ class ValueInt: public Value{
 };
 
 
+
+//
+class ValuePercent{
+
+    public:
+
+        float percent;
+
+        ValuePercent(float percent): percent(percent) {}
+
+        float get_value();
+};
+
+
 //
 class ValuePercentWinWidth: public Value{
 
@@ -160,8 +175,6 @@ class ValuePercentWinWidth: public Value{
 
         //
         float percent;
-        float min_value = 0.0;
-        float max_value = 0.0;
 
         //
         WindowAttributes* win_attr;
@@ -194,6 +207,20 @@ class ValuePercentWinHeight: public Value{
         int get_value();
 
 };
+
+
+//
+ValueInt* nvi(int value);
+
+
+//
+ValuePercent* nvp(float percent);
+
+//
+ValuePercentWinWidth* nvpww(float prct, WindowAttributes* win_attr);
+
+//
+ValuePercentWinHeight* nvpwh(float prct, WindowAttributes* win_attr);
 
 
 //
@@ -292,21 +319,126 @@ class WindowEltButton : public WindowElt {
 };
 
 
-//
-enum class LayoutMode {
-    STRETCH,   // Stretch to fit (can distort)
-    FIT,       // Scale to fit inside (letterbox)
-    COVER,     // Scale to fill (crop excess)
-    CUSTOM_SCALE // Manual scaling
-};
+
 
 //
-enum class CropMode {
-    NO_CROP,       // Use full image
-    CENTER_CROP,   // Crop from center
-    TOP_LEFT_CROP, // Crop from top-left
-    CUSTOM_CROP    // Use custom coordinates
+class SpriteCrop{
+
+    public:
+
+        //
+        ValuePercent* src_x;
+        ValuePercent* src_y;
+        ValuePercent* src_w;
+        ValuePercent* src_h ;
+
+        // Constructor
+        SpriteCrop(
+            ValuePercent* src_x,
+            ValuePercent* src_y,
+            ValuePercent* src_w,
+            ValuePercent* src_h
+        )
+            : src_x(src_x), src_y(src_y), src_w(src_w), src_h(src_h) {}
+
 };
+
+
+//
+SpriteCrop* SPRITE_NO_CROP();
+
+//
+SpriteCrop* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h);
+
+
+//
+class SpriteRatio{
+
+    public:
+
+        //
+        bool keep_original;
+        ValuePercent* prct_dest_w;
+        ValuePercent* prc_dest_h;
+
+        //
+        SpriteRatio(
+            bool keep_original,
+            ValuePercent* prct_dest_w,
+            ValuePercent* prc_dest_h
+        )
+            : keep_original(keep_original), prct_dest_w(prct_dest_w), prc_dest_h(prc_dest_h) {}
+
+};
+
+
+//
+SpriteRatio* SPRITE_RATIO_ORIGINAL();
+
+//
+SpriteRatio* SPRITE_RATIO_CUSTOM(float prc_dest_w, float prc_dest_h);
+
+
+//
+#define SPRITE_ENUM_RESIZE_KEEP_ORIGINAL 0
+#define SPRITE_ENUM_RESIZE_FIT 1
+#define SPRITE_ENUM_RESIZE_COVER 2
+
+
+//
+class SpriteResize{
+
+    public:
+
+        //
+        int mode;
+        float resize_factor = 1.0;
+
+        //
+        SpriteResize(int mode, float resize_factor): mode(mode), resize_factor(resize_factor) {}
+
+};
+
+
+//
+SpriteResize* SPRITE_RESIZE_KEEP_ORIGINAL(float resize_factor = 1.0);
+
+//
+SpriteResize* SPRITE_RESIZE_FIT(float resize_factor = 1.0);
+
+//
+SpriteResize* SPRITE_RESIZE_COVER(float resize_factor = 1.0);
+
+
+//
+class SpritePosition{
+
+    public:
+
+        //
+        float percent;
+
+        //
+        int delta;
+
+        //
+        SpritePosition(float percent, int delta): percent(percent), delta(delta) {}
+
+};
+
+
+//
+SpritePosition* SPRITE_POS_ALIGN_START();
+
+//
+SpritePosition* SPRITE_POS_ALIGN_CENTER();
+
+//
+SpritePosition* SPRITE_POS_ALIGN_END();
+
+//
+SpritePosition* SPRITE_POS_CUSTOM(float percent, int delta);
+
 
 
 //
@@ -322,17 +454,11 @@ class WindowEltSprite : public WindowElt {
         bool flip_v = false;
 
         //
-        LayoutMode layout_mode = LayoutMode::FIT;
-        CropMode crop_mode = CropMode::NO_CROP;
-
-        //
-        float custom_scale = 1.0f;
-
-        //
-        int custom_crop_x = 0;
-        int custom_crop_y = 0;
-        int custom_crop_w = 0;
-        int custom_crop_h = 0;
+        SpriteCrop* sprite_crop;
+        SpriteRatio* sprite_ratio;
+        SpriteResize* sprite_resize;
+        SpritePosition* sprite_h_position;
+        SpritePosition* sprite_v_position;
 
         //
         WindowEltSprite( Style* style,
@@ -344,13 +470,11 @@ class WindowEltSprite : public WindowElt {
                          Value* angle = new ValueInt(0),
                          bool flip_h = false,
                          bool flip_v = false,
-                         LayoutMode layout_mode = LayoutMode::FIT,
-                         CropMode crop_mode = CropMode::NO_CROP,
-                         float custom_scale = 1.0f,
-                         int custom_crop_x = 0,
-                         int custom_crop_y = 0,
-                         int custom_crop_w = 0,
-                         int custom_crop_h = 0
+                         SpriteCrop* sprite_crop = SPRITE_NO_CROP(),
+                         SpriteRatio* sprite_ratio = SPRITE_RATIO_ORIGINAL(),
+                         SpriteResize* sprite_resize = SPRITE_RESIZE_KEEP_ORIGINAL(),
+                         SpritePosition* sprite_h_position = SPRITE_POS_ALIGN_START(),
+                         SpritePosition* sprite_v_position = SPRITE_POS_ALIGN_START()
                         )
         :
             WindowElt(style, x, y, w, h),
@@ -358,13 +482,11 @@ class WindowEltSprite : public WindowElt {
             angle(angle),
             flip_h(flip_h),
             flip_v(flip_v),
-            layout_mode(layout_mode),
-            crop_mode(crop_mode),
-            custom_scale(custom_scale),
-            custom_crop_x(custom_crop_x),
-            custom_crop_y(custom_crop_y),
-            custom_crop_w(custom_crop_w),
-            custom_crop_h(custom_crop_h)
+            sprite_crop(sprite_crop),
+            sprite_ratio(sprite_ratio),
+            sprite_resize(sprite_resize),
+            sprite_h_position(sprite_h_position),
+            sprite_v_position(sprite_v_position)
         {};
 
         //

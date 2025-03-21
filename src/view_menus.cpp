@@ -20,6 +20,9 @@
 void MainView::init_window_pages() {
 
     //
+    WindowAttributes* win_attr = this->get_win_attr();
+
+    //
     Style* default_style = new Style();
 
     //
@@ -33,22 +36,21 @@ void MainView::init_window_pages() {
 
         //
         new WindowEltSprite(
-            default_style,                                          // Style*       style,
-            "res/bgs/bg_main_menu.png",                             // std::string  img_path,
-            new ValueInt(0),                                        // Value*       x,
-            new ValueInt(0),                                        // Value*       y,
-            new ValuePercentWinWidth(100, this->get_win_attr()),    // Value*       w,
-            new ValuePercentWinHeight(100, this->get_win_attr()),   // Value*       h,
-            new ValueInt(0),                                        // Value*       angle           = new ValueInt(0),
-            false,                                                  // bool         flip_h          = false,
-            false,                                                  // bool         flip_v          = false,
-            LayoutMode::FIT,                                      // LayoutMode   layout_mode     = LayoutMode::FIT,
-            CropMode::NO_CROP,                                      // CropMode     crop_mode       = CropMode::NO_CROP,
-            1.0f,                                                   // float        custom_scale    = 1.0f,
-            0,                                                      // int          custom_crop_x   = 0,
-            0,                                                      // int          custom_crop_y   = 0,
-            0,                                                      // int          custom_crop_w   = 0,
-            0                                                       // int          custom_crop_h   = 0
+            default_style,                      // Style*           style,
+            "res/bgs/bg_main_menu.png",         // std::string      img_path,
+            nvi(0),                             // Value*           x,
+            new ValueInt(0),                    // Value*           y,
+            nvpww(100, win_attr),               // Value*           w,
+            nvpwh(100, win_attr),               // Value*           h,
+            nvi(0),                             // Value*           angle               = new ValueInt(0),
+            false,                              // bool             flip_h              = false,
+            false,                              // bool             flip_v              = false,
+            SPRITE_NO_CROP(),                   // SpriteCrop*      sprite_crop         = SPRITE_NO_CROP(),
+            SPRITE_RATIO_ORIGINAL(),            // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
+            SPRITE_RESIZE_KEEP_ORIGINAL(),      // SpriteResize*    sprite_resize       = SPRITE_RESIZE_KEEP_ORIGINAL(),
+            SPRITE_POS_ALIGN_CENTER(),          // SpritePosition*  sprite_h_position   = SPRITE_POS_ALIGN_START(),
+            SPRITE_POS_ALIGN_START()            // SpritePosition*  sprite_v_position   = SPRITE_POS_ALIGN_START()
+
         )
 
     );
@@ -58,12 +60,12 @@ void MainView::init_window_pages() {
 
         //
         new WindowEltButton(
-            default_style,
-            "Play !",
-            new ValuePercentWinWidth(40, this->get_win_attr()),
-            new ValuePercentWinHeight(30, this->get_win_attr()),
-            new ValuePercentWinWidth(20, this->get_win_attr()),
-            new ValueInt(60)
+            default_style,                      // Style*           style
+            "Play !",                           // std::string      text
+            nvpww(35, win_attr),                // Value*           x
+            nvpwh(50, win_attr),                // Value*           y
+            nvpww(30, win_attr),                // Value*           w
+            nvi(100)                            // Value*           h
         )
 
     );
