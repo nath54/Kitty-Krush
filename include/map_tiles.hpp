@@ -8,7 +8,7 @@ TILES TERRAIN TYPES:
 
  -1     : Tile where no player can go
   0     : neutral but player can go
- [1-n] : tile of the i'th player
+ [1-n]  : tile of the i'th player
 
 
 TILES GRAPHICAL :
