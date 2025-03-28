@@ -72,29 +72,30 @@ TILES GRAPHICAL :
     (48; -1)        : Dry Mountains             [base, ground, mountain, dry]
     (49; -1)        : Snow Mountains            [base, ground, mountain, snow]
     (50; -1)        : Desert Mountains          [base, ground, mountain, sand]
+    (51; -1)        : Volcano                   [base, ground, mountain, lava]
 
-    (51; 0)         : Basic Stone floor         [base, ground, floor]
-    (52; 0)         : Ancient Stone floor       [base, ground, floor]
-    (53; 0)         : Basic Wooden floor        [base, ground, floor]
-    (54; 0)         : Old Wooden floor          [base, ground, floor]
+    (52; 0)         : Basic Stone floor         [base, ground, floor]
+    (53; 0)         : Ancient Stone floor       [base, ground, floor]
+    (54; 0)         : Basic Wooden floor        [base, ground, floor]
+    (55; 0)         : Old Wooden floor          [base, ground, floor]
 
-    (55; 0)         : Beam of light             []
+    (56; 0)         : Beam of light             []
 
-    (56; 0)         : Cave Floor                [base, ground, floor, cave]
-    (57; 0)         : Earthy Cave Floor         [base, ground, floor, cave]
-    (58; 0)         : Cave Path                 [base, ground, floor, cave, path]
-    (59; 0)         : Mushroom Grove            [+cave]
-    (60; -1)        : Rockbound Cave            [base, ground, cave]
-    (61; -1)        : Earthy Rockbound Cave     [base, ground, cave]
+    (57; 0)         : Cave Floor                [base, ground, floor, cave]
+    (58; 0)         : Earthy Cave Floor         [base, ground, floor, cave]
+    (59; 0)         : Cave Path                 [base, ground, floor, cave, path]
+    (50; 0)         : Mushroom Grove            [+cave]
+    (61; -1)        : Rockbound Cave            [base, ground, cave]
+    (62; -1)        : Earthy Rockbound Cave     [base, ground, cave]
 
-    (62; -1)        : Regular Cave Wall         [base, cave, wall]
-    (63; -1)        : Earthy Cave Wall          [base, cave, wall]
+    (63; -1)        : Regular Cave Wall         [base, cave, wall]
+    (64; -1)        : Earthy Cave Wall          [base, cave, wall]
 
-    (64; -1)        : Regular Chasm             [base, chasm]
-    (65; -1)        : Earthy Chasm              [base, chasm]
-    (66; -1)        : Ethereal Chasm            [base, chasm]
-    (67; -1)        : Lava Chasm                [base, chasm]
-    (68; -1)        : Lava                      [base, water]
+    (65; -1)        : Regular Chasm             [base, chasm]
+    (66; -1)        : Earthy Chasm              [base, chasm]
+    (67; -1)        : Ethereal Chasm            [base, chasm]
+    (68; -1)        : Lava Chasm                [base, chasm]
+    (69; -1)        : Lava                      [base, water]
 
 */
 
