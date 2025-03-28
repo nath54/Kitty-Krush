@@ -1,6 +1,41 @@
 //
 #include "view.hpp"
 
+
+
+//
+void WindowPage::draw_page(MainView* main_view){
+
+    // Draw each element
+    for ( WindowElt* elt : this->elts ) {
+        //
+        elt->draw_elt(main_view, nullptr);
+    }
+
+}
+
+
+//
+void WindowPagesManager::draw_current_page( MainView* main_view ){
+
+    //
+    if( this->pages.find(this->current_page) == this->pages.end() ){
+        return;
+    }
+
+    //
+    this->pages[this->current_page]->draw_page(main_view);
+
+}
+
+
+//
+void WindowPagesManager::set_current_page( std::string new_current_page ){
+    //
+    this->current_page = new_current_page;
+}
+
+
 //
 int Value::get_value(){
     //
@@ -139,13 +174,13 @@ bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh){
 
 
 //
-int WindowElt::get_elt_state(WindowAttributes* win_attr){
+int WindowElt::get_elt_state(WindowAttributes* win_attr, DrawTransform* transform){
 
     //
-    int rx = this->get_x();
-    int ry = this->get_y();
-    int rw = this->get_w();
-    int rh = this->get_h();
+    int rx = this->get_x(transform);
+    int ry = this->get_y(transform);
+    int rw = this->get_w(transform);
+    int rh = this->get_h(transform);
 
     //
     if ( is_point_in_rect(win_attr->mouse_x, win_attr->mouse_y, rx, ry, rw, rh) ) {
@@ -169,31 +204,55 @@ int WindowElt::get_elt_state(WindowAttributes* win_attr){
 }
 
 //
-int WindowElt::get_x(){
+int WindowElt::get_x(DrawTransform* transform){
     //
-    return this->x->get_value();
+    int res = this->x->get_value();
+    //
+    if(transform != nullptr && transform->translation_x != nullptr){
+        res += transform->translation_x->get_value();
+    }
+    //
+    return res;
 }
 
 //
-int WindowElt::get_y(){
+int WindowElt::get_y(DrawTransform* transform){
     //
-    return this->y->get_value();
+    int res = this->y->get_value();
+    //
+    if(transform != nullptr && transform->translation_y != nullptr){
+        res += transform->translation_y->get_value();
+    }
+    //
+    return res;
 }
 
 //
-int WindowElt::get_w(){
+int WindowElt::get_w(DrawTransform* transform){
     //
-    return this->w->get_value();
+    int res = this->w->get_value();
+    //
+    if(transform != nullptr){
+        res = (int)( ((float)res) * transform->scale_w );
+    }
+    //
+    return res;
 }
 
 //
-int WindowElt::get_h(){
+int WindowElt::get_h(DrawTransform* transform){
     //
-    return this->h->get_value();
+    int res = this->h->get_value();
+    //
+    if(transform != nullptr){
+        res = (int)( ((float)res) * transform->scale_h );
+    }
+    //
+    return res;
 }
 
 //
-void WindowElt::draw_elt(MainView* main_view){
+void WindowElt::draw_elt(MainView* main_view, DrawTransform* transform){
 
     // Template abstract class
 
@@ -202,20 +261,20 @@ void WindowElt::draw_elt(MainView* main_view){
 
 
 //
-void WindowEltText::draw_elt(MainView* main_view){
+void WindowEltText::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
-    int elt_state = this->get_elt_state( main_view->get_win_attr() );
+    int elt_state = this->get_elt_state( main_view->get_win_attr(), transform );
 
     //
     Color cl = this->style->get_fg_color( elt_state );
     int font_size = this->style->get_font_size( elt_state );
 
     //
-    int x = this->get_x();
-    int y = this->get_y();
-    int w = this->get_w();
-    int h = this->get_h();
+    int x = this->get_x(transform);
+    int y = this->get_y(transform);
+    int w = this->get_w(transform);
+    int h = this->get_h(transform);
 
     //
     main_view->draw_text( this->txt, cl, font_size, x, y, w, h );
@@ -225,10 +284,10 @@ void WindowEltText::draw_elt(MainView* main_view){
 
 
 //
-void WindowEltButton::draw_elt(MainView* main_view){
+void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
-    int elt_state = this->get_elt_state( main_view->get_win_attr() );
+    int elt_state = this->get_elt_state( main_view->get_win_attr(), transform );
 
     //
     Color fg_cl = this->style->get_fg_color( elt_state );
@@ -237,10 +296,10 @@ void WindowEltButton::draw_elt(MainView* main_view){
     int font_size = this->style->get_font_size( elt_state );
 
     //
-    int x = this->get_x();
-    int y = this->get_y();
-    int w = this->get_w();
-    int h = this->get_h();
+    int x = this->get_x(transform);
+    int y = this->get_y(transform);
+    int w = this->get_w(transform);
+    int h = this->get_h(transform);
 
     //
     main_view->draw_button_1( x, y, w, h, this->txt, fg_cl, bg_cl, font_size, radius );
@@ -250,19 +309,19 @@ void WindowEltButton::draw_elt(MainView* main_view){
 
 
 //
-void WindowEltSprite::draw_elt(MainView* main_view){
+void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
-    // int elt_state = this->get_elt_state( main_view->get_win_attr() );
+    // int elt_state = this->get_elt_state( main_view->get_win_attr(), transform );
 
     SDL_Texture* texture = main_view->get_texture(img_path);
     //
 
     //
-    int dest_x = this->get_x();
-    int dest_y = this->get_y();
-    int dest_w = this->get_w();
-    int dest_h = this->get_h();
+    int dest_x = this->get_x(transform);
+    int dest_y = this->get_y(transform);
+    int dest_w = this->get_w(transform);
+    int dest_h = this->get_h(transform);
     //
     int src_x = 0;
     int src_y = 0;
@@ -294,35 +353,4 @@ void WindowEltSprite::draw_elt(MainView* main_view){
 
 }
 
-//
-void WindowPage::draw_page(MainView* main_view){
-
-    // Draw each element
-    for ( WindowElt* elt : this->elts ) {
-        //
-        elt->draw_elt(main_view);
-    }
-
-}
-
-
-//
-void WindowPagesManager::draw_current_page( MainView* main_view ){
-
-    //
-    if( this->pages.find(this->current_page) == this->pages.end() ){
-        return;
-    }
-
-    //
-    this->pages[this->current_page]->draw_page(main_view);
-
-}
-
-
-//
-void WindowPagesManager::set_current_page( std::string new_current_page ){
-    //
-    this->current_page = new_current_page;
-}
 

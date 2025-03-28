@@ -223,6 +223,36 @@ ValuePercentWinWidth* nvpww(float prct, WindowAttributes* win_attr);
 ValuePercentWinHeight* nvpwh(float prct, WindowAttributes* win_attr);
 
 
+
+//
+class DrawTransform{
+
+    public:
+
+        //
+        Value* translation_x = nullptr;
+        Value* translation_y = nullptr;
+        //
+        float scale_w = 1.0;
+        float scale_h = 1.0;
+
+        //
+        DrawTransform(
+            Value* translation_x = nullptr,
+            Value* translation_y = nullptr,
+            float scale_w = 1.0,
+            float scale_h = 1.0
+        )
+        :   translation_x(translation_x),
+            translation_y(translation_y),
+            scale_w(scale_w),
+            scale_h(scale_h)
+        {}
+
+};
+
+
+
 //
 class WindowElt{
 
@@ -247,24 +277,63 @@ class WindowElt{
             : style(style), x(x), y(y), w(w), h(h) {};
 
         //
-        virtual void draw_elt(MainView* main_view);
+        virtual void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
         //
-        int get_elt_state(WindowAttributes* win_attr);
+        int get_elt_state(WindowAttributes* win_attr, DrawTransform* transform=nullptr);
 
         //
-        int get_x();
+        int get_x(DrawTransform* transform=nullptr);
 
         //
-        int get_y();
+        int get_y(DrawTransform* transform=nullptr);
 
         //
-        int get_w();
+        int get_w(DrawTransform* transform=nullptr);
 
         //
-        int get_h();
+        int get_h(DrawTransform* transform=nullptr);
 
 };
+
+
+//
+class WindowPage{
+
+    public:
+
+        //
+        std::vector< WindowElt* > elts;
+
+        // Constructeur par défaut
+        WindowPage() {}
+
+        //
+        void draw_page(MainView* main_view);
+
+};
+
+
+//
+class WindowPagesManager{
+
+    public:
+
+        //
+        std::map< std::string, WindowPage* > pages;
+        std::string current_page;
+
+        //
+        WindowPagesManager() {}
+
+        //
+        void draw_current_page( MainView* main_view );
+
+        //
+        void set_current_page( std::string new_current_page );
+
+};
+
 
 
 //
@@ -286,7 +355,7 @@ class WindowEltText : public WindowElt {
             : WindowElt(style, x, y, w, h), txt(txt) {};
 
         //
-        void draw_elt(MainView* main_view);
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
 };
 
@@ -314,7 +383,7 @@ class WindowEltButton : public WindowElt {
         : WindowElt(style, x, y, w, h), txt(txt) {};
 
         //
-        void draw_elt(MainView* main_view);
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
 };
 
@@ -490,44 +559,78 @@ class WindowEltSprite : public WindowElt {
         {};
 
         //
-        void draw_elt(MainView* main_view);
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+
+};
+
+
+
+//
+class Vector2{
+
+    public:
+
+        //
+        int x;
+        int y;
+
+        //
+        Vector2(int x, int y): x(x), y(y) {}
+
+        //
+        bool operator<(const Vector2& v){
+            return this->x < v.x && this->y < v.y;
+        }
+
+        friend bool operator<(const Vector2& l, const Vector2& r){
+            return l.x < r.x && l.y < r.y;
+        }
 
 };
 
 
 //
-class WindowPage{
+Vector2 v2(int x, int y);
 
-    public:
 
-        //
-        std::vector< WindowElt* > elts;
 
-        // Constructeur par défaut
-        WindowPage() {}
 
-        //
-        void draw_page(MainView* main_view);
+//
+class WindowEltMapTile: public WindowElt {
+
+    //
+    WindowEltMapTile( Style* style,
+        std::string img_path,
+        Value* x,
+        Value* y,
+        Value* w,
+        Value* h)
+    : WindowElt(style, x, y, w, h) {}
+
+    //
+    void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
 };
 
 
+
+
 //
-class WindowPagesManager{
+class WindowEltMapViewer: public WindowElt {
 
-    public:
+    //
+    std::map< Vector2, WindowEltMapTile* > tiles_layers;
 
-        //
-        std::map<std::string, WindowPage* > pages;
-        std::string current_page;
+    //
+    WindowEltMapViewer( Style* style,
+        std::string img_path,
+        Value* x,
+        Value* y,
+        Value* w,
+        Value* h)
+    : WindowElt(style, x, y, w, h) {}
 
-        //
-        WindowPagesManager() {}
-
-        //
-        void draw_current_page( MainView* main_view );
-
-        //
-        void set_current_page( std::string new_current_page );
+    //
+    void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
 };
