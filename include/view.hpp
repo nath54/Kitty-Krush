@@ -165,6 +165,8 @@ class ValuePercent{
         ValuePercent(float percent): percent(percent) {}
 
         float get_value();
+
+        int get_value_scaled(int value);
 };
 
 

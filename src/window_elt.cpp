@@ -54,6 +54,12 @@ float ValuePercent::get_value(){
     return this->percent;
 }
 
+//
+int ValuePercent::get_value_scaled(int value){
+    //
+    return (int)(this->percent * ((float)value) ) ;
+}
+
 
 //
 int ValuePercentWinWidth::get_value(){
@@ -323,18 +329,53 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
     int dest_w = this->get_w(transform);
     int dest_h = this->get_h(transform);
     //
+    int base_src_w, base_src_h;
+    SDL_QueryTexture(texture, nullptr, nullptr, &base_src_w, &base_src_h);
+    //
     int src_x = 0;
     int src_y = 0;
-    int src_w;
-    int src_h;
-    SDL_QueryTexture(texture, nullptr, nullptr, &src_w, &src_h);
+    int src_w = base_src_w;
+    int src_h = base_src_h;
 
     //
     int angle = this->angle->get_value();
 
     // CROP
 
-    // ...
+    if( this->sprite_crop != nullptr ){
+
+        //
+        if( this->sprite_crop->src_x != nullptr ){
+            src_x = this->sprite_crop->src_x->get_value_scaled(base_src_w);
+        }
+
+        //
+        if( this->sprite_crop->src_y != nullptr ){
+            src_y = this->sprite_crop->src_y->get_value_scaled(base_src_h);
+        }
+
+        //
+        if( this->sprite_crop->src_w != nullptr ){
+            src_w = this->sprite_crop->src_w->get_value_scaled(base_src_w);
+        }
+
+        //
+        if( this->sprite_crop->src_h != nullptr ){
+            src_h = this->sprite_crop->src_h->get_value_scaled(base_src_h);
+        }
+
+    }
+
+    // CROP CLAMPING
+
+    //
+    if(src_x < 0){ src_x = 0; }
+    if(src_y < 0){ src_y = 0; }
+    if(src_x >= base_src_w){ src_x = base_src_w - 1; }
+    if(src_x >= base_src_w){ src_x = base_src_w - 1; }
+    //
+    if( src_w > base_src_w - src_x ){ src_w = base_src_w - src_x; }
+    if( src_h > base_src_h - src_y ){ src_h = base_src_h - src_y; }
 
     // RATIO
 
