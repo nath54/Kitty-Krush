@@ -308,6 +308,19 @@ void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
     int h = this->get_h(transform);
 
     //
+    int w2 = (int) w / 2;
+    int h2 = (int) h / 2;
+
+    //
+    if (radius > w2){
+        radius = w2;
+    }
+    //
+    if (radius > h2){
+        radius = h2;
+    }
+
+    //
     main_view->draw_button_1( x, y, w, h, this->txt, fg_cl, bg_cl, font_size, radius );
 
 }

@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
 //
 #include <stdint.h>
 //
@@ -353,6 +354,29 @@ class WindowPagesManager{
 
 
 //
+class WindowEltClickable : public WindowElt {
+
+    public:
+
+        //
+        std::function<void(MainView*)> on_click = nullptr;
+
+        //
+        WindowEltClickable(
+            Style* style,
+            Value* x,
+            Value* y,
+            Value* w = new ValueInt(-1),
+            Value* h = new ValueInt(-1),
+            std::function<void(MainView*)> on_click = nullptr
+         )
+        : WindowElt(style, x, y, w, h), on_click(on_click) {};
+
+};
+
+
+
+//
 class WindowEltText : public WindowElt {
 
     public:
@@ -377,7 +401,7 @@ class WindowEltText : public WindowElt {
 
 
 //
-class WindowEltButton : public WindowElt {
+class WindowEltButton : public WindowEltClickable {
 
     public:
 
@@ -394,9 +418,10 @@ class WindowEltButton : public WindowElt {
                          Value* x,
                          Value* y,
                          Value* w,
-                         Value* h
+                         Value* h,
+                         std::function<void(MainView*)> on_click = nullptr
                         )
-        : WindowElt(style, x, y, w, h), txt(txt) {};
+        : WindowEltClickable(style, x, y, w, h, on_click), txt(txt) {};
 
         //
         void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);

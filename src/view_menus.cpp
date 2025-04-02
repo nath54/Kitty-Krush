@@ -16,6 +16,19 @@
 
 
 
+
+//
+void on_bt_quit_click(MainView* main_view) {
+
+    //
+    // pass
+
+}
+
+
+
+
+
 //
 void MainView::init_page_main_menu() {
 
@@ -54,12 +67,29 @@ void MainView::init_page_main_menu() {
 
         //
         new WindowEltButton(
-            this->win_page_manager->default_style,  // Style*           style
-            "Play !",                               // std::string      text
-            nvpww(35, win_attr),                    // Value*           x
-            nvpwh(50, win_attr),                    // Value*           y
-            nvpww(30, win_attr),                    // Value*           w
-            nvi(100)                                // Value*           h
+            this->win_page_manager->default_style,  // Style*                           style
+            "Play !",                               // std::string                      text
+            nvpww(35, win_attr),                    // Value*                           x
+            nvpwh(50, win_attr),                    // Value*                           y
+            nvpww(30, win_attr),                    // Value*                           w
+            nvi(100),                               // Value*                           h
+            nullptr                                 // std::function<void(MainView*)    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["main_menu"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Quit...",                              // std::string                      text
+            nvpww(40, win_attr),                    // Value*                           x
+            nvpwh(75, win_attr),                    // Value*                           y
+            nvpww(20, win_attr),                    // Value*                           w
+            nvi(40),                                // Value*                           h
+            nullptr                                 // std::function<void(MainView*)    on_click
         )
 
     );
@@ -77,6 +107,21 @@ void MainView::init_page_game_settings() {
     //
     this->win_page_manager->pages["game_settings"] = new WindowPage();
 
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Back",                                 // std::string                      text
+            nvpww(35, win_attr),                    // Value*                           x
+            nvpwh(50, win_attr),                    // Value*                           y
+            nvi(200),                               // Value*                           w
+            nvi(40),                                // Value*                           h
+            nullptr                                 // std::function<void(MainView*)    on_click
+        )
+
+    );
 }
 
 
