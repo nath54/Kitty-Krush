@@ -46,8 +46,8 @@ void MainView::init_window_pages() {
             false,                              // bool             flip_h              = false,
             false,                              // bool             flip_v              = false,
             SPRITE_NO_CROP(),                   // SpriteCrop*      sprite_crop         = SPRITE_NO_CROP(),
-            SPRITE_RATIO_ORIGINAL(),            // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
-            SPRITE_RESIZE_KEEP_ORIGINAL(),      // SpriteResize*    sprite_resize       = SPRITE_RESIZE_KEEP_ORIGINAL(),
+            SPRITE_RATIO_CUSTOM(1, 1),          // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
+            SPRITE_RESIZE_COVER(),              // SpriteResize*    sprite_resize       = SPRITE_RESIZE_KEEP_ORIGINAL(),
             SPRITE_POS_ALIGN_CENTER(),          // SpritePosition*  sprite_h_position   = SPRITE_POS_ALIGN_START(),
             SPRITE_POS_ALIGN_START()            // SpritePosition*  sprite_v_position   = SPRITE_POS_ALIGN_START()
 

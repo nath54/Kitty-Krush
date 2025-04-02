@@ -219,10 +219,10 @@ ValueInt* nvi(int value);
 ValuePercent* nvp(float percent);
 
 //
-ValuePercentWinWidth* nvpww(float prct, WindowAttributes* win_attr);
+ValuePercentWinWidth* nvpww(float prc, WindowAttributes* win_attr);
 
 //
-ValuePercentWinHeight* nvpwh(float prct, WindowAttributes* win_attr);
+ValuePercentWinHeight* nvpwh(float prc, WindowAttributes* win_attr);
 
 
 
@@ -429,16 +429,16 @@ class SpriteRatio{
 
         //
         bool keep_original;
-        ValuePercent* prct_dest_w;
+        ValuePercent* prc_dest_w;
         ValuePercent* prc_dest_h;
 
         //
         SpriteRatio(
             bool keep_original,
-            ValuePercent* prct_dest_w,
+            ValuePercent* prc_dest_w,
             ValuePercent* prc_dest_h
         )
-            : keep_original(keep_original), prct_dest_w(prct_dest_w), prc_dest_h(prc_dest_h) {}
+            : keep_original(keep_original), prc_dest_w(prc_dest_w), prc_dest_h(prc_dest_h) {}
 
 };
 

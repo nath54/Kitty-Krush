@@ -87,13 +87,13 @@ ValuePercent* nvp(float percent){
 }
 
 //
-ValuePercentWinWidth* nvpww(float prct, WindowAttributes* win_attr){
-    return new ValuePercentWinWidth(prct, win_attr);
+ValuePercentWinWidth* nvpww(float prc, WindowAttributes* win_attr){
+    return new ValuePercentWinWidth(prc, win_attr);
 }
 
 //
-ValuePercentWinHeight* nvpwh(float prct, WindowAttributes* win_attr){
-    return new ValuePercentWinHeight(prct, win_attr);
+ValuePercentWinHeight* nvpwh(float prc, WindowAttributes* win_attr){
+    return new ValuePercentWinHeight(prc, win_attr);
 }
 
 
@@ -328,6 +328,13 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
     int dest_y = this->get_y(transform);
     int dest_w = this->get_w(transform);
     int dest_h = this->get_h(transform);
+
+    //
+    int f_dest_x = dest_x;
+    int f_dest_y = dest_y;
+    int f_dest_w = dest_w;
+    int f_dest_h = dest_h;
+
     //
     int base_src_w, base_src_h;
     SDL_QueryTexture(texture, nullptr, nullptr, &base_src_w, &base_src_h);
@@ -379,18 +386,131 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
     // RATIO
 
-    // ...
+    if( this->sprite_ratio != nullptr){
+
+        // Keep original source ratio
+        if( this->sprite_ratio->keep_original ){
+
+            //
+            f_dest_w = src_w;
+            f_dest_h = src_h;
+
+        }
+
+        // Multiply final destination ratio from base rect destination ratio
+        else{
+
+            //
+            if( this->sprite_ratio->prc_dest_w != nullptr ){
+
+                //
+                f_dest_w = this->sprite_ratio->prc_dest_w->get_value_scaled( dest_w );
+
+            }
+
+            //
+            if( this->sprite_ratio->prc_dest_h != nullptr ){
+
+                //
+                f_dest_h = this->sprite_ratio->prc_dest_h->get_value_scaled( dest_h );
+
+            }
+
+        }
+
+    }
+
+    // Check image dimensions
+    if( f_dest_h == 0 || f_dest_w == 0 || dest_w == 0 || dest_h == 0 ){
+        return;
+    }
 
     // RESIZE
 
-    // ...
+    //
+    if( this->sprite_resize != nullptr ){
+
+        // Get the source and destination ratios
+        float src_ratio = (float) f_dest_w / (float) f_dest_h;
+        float dst_ratio = (float) dest_w / (float) dest_h;
+
+        // Keep original dimensions
+        if( this->sprite_resize->mode == SPRITE_ENUM_RESIZE_KEEP_ORIGINAL ){
+
+            // Do nothing, keep original dimensions
+
+        }
+
+        // Fit = all the image must be within the destination rectangle, there can be empty pixels
+        else if( this->sprite_resize->mode == SPRITE_ENUM_RESIZE_FIT ){
+
+            //
+            if( src_ratio > dst_ratio ){
+
+                //
+                f_dest_w = dest_w;
+                f_dest_h = (int) ((float) f_dest_w / src_ratio);
+
+            }
+            //
+            else{
+
+                //
+                f_dest_h = dest_h;
+                f_dest_w = (int) ((float) f_dest_h * src_ratio);
+
+            }
+
+        }
+
+        // Cover = all the image must be within the destination rectangle, there can be empty pixels
+        else if( this->sprite_resize->mode == SPRITE_ENUM_RESIZE_COVER ){
+
+            //
+            if( src_ratio < dst_ratio ){
+
+                //
+                f_dest_w = dest_w;
+                f_dest_h = (int) ((float) f_dest_w / src_ratio);
+
+            }
+            //
+            else{
+
+                //
+                f_dest_h = dest_h;
+                f_dest_w = (int) ((float) f_dest_h * src_ratio);
+
+            }
+
+        }
+
+        // Global resize factor (by default to 1.0 )
+        f_dest_w = (int) ( (float) f_dest_w * this->sprite_resize->resize_factor );
+        f_dest_h = (int) ( (float) f_dest_h * this->sprite_resize->resize_factor );
+
+    }
 
     // POSITION
 
-    // ...
+    // Horizontal
+    if( this->sprite_h_position != nullptr ){
+
+        //
+        f_dest_x = dest_x + (int) ( (float) (dest_w - f_dest_w) * this->sprite_h_position->percent) + this->sprite_v_position->delta;
+
+    }
+
+    // Horizontal
+    if( this->sprite_v_position != nullptr ){
+
+        //
+        f_dest_y = dest_y + (int) ( (float) (dest_h - f_dest_h) * this->sprite_v_position->percent) + this->sprite_v_position->delta;
+
+    }
 
     //
-    main_view->draw_image( texture, src_x, src_y, src_w, src_h, dest_x, dest_y, dest_w, dest_h, angle, this->flip_h, this->flip_v );
+    main_view->draw_image( texture, src_x, src_y, src_w, src_h, f_dest_x, f_dest_y, f_dest_w, f_dest_h, angle, this->flip_h, this->flip_v );
 
 }
 
