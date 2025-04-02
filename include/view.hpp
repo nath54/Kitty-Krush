@@ -19,8 +19,8 @@
 #include "window_attributes.hpp"
 
 //
-static const int WIN_SIZE_WIDTH_INIT = 900;
-static const int WIN_SIZE_HEIGHT_INIT = 700;
+static const int WIN_SIZE_WIDTH_INIT = 834;
+static const int WIN_SIZE_HEIGHT_INIT = 836;
 //
 static char SDL_ERROR_BUFFER[1000];
 
