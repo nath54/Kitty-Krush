@@ -4,6 +4,7 @@
 #include <string>
 //
 #include "model.hpp"
+#include "events.hpp"
 #include "window_attributes.hpp"
 
 
@@ -42,7 +43,7 @@ class GameController{
         GameController(GameModel* game_model): game_model(game_model) {};
 
         // Manage events (called in mainloop)
-        void manage_events(WindowAttributes* win_attr);
+        void manage_events(WindowAttributes* win_attr, EventsManager* events_manager);
 
 };
 

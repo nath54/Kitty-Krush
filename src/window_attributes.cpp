@@ -1,8 +1,21 @@
 //
 #include <iostream>
+#include <cmath>
 //
 #include <window_attributes.hpp>
 
+//
+#define MIN_DIST_DRAG 1
+
+
+//
+double euclidian_distance(int x1, int y1, int x2, int y2) {
+
+    //
+    return sqrt(  pow( (double) (x1 - x2), 2.0 )
+                + pow( (double) (y1 - y2), 2.0 ) );
+
+}
 
 
 //
@@ -13,13 +26,38 @@ uint64_t timeSinceEpochMillisec() {
 
 
 //
-void WindowAttributes::update_mouse_button_state(int button, bool pressed){
+Event* WindowAttributes::update_mouse_button_state(int button, bool pressed){
+
+    //
+    Event* evt = nullptr;
 
     //
     if(pressed){
 
         //
         uint64_t time = timeSinceEpochMillisec();
+
+        //
+        if( this->mouse_base_drag_x == -1 || this->mouse_base_drag_y == -1){
+            this->mouse_base_drag_x = this->mouse_x;
+            this->mouse_base_drag_y = this->mouse_y;
+        }
+        //
+        else if( euclidian_distance(
+                    this->mouse_base_drag_x,
+                    this->mouse_base_drag_y,
+                    this->mouse_x,
+                    this->mouse_y
+                 ) > MIN_DIST_DRAG
+        ){
+            evt = new EventMouseDragging(
+                this->mouse_base_drag_x,
+                this->mouse_base_drag_y,
+                this->mouse_x - this->mouse_base_drag_x,
+                this->mouse_y - this->mouse_base_drag_y,
+                button
+            );
+        }
 
         //
         if( button == MOUSE_BUTTON_LEFT ){
@@ -31,7 +69,41 @@ void WindowAttributes::update_mouse_button_state(int button, bool pressed){
     }
 
     //
-    else{
+    else if( mouse_left_bt_clicked + mouse_right_bt_clicked > 0){
+
+        //
+        if( this->mouse_base_drag_x != -1 &&
+            this->mouse_base_drag_y != -1 &&
+            euclidian_distance(
+                this->mouse_base_drag_x,
+                this->mouse_base_drag_y,
+                this->mouse_x,
+                this->mouse_y
+            ) > MIN_DIST_DRAG
+        ){
+            evt = new EventMouseDragEnd(
+                this->mouse_base_drag_x,
+                this->mouse_base_drag_y,
+                this->mouse_x - this->mouse_base_drag_x,
+                this->mouse_y - this->mouse_base_drag_y,
+                button
+            );
+            //
+            this->mouse_base_drag_x = -1;
+            this->mouse_base_drag_y = -1;
+        }
+
+        //
+        else{
+
+            //
+            evt = new EventMouseClick(
+                this->mouse_x,
+                this->mouse_y,
+                button
+            );
+
+        }
 
         //
         if( button == MOUSE_BUTTON_LEFT ){
@@ -40,7 +112,11 @@ void WindowAttributes::update_mouse_button_state(int button, bool pressed){
         else if ( button == MOUSE_BUTTON_RIGHT ){
             mouse_right_bt_clicked = 0;
         }
+
     }
+
+    //
+    return evt;
 
 }
 

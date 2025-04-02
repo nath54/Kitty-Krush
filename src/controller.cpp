@@ -1,12 +1,13 @@
 //
 #include "controller.hpp"
 #include "window_attributes.hpp"
+#include "events.hpp"
 //
 #include <SDL2/SDL.h>
 
 
 //
-void GameController::manage_events(WindowAttributes* win_attr){
+void GameController::manage_events(WindowAttributes* win_attr, EventsManager* events_manager){
 
     //
     this->polled_events = 0;
@@ -17,6 +18,9 @@ void GameController::manage_events(WindowAttributes* win_attr){
     {
         //
         this->polled_events++;
+
+        //
+        Event* evt = nullptr;
 
         //
         switch (event.type)
@@ -30,13 +34,28 @@ void GameController::manage_events(WindowAttributes* win_attr){
             //
             case SDL_MOUSEBUTTONDOWN:
                 //
-                win_attr->update_mouse_button_state(event.button.button, true);
+                events_manager->new_event(
+                     win_attr->update_mouse_button_state(event.button.button, true)
+                );
+
                 break;
 
             //
             case SDL_MOUSEBUTTONUP:
                 //
-                win_attr->update_mouse_button_state(event.button.button, false);
+                events_manager->new_event(
+                    win_attr->update_mouse_button_state(event.button.button, false)
+                );
+                //
+                break;
+
+            //
+            case SDL_MOUSEMOTION:
+                //
+                events_manager->new_event(
+                    win_attr->update_mouse_button_state(-1, false)
+                );
+                //
                 break;
 
             //

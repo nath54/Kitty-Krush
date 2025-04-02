@@ -3,6 +3,8 @@
 #include <chrono>
 #include <cstdint>
 #include <iostream>
+//
+#include "events.hpp"
 
 //
 #define MOUSE_BUTTON_LEFT 1
@@ -29,11 +31,15 @@ class WindowAttributes{
         int mouse_y = 0;
 
         //
+        int mouse_base_drag_x = -1;
+        int mouse_base_drag_y = -1;
+
+        //
         uint64_t mouse_left_bt_clicked = false;
         uint64_t mouse_right_bt_clicked = false;
 
         //
-        void update_mouse_button_state(int button, bool pressed);
+        Event* update_mouse_button_state(int button, bool pressed);
 
 };
 

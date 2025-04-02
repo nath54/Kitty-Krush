@@ -6,6 +6,11 @@
 void EventsManager::new_event(Event* event) {
 
     //
+    if( event == nullptr ){
+        return;
+    }
+
+    //
     this->list_of_events.push_back( event );
 
     //
