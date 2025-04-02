@@ -21,6 +21,8 @@
 //
 static const int WIN_SIZE_WIDTH_INIT = 834;
 static const int WIN_SIZE_HEIGHT_INIT = 836;
+// static const int WIN_SIZE_WIDTH_INIT = 900;
+// static const int WIN_SIZE_HEIGHT_INIT = 700;
 //
 static char SDL_ERROR_BUFFER[1000];
 
@@ -86,6 +88,15 @@ class MainView{
 
         // Create the pages for each menu
         void init_window_pages();
+
+        // Create the main menu page
+        void init_page_main_menu();
+
+        // Create the game settings page
+        void init_page_game_settings();
+
+        // Create the in game page
+        void init_page_in_game();
 
         // Main update display method
         void update_display(int menu_state);
@@ -324,9 +335,12 @@ class WindowPagesManager{
         //
         std::map< std::string, WindowPage* > pages;
         std::string current_page;
+        Style* default_style;
 
         //
-        WindowPagesManager() {}
+        WindowPagesManager() {
+            this->default_style = new Style();
+        }
 
         //
         void draw_current_page( MainView* main_view );
