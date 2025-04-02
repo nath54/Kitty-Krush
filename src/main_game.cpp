@@ -14,6 +14,9 @@ MainGame::MainGame(){
     //
     this->game_controller = new GameController( this->game_model );
 
+    //
+    this->events_manager = new EventsManager();
+
 }
 
 
@@ -24,6 +27,7 @@ MainGame::~MainGame(){
     delete this->game_model;
     delete this->main_view;
     delete this->game_controller;
+    delete this->events_manager;
 
 }
 
@@ -43,6 +47,18 @@ void MainGame::mainloop(){
         //
         this->main_view->update_display(this->menu_state);
 
+        //
+        this->mainloop_execute_all_events();
+
     }
+
+}
+
+
+
+void MainGame::quit(){
+
+    //
+    this->game_model->is_running = false;
 
 }

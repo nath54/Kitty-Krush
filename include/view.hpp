@@ -126,7 +126,6 @@ class MainView{
         // Render img function
         void draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w, int src_h, int dest_x, int dest_y, int dest_w, int dest_h, int angle = 0, bool flip_horizontal = false, bool flip_vertical = false);
 
-
         // Render text function
         void draw_text(std::string text, Color cl, int fontSize, int x, int y, int w = -1, int h = -1);
 
@@ -356,6 +355,7 @@ class WindowPagesManager{
 //
 class WindowEltClickable : public WindowElt {
 
+    //
     public:
 
         //
