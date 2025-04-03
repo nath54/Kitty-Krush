@@ -14,6 +14,7 @@
 //
 #include <stdint.h>
 //
+#include "main_game.hpp"
 #include "color.hpp"
 #include "model.hpp"
 #include "window_elt_style.hpp"
@@ -33,13 +34,11 @@ static char SDL_ERROR_BUFFER[1000];
 class WindowPagesManager;
 
 
-
-
 // Class MainView, manages the SDL environment & SDL Window
 class MainView{
 
     // Private attributes & functions
-    private:
+    public:
 
         //
         bool sdl_initialized = false;
@@ -58,7 +57,6 @@ class MainView{
         SDL_Window* sdl_window = nullptr;
         SDL_Surface* sdl_window_surface = nullptr;
         SDL_Renderer* sdl_renderer = nullptr;
-
         // Font path
         const char* font_path = "res/fonts/blinky_star/BlinkyStar.otf";
 
@@ -71,21 +69,17 @@ class MainView{
         // Reference to game_model
         GameModel* game_model = nullptr;
 
-        // Clean quit program while displaying the sdl error
-        void sdl_error(const char* error_msg);
-
-        // Destroy all the SDL variable created here inside
-        void destroy_all_created();
-
-
-    // Public attributes & functions
-    public:
-
         // Constructor
         MainView(GameModel* game_model);
 
         // Destructor
         ~MainView();
+
+        // Clean quit program while displaying the sdl error
+        void sdl_error(const char* error_msg);
+
+        // Destroy all the SDL variable created here inside
+        void destroy_all_created();
 
         // Create the pages for each menu
         void init_window_pages();
@@ -343,6 +337,9 @@ class WindowPagesManager{
         }
 
         //
+        WindowPage* get_current_page();
+
+        //
         void draw_current_page( MainView* main_view );
 
         //
@@ -359,7 +356,7 @@ class WindowEltClickable : public WindowElt {
     public:
 
         //
-        std::function<void(MainView*)> on_click = nullptr;
+        std::function<void(MainGame*)> on_click = nullptr;
 
         //
         WindowEltClickable(
@@ -368,7 +365,7 @@ class WindowEltClickable : public WindowElt {
             Value* y,
             Value* w = new ValueInt(-1),
             Value* h = new ValueInt(-1),
-            std::function<void(MainView*)> on_click = nullptr
+            std::function<void(MainGame*)> on_click = nullptr
          )
         : WindowElt(style, x, y, w, h), on_click(on_click) {};
 
@@ -419,7 +416,7 @@ class WindowEltButton : public WindowEltClickable {
                          Value* y,
                          Value* w,
                          Value* h,
-                         std::function<void(MainView*)> on_click = nullptr
+                         std::function<void(MainGame*)> on_click = nullptr
                         )
         : WindowEltClickable(style, x, y, w, h, on_click), txt(txt) {};
 

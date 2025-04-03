@@ -16,12 +16,11 @@
 
 
 
-
 //
-void on_bt_quit_click(MainView* main_view) {
+void on_bt_quit_click(MainGame* main_game) {
 
     //
-    // pass
+    main_game->quit();
 
 }
 
@@ -73,7 +72,7 @@ void MainView::init_page_main_menu() {
             nvpwh(50, win_attr),                    // Value*                           y
             nvpww(30, win_attr),                    // Value*                           w
             nvi(100),                               // Value*                           h
-            nullptr                                 // std::function<void(MainView*)    on_click
+            nullptr                                 // std::function<void(MainGame*)>    on_click
         )
 
     );
@@ -89,7 +88,7 @@ void MainView::init_page_main_menu() {
             nvpwh(75, win_attr),                    // Value*                           y
             nvpww(20, win_attr),                    // Value*                           w
             nvi(40),                                // Value*                           h
-            nullptr                                 // std::function<void(MainView*)    on_click
+            on_bt_quit_click                        // std::function<void(MainGame*)>    on_click
         )
 
     );
@@ -118,7 +117,7 @@ void MainView::init_page_game_settings() {
             nvpwh(50, win_attr),                    // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            nullptr                                 // std::function<void(MainView*)    on_click
+            nullptr                                 // std::function<void(MainGame*)>    on_click
         )
 
     );

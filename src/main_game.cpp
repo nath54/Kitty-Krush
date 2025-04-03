@@ -1,5 +1,6 @@
 //
 #include "main_game.hpp"
+#include "view.hpp"
 
 
 // Constructor of the MainGame class, initializes all the components

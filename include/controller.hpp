@@ -24,7 +24,7 @@ class PlayerController{
 //
 class GameController{
 
-    private:
+    public:
 
         // Reference to game_model
         GameModel* game_model = nullptr;
@@ -36,8 +36,6 @@ class GameController{
         const int max_events_to_poll_at_each_frame = 100;
         //
         int polled_events = 0;
-
-    public:
 
         // Constructor
         GameController(GameModel* game_model): game_model(game_model) {};

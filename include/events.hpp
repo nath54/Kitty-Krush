@@ -77,15 +77,13 @@ class EventMouse : public Event {
 
 
 //
-
-
-
-//
 class EventMouseClick : public EventMouse {
 
     //
     public:
 
+        //
+        bool valid = true;
         //
         int bt;
 

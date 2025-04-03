@@ -2,17 +2,20 @@
 #pragma once
 //
 #include "model.hpp"
-#include "view.hpp"
+// #include "view.hpp"
 #include "controller.hpp"
 #include "events.hpp"
 //
 #define MAINLOOP_MAX_EVENTS_PER_LOOP 1000
 
+//
+class MainView;
+
 
 //
 class MainGame{
 
-    private:
+    public:
 
         // MVC Modelisation:
         // Model
@@ -31,8 +34,6 @@ class MainGame{
         //   -  1 = Game Settings
         //   -  2 = In Game
         int menu_state = 0;
-
-    public:
 
         // Constructor
         MainGame();

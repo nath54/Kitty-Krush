@@ -1,5 +1,6 @@
 //
 #include "view.hpp"
+#include "geometry.hpp"
 
 
 
@@ -11,6 +12,20 @@ void WindowPage::draw_page(MainView* main_view){
         //
         elt->draw_elt(main_view, nullptr);
     }
+
+}
+
+
+//
+WindowPage* WindowPagesManager::get_current_page(){
+
+    //
+    if( this->pages.find(this->current_page) == this->pages.end() ){
+        return nullptr;
+    }
+
+    //
+    return this->pages[this->current_page];
 
 }
 
@@ -163,19 +178,6 @@ SpritePosition* SPRITE_POS_ALIGN_END(){
 SpritePosition* SPRITE_POS_CUSTOM(float percent, int delta){
     //
     return new SpritePosition(percent, delta);
-}
-
-
-//
-bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh){
-
-    //
-    if( px < rx || px > rx + rw || py < ry || py > ry + rh){
-        return false;
-    }
-
-    //
-    return true;
 }
 
 
