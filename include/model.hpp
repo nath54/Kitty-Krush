@@ -127,6 +127,7 @@ class Building : public Element {
         ~Building() {}; // Default destructor
 
         // Functions
+        bool is_town() const; // Return true if town, false if tower
 };
 
 
@@ -166,6 +167,9 @@ class Tile {
         void convert_type(short new_type);
         bool is_adjacent(const Tile* tile);
         bool adjacent_to_province(Province* p);
+        void add_element(Element* element);
+        void remove_element();
+        void delete_element();
 };
 
 
@@ -175,7 +179,8 @@ class Map {
 
         usint size;
         usint _size() const;
-        void init_map(int nb_players, int nb_provinces, bool bandits);
+        void recursive_fill(Tile* tile, unsigned int* current_cover, int nb_cover, int cover, int ground, Province* province);
+        void init_map(short nb_players, int nb_provinces, int size_provinces, bool bandits);
 
     protected:
 
@@ -216,7 +221,7 @@ class Province : public Map {
     public:
 
     // Constructor
-    Province(short c, int t, vector<Tile*> tiles)
+    Province(short c, int t=0, vector<Tile*> tiles=vector<Tile*>())
         : color(c), treasury(t), tiles_layer(tiles) {};
     // Destructor
     ~Province() override {}; // Default destructor

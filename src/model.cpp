@@ -23,6 +23,8 @@ void Unit::upgrade()
 void Unit::convert_bandit()
 { color = -1; defense = 0; cost = 0; }
 
+bool Building::is_town() const { return (defense == 1); }
+
 
 // ===== [ Map ] =====
 
@@ -56,6 +58,18 @@ bool Tile::adjacent_to_province(Province* p)
     return false;
 }
 
+void Tile::add_element(Element* e)
+{ element = e; }
+
+void Tile::remove_element()
+{ element = nullptr; }
+
+void Tile::delete_element()
+{
+    if (element) delete element;
+    element = nullptr;
+}
+
 // --- Province ---
 
 short Province::_color() const { return color; }
@@ -64,7 +78,10 @@ vector<Tile*> Province::_tiles() const { return tiles_layer; }
 
 
 void Province::add_tile(Tile* tile)
-{ tiles_layer.push_back(tile); }
+{ 
+    tile->convert_type(color);
+    tiles_layer.push_back(tile);
+}
 
 void Province::remove_tile(Tile* tile)
 {
@@ -105,22 +122,57 @@ void Province::remove_treasury(int amount)
 
 usint Map::_size() const { return size; }
 
-void Map::init_map(int nb_players, int nb_provinces, bool bandits)
+void Map::recursive_fill(Tile* tile, unsigned int* current_cover, int nb_cover, int cover, int ground, Province* province)
 {
-    srand(static_cast<unsigned int>(time(0)));
+    if (tile == nullptr) return;
+    if (tile->_type() != ground) return;
+    if (*current_cover >= nb_cover) return;
 
+    tile->convert_type(cover);
+    if (province != nullptr) province->add_tile(tile);
+    (*current_cover)++;
+    for (int i=-1; i<1; i++) {
+        for (int j=-1; j<1; j++) {
+            if (i == -j) continue;
+            if (tile->_x()+i < 0 || tile->_x()+i >= size) continue;
+            if (tile->_y()+j < 0 || tile->_y()+j >= size) continue;
+            if (!(rand() % 3))
+                recursive_fill(get_tile(tile->_x()+i, tile->_y()+j), current_cover, nb_cover, cover, ground, province);
+        }
+    }
+}
+
+// ! Gérer le bool bandit
+void Map::init_map(short nb_players, int nb_provinces, int size_provinces, bool bandits)
+{
+
+    // Initialize the random seed
+    srand(static_cast<unsigned int>(time(0)));
     usint seed = rand() % size*size;
 
-    for (int p=1; p<=nb_players; p++) {
+    // Create the map NEUTRAL
+    unsigned int nb_neutral = 0;
+    recursive_fill(tiles_layer[seed], &nb_neutral, (size*size/3), NEUTRAL, LOCK, nullptr);
+
+    // Add players' provinces
+    for (short p=1; p<=nb_players; p++) {
 
         while (tiles_layer[seed]->_type() != NEUTRAL)
             seed = rand() % size*size;
 
-        tiles_layer[seed]->convert_type(p);
-        // Province* province = new Province(p);
-        // province->add_tile(tiles_layer[seed]);
-        // add_province(province);
-        // ! TODO : continuer
+        // Create the town
+        Building* town = new Building(seed/size, seed%size, p);
+        elements_layer.push_back(town); // ! à supprimer si element_layer disparaît
+        tiles_layer[seed]->add_element(town);
+
+        // Create the province
+        Province* province = new Province(p);
+        recursive_fill(tiles_layer[seed], &nb_neutral, size_provinces, p, NEUTRAL, province);
+        add_province(province);
+    }
+
+    if (bandits) {
+        // ! to complete
     }
 }
 
