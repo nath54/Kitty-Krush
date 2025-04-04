@@ -82,18 +82,18 @@ void MainGame::execute_event(Event* event){
     switch( event->get_event_type() ){
 
         //
-        case EVT_QUIT:
-
-            //
-            this->quit();
-            //
-            break;
-
-        //
         case EVT_MOUSE_CLICK:
 
             //
             test_all_window_elts_for_clicks( this, dynamic_cast<EventMouseClick*>( event ) );
+            //
+            break;
+
+        //
+        case EVT_QUIT:
+
+            //
+            this->quit();
             //
             break;
 

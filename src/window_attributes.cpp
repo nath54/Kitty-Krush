@@ -72,7 +72,7 @@ Event* WindowAttributes::update_mouse_button_state(int button, bool pressed){
     else if( mouse_left_bt_clicked + mouse_right_bt_clicked > 0){
 
         //
-        if( this->mouse_base_drag_x != -1 &&
+        if( false && this->mouse_base_drag_x != -1 &&
             this->mouse_base_drag_y != -1 &&
             euclidian_distance(
                 this->mouse_base_drag_x,
