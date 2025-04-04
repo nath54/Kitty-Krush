@@ -57,6 +57,43 @@ void MainGame::mainloop(){
 
 
 
+//
+void MainGame::change_page(std::string new_page){
+
+    //
+    this->main_view->win_page_manager->current_page = new_page;
+
+    //
+    if( new_page == "main_menu" ){
+
+        //
+        this->menu_state = 0;
+    }
+    //
+    else if( new_page == "game_settings" ){
+
+        //
+        this->menu_state = 1;
+    }
+    //
+    else if( new_page == "in_game" ){
+
+        //
+        this->menu_state = 2;
+    }
+    //
+    else {
+
+        //
+        cout << "Error: Unknown page : `" << new_page << "` !\n";
+
+        //
+        this->quit();
+    }
+}
+
+
+//
 void MainGame::quit(){
 
     //

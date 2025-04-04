@@ -51,6 +51,9 @@ class MainGame{
         void execute_event(Event* event);
 
         //
+        void change_page(std::string new_page);
+
+        //
         void quit();
 
 };

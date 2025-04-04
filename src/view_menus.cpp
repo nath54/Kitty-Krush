@@ -25,7 +25,28 @@ void on_bt_quit_click(MainGame* main_game) {
 }
 
 
+//
+void on_bt_change_page_to_main_menu(MainGame* main_game) {
 
+    //
+    main_game->change_page("main_menu");
+}
+
+
+//
+void on_bt_change_page_to_game_settings(MainGame* main_game) {
+
+    //
+    main_game->change_page("game_settings");
+}
+
+
+//
+void on_bt_change_page_to_in_game(MainGame* main_game) {
+
+    //
+    main_game->change_page("in_game");
+}
 
 
 //
@@ -72,7 +93,7 @@ void MainView::init_page_main_menu() {
             nvpwh(50, win_attr),                    // Value*                           y
             nvpww(30, win_attr),                    // Value*                           w
             nvi(100),                               // Value*                           h
-            nullptr                                 // std::function<void(MainGame*)>    on_click
+            on_bt_change_page_to_in_game            // std::function<void(MainGame*)>    on_click
         )
 
     );
@@ -113,11 +134,11 @@ void MainView::init_page_game_settings() {
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "Back",                                 // std::string                      text
-            nvpww(35, win_attr),                    // Value*                           x
-            nvpwh(50, win_attr),                    // Value*                           y
+            nvi(15),                                // Value*                           x
+            nvi(15),                                // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            nullptr                                 // std::function<void(MainGame*)>    on_click
+            on_bt_change_page_to_main_menu          // std::function<void(MainGame*)>    on_click
         )
 
     );
@@ -133,6 +154,22 @@ void MainView::init_page_in_game() {
 
     //
     this->win_page_manager->pages["in_game"] = new WindowPage();
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Back",                                 // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(15),                                // Value*                           y
+            nvi(100),                               // Value*                           w
+            nvi(40),                                // Value*                           h
+            on_bt_change_page_to_main_menu          // std::function<void(MainGame*)>    on_click
+        )
+
+    );
 
 }
 

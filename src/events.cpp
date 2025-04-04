@@ -18,9 +18,6 @@ void EventsManager::new_event(Event* event) {
     //
     this->nb_events_waiting += 1;
 
-    //
-    std::cout << "New event (in list : " << this->nb_events_waiting << ") = " << event->get_event_type() << "\n";
-
 }
 
 
