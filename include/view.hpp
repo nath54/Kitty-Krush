@@ -636,17 +636,27 @@ Vector2 v2(int x, int y);
 //
 class WindowEltMapTile: public WindowElt {
 
-    //
-    WindowEltMapTile( Style* style,
-        std::string img_path,
-        Value* x,
-        Value* y,
-        Value* w,
-        Value* h)
-    : WindowElt(style, x, y, w, h) {}
+    public:
 
-    //
-    void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        //
+        int tile;
+        WindowEltSprite* ground_layer = nullptr;
+        WindowEltSprite* top_layer = nullptr;
+        //
+        bool ground_to_complete = false;
+
+        //
+        WindowEltMapTile(
+            int tile,
+            Style* style,
+            Value* x,
+            Value* y,
+            Value* w,
+            Value* h
+        );
+
+        //
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
 };
 

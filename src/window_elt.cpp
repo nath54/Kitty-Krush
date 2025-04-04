@@ -403,7 +403,7 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
     if( this->sprite_ratio != nullptr){
 
-        // Keep original source ratio
+        // Keep original source ratio for final destination ratio
         if( this->sprite_ratio->keep_original ){
 
             //
@@ -478,7 +478,7 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
         }
 
-        // Cover = all the image must be within the destination rectangle, there can be empty pixels
+        // Cover = all the destination rectangle must fit inside the image, there can't be empty pixels
         else if( this->sprite_resize->mode == SPRITE_ENUM_RESIZE_COVER ){
 
             //
@@ -529,4 +529,29 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
 }
 
+
+//
+WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, Value* w, Value* h)
+: WindowElt(style, x, y, w, h), tile(tile)
+{
+    // TODO: create the correct ground and top layers WindowEltSprite from the tile id
+}
+
+
+//
+void WindowEltMapTile::draw_elt(MainView* main_view, DrawTransform* transform){
+
+    //
+    if (this->ground_layer != nullptr){
+        //
+        this->ground_layer->draw_elt(main_view, transform);
+    }
+
+    //
+    if (this->top_layer != nullptr){
+        //
+        this->top_layer->draw_elt(main_view, transform);
+    }
+
+}
 
