@@ -113,8 +113,8 @@ static const TileData allTileData[] = {
         0,                                              // terrain id
         -1,                                             // global terrain type
         "Deep Water Ocean",                             // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "deep_water.png",                               // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -125,8 +125,8 @@ static const TileData allTileData[] = {
         1,                                              // terrain id
         -1,                                             // global terrain type
         "Shallow Water",                                // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "shallow_water.png",                            // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -137,8 +137,8 @@ static const TileData allTileData[] = {
         2,                                              // terrain id
         -1,                                             // global terrain type
         "River Water",                                  // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "river_water.png",                              // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -149,8 +149,8 @@ static const TileData allTileData[] = {
         3,                                              // terrain id
         -1,                                             // global terrain type
         "Swamp Water",                                  // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "swamp_water.png",                              // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -161,8 +161,8 @@ static const TileData allTileData[] = {
         4,                                              // terrain id
         -1,                                             // global terrain type
         "Reef",                                         // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "reef.png",                                     // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -173,8 +173,8 @@ static const TileData allTileData[] = {
         5,                                              // terrain id
         -1,                                             // global terrain type
         "Oasis",                                        // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "oasis.png",                                    // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -185,8 +185,8 @@ static const TileData allTileData[] = {
         6,                                              // terrain id
         -1,                                             // global terrain type
         "Frozen Water",                                 // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "frozen_water.png",                             // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "water", "snow", nullptr, nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -197,8 +197,8 @@ static const TileData allTileData[] = {
         7,                                              // terrain id
         -1,                                             // global terrain type
         "Water Lilies",                                 // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "shallow_water.png",                            // ground_layer_img  ("" == no image)
+        "water_lilies.png",                             // top_layer_img  ("" == no image)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"water", nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
@@ -209,8 +209,8 @@ static const TileData allTileData[] = {
         8,                                              // terrain id
         -1,                                             // global terrain type
         "Flowering Lilies",                             // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "shallow_water.png",                            // ground_layer_img  ("" == no image)
+        "flowering_water_lilies.png",                   // top_layer_img  ("" == no image)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"water", nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
@@ -221,8 +221,8 @@ static const TileData allTileData[] = {
         9,                                              // terrain id
         0,                                              // global terrain type
         "Muddy",                                        // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "muddy.png",                                    // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -233,8 +233,8 @@ static const TileData allTileData[] = {
         10,                                             // terrain id
         0,                                              // global terrain type
         "Green Grass",                                  // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "ground", "grass", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -245,8 +245,8 @@ static const TileData allTileData[] = {
         11,                                             // terrain id
         0,                                              // global terrain type
         "Semi-dry Grass",                               // terrain name
-        "TODO",                                         // ground_layer_img  ("" == no image)
-        "TODO",                                         // top_layer_img  ("" == no image)
+        "semi_dry_grass.png",                           // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
         {"base", "ground", "grass", "dry", nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -254,697 +254,697 @@ static const TileData allTileData[] = {
 
     // 12. Dry Grass
     {
-        12,
-        0,
-        "Dry Grass",
-        "TODO",
-        "TODO",
-        {"base", "ground", "grass", "dry", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        12,                                             // terrain id
+        0,                                              // global terrain type
+        "Dry Grass",                                    // terrain name
+        "dry_grass.png",                                // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "grass", "dry", nullptr},    // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 13. Dirt
     {
-        13,
-        0,
-        "Dirt",
-        "TODO",
-        "TODO",
-        {"base", "ground", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        13,                                             // terrain id
+        0,                                              // global terrain type
+        "Dirt",                                         // terrain name
+        "dirt.png",                                     // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 14. Dry Dirt
     {
-        14,
-        0,
-        "Dry Dirt",
-        "TODO",
-        "TODO",
-        {"base", "ground", "dry", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        14,                                             // terrain id
+        0,                                              // global terrain type
+        "Dry Dirt",                                     // terrain name
+        "dry_dirt.png",                                 // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "dry", nullptr, nullptr},    // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 15. Cobbles
     {
-        15,
-        0,
-        "Cobbles",
-        "TODO",
-        "TODO",
-        {"base", "ground", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        15,                                             // terrain id
+        0,                                              // global terrain type
+        "Cobbles",                                      // terrain name
+        "cobbles.png",                                  // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 16. Snow
     {
-        16,
-        0,
-        "Snow",
-        "TODO",
-        "TODO",
-        {"base", "ground", "snow", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        16,                                             // terrain id
+        0,                                              // global terrain type
+        "Snow",                                         // terrain name
+        "snow.png",                                     // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "snow", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 17. Snow Grass
     {
-        17,
-        0,
-        "Snow Grass",
-        "TODO",
-        "TODO",
-        {"base", "ground", "grass", "snow", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        17,                                             // terrain id
+        0,                                              // global terrain type
+        "Snow Grass",                                   // terrain name
+        "snow_grass.png",                               // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "grass", "snow", nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 18. Desert Sand
     {
-        18,
-        0,
-        "Desert Sand",
-        "TODO",
-        "TODO",
-        {"base", "ground", "sand", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        18,                                             // terrain id
+        0,                                              // global terrain type
+        "Desert Sand",                                  // terrain name
+        "desert_sand.png",                              // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "sand", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 19. Beach Sand
     {
-        19,
-        0,
-        "Beach Sand",
-        "TODO",
-        "TODO",
-        {"base", "ground", "sand", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        19,                                             // terrain id
+        0,                                              // global terrain type
+        "Beach Sand",                                   // terrain name
+        "beach_sand.png",                               // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "sand", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 20. Farmland
     {
-        20,
-        0,
-        "Farmland",
-        "TODO",
-        "TODO",
-        {"base", "ground", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        20,                                             // terrain id
+        0,                                              // global terrain type
+        "Farmland",                                     // terrain name
+        "farmland.png",                                 // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 21. Dirt Path
     {
-        21,
-        0,
-        "Dirt Path",
-        "TODO",
-        "TODO",
-        {"base", "ground", "path", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        21,                                             // terrain id
+        0,                                              // global terrain type
+        "Dirt Path",                                    // terrain name
+        "dirt_path.png",                                // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "path", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 22. Rubble
     {
-        22,
-        -1,
-        "Rubble",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        22,                                             // terrain id
+        -1,                                             // global terrain type
+        "Rubble",                                       // terrain name
+        "dirt.png",                                     // ground_layer_img  ("" == no image)
+        "rubble.png",                                   // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 23. Mixed flowers
     {
-        23,
-        0,
-        "Mixed flowers",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"grass", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        23,                                             // terrain id
+        0,                                              // global terrain type
+        "Mixed flowers",                                // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "mixed_flowers.png",                            // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"grass", nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 24. Mixed Frozen flowers
     {
-        24,
-        0,
-        "Mixed Frozen flowers",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"grass", "snow", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        24,                                             // terrain id
+        0,                                              // global terrain type
+        "Mixed Frozen flowers",                         // terrain name
+        "snow_grass.png",                               // ground_layer_img  ("" == no image)
+        "mixed_frozen_flowers.png",                     // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"grass", "snow", nullptr, nullptr, nullptr},   // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 25. Cherry Flowers
     {
-        25,
-        0,
-        "Cherry Flowers",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        25,                                             // terrain id
+        0,                                              // global terrain type
+        "Cherry Flowers",                               // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "cherry_flowers.png",                           // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 26. Small Stones
     {
-        26,
-        0,
-        "Small Stones",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        26,                                             // terrain id
+        0,                                              // global terrain type
+        "Small Stones",                                 // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "small_stones.png",                             // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 27. Small Snowy Stones
     {
-        27,
-        0,
-        "Small Snowy Stones",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", "snow", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        27,                                             // terrain id
+        0,                                              // global terrain type
+        "Small Snowy Stones",                           // terrain name
+        "snow.png",                                     // ground_layer_img  ("" == no image)
+        "small_snowy_stones.png",                       // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", "snow", nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 28. Small Mushrooms
     {
-        28,
-        0,
-        "Small Mushrooms",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        28,                                             // terrain id
+        0,                                              // global terrain type
+        "Small Mushrooms",                              // terrain name
+        "dirt.png",                                     // ground_layer_img  ("" == no image)
+        "small_mushrooms.png",                          // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 29. Brazier
     {
-        29,
-        -1,
-        "Brazier",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        29,                                             // terrain id
+        -1,                                             // global terrain type
+        "Brazier",                                      // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "brazier.png",                                  // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 30. Lit Brazier
     {
-        30,
-        -1,
-        "Lit Brazier",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        30,                                             // terrain id
+        -1,                                             // global terrain type
+        "Lit Brazier",                                  // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "lit_brazier.png",                              // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 31. Great Tree
     {
-        31,
-        -1,
-        "Great Tree",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", "grass", nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        31,                                             // terrain id
+        -1,                                             // global terrain type
+        "Great Tree",                                   // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "great_tree.png",                               // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", "grass", nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 32. Dead Great Tree
     {
-        32,
-        -1,
-        "Dead Great Tree",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", "grass", nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        32,                                             // terrain id
+        -1,                                             // global terrain type
+        "Dead Great Tree",                              // terrain name
+        "dirt.png",                                     // ground_layer_img  ("" == no image)
+        "dead_great_tree.png",                          // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", "grass", nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 33. Snow Great Tree
     {
-        33,
-        -1,
-        "Snow Great Tree",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", "grass", "snow", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        33,                                             // terrain id
+        -1,                                             // global terrain type
+        "Snow Great Tree",                              // terrain name
+        "snow_grass.png",                               // ground_layer_img  ("" == no image)
+        "snow_great_tree.png",                          // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", "grass", "snow", nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 34. Tropical Forest
     {
-        34,
-        -1,
-        "Tropical Forest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        34,                                             // terrain id
+        -1,                                             // global terrain type
+        "Tropical Forest",                              // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "tropical_forest.png",                          // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 35. Rainforest
     {
-        35,
-        -1,
-        "Rainforest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        35,                                             // terrain id
+        -1,                                             // global terrain type
+        "Rainforest",                                   // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "rainforest.png",                               // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 36. Palm Forest
     {
-        36,
-        -1,
-        "Palm Forest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", "sand", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        36,                                             // terrain id
+        -1,                                             // global terrain type
+        "Palm Forest",                                  // terrain name
+        "beach_sand.png",                               // ground_layer_img  ("" == no image)
+        "palm_forest.png",                              // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", "sand", nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 37. Savanna
     {
-        37,
-        -1,
-        "Savanna",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", "dry", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        37,                                             // terrain id
+        -1,                                             // global terrain type
+        "Savanna",                                      // terrain name
+        "semi_dry_dirt.png",                            // ground_layer_img  ("" == no image)
+        "savanna.png",                                  // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", "dry", nullptr, nullptr, nullptr},   // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 38. Pine Forest
     {
-        38,
-        -1,
-        "Pine Forest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        38,                                             // terrain id
+        -1,                                             // global terrain type
+        "Pine Forest",                                  // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "pine_forest.png",                              // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 39. Snowy Pine Forest
     {
-        39,
-        -1,
-        "Snowy Pine Forest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", "snow", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        39,                                             // terrain id
+        -1,                                             // global terrain type
+        "Snowy Pine Forest",                            // terrain name
+        "snow_grass.png",                               // ground_layer_img  ("" == no image)
+        "snowy_pine_forest.png",                        // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", "snow", nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 40. Summer Deciduous Forest
     {
-        40,
-        -1,
-        "Summer Deciduous Forest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        40,                                             // terrain id
+        -1,                                             // global terrain type
+        "Summer Deciduous Forest",                      // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "summer_deciduous_forest.png",                  // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 41. Fall Deciduous Forest
     {
-        41,
-        -1,
-        "Fall Deciduous Forest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        41,                                             // terrain id
+        -1,                                             // global terrain type
+        "Fall Deciduous Forest",                        // terrain name
+        "semi_dry_grass.png",                           // ground_layer_img  ("" == no image)
+        "fall_deciduous_forest.png",                    // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 42. Cherry Forest
     {
-        42,
-        -1,
-        "Cherry Forest",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"ground", nullptr, nullptr, nullptr, nullptr},
-        {"snow", nullptr, nullptr, nullptr, nullptr}
+        42,                                             // terrain id
+        -1,                                             // global terrain type
+        "Cherry Forest",                                // terrain name
+        "green_grass.png",                              // ground_layer_img  ("" == no image)
+        "cherry_forest.png",                            // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
+        {"snow", nullptr, nullptr, nullptr, nullptr}    // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 43. Regular Hills
     {
-        43,
-        0,
-        "Regular Hills",
-        "TODO",
-        "TODO",
-        {"base", "ground", "hill", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        43,                                             // terrain id
+        0,                                              // global terrain type
+        "Regular Hills",                                // terrain name
+        "regular_hills.png",                            // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "hill", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 44. Dry Hills
     {
-        44,
-        0,
-        "Dry Hills",
-        "TODO",
-        "TODO",
-        {"base", "ground", "hill", "dry", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        44,                                             // terrain id
+        0,                                              // global terrain type
+        "Dry Hills",                                    // terrain name
+        "dry_hills.png",                                // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "hill", "dry", nullptr},     // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 45. Dunes
     {
-        45,
-        0,
-        "Dunes",
-        "TODO",
-        "TODO",
-        {"base", "ground", "hill", "sand", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        45,                                             // terrain id
+        0,                                              // global terrain type
+        "Dunes",                                        // terrain name
+        "dunes.png",                                    // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "hill", "sand", nullptr},    // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 46. Snowy Hills
     {
-        46,
-        0,
-        "Snowy Hills",
-        "TODO",
-        "TODO",
-        {"base", "ground", "hill", "snow", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        46,                                             // terrain id
+        0,                                              // global terrain type
+        "Snowy Hills",                                  // terrain name
+        "snowy_hills.png",                              // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "hill", "snow", nullptr},    // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 47. Regular Mountains
     {
-        47,
-        -1,
-        "Regular Mountains",
-        "TODO",
-        "TODO",
-        {"base", "ground", "mountain", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        47,                                                 // terrain id
+        -1,                                                 // global terrain type
+        "Regular Mountains",                                // terrain name
+        "regular_mountains.png",                            // ground_layer_img  ("" == no image)
+        "",                                                 // top_layer_img  ("" == no image)
+        {"base", "ground", "mountain", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},      // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}       // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 48. Dry Mountains
     {
-        48,
-        -1,
-        "Dry Mountains",
-        "TODO",
-        "TODO",
-        {"base", "ground", "mountain", "dry", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        48,                                             // terrain id
+        -1,                                             // global terrain type
+        "Dry Mountains",                                // terrain name
+        "dry_mountains.png",                            // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "mountain", "dry", nullptr}, // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 49. Snow Mountains
     {
-        49,
-        -1,
-        "Snow Mountains",
-        "TODO",
-        "TODO",
-        {"base", "ground", "mountain", "snow", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        49,                                             // terrain id
+        -1,                                             // global terrain type
+        "Snow Mountains",                               // terrain name
+        "snow_mountains.png",                           // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "mountain", "snow", nullptr},// tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 50. Desert Mountains
     {
-        50,
-        -1,
-        "Desert Mountains",
-        "TODO",
-        "TODO",
-        {"base", "ground", "mountain", "sand", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        50,                                             // terrain id
+        -1,                                             // global terrain type
+        "Desert Mountains",                             // terrain name
+        "desert_mountains.png",                         // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "mountain", "sand", nullptr},// tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 51. Volcano
     {
-        51,
-        -1,
-        "Volcano",
-        "TODO",
-        "TODO",
-        {"base", "ground", "mountain", "lava", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        51,                                             // terrain id
+        -1,                                             // global terrain type
+        "Volcano",                                      // terrain name
+        "volcano.png",                                  // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "mountain", "lava", nullptr},// tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 52. Basic Stone floor
     {
-        52,
-        0,
-        "Basic Stone floor",
-        "TODO",
-        "TODO",
-        {"base", "ground", "floor", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        52,                                             // terrain id
+        0,                                              // global terrain type
+        "Basic Stone floor",                            // terrain name
+        "basic_stone_floor.png",                        // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 53. Ancient Stone floor
     {
-        53,
-        0,
-        "Ancient Stone floor",
-        "TODO",
-        "TODO",
-        {"base", "ground", "floor", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        53,                                             // terrain id
+        0,                                              // global terrain type
+        "Ancient Stone floor",                          // terrain name
+        "ancient_stone_floor.png",                      // ground_layer_img  ("" == no image)
+        ""                                              // top_layer_img  ("" == no image)
+        {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 54. Basic Wooden floor
     {
-        54,
-        0,
-        "Basic Wooden floor",
-        "TODO",
-        "TODO",
-        {"base", "ground", "floor", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        54,                                             // terrain id
+        0,                                              // global terrain type
+        "Basic Wooden floor",                           // terrain name
+        "basic_wooden_floor.png",                       // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 55. Old Wooden floor
     {
-        55,
-        0,
-        "Old Wooden floor",
-        "TODO",
-        "TODO",
-        {"base", "ground", "floor", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        55,                                             // terrain id
+        0,                                              // global terrain type
+        "Old Wooden floor",                             // terrain name
+        "old_wooden_floor.png",                         // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 56. Beam of light
     {
-        56,
-        0,
-        "Beam of light",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        56,                                             // terrain id
+        0,                                              // global terrain type
+        "Beam of light",                                // terrain name
+        "cave_floor.png",                               // ground_layer_img  ("" == no image)
+        "beam_of_light.png",                            // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 57. Cave floor
     {
-        57,
-        0,
-        "Cave Floor",
-        "TODO",
-        "TODO",
-        {"base", "ground", "floor", "cave", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        57,                                             // terrain id
+        0,                                              // global terrain type
+        "Cave Floor",                                   // terrain name
+        "cave_floor.png",                               // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "floor", "cave", nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 58. Earthy Cave Floor
     {
-        58,
-        0,
-        "Earthy Cave Floor",
-        "TODO",
-        "TODO",
-        {"base", "ground", "floor", "cave", nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        58,                                             // terrain id
+        0,                                              // global terrain type
+        "Earthy Cave Floor",                            // terrain name
+        "earthy_cave_floor.png",                        // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "floor", "cave", nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 59. Cave Path
     {
-        59,
-        0,
-        "Cave Path",
-        "TODO",
-        "TODO",
-        {"base", "ground", "floor", "cave", "path"},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        59,                                             // terrain id
+        0,                                              // global terrain type
+        "Cave Path",                                    // terrain name
+        "cave_path.png",                                // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "floor", "cave", "path"},    // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 60. Mushroom Grove
     {
-        60,
-        0,
-        "Mushroom Grove",
-        "TODO",
-        "TODO",
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {"cave", nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        60,                                             // terrain id
+        0,                                              // global terrain type
+        "Mushroom Grove",                               // terrain name
+        "cave_floor.png",                               // ground_layer_img  ("" == no image)
+        "mushroom_grove.png",                           // top_layer_img  ("" == no image)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
+        {"cave", nullptr, nullptr, nullptr, nullptr},   // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 61. Rockbound Cave
     {
-        61,
-        -1,
-        "Rockbound Cave",
-        "TODO",
-        "TODO",
-        {"base", "ground", "cave", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        61,                                             // terrain id
+        -1,                                             // global terrain type
+        "Rockbound Cave",                               // terrain name
+        "rockbound_cave.png",                           // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "cave", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 62. Earthy Rockbound Cave
     {
-        62,
-        -1,
-        "Earthy Rockbound Cave",
-        "TODO",
-        "TODO",
-        {"base", "ground", "cave", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        62,                                             // terrain id
+        -1,                                             // global terrain type
+        "Earthy Rockbound Cave",                        // terrain name
+        "earthy_rockbound_cave.png",                    // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "ground", "cave", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 63. Regular Cave Wall
     {
-        63,
-        -1,
-        "Regular Cave Wall",
-        "TODO",
-        "TODO",
-        {"base", "cave", "wall", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        63,                                             // terrain id
+        -1,                                             // global terrain type
+        "Regular Cave Wall",                            // terrain name
+        "regular_cave_wall.png",                        // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "cave", "wall", nullptr, nullptr},     // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 64. Earthy Cave Wall
     {
-        64,
-        -1,
-        "Earthy Cave Wall",
-        "TODO",
-        "TODO",
-        {"base", "cave", "wall", nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        64,                                             // terrain id
+        -1,                                             // global terrain type
+        "Earthy Cave Wall",                             // terrain name
+        "earthy_cave_wall.png",                         // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "cave", "wall", nullptr, nullptr},     // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 65. Regular Chasm
     {
-        65,
-        -1,
-        "Regular Chasm",
-        "TODO",
-        "TODO",
-        {"base", "chasm", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        65,                                             // terrain id
+        -1,                                             // global terrain type
+        "Regular Chasm",                                // terrain name
+        "regular_chasm.png",                            // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 66. Earthy Chasm
     {
-        66,
-        -1,
-        "Earthy Chasm",
-        "TODO",
-        "TODO",
-        {"base", "chasm", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        66,                                             // terrain id
+        -1,                                             // global terrain type
+        "Earthy Chasm",                                 // terrain name
+        "earthy_chasm.png",                             // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 67. Ethereal Chasm
     {
-        67,
-        -1,
-        "Ethereal Chasm",
-        "TODO",
-        "TODO",
-        {"base", "chasm", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        67,                                             // terrain id
+        -1,                                             // global terrain type
+        "Ethereal Chasm",                               // terrain name
+        "ethereal_chasm.png",                           // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 68. Lava Chasm
     {
-        68,
-        -1,
-        "Lava Chasm",
-        "TODO",
-        "TODO",
-        {"base", "chasm", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        68,                                             // terrain id
+        -1,                                             // global terrain type
+        "Lava Chasm",                                   // terrain name
+        "lava_chasm.png",                               // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     },
 
     // 69. Lava
     {
-        69,
-        -1,
-        "Lava",
-        "TODO",
-        "TODO",
-        {"base", "water", nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr}
+        69,                                             // terrain id
+        -1,                                             // global terrain type
+        "Lava",                                         // terrain name
+        "lava.png",                                     // ground_layer_img  ("" == no image)
+        "",                                             // top_layer_img  ("" == no image)
+        {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
+        {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
     }
 };
