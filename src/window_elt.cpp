@@ -1,4 +1,8 @@
 //
+#include <queue>
+#include <map>
+#include <vector>
+//
 #include "geometry.hpp"
 #include "map_tiles.hpp"
 #include "view.hpp"
@@ -677,7 +681,111 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
     // TODO: 
 
+    // Priority heap
+    std::priority_queue<std::pair<int, Vector2>> prior_heap;
+
+    //
+    std::map<Vector2, std::vector< std::string > > adjactent_grounds;
+
+    //
+    for ( std::pair<const Vector2, WindowEltMapTile*> const it : this->tiles_layers ){
+
+        //
+
+    }
+
+}
 
 
+//
+std::vector< Vector2 > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(int x, int y){
+
+    //
+    std::vector< Vector2 > adjacent_tiles;
+
+    //
+    Vector2 coord1(x, y-2);
+    Vector2 coord2(x, y+2);
+    Vector2 coord3(x, y-1);
+    Vector2 coord4(x, y+1);
+    Vector2 coord5(x+1, y+1);
+    Vector2 coord6(x+1, y-1);
+
+    //
+    if( x % 2 == 1 ){
+
+        //
+        coord5.x = x - 1;
+        coord6.x = x - 1;
+
+    }
+
+    //
+    if ( this->tiles_layers.count( coord1 ) ) { adjacent_tiles.push_back( coord1 ); }
+    if ( this->tiles_layers.count( coord2 ) ) { adjacent_tiles.push_back( coord2 ); }
+    if ( this->tiles_layers.count( coord3 ) ) { adjacent_tiles.push_back( coord3 ); }
+    if ( this->tiles_layers.count( coord4 ) ) { adjacent_tiles.push_back( coord4 ); }
+    if ( this->tiles_layers.count( coord5 ) ) { adjacent_tiles.push_back( coord5 ); }
+    if ( this->tiles_layers.count( coord6 ) ) { adjacent_tiles.push_back( coord6 ); }
+
+    //
+    return adjacent_tiles;
+
+}
+
+
+//
+std::vector< std::string > WindowEltMapViewer::get_adjacents_tiles_base_ground_to_tile(int x, int y){
+
+    //
+    std::vector< Vector2 > adj_coords = this->get_adjacents_tiles_coords_to_tile(x, y);
+
+    //
+    std::vector< std::string > res;
+
+    //
+    for( Vector2 coord : adj_coords ){
+
+        //
+        WindowEltMapTile* mt = this->get_layer_tile_at_coord(coord);
+
+        //
+        if( mt == nullptr ){
+
+            //
+            continue;
+
+        }
+        //
+        if( mt->ground_base_layer == nullptr ){
+
+            //
+            continue;
+        }
+
+        //
+        res.push_back( mt->ground_base_layer->img_path );
+
+    }
+
+    //
+    return res;
+
+}
+
+
+//
+WindowEltMapTile* WindowEltMapViewer::get_layer_tile_at_coord(Vector2 coord){
+
+    //
+    if ( this->tiles_layers.count( coord ) <= 0 ){
+
+        //
+        return nullptr;
+
+    }
+
+    //
+    return this->tiles_layers[coord];
 
 }

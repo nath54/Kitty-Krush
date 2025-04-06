@@ -666,4 +666,13 @@ class WindowEltMapViewer: public WindowElt {
         //
         void complete_all_tile_layer_ground_base();
 
+        //
+        std::vector< Vector2 > get_adjacents_tiles_coords_to_tile(int x, int y);
+
+        //
+        std::vector< std::string > get_adjacents_tiles_base_ground_to_tile(int x, int y);
+
+        //
+        WindowEltMapTile* get_layer_tile_at_coord(Vector2 coord);
+
 };
