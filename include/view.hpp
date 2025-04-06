@@ -15,6 +15,7 @@
 #include <stdint.h>
 //
 #include "main_game.hpp"
+#include "geometry.hpp"
 #include "color.hpp"
 #include "model.hpp"
 #include "window_elt_style.hpp"
@@ -603,35 +604,6 @@ class WindowEltSprite : public WindowElt {
 
 
 
-//
-class Vector2{
-
-    public:
-
-        //
-        int x;
-        int y;
-
-        //
-        Vector2(int x, int y): x(x), y(y) {}
-
-        //
-        bool operator<(const Vector2& v){
-            return this->x < v.x && this->y < v.y;
-        }
-
-        friend bool operator<(const Vector2& l, const Vector2& r){
-            return l.x < r.x && l.y < r.y;
-        }
-
-};
-
-
-//
-Vector2 v2(int x, int y);
-
-
-
 
 //
 class WindowEltMapTile: public WindowElt {
@@ -640,10 +612,10 @@ class WindowEltMapTile: public WindowElt {
 
         //
         int tile;
-        WindowEltSprite* ground_layer = nullptr;
-        WindowEltSprite* top_layer = nullptr;
+        WindowEltSprite* ground_base_layer = nullptr;
+        WindowEltSprite* ground_top_layer = nullptr;
         //
-        bool ground_to_complete = false;
+        bool ground_base_to_complete = false;
 
         //
         WindowEltMapTile(
@@ -661,24 +633,37 @@ class WindowEltMapTile: public WindowElt {
 };
 
 
-
-
 //
 class WindowEltMapViewer: public WindowElt {
 
-    //
-    std::map< Vector2, WindowEltMapTile* > tiles_layers;
+    public:
 
-    //
-    WindowEltMapViewer( Style* style,
-        std::string img_path,
-        Value* x,
-        Value* y,
-        Value* w,
-        Value* h)
-    : WindowElt(style, x, y, w, h) {}
+        //
+        std::map< Vector2, WindowEltMapTile* > tiles_layers;
 
-    //
-    void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        //
+        int cam_x = 0;
+        int cam_y = 0;
+        int zoom = 1.0;
+
+        //
+        WindowEltMapViewer( Style* style,
+            Value* x,
+            Value* y,
+            Value* w,
+            Value* h)
+        : WindowElt(style, x, y, w, h) {}
+
+        //
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+
+        //
+        void clear();
+
+        //
+        void add_tile_to_tile_layer( int tile_x, int tile_y, int tile_num );
+
+        //
+        void complete_all_tile_layer_ground_base();
 
 };

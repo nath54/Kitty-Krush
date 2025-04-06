@@ -542,16 +542,61 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
 void WindowEltMapTile::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
-    if (this->ground_layer != nullptr){
+    if (this->ground_base_layer != nullptr){
         //
-        this->ground_layer->draw_elt(main_view, transform);
+        this->ground_base_layer->draw_elt(main_view, transform);
     }
 
     //
-    if (this->top_layer != nullptr){
+    if (this->ground_top_layer != nullptr){
         //
-        this->top_layer->draw_elt(main_view, transform);
+        this->ground_top_layer->draw_elt(main_view, transform);
     }
 
 }
 
+
+
+//
+void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform){
+
+    // TODO: call draw_elt on all the visible terrains
+
+}
+
+
+//
+void WindowEltMapViewer::clear(){
+
+    //
+    for ( std::pair<const Vector2, WindowEltMapTile*> const it : this->tiles_layers ){
+
+        //
+        if ( it.second == nullptr ){
+            continue;
+        }
+
+        //
+        delete it.second;
+
+    }
+
+    //
+    this->tiles_layers.erase( this->tiles_layers.begin(), this->tiles_layers.end() );
+
+}
+
+
+//
+void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int tile_num ){
+
+    // TODO
+
+}
+
+//
+void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
+
+    // TODO
+
+}

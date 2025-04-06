@@ -94,6 +94,41 @@ void MainGame::change_page(std::string new_page){
 
 
 //
+void MainGame::set_map_from_data(
+    std::map< Vector2, int >*,      // Tiles layers
+    std::map< Vector2, int >*,      // Colors layers
+    std::map< Vector2, int >*       // Entity layers
+){
+
+    //
+    WindowElt* map_viewer_elt = this->main_view->win_page_manager->pages["in_game"]->elts[0];
+
+    //
+    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+
+    //
+    if ( map_viewer == nullptr ){
+
+        //
+        cout << "Error : map_viewer can't convert to WindowEltMapViewer* !\n";
+        //
+        this->quit();
+    }
+
+    //
+
+}
+
+
+//
+void MainGame::load_map_from_file(std::string map_path){
+
+    //
+
+}
+
+
+//
 void MainGame::quit(){
 
     //

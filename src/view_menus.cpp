@@ -159,6 +159,20 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
+        new WindowEltMapViewer(
+            this->win_page_manager->default_style,  // Style*                           style
+            nvi(0),                                 // Value*                           x
+            nvi(0),                                 // Value*                           y
+            nvpww(100, win_attr),                   // Value*                           w
+            nvpwh(100, win_attr)                    // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "Back",                                 // std::string                      text
