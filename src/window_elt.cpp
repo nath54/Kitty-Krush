@@ -1,6 +1,7 @@
 //
-#include "view.hpp"
 #include "geometry.hpp"
+#include "map_tiles.hpp"
+#include "view.hpp"
 
 
 
@@ -535,6 +536,42 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
 : WindowElt(style, x, y, w, h), tile(tile)
 {
     // TODO: create the correct ground and top layers WindowEltSprite from the tile id
+
+    if ( tile < 0 || tile > 69 ){
+
+        //
+        return;
+
+    }
+
+    //
+    this->ground_base_layer = nullptr;
+    this->ground_top_layer = nullptr;
+
+    //
+    if ( allTileData[tile].tags[0] != nullptr ){
+
+        //
+        this->ground_base_layer = new WindowEltSprite(
+                style,
+                allTileData[tile].tile_name,
+                x, y, w, h
+        );
+
+    }
+
+    //
+    if ( allTileData[tile].top_layer_img != nullptr ){
+
+        //
+        this->ground_top_layer = new WindowEltSprite(
+                style,
+                allTileData[tile].top_layer_img,
+                x, y, w, h
+        );
+
+    }
+
 }
 
 
@@ -590,13 +627,57 @@ void WindowEltMapViewer::clear(){
 //
 void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int tile_num ){
 
-    // TODO
+    //
+    Vector2 v = (Vector2){tile_x, tile_y};
+
+    //
+    std::map< Vector2, WindowEltMapTile*>::iterator res_iter = this->tiles_layers.find( v );
+    if( res_iter != this->tiles_layers.end() ){
+
+        // res_iter->first is the key, res_iter->second is the value
+        delete res_iter->second;
+    }
+
+    //
+    int cx;
+    int cy;
+
+    //
+    if ( tile_y % 2 == 0 ) {
+
+        //
+        cx = 53 * ( 1 + 2 * tile_x );
+        cy = 72 * (int) ( tile_y / 2 );
+
+    }
+
+    //
+    else {
+
+        //
+        cx = 53 * 2 * tile_x;
+        cy = 36 + 72 * (int) ( tile_y / 2 );
+
+    }
+
+    //
+    this->tiles_layers[v] = new WindowEltMapTile(
+        tile_num,
+        this->style,
+        nvi(cx),
+        nvi(cy),
+        nvi(TILE_IMG_W),
+        nvi(TILE_IMG_W)
+    );
 
 }
 
 //
 void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
-    // TODO
+    // TODO: 
+
+
+
 
 }
