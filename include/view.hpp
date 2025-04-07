@@ -647,7 +647,7 @@ class WindowEltMapViewer: public WindowElt {
         //
         int cam_x = 0;
         int cam_y = 0;
-        int zoom = 1.0;
+        double zoom = 0.5;
 
         //
         WindowEltMapViewer( Style* style,

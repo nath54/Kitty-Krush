@@ -136,6 +136,9 @@ void MainGame::set_map_from_data(
             int tile_num = it.second;
 
             //
+            // cout << "DEBUG tile add | x = " << coord.x << " | y = " << coord.y << " | tile = " << tile_num << "\n";
+
+            //
             map_viewer->add_tile_to_tile_layer( coord.x, coord.y, tile_num );
 
         }
@@ -170,9 +173,6 @@ void MainGame::load_map_from_file(std::string map_path) {
     int y = 0;
 
     while (std::getline(file, line)) {
-
-        //
-        cout << "DEBUG | " << line << "\n";
 
         // Trim whitespace
         if (line.empty()) continue;
@@ -247,10 +247,15 @@ void MainGame::load_map_from_file(std::string map_path) {
         while (std::getline(ss, cell, ';')) {
 
             //
-            cout << "DEBUG | " << cell << "\n";
+            // cout << "DEBUG CELL | cell = `" << cell << "` | x = " << x << " - y = " << y << " \n";
 
             // Clean whitespace
             cell = trim(cell);
+
+            //
+            // cout << "DEBUG TRIMED CELL | cell = `" << cell << " | empty = " << !cell.empty() << " \n";
+
+            //
             if (!cell.empty()) {
                 int value = std::stoi(cell);
                 Vector2 coord = Vector2(x, y);
@@ -278,7 +283,7 @@ void MainGame::load_map_from_file(std::string map_path) {
     file.close();
 
     //
-    cout << "DEBUG | Lecture finished and file closed ! \n";
+    // cout << "DEBUG | Lecture finished and file closed ! \n";
 
     // Now send the layers to the viewer
     this->set_map_from_data(tiles_layer, colors_layer, entities_layer);
