@@ -2,6 +2,7 @@
 #include <queue>
 #include <map>
 #include <vector>
+#include <list>
 //
 #include "geometry.hpp"
 #include "map_tiles.hpp"
@@ -558,7 +559,7 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
         //
         this->ground_base_layer = new WindowEltSprite(
                 style,
-                allTileData[tile].tile_name,
+                allTileData[tile].ground_layer_img,
                 x, y, w, h
         );
 
@@ -596,6 +597,26 @@ void WindowEltMapTile::draw_elt(MainView* main_view, DrawTransform* transform){
 
 }
 
+
+//
+void WindowEltMapTile::set_ground_base(std::string ground_base_img){
+
+    //
+    if (this->ground_base_layer != nullptr){
+
+        //
+        delete this->ground_base_layer;
+
+    }
+
+    //
+    this->ground_base_layer = new WindowEltSprite(
+        this->style,
+        ground_base_img,
+        this->x, this->y, this->w, this->h
+    );
+
+}
 
 
 //
@@ -643,15 +664,14 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
     }
 
     //
-    int cx;
+    int cx = 53 * tile_x;;
     int cy;
 
     //
-    if ( tile_y % 2 == 0 ) {
+    if ( tile_x % 2 == 0 ) {
 
         //
-        cx = 53 * ( 1 + 2 * tile_x );
-        cy = 72 * (int) ( tile_y / 2 );
+        cy = 36 + 72 * ( tile_y - 1 );
 
     }
 
@@ -659,8 +679,7 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
     else {
 
         //
-        cx = 53 * 2 * tile_x;
-        cy = 36 + 72 * (int) ( tile_y / 2 );
+        cy = 72 * ( tile_y - 1 );
 
     }
 
@@ -679,18 +698,130 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
 //
 void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
-    // TODO: 
-
-    // Priority heap
-    std::priority_queue<std::pair<int, Vector2>> prior_heap;
+    //
+    Vector2 case_with_max(0, 0);
+    int max_non_null_adj = -1;
+    std::vector< std::string > max_adj_ground_base;
 
     //
-    std::map<Vector2, std::vector< std::string > > adjactent_grounds;
+    std::list< Vector2 > cases_with_null;
+
+    // FIRST SEARCH
 
     //
-    for ( std::pair<const Vector2, WindowEltMapTile*> const it : this->tiles_layers ){
+    for ( std::pair<Vector2, WindowEltMapTile*> it_pair : this->tiles_layers ){
 
         //
+        Vector2 pos = it_pair.first;
+        WindowEltMapTile* tile = it_pair.second;
+
+        //
+        if ( tile == nullptr ){ continue; }
+
+        //
+        if ( tile->ground_base_layer != nullptr ){ continue; }
+
+        //
+        cases_with_null.push_back( pos );
+
+        //
+        std::vector< std::string > adj_ground_base = this->get_adjacents_tiles_base_ground_to_tile( pos.x, pos.y );
+
+        //
+        if( max_non_null_adj == -1 || max_non_null_adj < adj_ground_base.size() ){
+
+            //
+            case_with_max = pos;
+            max_non_null_adj = adj_ground_base.size();
+            max_adj_ground_base = adj_ground_base;
+
+        }
+
+    }
+
+    // WHILE LOOP
+
+    //
+    while ( max_non_null_adj == -1 ) {
+
+        // Delete the coordinate that will be processed
+        cases_with_null.remove(case_with_max);
+
+        //
+        std::map< std::string, int > counts;
+
+        //
+        for( std::string ground_base : max_adj_ground_base ){
+
+            //
+            if( counts.count(ground_base) == 0 ){
+                counts[ground_base] = 1;
+            }
+            else{
+                counts[ground_base] += 1;
+            }
+        }
+
+        //
+        std::string maxi_ground_base;
+        int maxi_count = -1;
+
+        //
+        for ( std::pair<std::string, int> it_pair : counts ){
+
+            //
+            if ( maxi_count == -1 || it_pair.second > maxi_count ){
+
+                maxi_ground_base = it_pair.first;
+                maxi_count = it_pair.second;
+
+            }
+
+        }
+
+        //
+        WindowEltMapTile* w_tile = get_layer_tile_at_coord( case_with_max );
+
+        //
+        if ( w_tile == nullptr ){
+
+            //
+            if ( maxi_count == -1 ){
+
+                //
+                w_tile->set_ground_base( allTileData[w_tile->tile].ground_layer_img );
+
+            }
+            //
+            else {
+
+                //
+                w_tile->set_ground_base( maxi_ground_base );
+
+            }
+
+        }
+
+        // GET THE NEW TILE TO PROCESS
+        max_non_null_adj = -1;
+
+        //
+        for ( Vector2 coord : cases_with_null ){
+
+            //
+            std::vector< std::string > adj_ground_base = this->get_adjacents_tiles_base_ground_to_tile( coord.x, coord.y );
+
+            //
+            if( max_non_null_adj == -1 || max_non_null_adj < adj_ground_base.size() ){
+
+                //
+                case_with_max = coord;
+                max_non_null_adj = adj_ground_base.size();
+                max_adj_ground_base = adj_ground_base;
+
+            }
+
+        }
 
     }
 
@@ -704,19 +835,19 @@ std::vector< Vector2 > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(in
     std::vector< Vector2 > adjacent_tiles;
 
     //
-    Vector2 coord1(x, y-2);
-    Vector2 coord2(x, y+2);
-    Vector2 coord3(x, y-1);
-    Vector2 coord4(x, y+1);
-    Vector2 coord5(x+1, y+1);
-    Vector2 coord6(x+1, y-1);
+    Vector2 coord1(x, y-1);
+    Vector2 coord2(x, y+1);
+    Vector2 coord3(x-1, y);
+    Vector2 coord4(x+1, y);
+    Vector2 coord5(x-1, y+1);
+    Vector2 coord6(x+1, y+1);
 
     //
     if( x % 2 == 1 ){
 
         //
-        coord5.x = x - 1;
-        coord6.x = x - 1;
+        coord5.y = y - 1;
+        coord6.y = y - 1;
 
     }
 

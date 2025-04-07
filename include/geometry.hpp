@@ -23,6 +23,26 @@ class Vector2{
             return l.x < r.x && l.y < r.y;
         }
 
+        //
+        bool operator==(const Vector2& v){
+            return this->x == v.x && this->y == v.y;
+        }
+
+        //
+        friend bool operator==(const Vector2& l, const Vector2& r){
+            return l.x == r.x && l.y == r.y;
+        }
+
+        //
+        bool operator!=(const Vector2& v){
+            return this->x == v.x || this->y == v.y;
+        }
+
+        //
+        friend bool operator!=(const Vector2& l, const Vector2& r){
+            return l.x != r.x || l.y != r.y;
+        }
+
 };
 
 

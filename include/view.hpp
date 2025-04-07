@@ -630,6 +630,9 @@ class WindowEltMapTile: public WindowElt {
         //
         void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
+        //
+        void set_ground_base(std::string ground_base_img);
+
 };
 
 

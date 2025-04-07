@@ -95,9 +95,9 @@ void MainGame::change_page(std::string new_page){
 
 //
 void MainGame::set_map_from_data(
-    std::map< Vector2, int >*,      // Tiles layers
-    std::map< Vector2, int >*,      // Colors layers
-    std::map< Vector2, int >*       // Entity layers
+    std::map< Vector2, int >* tiles_layer ,      // Tiles layer
+    std::map< Vector2, int >* colors_layer,      // Colors layer
+    std::map< Vector2, int >* entities_layer     // Entities layer
 ){
 
     //
@@ -116,6 +116,24 @@ void MainGame::set_map_from_data(
     }
 
     //
+    if( tiles_layer != nullptr ){
+
+        //
+        for ( std::pair<Vector2, int> it : *tiles_layer ){
+
+            //
+            Vector2 coord = it.first;
+            int tile_num = it.second;
+
+            //
+            map_viewer->add_tile_to_tile_layer( coord.x, coord.y, tile_num );
+
+        }
+
+        //
+        map_viewer->complete_all_tile_layer_ground_base();
+
+    }
 
 }
 
