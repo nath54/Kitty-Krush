@@ -39,13 +39,18 @@ Element* Tile::_element() const { return element; }
 void Tile::convert_type(short new_type)
 { type = new_type; }
 
+
 bool Tile::is_adjacent(const Tile* tile)
 {
     short diff_x = x - tile->_x();
     short diff_y = y - tile->_y();
 
-    if (diff_x == -diff_y) return false; // wrong diagonal
+    // False cases
+    if (diff_x == 0 && diff_y == 0) return false; // same tile
     if (abs(diff_x) > 1 || abs(diff_y) > 1) return false; // too far
+    if (x%2 == 0 && diff_x == 1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+    else if (x%2 == 1 && diff_x == -1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+
     return true;
 }
 
@@ -93,17 +98,17 @@ void Province::remove_tile(Tile* tile)
     }
 }
 
-
-void Province::treasury_positive()
-{ for (Tile* t : tiles_layer) treasury++; }
-
-void Province::treasury_negative()
+void Province::treasury_turn()
 {
+    // Income
+    treasury += tiles_layer.size();
+    // Expenses
     for (Tile* t : tiles_layer) {
         if (t->_element() == nullptr) continue;
         treasury -= t->_element()->_cost();
     }
-    if (treasury >= 0) return; // unities are paid
+    // Units management
+    if (treasury >= 0) return; // units are paid
     treasury = 0;
     Unit* u = nullptr;
     for (Tile* t : tiles_layer) {
@@ -124,21 +129,16 @@ usint Map::_size() const { return size; }
 
 void Map::recursive_fill(Tile* tile, unsigned int* current_cover, int nb_cover, int cover, int ground, Province* province)
 {
-    if (tile == nullptr) return;
+    if (tile == nullptr) return; // !renvoyer une erreur, cela ne doit pas arriver
     if (tile->_type() != ground) return;
     if (*current_cover >= nb_cover) return;
 
     tile->convert_type(cover);
     if (province != nullptr) province->add_tile(tile);
     (*current_cover)++;
-    for (int i=-1; i<1; i++) {
-        for (int j=-1; j<1; j++) {
-            if (i == -j) continue;
-            if (tile->_x()+i < 0 || tile->_x()+i >= size) continue;
-            if (tile->_y()+j < 0 || tile->_y()+j >= size) continue;
-            if (!(rand() % 3))
-                recursive_fill(get_tile(tile->_x()+i, tile->_y()+j), current_cover, nb_cover, cover, ground, province);
-        }
+    for (Tile * t : adjacent_tiles(tile)) {
+        if (rand() % 2)
+            recursive_fill(t, current_cover, nb_cover, cover, ground, province);
     }
 }
 
@@ -202,6 +202,31 @@ void Map::remove_province(Province* province)
             break;
         }
     }
+}
+
+vector<Tile*> Map::adjacent_tiles(Tile* tile)
+{
+    vector<Tile*> adj_tiles;
+    short x = tile->_x();
+    short y = tile->_y();
+
+    for (short i=-1; i<=1; i++) {
+        for (short j=-1; j<=1; j++) {
+
+            // Skip the tile itself
+            if (i == 0 && j == 0) continue;
+            // Skip if out of bounds
+            if (y+i < 0 || y+i >= size) continue;
+            if (x+j < 0 || x+j >= size) continue;
+            // Skip if not adjacent (some movements not allowed)
+            if (x%2 == 0 && i == 1 && abs(j) == 1) continue;
+            else if (x%2 == 1 && i == -1 && abs(j) == 1) continue;
+
+            adj_tiles.push_back(get_tile(y+i, x+j));
+        }
+    }
+
+    return adj_tiles;
 }
 
 

@@ -194,9 +194,9 @@ class Map {
     Map() {}; // Default constructor
     Map(usint map_size) : size(map_size) {
         // Create the map
-        for (usint i = 0; i < size; i++) {
-            for (usint j = 0; j < size; j++) {
-                tiles_layer.push_back(new Tile(i, j));
+        for (usint y = 0; y < size; y++) {
+            for (usint x = 0; x < size; x++) {
+                tiles_layer.push_back(new Tile(y, x));
             }
         }
     };
@@ -208,6 +208,7 @@ class Map {
     Province* get_province(usint x, usint y);
     void add_province(Province* province);
     void remove_province(Province* province);
+    vector<Tile*> adjacent_tiles(Tile* tile);
 };
 
 class Province : public Map {
@@ -235,8 +236,7 @@ class Province : public Map {
     // Functions
     void add_tile(Tile* tile);
     void remove_tile(Tile* tile);
-    void treasury_positive();
-    void treasury_negative();
+    void treasury_turn();
     void add_treasury(int amount);
     void remove_treasury(int amount);
 };
