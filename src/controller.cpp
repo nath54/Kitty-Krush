@@ -59,6 +59,9 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
                 break;
 
             //
+            //case SDL
+
+            //
             default: break;
         }
     }

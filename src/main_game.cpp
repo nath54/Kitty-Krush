@@ -246,14 +246,8 @@ void MainGame::load_map_from_file(std::string map_path) {
 
         while (std::getline(ss, cell, ';')) {
 
-            //
-            // cout << "DEBUG CELL | cell = `" << cell << "` | x = " << x << " - y = " << y << " \n";
-
             // Clean whitespace
             cell = trim(cell);
-
-            //
-            // cout << "DEBUG TRIMED CELL | cell = `" << cell << " | empty = " << !cell.empty() << " \n";
 
             //
             if (!cell.empty()) {

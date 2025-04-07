@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cstdint>
 #include <iostream>
+#include <map>
 //
 #include "events.hpp"
 
@@ -39,7 +40,13 @@ class WindowAttributes{
         uint64_t mouse_right_bt_clicked = false;
 
         //
+        std::map< std::string, uint64_t > keys_pressed;
+
+        //
         Event* update_mouse_button_state(int button, bool pressed);
+
+        //
+        Event* update_keyboard_state(std::string key, bool pressed);
 
 };
 

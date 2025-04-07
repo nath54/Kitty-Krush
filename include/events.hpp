@@ -10,7 +10,9 @@ enum EventType{
     EVT_QUIT,
     EVT_MOUSE_CLICK,
     EVT_MOUSE_DRAGGING,
-    EVT_MOUSE_DRAG_END
+    EVT_MOUSE_DRAG_END,
+    EVT_KEY_DOWN,
+    EVT_KEY_UP
 };
 
 
@@ -157,6 +159,69 @@ class EventMouseDragging : public EventMouseDrag {
         int get_event_type(){
             //
             return EVT_MOUSE_DRAGGING;
+        }
+
+};
+
+
+//
+class EventKey : public Event {
+
+    //
+    public:
+
+        //
+        std::string key;
+
+        //
+        EventKey(std::string key) : key(key) {}
+
+        //
+        int get_event_type(){
+            //
+            return EVT_NULL;
+        }
+
+};
+
+
+//
+class EventKeyDown : public EventKey {
+
+    //
+    public:
+
+        //
+        std::string key;
+
+        //
+        EventKeyDown(std::string key) : EventKey(key) {}
+
+        //
+        int get_event_type(){
+            //
+            return EVT_KEY_DOWN;
+        }
+
+};
+
+
+//
+class EventKeyUp : public EventKey {
+
+    //
+    public:
+
+        //
+        std::string key;
+
+        //
+        EventKeyUp(std::string key) : EventKey(key) {}
+
+        //
+        int get_event_type(){
+            //
+            return EVT_KEY_UP;
         }
 
 };

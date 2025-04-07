@@ -121,4 +121,34 @@ Event* WindowAttributes::update_mouse_button_state(int button, bool pressed){
 }
 
 
+Event* WindowAttributes::update_keyboard_state(std::string key, bool pressed){
+
+    //
+    Event* evt = nullptr;
+
+    //
+    if(pressed){
+        //
+        if( this->keys_pressed.count(key) == 0 ){
+            //
+            this->keys_pressed[key] = timeSinceEpochMillisec();
+
+            //
+            evt = new EventKeyDown( key );
+        }
+    }
+    //
+    else if( this->keys_pressed.count(key) > 0 ){
+        //
+        this->keys_pressed.erase(key);
+
+        //
+        evt = new EventKeyUp( key );
+    }
+
+    //
+    return evt;
+
+}
+
 
