@@ -33,7 +33,7 @@ void MainGame::mainloop_execute_all_events(){
 void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event){
 
     //
-    if(main_game->main_view == nullptr || main_game->main_view->win_page_manager == nullptr){
+    if(event == nullptr || main_game->main_view == nullptr || main_game->main_view->win_page_manager == nullptr){
         return;
     }
 
@@ -76,6 +76,21 @@ void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event
 
 
 //
+void on_key_up(MainGame* main_game, EventKeyUp* event){
+
+    //
+    if(event == nullptr || main_game->menu_state != 2){
+        return;
+    }
+
+    //
+    cout << "key up : `" << event->key << "` \n";
+
+
+}
+
+
+//
 void MainGame::execute_event(Event* event){
 
     //
@@ -86,6 +101,14 @@ void MainGame::execute_event(Event* event){
 
             //
             test_all_window_elts_for_clicks( this, dynamic_cast<EventMouseClick*>( event ) );
+            //
+            break;
+
+        //
+        case EVT_KEY_UP:
+
+            //
+            on_key_up( this, dynamic_cast<EventKeyUp*>( event ) );
             //
             break;
 

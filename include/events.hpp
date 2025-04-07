@@ -192,9 +192,6 @@ class EventKeyDown : public EventKey {
     public:
 
         //
-        std::string key;
-
-        //
         EventKeyDown(std::string key) : EventKey(key) {}
 
         //
@@ -211,9 +208,6 @@ class EventKeyUp : public EventKey {
 
     //
     public:
-
-        //
-        std::string key;
 
         //
         EventKeyUp(std::string key) : EventKey(key) {}
