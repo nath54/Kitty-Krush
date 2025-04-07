@@ -86,7 +86,7 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "in_game" ){
 
         //
-        this->load_map_from_file("res/map_tests/map_0.kkmap");
+        this->load_map_from_file("res/map_tests/map_1.kkmap");
 
         //
         this->menu_state = 2;
@@ -140,6 +140,27 @@ void MainGame::set_map_from_data(
 
             //
             map_viewer->add_tile_to_tile_layer( coord.x, coord.y, tile_num );
+
+        }
+
+        //
+        map_viewer->complete_all_tile_layer_ground_base();
+
+    }
+
+
+    //
+    if( tiles_layer != nullptr ){
+
+        //
+        for ( std::pair<Vector2, int> it : *tiles_layer ){
+
+            //
+            Vector2 coord = it.first;
+            int tile_color = it.second;
+
+            //
+            this->game_model->game_map->add_tile_to_color_layer( coord.x, coord.y, tile_color );
 
         }
 

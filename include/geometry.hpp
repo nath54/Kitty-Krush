@@ -1,12 +1,6 @@
 //
 #pragma once
 
-
-//
-int hash_v2(int x, int y);
-
-
-
 //
 class Vector2{
 
@@ -15,14 +9,13 @@ class Vector2{
         //
         int x;
         int y;
-        int hash;
 
         //
         Vector2(int x, int y);
 
         //
         bool operator<(const Vector2& v){
-            //return this->hash < v.hash;
+            //
             if(this->x < v.x){
                 return true;
             }
@@ -35,7 +28,7 @@ class Vector2{
         }
 
         friend bool operator<(const Vector2& l, const Vector2& r){
-            //return l.hash < r.hash;
+            //
             if(l.x < r.x){
                 return true;
             }

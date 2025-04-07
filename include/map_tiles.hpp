@@ -379,7 +379,7 @@ static const TileData allTileData[] = {
         20,                                             // terrain id
         0,                                              // global terrain type
         "Farmland",                                     // terrain name
-        "farmland.png",                                 // ground_layer_img  ("" == no image)
+        "farmlands.png",                                 // ground_layer_img  ("" == no image)
         nullptr,                                        // top_layer_img  ("" == no image)
         {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
