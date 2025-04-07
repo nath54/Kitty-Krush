@@ -540,8 +540,7 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, Value* w, Value* h)
 : WindowElt(style, x, y, w, h), tile(tile)
 {
-    // TODO: create the correct ground and top layers WindowEltSprite from the tile id
-
+    //
     if ( tile < 0 || tile > 69 ){
 
         //
@@ -557,9 +556,12 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
     if ( allTileData[tile].tags[0] != nullptr ){
 
         //
+        std::string img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img);
+
+        //
         this->ground_base_layer = new WindowEltSprite(
                 style,
-                allTileData[tile].ground_layer_img,
+                img_path,
                 x, y, w, h
         );
 
@@ -569,9 +571,12 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
     if ( allTileData[tile].top_layer_img != nullptr ){
 
         //
+        std::string img_path = "res/sprites/map_w/" + std::string(allTileData[tile].top_layer_img);
+
+        //
         this->ground_top_layer = new WindowEltSprite(
                 style,
-                allTileData[tile].top_layer_img,
+                img_path,
                 x, y, w, h
         );
 
@@ -610,9 +615,12 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
     }
 
     //
+    std::string img_path = "res/sprites/map_w/" + ground_base_img;
+
+    //
     this->ground_base_layer = new WindowEltSprite(
         this->style,
-        ground_base_img,
+        img_path,
         this->x, this->y, this->w, this->h
     );
 
@@ -623,6 +631,52 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
 void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform){
 
     // TODO: call draw_elt on all the visible terrains
+
+    int start_tile_x = this->cam_x / (TILE_IMG_W * this->zoom);
+    int start_tile_y = this->cam_y / (TILE_IMG_H * this->zoom);
+
+    int nb_cols_to_display = this->get_w() / (TILE_IMG_W * this->zoom) ;
+    int nb_ross_to_display = this->get_h() / (TILE_IMG_H * this->zoom) ;
+
+    //
+    DrawTransform* tile_transform = nullptr;
+
+    //
+    if ( transform == nullptr ){
+        tile_transform = new DrawTransform( nvi(this->cam_x), nvi(this->cam_y), this->zoom, this->zoom);
+    }
+    //
+    else{
+
+        tile_transform = new DrawTransform(
+            nvi(transform->translation_x->get_value() + this->cam_x),
+            nvi(transform->translation_y->get_value() + this->cam_y),
+            transform->scale_w * this->zoom,
+            transform->scale_h * this->zoom
+        );
+    }
+
+    //
+    for( int tile_x = start_tile_x ; tile_x < this->cam_x + nb_cols_to_display; tile_x ++ ){
+
+        //
+        for( int tile_y = start_tile_y ; tile_y < this->cam_y + nb_cols_to_display; tile_y ++ ){
+
+            //
+            Vector2 coord = {tile_x, tile_y};
+
+            //
+            WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
+
+            //
+            if (tile == nullptr){ continue; }
+
+            //
+            tile->draw_elt(main_view, tile_transform);
+
+        }
+
+    }
 
 }
 
@@ -742,7 +796,7 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
     // WHILE LOOP
 
     //
-    while ( max_non_null_adj == -1 ) {
+    while ( max_non_null_adj != -1 ) {
 
         // Delete the coordinate that will be processed
         cases_with_null.remove(case_with_max);

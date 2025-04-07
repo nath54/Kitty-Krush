@@ -86,6 +86,9 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "in_game" ){
 
         //
+        this->load_map_from_file("res/map_tests/map_0.kkmap");
+
+        //
         this->menu_state = 2;
     }
     //
@@ -168,6 +171,9 @@ void MainGame::load_map_from_file(std::string map_path) {
 
     while (std::getline(file, line)) {
 
+        //
+        cout << "DEBUG | " << line << "\n";
+
         // Trim whitespace
         if (line.empty()) continue;
 
@@ -240,6 +246,9 @@ void MainGame::load_map_from_file(std::string map_path) {
 
         while (std::getline(ss, cell, ';')) {
 
+            //
+            cout << "DEBUG | " << cell << "\n";
+
             // Clean whitespace
             cell = trim(cell);
             if (!cell.empty()) {
@@ -267,6 +276,9 @@ void MainGame::load_map_from_file(std::string map_path) {
     }
 
     file.close();
+
+    //
+    cout << "DEBUG | Lecture finished and file closed ! \n";
 
     // Now send the layers to the viewer
     this->set_map_from_data(tiles_layer, colors_layer, entities_layer);
