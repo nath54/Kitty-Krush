@@ -661,11 +661,11 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     int B = 53 * this->zoom;
 
     //
-    int start_tile_x = (int) (this->cam_x / zoomed_W) - 2;
-    int start_tile_y = (int) (this->cam_y / zoomed_H) - 2;
+    int start_tile_x = (int) (this->cam_x / zoomed_W) - 3;
+    int start_tile_y = (int) (this->cam_y / zoomed_H) - 3;
 
-    int nb_cols_to_display = (int) (this->get_w() / zoomed_W) + 2;
-    int nb_rows_to_display = (int) (this->get_h() / zoomed_H) + 2;
+    int nb_cols_to_display = (int) (this->get_w() / zoomed_W) + 3;
+    int nb_rows_to_display = (int) (this->get_h() / zoomed_H) + 3;
 
     //
     DrawTransform* tile_transform = nullptr;
@@ -695,16 +695,17 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
         base_dec_y = transform->translation_y->get_value() + this->cam_y;
         base_zoom_w *= transform->scale_w;
         base_zoom_h *= transform->scale_h;
+
     }
 
     //
     tile_transform = new DrawTransform( dep_x, dep_y, base_zoom_w, base_zoom_h);
 
     //
-    for( int tile_x = start_tile_x ; tile_x < this->cam_x + nb_cols_to_display; tile_x ++ ){
+    for( int tile_x = start_tile_x ; tile_x < start_tile_x + nb_cols_to_display; tile_x ++ ){
 
         //
-        for( int tile_y = start_tile_y ; tile_y < this->cam_y + nb_rows_to_display; tile_y ++ ){
+        for( int tile_y = start_tile_y ; tile_y < start_tile_y + nb_rows_to_display; tile_y ++ ){
 
             //
             Vector2 coord = {tile_x, tile_y};

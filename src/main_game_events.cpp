@@ -84,8 +84,68 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     }
 
     //
-    cout << "key up : `" << event->key << "` \n";
+    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
 
+    //
+    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+
+    //
+    if ( map_viewer == nullptr ){
+
+        //
+        cout << "Error : map_viewer can't convert to WindowEltMapViewer* !\n";
+        //
+        main_game->quit();
+    }
+
+    //
+    int dec_cam = 50 * map_viewer->zoom;
+
+    //
+    if ( event->key == "Up" || event->key == "z" ){
+        //
+        map_viewer->cam_y -= dec_cam;
+    }
+
+    //
+    else if ( event->key == "Down" || event->key == "s" ){
+        //
+        map_viewer->cam_y += dec_cam;
+    }
+
+    //
+    else if ( event->key == "Left" || event->key == "q" ){
+        //
+        map_viewer->cam_x -= dec_cam;
+    }
+
+    //
+    else if ( event->key == "Right" || event->key == "d" ){
+        //
+        map_viewer->cam_x += dec_cam;
+    }
+
+    //
+    else if ( event->key == "Left Shift" ){
+        //
+        map_viewer->zoom *= 0.99;
+
+        //
+        if( map_viewer->zoom < 0.4 ){
+            map_viewer->zoom = 0.4;
+        }
+    }
+
+    //
+    else if ( event->key == "Right Shift" ){
+        //
+        map_viewer->zoom *= 1.01;
+
+        //
+        if( map_viewer->zoom > 5 ){
+            map_viewer->zoom = 5;
+        }
+    }
 
 }
 
