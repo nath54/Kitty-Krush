@@ -148,27 +148,6 @@ void MainGame::set_map_from_data(
 
     }
 
-
-    //
-    if( tiles_layer != nullptr ){
-
-        //
-        for ( std::pair<Vector2, int> it : *tiles_layer ){
-
-            //
-            Vector2 coord = it.first;
-            int tile_color = it.second;
-
-            //
-            this->game_model->game_map->add_tile_to_color_layer( coord.x, coord.y, tile_color );
-
-        }
-
-        //
-        map_viewer->complete_all_tile_layer_ground_base();
-
-    }
-
 }
 
 
