@@ -675,8 +675,8 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     int start_tile_x = (int) (this->cam_x / B) - margin;
     int start_tile_y = (int) (this->cam_y / zoomed_H) - margin;
 
-    int nb_cols_to_display = (int) (this->get_w() / B) + margin;
-    int nb_rows_to_display = (int) (this->get_h() / zoomed_H) + margin;
+    int nb_cols_to_display = (int) (this->get_w() / A) + margin;
+    int nb_rows_to_display = (int) (this->get_h() / B) + margin;
 
     //
     DrawTransform* tile_transform = nullptr;
