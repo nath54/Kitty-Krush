@@ -637,12 +637,28 @@ class WindowEltMapTile: public WindowElt {
 
 
 //
+class EntityData{
+
+    public:
+
+        int level;
+        bool type;
+
+        EntityData(int level = -1, bool type = false) : level(level), type(type) {}
+
+};
+
+
+//
 class WindowEltMapViewer: public WindowElt {
 
+    //
     public:
 
         //
         std::map< Vector2, WindowEltMapTile* > tiles_layers;
+        std::map< Vector2, int > colors_layers;
+        std::map< Vector2, EntityData > entity_layers;
 
         //
         int cam_x = 0;
@@ -665,6 +681,12 @@ class WindowEltMapViewer: public WindowElt {
 
         //
         void add_tile_to_tile_layer( int tile_x, int tile_y, int tile_num );
+
+        //
+        void set_color_to_color_layer ( int tile_x, int tile_y, int color_num );
+
+        //
+        void set_entity_to_entity_layer ( int tile_x, int tile_y, int entity_level, bool entity_type );
 
         //
         void complete_all_tile_layer_ground_base();

@@ -788,42 +788,74 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
     }
 
     //
-    int cx = 53 * tile_x;;
-    int cy = 0;
-
-    //
-    if ( tile_x % 2 == 0 ) {
-
-        //
-        cy = 36 + 72 * ( tile_y );
-
-    }
-
-    //
-    else {
-
-        //
-        cy = 72 * ( tile_y );
-
-    }
-
-    //
-    // cout << "DEBUG | " << cx << ", " << cy << "\n";
-
-    cx = 0;
-    cy = 0;
-
-    //
     this->tiles_layers[v] = new WindowEltMapTile(
         tile_num,
         this->style,
-        nvi(cx),
-        nvi(cy),
+        nvi(0),
+        nvi(0),
         nvi(TILE_IMG_W),
         nvi(TILE_IMG_W)
     );
 
 }
+
+
+//
+void WindowEltMapViewer::set_color_to_color_layer ( int tile_x, int tile_y, int color_num ){
+
+    //
+    Vector2 v = (Vector2){tile_x, tile_y};
+
+    //
+    bool tile_present = (this->colors_layers.count( v ) > 0);
+
+    //
+    if ( color_num == -1 ){
+        //
+        if ( tile_present ){
+            //
+            this->colors_layers.erase( v );
+        }
+    }
+    else{
+        //
+        this->colors_layers[v] = color_num;
+    }
+
+}
+
+
+//
+void WindowEltMapViewer::set_entity_to_entity_layer ( int tile_x, int tile_y, int entity_level, bool entity_type ){
+
+    //
+    Vector2 v = (Vector2){tile_x, tile_y};
+
+    //
+    bool tile_present = (this->entity_layers.count( v ) > 0);
+
+    //
+    if ( entity_level == -1 ){
+        //
+        if ( tile_present ){
+            //
+            this->entity_layers.erase( v );
+        }
+    }
+    else{
+        //
+        if ( tile_present ){
+            this->entity_layers[v].level = entity_level;
+            this->entity_layers[v].type = entity_type;
+        }
+        else{
+            this->entity_layers[v] = (EntityData){entity_level, entity_type};
+        }
+    }
+
+
+}
+
 
 //
 void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
@@ -869,16 +901,10 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
     }
 
-    //
-    cout << "DEBUG 0 | " << max_non_null_adj << "\n";
-
     // WHILE LOOP
 
     //
     while ( max_non_null_adj != -1 ) {
-
-        //
-        cout << "DEBUG 1 | " << max_non_null_adj << "\n";
 
         // Delete the coordinate that will be processed
         cases_with_null.remove(case_with_max);
@@ -916,9 +942,6 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
         }
 
         //
-        cout << "Tile that will be completed : (" << case_with_max.x << ", " << case_with_max.y << ")\n";
-
-        //
         WindowEltMapTile* w_tile = get_layer_tile_at_coord( case_with_max );
 
         //
@@ -928,17 +951,11 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
             if ( maxi_count == -1 ){
 
                 //
-                cout << "  -> Completed with texture : `" << allTileData[w_tile->tile].ground_layer_img << "`\n";
-
-                //
                 w_tile->set_ground_base( allTileData[w_tile->tile].ground_layer_img );
 
             }
             //
             else {
-
-                //
-                cout << "  -> Completed with texture : `" << maxi_ground_base << "`\n";
 
                 //
                 w_tile->set_ground_base( maxi_ground_base );
