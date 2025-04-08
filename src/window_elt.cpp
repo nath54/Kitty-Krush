@@ -631,7 +631,15 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
     }
 
     //
-    std::string img_path = "res/sprites/map_w/" + ground_base_img;
+    std::string img_path;
+
+    //
+    if (ground_base_img.rfind("res/sprites/map_w/", 0) == 0) {
+        img_path = ground_base_img;
+    }
+    else{
+        img_path = "res/sprites/map_w/" + ground_base_img;
+    }
 
     //
     this->ground_base_layer = new WindowEltSprite(
@@ -661,11 +669,14 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     int B = 53 * this->zoom;
 
     //
-    int start_tile_x = (int) (this->cam_x / B) - 10;
-    int start_tile_y = (int) (this->cam_y / zoomed_H) - 10;
+    const int margin = 5;
 
-    int nb_cols_to_display = (int) (this->get_w() / B) + 10;
-    int nb_rows_to_display = (int) (this->get_h() / zoomed_H) + 10;
+    //
+    int start_tile_x = (int) (this->cam_x / B) - margin;
+    int start_tile_y = (int) (this->cam_y / zoomed_H) - margin;
+
+    int nb_cols_to_display = (int) (this->get_w() / B) + margin;
+    int nb_rows_to_display = (int) (this->get_h() / zoomed_H) + margin;
 
     //
     DrawTransform* tile_transform = nullptr;
@@ -702,10 +713,10 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     tile_transform = new DrawTransform( dep_x, dep_y, base_zoom_w, base_zoom_h);
 
     //
-    for( int tile_x = start_tile_x ; tile_x < start_tile_x + nb_cols_to_display; tile_x ++ ){
+    for( int tile_x = start_tile_x ; tile_x <= start_tile_x + nb_cols_to_display; tile_x ++ ){
 
         //
-        for( int tile_y = start_tile_y ; tile_y < start_tile_y + nb_rows_to_display; tile_y ++ ){
+        for( int tile_y = start_tile_y ; tile_y <= start_tile_y + nb_rows_to_display; tile_y ++ ){
 
             //
             Vector2 coord = {tile_x, tile_y};
@@ -858,10 +869,16 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
     }
 
+    //
+    cout << "DEBUG 0 | " << max_non_null_adj << "\n";
+
     // WHILE LOOP
 
     //
     while ( max_non_null_adj != -1 ) {
+
+        //
+        cout << "DEBUG 1 | " << max_non_null_adj << "\n";
 
         // Delete the coordinate that will be processed
         cases_with_null.remove(case_with_max);
@@ -899,13 +916,19 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
         }
 
         //
+        cout << "Tile that will be completed : (" << case_with_max.x << ", " << case_with_max.y << ")\n";
+
+        //
         WindowEltMapTile* w_tile = get_layer_tile_at_coord( case_with_max );
 
         //
-        if ( w_tile == nullptr ){
+        if ( w_tile != nullptr ){
 
             //
             if ( maxi_count == -1 ){
+
+                //
+                cout << "  -> Completed with texture : `" << allTileData[w_tile->tile].ground_layer_img << "`\n";
 
                 //
                 w_tile->set_ground_base( allTileData[w_tile->tile].ground_layer_img );
@@ -913,6 +936,9 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
             }
             //
             else {
+
+                //
+                cout << "  -> Completed with texture : `" << maxi_ground_base << "`\n";
 
                 //
                 w_tile->set_ground_base( maxi_ground_base );
