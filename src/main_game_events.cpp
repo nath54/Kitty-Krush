@@ -99,7 +99,10 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     }
 
     //
-    int dec_cam = 50 * map_viewer->zoom;
+    int dec_cam = 100 * map_viewer->zoom;
+    const double zoom_diff = 0.05;
+    const double unzoom_factor = 1.0 - zoom_diff;
+    const double zoom_factor = 1.0 + zoom_diff;
 
     //
     if ( event->key == "Up" || event->key == "z" ){
@@ -128,7 +131,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     //
     else if ( event->key == "Left Shift" ){
         //
-        map_viewer->zoom *= 0.99;
+        map_viewer->zoom *= unzoom_factor;
 
         //
         if( map_viewer->zoom < 0.4 ){
@@ -139,7 +142,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     //
     else if ( event->key == "Right Shift" ){
         //
-        map_viewer->zoom *= 1.01;
+        map_viewer->zoom *= zoom_factor;
 
         //
         if( map_viewer->zoom > 5 ){

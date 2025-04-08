@@ -661,11 +661,11 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     int B = 53 * this->zoom;
 
     //
-    int start_tile_x = (int) (this->cam_x / zoomed_W) - 3;
-    int start_tile_y = (int) (this->cam_y / zoomed_H) - 3;
+    int start_tile_x = (int) (this->cam_x / B) - 10;
+    int start_tile_y = (int) (this->cam_y / zoomed_H) - 10;
 
-    int nb_cols_to_display = (int) (this->get_w() / zoomed_W) + 3;
-    int nb_rows_to_display = (int) (this->get_h() / zoomed_H) + 3;
+    int nb_cols_to_display = (int) (this->get_w() / B) + 10;
+    int nb_rows_to_display = (int) (this->get_h() / zoomed_H) + 10;
 
     //
     DrawTransform* tile_transform = nullptr;
@@ -721,13 +721,13 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             }
 
             //
-            dep_x->value = base_dec_x + tile_x * B;
+            dep_x->value = - base_dec_x + tile_x * B;
             //
             if (tile_x % 2 == 0){
-                dep_y->value = base_dec_y + A + tile_y * zoomed_H;
+                dep_y->value = - base_dec_y + A + tile_y * zoomed_H;
             }
             else{
-                dep_y->value = base_dec_y + tile_y * zoomed_H;
+                dep_y->value = - base_dec_y + tile_y * zoomed_H;
             }
 
             //
