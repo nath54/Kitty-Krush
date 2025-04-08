@@ -102,6 +102,7 @@ void Province::treasury_turn()
 {
     // Income
     treasury += tiles_layer.size();
+    // ! Ne pas gagner les tuiles avec des bandits dessus
     // Expenses
     for (Tile* t : tiles_layer) {
         if (t->_element() == nullptr) continue;
@@ -197,7 +198,9 @@ void Map::remove_province(Province* province)
 {
     for (auto p = provinces_layer.begin(); p != provinces_layer.end(); p++) {
         if (*p == province) {
-            // ! appeler une Province::méthode qui vide la province pour qu'elle soit prete a la suppression
+            vector<Tile*> tiles = (*p)->_tiles();
+            for (auto t = tiles.begin(); t != tiles.end(); t++)
+                tiles.erase(t);
             provinces_layer.erase(p);
             break;
         }
