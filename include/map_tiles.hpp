@@ -145,8 +145,8 @@ static const TileData allTileData[] = {
         "Deep Water Ocean",                             // terrain name
 
         // ground_layer_img
-        1,
-        {"deep_water.png", nullptr, nullptr, nullptr, nullptr},
+        5,
+        {"deep_water/deep_water_01.png", "deep_water/deep_water_03.png", "deep_water/deep_water_05.png", "deep_water/deep_water_07.png", "deep_water/deep_water_10.png"},
 
         // top_layer_img
         0,

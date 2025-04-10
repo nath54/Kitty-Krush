@@ -810,14 +810,27 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
 : WindowElt(style, x, y, w, h) {
 
     //
-    this->default_empty_tile = new WindowEltSprite(
+    // this->default_empty_tile = new WindowEltSprite(
+    //     this->style,
+    //     "res/sprites/map_w/deep_water.png",
+    //     nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+    //     nvi(0),
+    //     false,
+    //     false,
+    //     SPRITE_NO_CROP(),
+    //     SPRITE_RATIO_CUSTOM(1, 1),
+    //     SPRITE_RESIZE_COVER(),
+    //     SPRITE_POS_ALIGN_START(),
+    //     SPRITE_POS_ALIGN_START()
+    // );
+    this->default_empty_tile = new WindowEltAnimatedSprite(
         this->style,
-        "res/sprites/map_w/deep_water.png",
+        "res/sprites/map_w/deep_water/deep_water.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 72, 72, 15, 200,
         nvi(0),
         false,
         false,
-        SPRITE_NO_CROP(),
         SPRITE_RATIO_CUSTOM(1, 1),
         SPRITE_RESIZE_COVER(),
         SPRITE_POS_ALIGN_START(),

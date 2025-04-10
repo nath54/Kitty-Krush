@@ -759,7 +759,8 @@ class WindowEltMapViewer: public WindowElt {
         std::map< Coord, EntityData > entity_layers;
 
         //
-        WindowEltSprite* default_empty_tile;
+        // WindowEltSprite* default_empty_tile;
+        WindowEltAnimatedSprite* default_empty_tile;
         WindowEltSprite* color_tile;
 
         // TODO: sprites for all entities
