@@ -30,13 +30,13 @@ class Color{
 static const Color allPlayerColors[10] = {
 
     // Player 1 : Red
-    { 200, 100, 100 },
+    { 255, 0, 255 },
 
     // Player 2 : Blue
-    { 100, 200, 100 },
+    { 0, 255, 255 },
 
     // Player 3 : Gren
-    { 100, 100, 200 },
+    { 0, 255, 0 },
 
     // Player 4 : Purple
     { 200, 200, 100 },

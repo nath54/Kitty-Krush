@@ -136,6 +136,9 @@ void MainGame::set_map_from_data(
             int tile_num = it.second;
 
             //
+            if (tile_num <= 0) { continue; }
+
+            //
             // cout << "DEBUG tile add | x = " << coord.x << " | y = " << coord.y << " | tile = " << tile_num << "\n";
 
             //
@@ -145,6 +148,61 @@ void MainGame::set_map_from_data(
 
         //
         map_viewer->complete_all_tile_layer_ground_base();
+
+    }
+
+    //
+    if( colors_layer != nullptr ){
+
+        //
+        for ( std::pair<Coord, int> it : *colors_layer ){
+
+            //
+            Coord coord = it.first;
+            int color_num = it.second;
+
+            //
+            if (color_num < 0){ continue; }
+
+            //
+            // cout << "DEBUG tile add | x = " << coord.x << " | y = " << coord.y << " | tile = " << tile_num << "\n";
+
+            //
+            map_viewer->set_color_to_color_layer( coord.x, coord.y, color_num );
+
+        }
+
+    }
+
+    //
+    if( entities_layer != nullptr ){
+
+        //
+        for ( std::pair<Coord, int> it : *entities_layer ){
+
+            //
+            Coord coord = it.first;
+            int entity_num = it.second;
+
+            //
+            // cout << "DEBUG tile add | x = " << coord.x << " | y = " << coord.y << " | tile = " << tile_num << "\n";
+
+            if (entity_num < 0 ){ continue; }
+
+            if (entity_num >= 10) { // Warriors
+
+                map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num - 10, true );
+
+            }
+
+            else{ // Buildings
+
+                map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num, false );
+
+            }
+
+
+        }
 
     }
 
