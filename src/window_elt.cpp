@@ -550,8 +550,19 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
     }
 
+    // COLOR MOD
+
     //
-    main_view->draw_image( texture, src_x, src_y, src_w, src_h, f_dest_x, f_dest_y, f_dest_w, f_dest_h, angle, this->flip_h, this->flip_v );
+    bool do_color_mod = false;
+    Color color_mod = (Color){255, 255, 255};
+    //
+    if (transform != nullptr && transform->do_color_mod){
+        do_color_mod = true;
+        color_mod = transform->color_mod;
+    }
+
+    //
+    main_view->draw_image( texture, src_x, src_y, src_w, src_h, f_dest_x, f_dest_y, f_dest_w, f_dest_h, angle, this->flip_h, this->flip_v, do_color_mod, color_mod);
 
 }
 
@@ -1051,14 +1062,17 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
 
             int color = this->get_color_at_coord( coord );
 
-            if ( color > 0 ){
+            if ( color > 0 && color < MAX_COLOR){
 
-                // TODO: set the color filter
+                // set the color filter
+                tile_transform->do_color_mod = true;
+                tile_transform->color_mod = allPlayerColors[color - 1];
 
                 //
                 this->color_tile->draw_elt(main_view, tile_transform);
 
-                // TODO: remove the color filter
+                // remove the color filter
+                tile_transform->do_color_mod = false;
 
             }
 

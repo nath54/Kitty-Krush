@@ -119,7 +119,7 @@ class MainView{
         SDL_Texture* get_texture(std::string img_path);
 
         // Render img function
-        void draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w, int src_h, int dest_x, int dest_y, int dest_w, int dest_h, int angle = 0, bool flip_horizontal = false, bool flip_vertical = false);
+        void draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w, int src_h, int dest_x, int dest_y, int dest_w, int dest_h, int angle = 0, bool flip_horizontal = false, bool flip_vertical = false, bool do_color_mod = false, Color color_mod = (Color){255, 255, 255});
 
         // Render text function
         void draw_text(std::string text, Color cl, int fontSize, int x, int y, int w = -1, int h = -1);
@@ -245,6 +245,9 @@ class DrawTransform{
         float scale_h = 1.0;
         //
         uint32_t time_shift = 0;
+        //
+        bool do_color_mod = false;
+        Color color_mod = (Color){255, 255, 255};
 
         //
         DrawTransform(
@@ -252,13 +255,17 @@ class DrawTransform{
             Value* translation_y = nullptr,
             float scale_w = 1.0,
             float scale_h = 1.0,
-            uint32_t time_shift = 0
+            uint32_t time_shift = 0,
+            bool do_color_mod = 0,
+            Color color_mod = (Color){255, 255, 255}
         )
         :   translation_x(translation_x),
             translation_y(translation_y),
             scale_w(scale_w),
             scale_h(scale_h),
-            time_shift(time_shift)
+            time_shift(time_shift),
+            do_color_mod(do_color_mod),
+            color_mod(color_mod)
         {}
 
 };

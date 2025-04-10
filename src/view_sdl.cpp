@@ -231,7 +231,7 @@ void MainView::draw_button_1(int x, int y, int w, int h, std::string text, Color
 
 
 // Render img function
-void MainView::draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w, int src_h, int dest_x, int dest_y, int dest_w, int dest_h, int angle, bool flip_horizontal, bool flip_vertical){
+void MainView::draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w, int src_h, int dest_x, int dest_y, int dest_w, int dest_h, int angle, bool flip_horizontal, bool flip_vertical, bool do_color_mod, Color color_mod){
 
     //
     SDL_Rect src_rect = { src_x, src_y, src_w, src_h };
@@ -253,6 +253,18 @@ void MainView::draw_image(SDL_Texture* texture, int src_x, int src_y, int src_w,
     }
 
     //
+    if (do_color_mod){
+        //
+        SDL_SetTextureColorMod(texture, color_mod.r, color_mod.g, color_mod.b);
+    }
+
+    //
     SDL_RenderCopyEx(this->sdl_renderer, texture, &src_rect, &dest_rect, angle, &center, flip);
+
+    //
+    if (do_color_mod){
+        //
+        SDL_SetTextureColorMod(texture, 255, 255, 255);
+    }
 
 }
