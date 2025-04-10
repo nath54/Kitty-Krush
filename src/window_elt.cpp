@@ -658,6 +658,31 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
 
 }
 
+//
+WindowEltMapViewer::WindowEltMapViewer( Style* style,
+    Value* x,
+    Value* y,
+    Value* w,
+    Value* h)
+: WindowElt(style, x, y, w, h) {
+
+    //
+    this->default_empty_tile = new WindowEltSprite(
+        this->style,
+        "res/sprites/map_w/deep_water.png",
+        this->x, this->y, nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        new ValueInt(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+}
+
 
 //
 void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform){
@@ -725,24 +750,31 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
 
             //
-            if (tile == nullptr){
-
-                //
-                continue;
-            }
-
-            //
             dep_x->value = - base_dec_x + tile_x * B;
             //
             if (tile_x % 2 == 0){
+                //
                 dep_y->value = - base_dec_y + A + tile_y * zoomed_H;
             }
             else{
+                //
                 dep_y->value = - base_dec_y + tile_y * zoomed_H;
             }
 
             //
-            tile->draw_elt(main_view, tile_transform);
+            if (tile == nullptr && this->default_empty_tile != nullptr){
+
+                //
+                this->default_empty_tile->draw_elt(main_view, tile_transform);
+
+            }
+            //
+            else{
+
+                //
+                tile->draw_elt(main_view, tile_transform);
+
+            }
 
         }
 

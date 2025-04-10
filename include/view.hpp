@@ -661,6 +661,12 @@ class WindowEltMapViewer: public WindowElt {
         std::map< Vector2, EntityData > entity_layers;
 
         //
+        WindowEltSprite* default_empty_tile;
+        WindowEltSprite* color_tile;
+
+        // TODO: sprites for all entities
+
+        //
         int cam_x = 0;
         int cam_y = 0;
         double zoom = 0.5;
@@ -670,8 +676,7 @@ class WindowEltMapViewer: public WindowElt {
             Value* x,
             Value* y,
             Value* w,
-            Value* h)
-        : WindowElt(style, x, y, w, h) {}
+            Value* h);
 
         //
         void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
