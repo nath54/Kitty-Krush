@@ -59,9 +59,9 @@ class MainGame{
 
         //
         void set_map_from_data(
-            std::map< Vector2, int >*,      // Tiles layers
-            std::map< Vector2, int >*,      // Colors layers
-            std::map< Vector2, int >*       // Entity layers
+            std::map< Coord, int >*,      // Tiles layers
+            std::map< Coord, int >*,      // Colors layers
+            std::map< Coord, int >*       // Entity layers
         );
 
         //

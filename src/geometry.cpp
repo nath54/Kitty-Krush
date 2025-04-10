@@ -18,7 +18,7 @@ bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh){
 
 
 //
-Vector2::Vector2(int x, int y)
+Coord::Coord(int x, int y)
 : x(x), y(y)
 {
 }

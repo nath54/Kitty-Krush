@@ -656,9 +656,9 @@ class WindowEltMapViewer: public WindowElt {
     public:
 
         //
-        std::map< Vector2, WindowEltMapTile* > tiles_layers;
-        std::map< Vector2, int > colors_layers;
-        std::map< Vector2, EntityData > entity_layers;
+        std::map< Coord, WindowEltMapTile* > tiles_layers;
+        std::map< Coord, int > colors_layers;
+        std::map< Coord, EntityData > entity_layers;
 
         //
         WindowEltSprite* default_empty_tile;
@@ -697,12 +697,12 @@ class WindowEltMapViewer: public WindowElt {
         void complete_all_tile_layer_ground_base();
 
         //
-        std::vector< Vector2 > get_adjacents_tiles_coords_to_tile(int x, int y);
+        std::vector< Coord > get_adjacents_tiles_coords_to_tile(int x, int y);
 
         //
         std::vector< std::string > get_adjacents_tiles_base_ground_to_tile(int x, int y);
 
         //
-        WindowEltMapTile* get_layer_tile_at_coord(Vector2 coord);
+        WindowEltMapTile* get_layer_tile_at_coord(Coord coord);
 
 };

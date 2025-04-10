@@ -86,7 +86,7 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "in_game" ){
 
         //
-        this->load_map_from_file("res/map_tests/map_1.kkmap");
+        this->load_map_from_file("res/map_tests/map_2.kkmap");
 
         //
         this->menu_state = 2;
@@ -105,9 +105,9 @@ void MainGame::change_page(std::string new_page){
 
 //
 void MainGame::set_map_from_data(
-    std::map< Vector2, int >* tiles_layer ,      // Tiles layer
-    std::map< Vector2, int >* colors_layer,      // Colors layer
-    std::map< Vector2, int >* entities_layer     // Entities layer
+    std::map< Coord, int >* tiles_layer ,      // Tiles layer
+    std::map< Coord, int >* colors_layer,      // Colors layer
+    std::map< Coord, int >* entities_layer     // Entities layer
 ){
 
     //
@@ -129,10 +129,10 @@ void MainGame::set_map_from_data(
     if( tiles_layer != nullptr ){
 
         //
-        for ( std::pair<Vector2, int> it : *tiles_layer ){
+        for ( std::pair<Coord, int> it : *tiles_layer ){
 
             //
-            Vector2 coord = it.first;
+            Coord coord = it.first;
             int tile_num = it.second;
 
             //
@@ -162,9 +162,9 @@ void MainGame::load_map_from_file(std::string map_path) {
     }
 
     // Initial data
-    std::map< Vector2, int >* tiles_layer = nullptr;
-    std::map< Vector2, int >* colors_layer = nullptr;
-    std::map< Vector2, int >* entities_layer = nullptr;
+    std::map< Coord, int >* tiles_layer = nullptr;
+    std::map< Coord, int >* colors_layer = nullptr;
+    std::map< Coord, int >* entities_layer = nullptr;
 
     std::string line;
     std::string current_type = "";
@@ -202,7 +202,7 @@ void MainGame::load_map_from_file(std::string map_path) {
                 //
                 if(tiles_layer == nullptr){
                     //
-                    tiles_layer = new std::map< Vector2, int >();
+                    tiles_layer = new std::map< Coord, int >();
                 }
                 else{
                     //
@@ -214,7 +214,7 @@ void MainGame::load_map_from_file(std::string map_path) {
                 //
                 if(colors_layer == nullptr){
                     //
-                    colors_layer = new std::map< Vector2, int >();
+                    colors_layer = new std::map< Coord, int >();
                 }
                 else{
                     //
@@ -226,7 +226,7 @@ void MainGame::load_map_from_file(std::string map_path) {
                 //
                 if(entities_layer == nullptr){
                     //
-                    entities_layer = new std::map< Vector2, int >();
+                    entities_layer = new std::map< Coord, int >();
                 }
                 else{
                     //
@@ -252,7 +252,7 @@ void MainGame::load_map_from_file(std::string map_path) {
             //
             if (!cell.empty()) {
                 int value = std::stoi(cell);
-                Vector2 coord = Vector2(x, y);
+                Coord coord = Coord(x, y);
 
                 if (current_type == "grid") {
 

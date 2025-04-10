@@ -2,7 +2,7 @@
 #pragma once
 
 //
-class Vector2{
+class Coord{
 
     public:
 
@@ -11,10 +11,10 @@ class Vector2{
         int y;
 
         //
-        Vector2(int x, int y);
+        Coord(int x, int y);
 
         //
-        bool operator<(const Vector2& v){
+        bool operator<(const Coord& v){
             //
             if(this->x < v.x){
                 return true;
@@ -27,7 +27,7 @@ class Vector2{
             }
         }
 
-        friend bool operator<(const Vector2& l, const Vector2& r){
+        friend bool operator<(const Coord& l, const Coord& r){
             //
             if(l.x < r.x){
                 return true;
@@ -41,22 +41,22 @@ class Vector2{
         }
 
         //
-        bool operator==(const Vector2& v){
+        bool operator==(const Coord& v){
             return this->x == v.x && this->y == v.y;
         }
 
         //
-        friend bool operator==(const Vector2& l, const Vector2& r){
+        friend bool operator==(const Coord& l, const Coord& r){
             return l.x == r.x && l.y == r.y;
         }
 
         //
-        bool operator!=(const Vector2& v){
+        bool operator!=(const Coord& v){
             return this->x == v.x || this->y == v.y;
         }
 
         //
-        friend bool operator!=(const Vector2& l, const Vector2& r){
+        friend bool operator!=(const Coord& l, const Coord& r){
             return l.x != r.x || l.y != r.y;
         }
 
@@ -64,7 +64,7 @@ class Vector2{
 
 
 //
-Vector2 v2(int x, int y);
+Coord v2(int x, int y);
 
 
 //

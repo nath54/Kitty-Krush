@@ -7,7 +7,8 @@
 #include "geometry.hpp"
 #include "map_tiles.hpp"
 #include "view.hpp"
-
+//
+#include <random>
 
 
 //
@@ -549,14 +550,33 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
     }
 
     //
+    std::string img_path;
+
+    //
     this->ground_base_layer = nullptr;
     this->ground_top_layer = nullptr;
 
     //
-    if ( allTileData[tile].tags[0] != nullptr ){
+    if ( allTileData[tile].tags[0] != nullptr  && allTileData[tile].nb_ground_layer_imgs > 0 ){
 
         //
-        std::string img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img);
+        if ( allTileData[tile].nb_ground_layer_imgs == 1 ){
+
+            //
+            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[0]);
+
+        }
+
+        //
+        else{
+
+            //
+            int selected_img = ( std::rand() % ( allTileData[tile].nb_ground_layer_imgs ) );
+
+            //
+            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[selected_img]);
+
+        }
 
         //
         this->ground_base_layer = new WindowEltSprite(
@@ -576,10 +596,26 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
     }
 
     //
-    if ( allTileData[tile].top_layer_img != nullptr ){
+    if ( allTileData[tile].nb_top_layer_imgs > 0 ){
 
         //
-        std::string img_path = "res/sprites/map_w/" + std::string(allTileData[tile].top_layer_img);
+        if ( allTileData[tile].nb_top_layer_imgs == 1 ){
+
+            //
+            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[0]);
+
+        }
+
+        //
+        else{
+
+            //
+            int selected_img = ( std::rand() % ( allTileData[tile].nb_top_layer_imgs ) );
+
+            //
+            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].top_layer_img[selected_img]);
+
+        }
 
         //
         this->ground_top_layer = new WindowEltSprite(
@@ -744,7 +780,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
         for( int tile_y = start_tile_y ; tile_y <= start_tile_y + nb_rows_to_display; tile_y ++ ){
 
             //
-            Vector2 coord = {tile_x, tile_y};
+            Coord coord = {tile_x, tile_y};
 
             //
             WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
@@ -787,7 +823,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
 void WindowEltMapViewer::clear(){
 
     //
-    for ( std::pair<const Vector2, WindowEltMapTile*> const it : this->tiles_layers ){
+    for ( std::pair<const Coord, WindowEltMapTile*> const it : this->tiles_layers ){
 
         //
         if ( it.second == nullptr ){
@@ -809,10 +845,10 @@ void WindowEltMapViewer::clear(){
 void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int tile_num ){
 
     //
-    Vector2 v = (Vector2){tile_x, tile_y};
+    Coord v = (Coord){tile_x, tile_y};
 
     //
-    std::map< Vector2, WindowEltMapTile*>::iterator res_iter = this->tiles_layers.find( v );
+    std::map< Coord, WindowEltMapTile*>::iterator res_iter = this->tiles_layers.find( v );
     if( res_iter != this->tiles_layers.end() ){
 
         // res_iter->first is the key, res_iter->second is the value
@@ -836,7 +872,7 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
 void WindowEltMapViewer::set_color_to_color_layer ( int tile_x, int tile_y, int color_num ){
 
     //
-    Vector2 v = (Vector2){tile_x, tile_y};
+    Coord v = (Coord){tile_x, tile_y};
 
     //
     bool tile_present = (this->colors_layers.count( v ) > 0);
@@ -861,7 +897,7 @@ void WindowEltMapViewer::set_color_to_color_layer ( int tile_x, int tile_y, int 
 void WindowEltMapViewer::set_entity_to_entity_layer ( int tile_x, int tile_y, int entity_level, bool entity_type ){
 
     //
-    Vector2 v = (Vector2){tile_x, tile_y};
+    Coord v = (Coord){tile_x, tile_y};
 
     //
     bool tile_present = (this->entity_layers.count( v ) > 0);
@@ -885,7 +921,6 @@ void WindowEltMapViewer::set_entity_to_entity_layer ( int tile_x, int tile_y, in
         }
     }
 
-
 }
 
 
@@ -893,20 +928,20 @@ void WindowEltMapViewer::set_entity_to_entity_layer ( int tile_x, int tile_y, in
 void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
     //
-    Vector2 case_with_max(0, 0);
+    Coord case_with_max(0, 0);
     int max_non_null_adj = -1;
     std::vector< std::string > max_adj_ground_base;
 
     //
-    std::list< Vector2 > cases_with_null;
+    std::list< Coord > cases_with_null;
 
     // FIRST SEARCH
 
     //
-    for ( std::pair<Vector2, WindowEltMapTile*> it_pair : this->tiles_layers ){
+    for ( std::pair<Coord, WindowEltMapTile*> it_pair : this->tiles_layers ){
 
         //
-        Vector2 pos = it_pair.first;
+        Coord pos = it_pair.first;
         WindowEltMapTile* tile = it_pair.second;
 
         //
@@ -983,7 +1018,7 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
             if ( maxi_count == -1 ){
 
                 //
-                w_tile->set_ground_base( allTileData[w_tile->tile].ground_layer_img );
+                w_tile->set_ground_base( allTileData[w_tile->tile].ground_layer_img[0] );
 
             }
             //
@@ -1000,7 +1035,7 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
         max_non_null_adj = -1;
 
         //
-        for ( Vector2 coord : cases_with_null ){
+        for ( Coord coord : cases_with_null ){
 
             //
             std::vector< std::string > adj_ground_base = this->get_adjacents_tiles_base_ground_to_tile( coord.x, coord.y );
@@ -1023,18 +1058,18 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
 
 //
-std::vector< Vector2 > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(int x, int y){
+std::vector< Coord > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(int x, int y){
 
     //
-    std::vector< Vector2 > adjacent_tiles;
+    std::vector< Coord > adjacent_tiles;
 
     //
-    Vector2 coord1(x, y-1);
-    Vector2 coord2(x, y+1);
-    Vector2 coord3(x-1, y);
-    Vector2 coord4(x+1, y);
-    Vector2 coord5(x-1, y+1);
-    Vector2 coord6(x+1, y+1);
+    Coord coord1(x, y-1);
+    Coord coord2(x, y+1);
+    Coord coord3(x-1, y);
+    Coord coord4(x+1, y);
+    Coord coord5(x-1, y+1);
+    Coord coord6(x+1, y+1);
 
     //
     if( x % 2 == 1 ){
@@ -1063,13 +1098,13 @@ std::vector< Vector2 > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(in
 std::vector< std::string > WindowEltMapViewer::get_adjacents_tiles_base_ground_to_tile(int x, int y){
 
     //
-    std::vector< Vector2 > adj_coords = this->get_adjacents_tiles_coords_to_tile(x, y);
+    std::vector< Coord > adj_coords = this->get_adjacents_tiles_coords_to_tile(x, y);
 
     //
     std::vector< std::string > res;
 
     //
-    for( Vector2 coord : adj_coords ){
+    for( Coord coord : adj_coords ){
 
         //
         WindowEltMapTile* mt = this->get_layer_tile_at_coord(coord);
@@ -1100,7 +1135,7 @@ std::vector< std::string > WindowEltMapViewer::get_adjacents_tiles_base_ground_t
 
 
 //
-WindowEltMapTile* WindowEltMapViewer::get_layer_tile_at_coord(Vector2 coord){
+WindowEltMapTile* WindowEltMapViewer::get_layer_tile_at_coord(Coord coord){
 
     //
     if ( this->tiles_layers.count( coord ) <= 0 ){
