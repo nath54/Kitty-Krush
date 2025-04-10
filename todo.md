@@ -2,7 +2,7 @@
 
 ## Architecture
 
-- [ ] Passer les layers de tuile en dictionnaire
+- [x] Passer les layers de tuiles en dictionnaire
 - [ ] Passer les layers d'éléments en dictionnaire
 
 ## Règles de jeu
