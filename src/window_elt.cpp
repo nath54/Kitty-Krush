@@ -120,15 +120,15 @@ ValuePercentWinHeight* nvpwh(float prc, WindowAttributes* win_attr){
 
 
 //
-SpriteCrop* SPRITE_NO_CROP(){
+SpriteCropValuePercent* SPRITE_NO_CROP(){
     //
-    return new SpriteCrop( nvp(0), nvp(0), nvp(1), nvp(1) );
+    return new SpriteCropValuePercent( nvp(0), nvp(0), nvp(1), nvp(1) );
 }
 
 //
-SpriteCrop* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h){
+SpriteCropValuePercent* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h){
     //
-    return new SpriteCrop( nvp(src_x), nvp(src_y), nvp(src_w), nvp(src_h) );
+    return new SpriteCropValuePercent( nvp(src_x), nvp(src_y), nvp(src_w), nvp(src_h) );
 }
 
 
@@ -374,23 +374,42 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
     if( this->sprite_crop != nullptr ){
 
         //
-        if( this->sprite_crop->src_x != nullptr ){
-            src_x = this->sprite_crop->src_x->get_value_scaled(base_src_w);
+        SpriteCropInt* sprite_crop_int = dynamic_cast<SpriteCropInt*>(this->sprite_crop);
+        SpriteCropValuePercent* sprite_crop_vp = dynamic_cast<SpriteCropValuePercent*>(this->sprite_crop);
+
+        //
+        if (sprite_crop_int != nullptr){
+
+            src_x = sprite_crop_int->src_x;
+            src_y = sprite_crop_int->src_y;
+            src_w = sprite_crop_int->src_w;
+            src_h = sprite_crop_int->src_h;
+
         }
 
         //
-        if( this->sprite_crop->src_y != nullptr ){
-            src_y = this->sprite_crop->src_y->get_value_scaled(base_src_h);
-        }
+        else if (sprite_crop_vp != nullptr){
 
-        //
-        if( this->sprite_crop->src_w != nullptr ){
-            src_w = this->sprite_crop->src_w->get_value_scaled(base_src_w);
-        }
+            //
+            if( sprite_crop_vp->src_x != nullptr ){
+                src_x = sprite_crop_vp->src_x->get_value_scaled(base_src_w);
+            }
 
-        //
-        if( this->sprite_crop->src_h != nullptr ){
-            src_h = this->sprite_crop->src_h->get_value_scaled(base_src_h);
+            //
+            if( sprite_crop_vp->src_y != nullptr ){
+                src_y = sprite_crop_vp->src_y->get_value_scaled(base_src_h);
+            }
+
+            //
+            if( sprite_crop_vp->src_w != nullptr ){
+                src_w = sprite_crop_vp->src_w->get_value_scaled(base_src_w);
+            }
+
+            //
+            if( sprite_crop_vp->src_h != nullptr ){
+                src_h = sprite_crop_vp->src_h->get_value_scaled(base_src_h);
+            }
+
         }
 
     }
@@ -533,6 +552,83 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
     main_view->draw_image( texture, src_x, src_y, src_w, src_h, f_dest_x, f_dest_y, f_dest_w, f_dest_h, angle, this->flip_h, this->flip_v );
+
+}
+
+
+//
+WindowEltAnimatedSprite::WindowEltAnimatedSprite(
+    Style* style,
+    std::string img_path,
+    Value* x,
+    Value* y,
+    Value* w,
+    Value* h,
+    int first_frame_x,
+    int first_frame_y,
+    int frame_w,
+    int frame_h,
+    int nb_frames,
+    uint32_t frame_delay,
+    Value* angle,
+    bool flip_h,
+    bool flip_v,
+    SpriteRatio* sprite_ratio,
+    SpriteResize* sprite_resize,
+    SpritePosition* sprite_h_position,
+    SpritePosition* sprite_v_position
+)
+    : WindowElt(style, x, y, w, h),
+      first_frame_x(first_frame_x),
+      first_frame_y(first_frame_y),
+      frame_w(frame_w),
+      frame_h(frame_h),
+      nb_frames(nb_frames),
+      frame_delay(frame_delay)
+{
+
+    //
+    this->sprite_crop = new SpriteCropInt(0, 0, frame_w, frame_h);
+
+    //
+    this->sprite = new WindowEltSprite(
+        style,
+        img_path,
+        x, y, w, h,
+        angle,
+        flip_h, flip_v,
+        this->sprite_crop,
+        sprite_ratio,
+        sprite_resize,
+        sprite_h_position,
+        sprite_v_position
+    );
+
+    //
+    this->start_time = SDL_GetTicks();
+
+};
+
+
+//
+void WindowEltAnimatedSprite::draw_elt(MainView* main_view, DrawTransform* transform){
+
+    //
+    uint32_t time_shift = 0;
+    //
+    if (transform != nullptr){
+        time_shift = transform->time_shift;
+    }
+
+    //
+    int current_frame = (int) ( ( time_shift + SDL_GetTicks() - this->start_time ) / this->frame_delay ) % this->nb_frames;
+
+    //
+    this->sprite_crop->src_x = this->first_frame_x + this->frame_w * current_frame;
+    this->sprite_crop->src_y = this->first_frame_y;
+
+    //
+    this->sprite->draw_elt(main_view, transform);
 
 }
 

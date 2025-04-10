@@ -332,8 +332,8 @@ static const TileData allTileData[] = {
         "Green Grass",                                  // terrain name
 
         // ground_layer_img
-        1,
-        {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        5,
+        {"green_grass/green_grass_01.png", "green_grass/green_grass_02.png", "green_grass/green_grass_03.png", "green_grass/green_grass_04.png", "green_grass/green_grass_05.png"},
 
         // top_layer_img
         0,
@@ -907,7 +907,7 @@ static const TileData allTileData[] = {
 
         // top_layer_img
         5,
-        {"summer_forest/summer_forest_01.png", "summer_forest/summer_forest_02.png", "summer_forest/summer_forest_03.png", "summer_forest/summer_forest_04.png", "summer_forest/summer_forest_05.png"},
+        {"summer_forest/summer_forest_01.png", "summer_forest/summer_forest_02.png", "summer_forest/summer_forest_03.png", "summer_forest/summer_forest_06.png", "summer_forest/summer_forest_08.png"},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)

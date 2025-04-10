@@ -243,18 +243,22 @@ class DrawTransform{
         //
         float scale_w = 1.0;
         float scale_h = 1.0;
+        //
+        uint32_t time_shift = 0;
 
         //
         DrawTransform(
             Value* translation_x = nullptr,
             Value* translation_y = nullptr,
             float scale_w = 1.0,
-            float scale_h = 1.0
+            float scale_h = 1.0,
+            uint32_t time_shift = 0
         )
         :   translation_x(translation_x),
             translation_y(translation_y),
             scale_w(scale_w),
-            scale_h(scale_h)
+            scale_h(scale_h),
+            time_shift(time_shift)
         {}
 
 };
@@ -428,9 +432,22 @@ class WindowEltButton : public WindowEltClickable {
 
 
 
-
 //
 class SpriteCrop{
+
+    public:
+
+        // Constructor
+        SpriteCrop() {}
+
+        //
+        virtual ~SpriteCrop() = default; // Use default implementation
+
+};
+
+
+//
+class SpriteCropValuePercent : public SpriteCrop {
 
     public:
 
@@ -441,22 +458,45 @@ class SpriteCrop{
         ValuePercent* src_h ;
 
         // Constructor
-        SpriteCrop(
+        SpriteCropValuePercent(
             ValuePercent* src_x,
             ValuePercent* src_y,
             ValuePercent* src_w,
             ValuePercent* src_h
         )
-            : src_x(src_x), src_y(src_y), src_w(src_w), src_h(src_h) {}
+            : SpriteCrop(), src_x(src_x), src_y(src_y), src_w(src_w), src_h(src_h) {}
 
 };
 
 
 //
-SpriteCrop* SPRITE_NO_CROP();
+class SpriteCropInt : public SpriteCrop {
+
+    public:
+
+        //
+        int src_x;
+        int src_y;
+        int src_w;
+        int src_h;
+
+        // Constructor
+        SpriteCropInt(
+            int src_x,
+            int src_y,
+            int src_w,
+            int src_h
+        )
+            : SpriteCrop(), src_x(src_x), src_y(src_y), src_w(src_w), src_h(src_h) {}
+
+};
+
 
 //
-SpriteCrop* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h);
+SpriteCropValuePercent* SPRITE_NO_CROP();
+
+//
+SpriteCropValuePercent* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h);
 
 
 //
@@ -596,6 +636,57 @@ class WindowEltSprite : public WindowElt {
             sprite_h_position(sprite_h_position),
             sprite_v_position(sprite_v_position)
         {};
+
+        //
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+
+};
+
+
+
+//
+class WindowEltAnimatedSprite : public WindowElt {
+
+    public:
+
+        //
+        int first_frame_x;
+        int first_frame_y;
+        int frame_w;
+        int frame_h;
+        int nb_frames;
+        uint32_t frame_delay;
+
+        //
+        uint32_t start_time;
+
+        //
+        WindowEltSprite* sprite;
+
+        //
+        SpriteCropInt* sprite_crop;
+
+        //
+        WindowEltAnimatedSprite( Style* style,
+                                 std::string img_path,
+                                 Value* x,
+                                 Value* y,
+                                 Value* w,
+                                 Value* h,
+                                 int first_frame_x,
+                                 int first_frame_y,
+                                 int frame_w,
+                                 int frame_h,
+                                 int nb_frames,
+                                 uint32_t frame_delay,
+                                 Value* angle = new ValueInt(0),
+                                 bool flip_h = false,
+                                 bool flip_v = false,
+                                 SpriteRatio* sprite_ratio = SPRITE_RATIO_ORIGINAL(),
+                                 SpriteResize* sprite_resize = SPRITE_RESIZE_KEEP_ORIGINAL(),
+                                 SpritePosition* sprite_h_position = SPRITE_POS_ALIGN_START(),
+                                 SpritePosition* sprite_v_position = SPRITE_POS_ALIGN_START()
+                                );
 
         //
         void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
