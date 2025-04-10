@@ -4,7 +4,12 @@
 
 - [ ] Passer les layers de tuile en dictionnaire
 - [ ] Passer les layers d'éléments en dictionnaire
+
+## Règles de jeu
+
 - [ ] Implémenter les bandits
+- [ ] Implémenter le calcul des palissade/défense des unités
+- [ ] Implémenter le repoussement des troupes si elles étaient derrière une palissade
 
 ## Fonctions à coder dans Map
 

@@ -179,8 +179,12 @@ class Map {
 
         usint size;
         usint _size() const;
+
         void recursive_fill(Tile* tile, unsigned int* current_cover, int nb_cover, int cover, int ground, Province* province);
         void init_map(short nb_players, int nb_provinces, int size_provinces, bool bandits);
+        Province* get_province(usint x, usint y);
+        void add_province(Province* province);
+        void remove_province(Province* province);
 
     protected:
 
@@ -205,9 +209,6 @@ class Map {
 
     // Functions
     Tile* get_tile(usint x, usint y);
-    Province* get_province(usint x, usint y);
-    void add_province(Province* province);
-    void remove_province(Province* province);
     vector<Tile*> adjacent_tiles(Tile* tile);
 };
 
