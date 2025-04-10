@@ -758,6 +758,18 @@ class WindowEltMapViewer: public WindowElt {
         // TODO: sprites for all entities
 
         //
+        WindowEltAnimatedSprite* warrior_lvl_0;     // bandit
+        WindowEltAnimatedSprite* warrior_lvl_1;     // villager
+        WindowEltAnimatedSprite* warrior_lvl_2;     // spike
+        WindowEltAnimatedSprite* warrior_lvl_3;     // knight
+        WindowEltAnimatedSprite* warrior_lvl_4;     // heros
+
+        //
+        WindowEltAnimatedSprite* building_lvl_1_no_color;    // bandit camp
+        WindowEltAnimatedSprite* building_lvl_1;    // town
+        WindowEltAnimatedSprite* building_lvl_2;    // tower
+
+        //
         int cam_x = 0;
         int cam_y = 0;
         double zoom = 0.5;
@@ -795,5 +807,11 @@ class WindowEltMapViewer: public WindowElt {
 
         //
         WindowEltMapTile* get_layer_tile_at_coord(Coord coord);
+
+        //
+        EntityData get_entity_data_at_coord(Coord coord);
+
+        //
+        int get_color_at_coord(Coord coord);
 
 };

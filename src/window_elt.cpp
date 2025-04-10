@@ -802,8 +802,8 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->default_empty_tile = new WindowEltSprite(
         this->style,
         "res/sprites/map_w/deep_water.png",
-        this->x, this->y, nvi(TILE_IMG_W), nvi(TILE_IMG_H),
-        new ValueInt(0),
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0),
         false,
         false,
         SPRITE_NO_CROP(),
@@ -812,6 +812,142 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
         SPRITE_POS_ALIGN_START(),
         SPRITE_POS_ALIGN_START()
     );
+
+    //
+    this->color_tile = new WindowEltSprite(
+        this->style,
+        "res/ui/tile_for_color.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->warrior_lvl_0 = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->warrior_lvl_1 = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->warrior_lvl_2 = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->warrior_lvl_3 = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->warrior_lvl_4 = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->building_lvl_1_no_color = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->building_lvl_1 = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
+    this->building_lvl_2 = new WindowEltAnimatedSprite(
+        this->style,
+        "res/sprites/entities/bandit.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 220, 220, 9, 500,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
 
 }
 
@@ -826,14 +962,14 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     int B = 53 * this->zoom;
 
     //
-    const int margin = 5;
+    const int margin = 2;
 
     //
     int start_tile_x = (int) (this->cam_x / B) - margin;
     int start_tile_y = (int) (this->cam_y / zoomed_H) - margin;
 
-    int nb_cols_to_display = (int) (this->get_w() / A) + margin;
-    int nb_rows_to_display = (int) (this->get_h() / B) + margin;
+    int nb_cols_to_display = (int) (this->get_w() / A);
+    int nb_rows_to_display = (int) (this->get_h() / B);
 
     //
     DrawTransform* tile_transform = nullptr;
@@ -879,9 +1015,6 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             Coord coord = {tile_x, tile_y};
 
             //
-            WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
-
-            //
             dep_x->value = - base_dec_x + tile_x * B;
             //
             if (tile_x % 2 == 0){
@@ -892,6 +1025,12 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
                 //
                 dep_y->value = - base_dec_y + tile_y * zoomed_H;
             }
+
+
+            // GROUND LAYER TILE
+
+            //
+            WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
 
             //
             if (tile == nullptr && this->default_empty_tile != nullptr){
@@ -905,6 +1044,89 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
 
                 //
                 tile->draw_elt(main_view, tile_transform);
+
+            }
+
+            // COLOR LAYER TILE
+
+            int color = this->get_color_at_coord( coord );
+
+            if ( color > 0 ){
+
+                // TODO: set the color filter
+
+                //
+                this->color_tile->draw_elt(main_view, tile_transform);
+
+                // TODO: remove the color filter
+
+            }
+
+            // ENTITY LAYER TILE
+
+            //
+            EntityData edata = this->get_entity_data_at_coord( coord );
+
+            //
+            if (edata.type){ // Warrior
+
+                //
+                if (edata.level == 0){
+
+                    this->warrior_lvl_0->draw_elt(main_view, tile_transform);
+
+                }
+
+                //
+                else if (edata.level == 1){
+
+                    this->warrior_lvl_1->draw_elt(main_view, tile_transform);
+
+                }
+
+                //
+                else if (edata.level == 2){
+
+                    this->warrior_lvl_2->draw_elt(main_view, tile_transform);
+
+                }
+
+                //
+                else if (edata.level == 3){
+
+                    this->warrior_lvl_3->draw_elt(main_view, tile_transform);
+
+                }
+
+                //
+                if (edata.level == 4){
+
+                    this->warrior_lvl_4->draw_elt(main_view, tile_transform);
+
+                }
+
+            }
+            //
+            else{       // Building
+
+                //
+                if (edata.level == 1 && color <= 0){
+
+                    this->building_lvl_1_no_color->draw_elt(main_view, tile_transform);
+
+                }
+                //
+                else if(edata.level == 1 && color > 0){
+
+                    this->building_lvl_1->draw_elt(main_view, tile_transform);
+
+                }
+                //
+                else if(edata.level == 2){
+
+                    this->building_lvl_2->draw_elt(main_view, tile_transform);
+
+                }
 
             }
 
@@ -1245,3 +1467,40 @@ WindowEltMapTile* WindowEltMapViewer::get_layer_tile_at_coord(Coord coord){
     return this->tiles_layers[coord];
 
 }
+
+
+
+//
+EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
+
+    //
+    if ( this->entity_layers.count( coord ) <= 0 ){
+
+        //
+        return (EntityData){-1, false};
+
+    }
+
+    //
+    return this->entity_layers[coord];
+
+}
+
+
+
+//
+int WindowEltMapViewer::get_color_at_coord(Coord coord){
+
+    //
+    if ( this->colors_layers.count( coord ) <= 0 ){
+
+        //
+        return -1;
+
+    }
+
+    //
+    return this->colors_layers[coord];
+
+}
+
