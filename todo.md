@@ -26,3 +26,4 @@
 - [ ] `bool action_move_entity(usint x1, usint y1, usint x2, usint y2)`: retourne TRUE si une entité présente sur x1y1 peut aller sur x2y2
 - [ ] `bool action_new_entity(usint x, usint y, usint level, bool type)` : retourne TRUE si le joueur peut poser l'entité demandé à cet endroit
 - [ ] `bool action_end_turn()` : renvoyer TRUE
+- [ ] `list<Vector2> possible_movements_of_entity(int x, int y)` : Renvoie la liste des cases où l'entité à la position (x, y) peuvent se déplacer
