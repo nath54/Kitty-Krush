@@ -6,11 +6,11 @@
 #include <vector>
 #include <string>
 #include <string_view>
+#include "geometry.hpp"
 
 using namespace std;
 typedef unsigned short int usint;
 
-#define LOCK -1
 #define NEUTRAL 0
 
 
@@ -138,18 +138,18 @@ class Tile {
 
     private:
 
-        usint x;
-        usint y;
-        short type;
+        int x;
+        int y;
+        usint type;
         usint defense;
         Element* element;
 
     public:
 
         // Constructor
-        Tile(usint tile_x,
-            usint tile_y,
-            short tile_type=LOCK,
+        Tile(int tile_x,
+            int tile_y,
+            usint tile_type=NEUTRAL,
             usint tile_defense=0,
             Element* tile_element=nullptr)
             : x(tile_x), y(tile_y), type(tile_type), defense(tile_defense), element(tile_element) {};
@@ -157,15 +157,14 @@ class Tile {
         ~Tile() {}; // Default destructor
 
         // Getters
-        usint _x() const;
-        usint _y() const;
-        short _type() const;
+        int _x() const;
+        int _y() const;
+        usint _type() const;
         usint _defense() const;
         Element* _element() const;
 
         // Functions
-        void convert_type(short new_type);
-        bool is_adjacent(const Tile* tile);
+        void convert_type(usint new_type);
         bool adjacent_to_province(Province* p);
         void add_element(Element* element);
         void remove_element();
@@ -178,65 +177,57 @@ class Map {
     private:
 
         usint size;
-        usint _size() const;
-
-        void recursive_fill(Tile* tile, unsigned int* current_cover, int nb_cover, int cover, int ground, Province* province);
-        void init_map(short nb_players, int nb_provinces, int size_provinces, bool bandits);
-        Province* get_province(usint x, usint y);
-        void add_province(Province* province);
-        void remove_province(Province* province);
-
-    protected:
-
-        vector<Tile*> tiles_layer;
-        vector<Element*> elements_layer;
+        map<Coord, Tile*> tiles_layer;
+        map<Coord, Element*> elements_layer;
         vector<Province*> provinces_layer;
 
     public:
 
-    // Constructor
-    Map() {}; // Default constructor
-    Map(usint map_size) : size(map_size) {
-        // Create the map
-        for (usint y = 0; y < size; y++) {
-            for (usint x = 0; x < size; x++) {
-                tiles_layer.push_back(new Tile(y, x));
-            }
-        }
-    };
-    // Destructor
-    virtual ~Map() {}; // Default destructor
+        // Constructor
+        Map() {}; // Default constructor
+        Map(usint map_size) : size(map_size) {}
+        // Destructor
+        ~Map() {}; // Default destructor
 
-    // Functions
-    Tile* get_tile(usint x, usint y);
-    vector<Tile*> adjacent_tiles(Tile* tile);
+        // Functions
+        usint _size() const;
+        Tile* get_tile(int x, int y);
+
+        void recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* province);
+        void init_map(short nb_players, int nb_provinces, int size_provinces, bool bandits);
+
+        Province* get_province(usint x, usint y);
+        void add_province(Province* province);
+        void remove_province(Province* province);
 };
 
-class Province : public Map {
+class Province {
 
     private:
 
-        short color;
+        usint color;
         int treasury;
-        vector<Tile*> tiles_layer;
+        map<Coord, Tile*> tiles_layer;
 
     public:
 
     // Constructor
-    Province(short c, int t=0, vector<Tile*> tiles=vector<Tile*>())
+    Province() {}; // Default constructor
+    Province(short c, int t=0, map<Coord, Tile*> tiles=map<Coord, Tile*>())
         : color(c), treasury(t), tiles_layer(tiles) {};
     // Destructor
-    ~Province() override {}; // Default destructor
+    ~Province() {}; // Default destructor
     // delete vectors but NOT their content
 
     // Getters
     short _color() const;
     int _treasury() const;
-    vector<Tile*> _tiles() const;
+    map<Coord, Tile*> _tiles() const;
 
     // Functions
     void add_tile(Tile* tile);
     void remove_tile(Tile* tile);
+    
     void treasury_turn();
     void add_treasury(int amount);
     void remove_treasury(int amount);
@@ -267,4 +258,6 @@ class GameModel {
 // ========== [ Tools functions ] ==========
 
 usint max(usint a, usint b);
+bool is_adjacent(int x1, int y1, int x2, int y2);
+vector<Coord> neighbours(int x, int y);
 

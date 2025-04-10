@@ -14,7 +14,6 @@
 ## Fonctions à coder dans Map
 
 - [ ] `void_reset_color_layer()` : Vider le dictionnaire
-
 - [ ] `void reset_entity_layer()` : Vider le dictionnaire
 - [ ] `void set_tile_color(usint x, usint y, short tile_color)` (tile->convert_type)
 - [ ] `void set_tile_entity(usint x, usint y, usint level, bool type)` : ajouter l'entité au dictionnaire
