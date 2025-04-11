@@ -26,13 +26,23 @@ uint64_t timeSinceEpochMillisec() {
 
 
 //
-Event* WindowAttributes::update_mouse_button_state(int button, bool pressed){
+Event* WindowAttributes::update_mouse_button_state(int button, int pressed){
 
     //
     Event* evt = nullptr;
 
     //
-    if(pressed){
+    if(pressed == -1){
+        if (mouse_left_bt_clicked + mouse_right_bt_clicked > 0){
+            pressed = 1;
+        }
+        else{
+            pressed = 0;
+        }
+    }
+
+    //
+    if(pressed == 1){
 
         //
         uint64_t time = timeSinceEpochMillisec();

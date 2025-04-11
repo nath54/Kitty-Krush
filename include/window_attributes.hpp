@@ -47,7 +47,7 @@ class WindowAttributes{
         std::map< std::string, uint64_t > keys_pressed;
 
         //
-        Event* update_mouse_button_state(int button, bool pressed);
+        Event* update_mouse_button_state(int button, int pressed);
 
         //
         Event* update_keyboard_state(std::string key, bool pressed);

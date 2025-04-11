@@ -114,7 +114,7 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
             case SDL_MOUSEBUTTONDOWN:
                 //
                 events_manager->new_event(
-                     win_attr->update_mouse_button_state(event.button.button, true)
+                     win_attr->update_mouse_button_state(event.button.button, 1)
                 );
 
                 break;
@@ -123,7 +123,7 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
             case SDL_MOUSEBUTTONUP:
                 //
                 events_manager->new_event(
-                    win_attr->update_mouse_button_state(event.button.button, false)
+                    win_attr->update_mouse_button_state(event.button.button, 0)
                 );
                 //
                 break;
@@ -132,7 +132,7 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
             case SDL_MOUSEMOTION:
                 //
                 events_manager->new_event(
-                    win_attr->update_mouse_button_state(-1, false)
+                    win_attr->update_mouse_button_state(-1, -1)
                 );
                 //
                 break;
