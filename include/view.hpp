@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <list>
 #include <memory>
 #include <functional>
 //
@@ -757,6 +758,7 @@ class WindowEltMapViewer: public WindowElt {
         std::map< Coord, WindowEltMapTile* > tiles_layers;
         std::map< Coord, int > colors_layers;
         std::map< Coord, EntityData > entity_layers;
+        std::map< Coord, int > closest_building_of_color;
 
         //
         // WindowEltSprite* default_empty_tile;
@@ -816,6 +818,12 @@ class WindowEltMapViewer: public WindowElt {
         void complete_all_tile_layer_ground_base();
 
         //
+        void update_closest_building_of_color();
+
+        //
+        std::list< Coord > get_adjacents_colors( Coord v );
+
+        //
         std::vector< Coord > get_adjacents_tiles_coords_to_tile(int x, int y);
 
         //
@@ -832,5 +840,21 @@ class WindowEltMapViewer: public WindowElt {
 
         //
         void zoom_at_point(double mouse_x, double mouse_y, float zoom_factor);
+
+        //
+        bool check_draw_palissade_between_to_tiles(Coord v1, Coord v2);
+        //
+        bool check_draw_palissade_top(Coord v);
+        //
+        bool check_draw_palissade_top_right(Coord v);
+        //
+        bool check_draw_palissade_top_left(Coord v);
+        //
+        bool check_draw_palissade_bottom(Coord v);
+        //
+        bool check_draw_palissade_bottom_left(Coord v);
+        //
+        bool check_draw_palissade_bottom_right(Coord v);
+
 
 };

@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 #include <list>
+#include <set>
 //
 #include "geometry.hpp"
 #include "map_tiles.hpp"
@@ -1151,6 +1152,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
 
             }
 
+
             // COLOR LAYER TILE
 
             int color = this->get_color_at_coord( coord );
@@ -1169,7 +1171,67 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
 
             }
 
+        }
+
+    }
+
+
+
+    //
+    for( int tile_x = start_tile_x ; tile_x <= start_tile_x + nb_cols_to_display; tile_x ++ ){
+
+        //
+        for( int tile_y = start_tile_y ; tile_y <= start_tile_y + nb_rows_to_display; tile_y ++ ){
+
+            //
+            Coord coord = {tile_x, tile_y};
+
+            //
+            int color = this->get_color_at_coord( coord );
+
+            //
+            dep_x->value = - base_dec_x + tile_x * B;
+            //
+            if (tile_x % 2 == 0){
+                //
+                dep_y->value = - base_dec_y + A + tile_y * zoomed_H;
+            }
+            else{
+                //
+                dep_y->value = - base_dec_y + tile_y * zoomed_H;
+            }
+
+
+            //
+            dep_x->value -= A;
+            dep_y->value -= A;
+
             // TODO: BARRICADES / WALLS
+            if (color > 0){
+                if(this->check_draw_palissade_top(coord)){
+                    this->barricade_top->draw_elt(main_view, tile_transform);
+                }
+                if(this->check_draw_palissade_top_right(coord)){
+                    this->barricade_top_right->draw_elt(main_view, tile_transform);
+                }
+                if(this->check_draw_palissade_top_left(coord)){
+                    this->barricade_top_left->draw_elt(main_view, tile_transform);
+                }
+                if(this->check_draw_palissade_bottom(coord)){
+                    this->barricade_bottom->draw_elt(main_view, tile_transform);
+                }
+                if(this->check_draw_palissade_bottom_right(coord)){
+                    this->barricade_bottom_right->draw_elt(main_view, tile_transform);
+                }
+                if(this->check_draw_palissade_bottom_left(coord)){
+                    this->barricade_bottom_left->draw_elt(main_view, tile_transform);
+                }
+            }
+
+
+            //
+            dep_x->value += A;
+            dep_y->value += A;
 
 
             // ENTITY LAYER TILE
@@ -1486,27 +1548,124 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
 
 //
+void WindowEltMapViewer::update_closest_building_of_color(){
+
+    //
+    this->closest_building_of_color.clear();
+
+    //
+    std::list< Coord > starting_points;
+
+    //
+    for( std::pair< Coord, EntityData > it : this->entity_layers ){
+
+        //
+        if( it.second.type ){ continue; }
+
+        //
+        if( this->colors_layers.count(it.first) == 0){ continue; }
+
+        //
+        starting_points.push_back( it.first );
+
+    }
+
+    //
+    while (starting_points.size() > 0){
+
+        //
+        Coord starting_point = starting_points.front();
+        starting_points.pop_front();
+
+        //
+        std::list< Coord > to_explore;
+        std::list< int > crt_distance;
+
+        //
+        to_explore.push_back( starting_point );
+        crt_distance.push_back( 0 );
+
+        //
+        while ( to_explore.size() > 0 ){
+
+            //
+            Coord v = to_explore.front();
+            to_explore.pop_front();
+
+            //
+            int dist = crt_distance.front();
+            crt_distance.pop_front();
+
+            //
+            if ( this->closest_building_of_color.count(v) == 0 || this->closest_building_of_color[v] > dist ){
+                this->closest_building_of_color[v] = dist;
+            }
+
+            //
+            for ( Coord vv : this->get_adjacents_colors( v ) ){
+
+                //
+                if ( this->closest_building_of_color.count(vv) > 0 && this->closest_building_of_color[vv] < dist + 1 ){
+                    continue;
+                }
+
+                //
+                if ( this->colors_layers[vv] == this->colors_layers[v] ){
+                    to_explore.push_back(vv);
+                    crt_distance.push_back(dist+1);
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+//
+std::list< Coord > WindowEltMapViewer::get_adjacents_colors( Coord v ){
+
+    //
+    std::list< Coord > adjacent_tiles;
+
+    //
+    Coord coord1 = get_tile_top_to( v );
+    Coord coord2 = get_tile_top_right_to( v );
+    Coord coord3 = get_tile_top_left_to( v );
+    Coord coord4 = get_tile_bottom_to( v );
+    Coord coord5 = get_tile_bottom_right_to( v );
+    Coord coord6 = get_tile_bottom_left_to( v );
+
+    //
+    if ( this->colors_layers.count( coord1 ) ) { adjacent_tiles.push_back( coord1 ); }
+    if ( this->colors_layers.count( coord2 ) ) { adjacent_tiles.push_back( coord2 ); }
+    if ( this->colors_layers.count( coord3 ) ) { adjacent_tiles.push_back( coord3 ); }
+    if ( this->colors_layers.count( coord4 ) ) { adjacent_tiles.push_back( coord4 ); }
+    if ( this->colors_layers.count( coord5 ) ) { adjacent_tiles.push_back( coord5 ); }
+    if ( this->colors_layers.count( coord6 ) ) { adjacent_tiles.push_back( coord6 ); }
+
+    //
+    return adjacent_tiles;
+
+}
+
+
+//
 std::vector< Coord > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(int x, int y){
 
     //
     std::vector< Coord > adjacent_tiles;
 
     //
-    Coord coord1(x, y-1);
-    Coord coord2(x, y+1);
-    Coord coord3(x-1, y);
-    Coord coord4(x+1, y);
-    Coord coord5(x-1, y+1);
-    Coord coord6(x+1, y+1);
-
-    //
-    if( x % 2 == 1 ){
-
-        //
-        coord5.y = y - 1;
-        coord6.y = y - 1;
-
-    }
+    Coord coord1 = get_tile_top_to( (Coord){x, y} );
+    Coord coord2 = get_tile_top_right_to( (Coord){x, y} );
+    Coord coord3 = get_tile_top_left_to( (Coord){x, y} );
+    Coord coord4 = get_tile_bottom_to( (Coord){x, y} );
+    Coord coord5 = get_tile_bottom_right_to( (Coord){x, y} );
+    Coord coord6 = get_tile_bottom_left_to( (Coord){x, y} );
 
     //
     if ( this->tiles_layers.count( coord1 ) ) { adjacent_tiles.push_back( coord1 ); }
@@ -1597,7 +1756,6 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
 }
 
 
-
 //
 int WindowEltMapViewer::get_color_at_coord(Coord coord){
 
@@ -1639,4 +1797,55 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
     // Round to nearest integer to match draw_elt's integer truncation
     cam_x = round(cam_x);
     cam_y = round(cam_y);
+}
+
+
+//
+bool WindowEltMapViewer::check_draw_palissade_between_to_tiles(Coord v1, Coord v2){
+    //
+    if (this->closest_building_of_color.count(v1) == 0 || this->closest_building_of_color[v1] > 1){
+        return false;
+    }
+    //
+    if(this->colors_layers.count(v2) == 0 || this->colors_layers[v2] != this->colors_layers[v1]){
+        return true;
+    }
+    //
+    if (this->closest_building_of_color.count(v2) == 1 && this->closest_building_of_color[v2] <= 1){
+        return false;
+    }
+    //
+    return true;
+}
+
+
+//
+bool WindowEltMapViewer::check_draw_palissade_top(Coord v){
+    //
+    return this->check_draw_palissade_between_to_tiles(v, get_tile_top_to(v));
+}
+//
+bool WindowEltMapViewer::check_draw_palissade_top_right(Coord v){
+    //
+    return this->check_draw_palissade_between_to_tiles(v, get_tile_top_right_to(v));
+}
+//
+bool WindowEltMapViewer::check_draw_palissade_top_left(Coord v){
+    //
+    return this->check_draw_palissade_between_to_tiles(v, get_tile_top_left_to(v));
+}
+//
+bool WindowEltMapViewer::check_draw_palissade_bottom(Coord v){
+    //
+    return this->check_draw_palissade_between_to_tiles(v, get_tile_bottom_to(v));
+}
+//
+bool WindowEltMapViewer::check_draw_palissade_bottom_right(Coord v){
+    //
+    return this->check_draw_palissade_between_to_tiles(v, get_tile_bottom_right_to(v));
+}
+//
+bool WindowEltMapViewer::check_draw_palissade_bottom_left(Coord v){
+    //
+    return this->check_draw_palissade_between_to_tiles(v, get_tile_bottom_left_to(v));
 }
