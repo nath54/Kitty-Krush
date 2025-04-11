@@ -822,4 +822,7 @@ class WindowEltMapViewer: public WindowElt {
         //
         int get_color_at_coord(Coord coord);
 
+        //
+        void zoom_at_point(double mouse_x, double mouse_y, float zoom_factor);
+
 };

@@ -1531,3 +1531,29 @@ int WindowEltMapViewer::get_color_at_coord(Coord coord){
 
 }
 
+
+//
+void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoom_factor) {
+    // Current world point under mouse
+    double world_x = (mouse_x + cam_x) / zoom;  // Simplified, adjust based on your system
+    double world_y = (mouse_y + cam_y) / zoom;
+
+    // Apply zoom
+    this->zoom *= zoom_factor;
+
+    if (this->zoom < 0.25){
+        this->zoom = 0.25;
+    }
+
+    else if (this->zoom > 6){
+        this->zoom = 6;
+    }
+
+    // Update camera to keep world point under mouse
+    cam_x = world_x * this->zoom - mouse_x;
+    cam_y = world_y * this->zoom - mouse_y;
+
+    // Round to nearest integer to match draw_elt's integer truncation
+    cam_x = round(cam_x);
+    cam_y = round(cam_y);
+}

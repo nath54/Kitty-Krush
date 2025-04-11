@@ -144,19 +144,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     else if ( event->key == "Left Shift" ){
 
         //
-        float last_zoom = map_viewer->zoom;
-
-        //
-        map_viewer->zoom *= UNZOOM_FACTOR;
-
-        //
-        if( map_viewer->zoom < MIN_ZOOM ){
-            map_viewer->zoom = MIN_ZOOM;
-        }
-
-        //
-        map_viewer->cam_x = map_viewer->cam_x + (int) ( (float) main_game->main_view->win_attr.mouse_x * last_zoom ) - (int) ( ( (float) main_game->main_view->win_attr.win_width  * map_viewer->zoom) / 2.0 );
-        map_viewer->cam_y = map_viewer->cam_y + (int) ( (float) main_game->main_view->win_attr.mouse_y * last_zoom ) - (int) ( ( (float) main_game->main_view->win_attr.win_height * map_viewer->zoom) / 2.0 );
+        map_viewer->zoom_at_point(main_game->main_view->win_attr.mouse_x, main_game->main_view->win_attr.mouse_y, UNZOOM_FACTOR);
 
     }
 
@@ -164,20 +152,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     else if ( event->key == "Right Shift" ){
 
         //
-        float last_zoom = map_viewer->zoom;
-
-        //
-        map_viewer->zoom *= ZOOM_FACTOR;
-
-        //
-        if( map_viewer->zoom > MAX_ZOOM ){
-            map_viewer->zoom = MAX_ZOOM;
-
-        }
-
-        //
-        map_viewer->cam_x = map_viewer->cam_x + (int) ( (float) main_game->main_view->win_attr.mouse_x * last_zoom ) - (int) ( ( (float) main_game->main_view->win_attr.win_width  * map_viewer->zoom) / 2.0 );
-        map_viewer->cam_y = map_viewer->cam_y + (int) ( (float) main_game->main_view->win_attr.mouse_y * last_zoom ) - (int) ( ( (float) main_game->main_view->win_attr.win_height * map_viewer->zoom) / 2.0 );
+        map_viewer->zoom_at_point(main_game->main_view->win_attr.mouse_x, main_game->main_view->win_attr.mouse_y, ZOOM_FACTOR);
 
     }
 
@@ -208,29 +183,16 @@ void on_scroll(MainGame* main_game, EventMouseScroll* event) {
     }
 
     //
-    double last_zoom = map_viewer->zoom;
-    double mouse_x = (double) main_game->main_view->win_attr.mouse_x;
-    double mouse_y = (double) main_game->main_view->win_attr.mouse_y;
-
-    //
     if (event->scroll_y > 0) {
-        map_viewer->zoom *= ZOOM_FACTOR;
-        if (map_viewer->zoom > MAX_ZOOM) {
-            map_viewer->zoom = MAX_ZOOM;
-        }
+        //
+        map_viewer->zoom_at_point(event->x, event->y, ZOOM_FACTOR);
     }
 
     //
     else {
-        map_viewer->zoom *= UNZOOM_FACTOR;
-        if (map_viewer->zoom < MIN_ZOOM) {
-            map_viewer->zoom = MIN_ZOOM;
-        }
+        //
+        map_viewer->zoom_at_point(event->x, event->y, UNZOOM_FACTOR);
     }
-
-    //
-    map_viewer->cam_x = map_viewer->cam_x - (mouse_x / map_viewer->zoom) + (mouse_x / last_zoom);
-    map_viewer->cam_y = map_viewer->cam_y - (mouse_y / map_viewer->zoom) + (mouse_y / last_zoom);
 
 }
 
@@ -260,9 +222,8 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event) {
     // int dec_cam = BASE_DEC_CAM * map_viewer->zoom;
 
     //
-    map_viewer->cam_x -= event->dx * 2 * map_viewer->zoom;
-    map_viewer->cam_y -= event->dy * 2 * map_viewer->zoom;
-
+    map_viewer->cam_x -= event->dx * 2; // / map_viewer->zoom;
+    map_viewer->cam_y -= event->dy * 2; // / map_viewer->zoom;
 
 }
 
