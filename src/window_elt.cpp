@@ -1012,15 +1012,15 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     if ( transform == nullptr ){
 
         //
-        base_dec_x = this->cam_x;
-        base_dec_y = this->cam_y;
+        base_dec_x = (int) this->cam_x;
+        base_dec_y = (int) this->cam_y;
     }
     //
     else{
 
         //
-        base_dec_x = transform->translation_x->get_value() + this->cam_x;
-        base_dec_y = transform->translation_y->get_value() + this->cam_y;
+        base_dec_x = transform->translation_x->get_value() + (int) this->cam_x;
+        base_dec_y = transform->translation_y->get_value() + (int) this->cam_y;
         base_zoom_w *= transform->scale_w;
         base_zoom_h *= transform->scale_h;
 

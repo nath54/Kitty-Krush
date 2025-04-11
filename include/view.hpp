@@ -778,8 +778,8 @@ class WindowEltMapViewer: public WindowElt {
         WindowEltAnimatedSprite* building_lvl_2;    // tower
 
         //
-        int cam_x = 0;
-        int cam_y = 0;
+        double cam_x = 0;
+        double cam_y = 0;
         double zoom = 0.5;
 
         //

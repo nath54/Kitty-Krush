@@ -36,6 +36,10 @@ class WindowAttributes{
         int mouse_base_drag_y = -1;
 
         //
+        int mouse_last_drag_x = -1;
+        int mouse_last_drag_y = -1;
+
+        //
         uint64_t mouse_left_bt_clicked = false;
         uint64_t mouse_right_bt_clicked = false;
 

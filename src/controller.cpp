@@ -138,6 +138,15 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
                 break;
 
             //
+            case SDL_MOUSEWHEEL:
+                //
+                events_manager->new_event(
+                    new EventMouseScroll( event.wheel.mouseX, event.wheel.mouseY, event.wheel.x, event.wheel.y )
+                );
+                //
+                break;
+
+            //
             case SDL_KEYDOWN:
                 //
                 events_manager->new_event(
