@@ -6,14 +6,13 @@
 // ===== Players =====
 
 string Player::_name() const { return name; }
-short Player::_color() const { return color; }
+usint Player::_color() const { return color; }
 
 
 // ===== Elements =====
 
-usint Element::_x() const { return x; }
-usint Element::_y() const { return y; }
-short Element::_color() const { return color; }
+Coord Element::_coord() const { return coord; }
+usint Element::_color() const { return color; }
 usint Element::_defense() const { return defense; }
 usint Element::_cost() const { return cost; }
 
@@ -30,19 +29,18 @@ bool Building::is_town() const { return (defense == 1); }
 
 // --- Tile ---
 
-int Tile::_x() const { return x; }
-int Tile::_y() const { return y; }
-usint Tile::_type() const { return type; }
+Coord Tile::_coord() const { return coord; }
+usint Tile::_color() const { return color; }
 usint Tile::_defense() const { return defense; }
 Element* Tile::_element() const { return element; }
 
-void Tile::convert_type(usint new_type)
-{ type = new_type; }
+void Tile::convert_color(usint new_color)
+{ color = new_color; }
 
 bool Tile::adjacent_to_province(Province* p)
 {
     for (const auto& t : p->_tiles()) {
-        if (is_adjacent(x, y, t.first.x, t.first.y))
+        if (is_adjacent(coord, t.first))
             return true;
     }
     return false;
@@ -62,32 +60,31 @@ void Tile::delete_element()
 
 // --- Province ---
 
-short Province::_color() const { return color; }
+usint Province::_color() const { return color; }
 int Province::_treasury() const { return treasury; }
 map<Coord, Tile*> Province::_tiles() const { return tiles_layer; }
 
 
 void Province::add_tile(Tile* tile)
-{ 
-    tile->convert_type(color);
-    tiles_layer.insert({{tile->_x(), tile->_y()}, tile});
+{
+    if (tiles_layer.find(tile->_coord()) != tiles_layer.end())
+        return; // already exists
+    tile->convert_color(color);
+    tiles_layer.insert({tile->_coord(), tile});
 }
 
 void Province::remove_tile(Tile* tile)
-{
-    for (auto t = tiles_layer.begin(); t != tiles_layer.end(); t++) {
-        if (t->first.x == tile->_x() && t->first.y == tile->_y()) {
-            tiles_layer.erase(t);
-            break;
-        }
-    }
-}
+{ tiles_layer.erase(tile->_coord()); }
 
 void Province::treasury_turn()
 {
     // Income
-    treasury += tiles_layer.size();
-    // ! Ne pas gagner les tuiles avec des bandits dessus
+    for (const auto& t : tiles_layer) {
+        if (t.second->_element() != nullptr &&
+            t.second->_element()->_cost() == 0) // bandit
+            continue;
+        else treasury++;
+    }
     // Expenses
     for (const auto& t : tiles_layer) {
         if (t.second->_element() == nullptr) continue;
@@ -118,29 +115,30 @@ void Map::recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* 
     if (cover == NEUTRAL) {
         if (tiles_layer.size() >= nb_cover) return; // inhaf NEUTRAL
         if (tiles_layer.find(c) != tiles_layer.end()) return; // already exists
-        tiles_layer.insert({c, new Tile(c.x, c.y, cover)});
+        tiles_layer.insert({c, new Tile(c, cover)});
     }
 
     else {
-        Tile* tile = get_tile(c.x, c.y);
+        Tile* tile = get_tile(c);
         if (tile == nullptr) return;
-        if (tile->_type() != NEUTRAL) return;
+        if (tile->_color() != NEUTRAL) return;
 
         if (province == nullptr) {
             province = new Province(cover);
             province->add_treasury(7);
             add_province(province);
-            tile->add_element(new Building(c.x, c.y, cover));
+            tile->add_element(new Building(c, cover));
         }
+        if (province->_tiles().size() >= nb_cover) return; // inhaf cover
         province->add_tile(tile);
     }
 
-    for (auto c : neighbours(c.x, c.y))
+    for (auto c : neighbours(c))
         if (rand() % 2) recursive_fill(c, nb_cover, cover, province);
 }
 
-// ! Gérer le bool bandit
-void Map::init_map(short nb_players, int nb_provinces, int size_provinces, bool bandits)
+// ! Gérer le bool bandits
+void Map::init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits)
 {
 
     // Initialize the random seed
@@ -160,7 +158,7 @@ void Map::init_map(short nb_players, int nb_provinces, int size_provinces, bool 
             seed_y = rand() % size;
 
             while (tiles_layer.find(Coord(seed_x, seed_y)) == tiles_layer.end()
-                    || tiles_layer[Coord(seed_x, seed_y)]->_type() != NEUTRAL)
+                    || tiles_layer[Coord(seed_x, seed_y)]->_color() != NEUTRAL)
                 { seed_x = rand() % size; seed_y = rand() % size; }
 
             recursive_fill(Coord(seed_x, seed_y), size_provinces, p, nullptr);
@@ -172,14 +170,14 @@ void Map::init_map(short nb_players, int nb_provinces, int size_provinces, bool 
     }
 }
 
-Tile* Map::get_tile(int x, int y)
-{ return (tiles_layer.find(Coord(x, y)) != tiles_layer.end()) ? tiles_layer[Coord(x, y)] : nullptr; }
+Tile* Map::get_tile(Coord c)
+{ return (tiles_layer.find(c) != tiles_layer.end()) ? tiles_layer[c] : nullptr; }
 
-Province* Map::get_province(usint x, usint y)
+Province* Map::get_province(Coord c)
 {
     for (Province* p : provinces_layer) {
         for (auto& t : p->_tiles()) {
-            if (t.first.x == x && t.first.y == y)
+            if (t.first.x == c.x && t.first.y == c.y)
                 return p;
         }
     }
@@ -199,6 +197,17 @@ void Map::remove_province(Province* province)
     }
 }
 
+void Map::fusion_provinces(Province* p1, Province* p2)
+{
+    if (p1 == nullptr || p2 == nullptr) return;
+    if (p1 == p2) return;
+    if (p1->_color() != p2->_color()) return;
+
+    for (auto& t : p2->_tiles()) p1->add_tile(t.second);
+    remove_province(p2);
+    delete p2;
+}
+
 
 // ===== Game =====
 
@@ -209,21 +218,24 @@ void Map::remove_province(Province* province)
 
 usint max(usint a, usint b) { return (a > b) ? a : b; }
 
-bool is_adjacent(int x1, int y1, int x2, int y2)
+bool is_adjacent(Coord c1, Coord c2)
 {
-    int diff_x = x1 - x2;
-    int diff_y = y1 - y2;
+    int diff_x = c1.x - c2.x;
+    int diff_y = c1.y - c2.y;
 
     // False cases
     if (diff_x == 0 && diff_y == 0) return false; // same tile
     if (abs(diff_x) > 1 || abs(diff_y) > 1) return false; // too far
-    if (x1%2 == 0 && diff_x == 1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
-    else if (x1%2 == 1 && diff_x == -1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+    if (c1.x%2 == 0 && diff_x == 1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+    else if (c1.x%2 == 1 && diff_x == -1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+
     return true;
 }
 
-vector<Coord> neighbours(int x, int y)
+vector<Coord> neighbours(Coord c)
 {
+    int x = c.x;
+    int y = c.y;
     vector<Coord> n;
     n.push_back(Coord(x-1, y));
     n.push_back(Coord(x+1, y));

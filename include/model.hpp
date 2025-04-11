@@ -13,11 +13,9 @@ typedef unsigned short int usint;
 
 #define NEUTRAL 0
 
-
-// ========== [ Forward Definition ] ==========
+// ========== [ Forward declarations ] ==========
 
 class Province;
-
 
 // ========== [ Players ] ==========
 
@@ -27,17 +25,17 @@ class Player {
     private:
 
         const string name; // name of the player
-        const short color; // color of the player
+        const usint color; // color of the player
 
     public:
 
         // Constructor
-        Player(const string player_name, const short player_color)
+        Player(const string player_name, const usint player_color)
             : name(player_name), color(player_color) {};  // Automatic variable initialisation
 
         // Getters
         string _name() const;
-        short _color() const;
+        usint _color() const;
 };
 
 
@@ -48,9 +46,8 @@ class Element {
 
     protected:
 
-        usint x;        // x position of the element
-        usint y;        // y position of the element
-        short color;    // owner of the element
+        Coord coord;    // coordinates of the element
+        usint color;    // owner of the element
         usint defense;  // level (= defense) of the element
         usint cost;     // Cost of the element
 
@@ -58,19 +55,17 @@ class Element {
 
         // Constructor
         Element () {}; // Default constructor
-        Element(usint element_x,
-                usint element_y,
-                short element_color,
+        Element(Coord element_coord,
+                usint element_color,
                 usint element_defense = 0,
                 usint element_cost = 0)
-            : x(element_x), y(element_y), color(element_color), defense(element_defense), cost(element_cost) {};
+            : coord(element_coord), color(element_color), defense(element_defense), cost(element_cost) {};
         // Destructor
         virtual ~Element() {}; // Virtual destructor
 
         // Getters
-        usint _x() const;
-        usint _y() const;
-        short _color() const;
+        Coord _coord() const;
+        usint _color() const;
         usint _defense() const;
         usint _cost() const;
 };
@@ -80,21 +75,19 @@ class Unit : public Element {
 
     private:
 
-        usint x;
-        usint y;
-        short color;
+        Coord coord;
+        usint color;
         usint defense;
         usint cost;
 
     public:
 
         // Constructor
-        Unit(usint unit_x,
-            usint unit_y,
-            short unit_color,
+        Unit(Coord unit_coord,
+            usint unit_color,
             usint unit_defense = 1,
             usint unit_cost = 2)
-            : Element(unit_x, unit_y, unit_color, unit_defense, unit_cost) {};
+            : Element(unit_coord, unit_color, unit_defense, unit_cost) {};
         // Destructor
         ~Unit() {}; // Default destructor
 
@@ -108,21 +101,21 @@ class Building : public Element {
 
     private:
 
-        usint x;
-        usint y;
-        short color;
+        Coord coord;
+        usint color;
         usint defense;
         usint cost;
+        int treasury;
 
     public:
 
         // Constructor
-        Building(usint building_x,
-                 usint building_y,
-                 short building_color,
+        Building(Coord building_coord,
+                 usint building_color,
                  usint building_defense = 1,
-                 usint building_cost = 0)
-            : Element(building_x, building_y, building_color, building_defense, building_cost) {};
+                 usint building_cost = 0,
+                 int building_treasury = 0)
+            : Element(building_coord, building_color, building_defense, building_cost) {};
         // Destructor
         ~Building() {}; // Default destructor
 
@@ -138,37 +131,67 @@ class Tile {
 
     private:
 
-        int x;
-        int y;
-        usint type;
+        Coord coord;
+        usint color;
         usint defense;
         Element* element;
 
     public:
 
         // Constructor
-        Tile(int tile_x,
-            int tile_y,
-            usint tile_type=NEUTRAL,
+        Tile(Coord tile_coord,
+            usint tile_color=NEUTRAL,
             usint tile_defense=0,
             Element* tile_element=nullptr)
-            : x(tile_x), y(tile_y), type(tile_type), defense(tile_defense), element(tile_element) {};
+            : coord(tile_coord), color(tile_color), defense(tile_defense), element(tile_element) {};
         // Destructor
         ~Tile() {}; // Default destructor
 
         // Getters
-        int _x() const;
-        int _y() const;
-        usint _type() const;
+        Coord _coord() const;
+        usint _color() const;
         usint _defense() const;
         Element* _element() const;
 
         // Functions
-        void convert_type(usint new_type);
+        void convert_color(usint new_color);
         bool adjacent_to_province(Province* p);
         void add_element(Element* element);
         void remove_element();
         void delete_element();
+};
+
+
+class Province {
+
+    private:
+
+        usint color;
+        int treasury;
+        map<Coord, Tile*> tiles_layer;
+
+    public:
+
+    // Constructor
+    Province() {}; // Default constructor
+    Province(usint c, int t=0, map<Coord, Tile*> tiles=map<Coord, Tile*>())
+        : color(c), treasury(t), tiles_layer(tiles) {};
+    // Destructor
+    ~Province() {}; // Default destructor
+    // delete vectors but NOT their content
+
+    // Getters
+    usint _color() const;
+    int _treasury() const;
+    map<Coord, Tile*> _tiles() const;
+
+    // Functions
+    void add_tile(Tile* tile);
+    void remove_tile(Tile* tile);
+    
+    void treasury_turn();
+    void add_treasury(int amount);
+    void remove_treasury(int amount);
 };
 
 
@@ -191,46 +214,16 @@ class Map {
 
         // Functions
         usint _size() const;
-        Tile* get_tile(int x, int y);
+        Tile* get_tile(Coord c);
 
         void recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* province);
-        void init_map(short nb_players, int nb_provinces, int size_provinces, bool bandits);
+        void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
 
-        Province* get_province(usint x, usint y);
+        Province* get_province(Coord c);
         void add_province(Province* province);
         void remove_province(Province* province);
-};
-
-class Province {
-
-    private:
-
-        usint color;
-        int treasury;
-        map<Coord, Tile*> tiles_layer;
-
-    public:
-
-    // Constructor
-    Province() {}; // Default constructor
-    Province(short c, int t=0, map<Coord, Tile*> tiles=map<Coord, Tile*>())
-        : color(c), treasury(t), tiles_layer(tiles) {};
-    // Destructor
-    ~Province() {}; // Default destructor
-    // delete vectors but NOT their content
-
-    // Getters
-    short _color() const;
-    int _treasury() const;
-    map<Coord, Tile*> _tiles() const;
-
-    // Functions
-    void add_tile(Tile* tile);
-    void remove_tile(Tile* tile);
-    
-    void treasury_turn();
-    void add_treasury(int amount);
-    void remove_treasury(int amount);
+        void fusion_provinces(Province* p1, Province* p2);
+        void split_province(Coord c);
 };
 
 
@@ -258,6 +251,6 @@ class GameModel {
 // ========== [ Tools functions ] ==========
 
 usint max(usint a, usint b);
-bool is_adjacent(int x1, int y1, int x2, int y2);
-vector<Coord> neighbours(int x, int y);
+bool is_adjacent(Coord c1, Coord c2);
+vector<Coord> neighbours(Coord c);
 
