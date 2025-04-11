@@ -823,6 +823,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     //     SPRITE_POS_ALIGN_START(),
     //     SPRITE_POS_ALIGN_START()
     // );
+
     this->default_empty_tile = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/map_w/deep_water/deep_water.png",
@@ -972,6 +973,85 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
         SPRITE_POS_ALIGN_START()
     );
 
+    //
+    this->barricade_top = new WindowEltSprite(
+        this->style,
+        "res/sprites/barricade/barricade_top.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+    this->barricade_top_right = new WindowEltSprite(
+        this->style,
+        "res/sprites/barricade/barricade_top_right.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+    this->barricade_top_left = new WindowEltSprite(
+        this->style,
+        "res/sprites/barricade/barricade_top_left.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+    this->barricade_bottom_right = new WindowEltSprite(
+        this->style,
+        "res/sprites/barricade/barricade_bottom_right.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+    this->barricade_bottom_left = new WindowEltSprite(
+        this->style,
+        "res/sprites/barricade/barricade_bottom_left.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+    this->barricade_bottom = new WindowEltSprite(
+        this->style,
+        "res/sprites/barricade/barricade_bottom.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
 
 }
 
@@ -1088,6 +1168,9 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
                 tile_transform->do_color_mod = false;
 
             }
+
+            // TODO: BARRICADES / WALLS
+
 
             // ENTITY LAYER TILE
 
