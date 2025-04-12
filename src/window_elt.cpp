@@ -858,7 +858,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->warrior_lvl_0 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/bandit.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 220, 220, 9, 100,
         nvi(0),
         false,
@@ -873,7 +873,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->warrior_lvl_1 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/cat_lvl1.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 256, 256, 1, 100,
         nvi(0),
         false,
@@ -888,7 +888,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->warrior_lvl_2 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/cat_lvl2.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 256, 256, 1, 100,
         nvi(0),
         false,
@@ -903,7 +903,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->warrior_lvl_3 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/cat_lvl3.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 256, 256, 1, 100,
         nvi(0),
         false,
@@ -918,7 +918,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->warrior_lvl_4 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/cat_lvl4.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 256, 256, 6, 75,
         nvi(0),
         false,
@@ -933,7 +933,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->building_lvl_1_no_color = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/bandit_camp.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 72, 72, 1, 100,
         nvi(0),
         false,
@@ -948,7 +948,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->building_lvl_1 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/village.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 96, 96, 1, 100,
         nvi(0),
         false,
@@ -963,7 +963,7 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
     this->building_lvl_2 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/tower.png",
-        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
         0, 0, 54, 54, 1, 100,
         nvi(0),
         false,
@@ -1240,6 +1240,10 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             EntityData edata = this->get_entity_data_at_coord( coord );
 
             //
+            dep_x->value += this->zoom * ENTITY_MARGIN / 2;
+            dep_y->value += this->zoom * ENTITY_MARGIN / 2;
+
+            //
             if (edata.type){ // Warrior
 
                 //
@@ -1301,6 +1305,10 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
                 }
 
             }
+
+            //
+            dep_x->value -= this->zoom * ENTITY_MARGIN / 2;
+            dep_y->value -= this->zoom * ENTITY_MARGIN / 2;
 
         }
 
