@@ -1122,7 +1122,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             //
             dep_x->value = - base_dec_x + tile_x * B;
             //
-            if (tile_x % 2 == 0){
+            if (tile_x % 2 != 0){
                 //
                 dep_y->value = - base_dec_y + A + tile_y * zoomed_H;
             }
@@ -1192,7 +1192,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             //
             dep_x->value = - base_dec_x + tile_x * B;
             //
-            if (tile_x % 2 == 0){
+            if (tile_x % 2 != 0){
                 //
                 dep_y->value = - base_dec_y + A + tile_y * zoomed_H;
             }
