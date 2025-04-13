@@ -46,9 +46,6 @@ void MainGame::set_map_from_data(
             if (tile_num <= 0) { continue; }
 
             //
-            // cout << "DEBUG tile add | x = " << coord.x << " | y = " << coord.y << " | tile = " << tile_num << "\n";
-
-            //
             map_viewer->add_tile_to_tile_layer( coord.x, coord.y, tile_num );
 
         }
@@ -72,9 +69,6 @@ void MainGame::set_map_from_data(
             if (color_num < 0){ continue; }
 
             //
-            // cout << "DEBUG tile add | x = " << coord.x << " | y = " << coord.y << " | tile = " << tile_num << "\n";
-
-            //
             map_viewer->set_color_to_color_layer( coord.x, coord.y, color_num );
 
         }
@@ -92,8 +86,6 @@ void MainGame::set_map_from_data(
             int entity_num = it.second;
 
             //
-            // cout << "DEBUG tile add | x = " << coord.x << " | y = " << coord.y << " | tile = " << tile_num << "\n";
-
             if (entity_num < 0 ){ continue; }
 
             if (entity_num >= 10) { // Warriors
@@ -242,9 +234,6 @@ void MainGame::load_map_from_file(std::string map_path) {
     }
 
     file.close();
-
-    //
-    // cout << "DEBUG | Lecture finished and file closed ! \n";
 
     // Now send the layers to the viewer
     this->set_map_from_data(tiles_layer, colors_layer, entities_layer);

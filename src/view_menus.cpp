@@ -165,7 +165,7 @@ void MainView::init_page_in_game() {
             nvi(0),                                 // Value*                           y
             nvpww(100, win_attr),                   // Value*                           w
             nvpwh(100, win_attr),                   // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*)>  on_click
+            on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*)>  on_click
         )
 
     );

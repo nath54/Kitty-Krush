@@ -796,7 +796,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         Coord mouse_hover_tile = (Coord){1, 1};
 
         //
-        int current_color_to_play = 0;
+        int current_color_to_play = 1;
 
         //
         bool dragging_entity = false;
@@ -883,3 +883,8 @@ class WindowEltMapViewer: public WindowEltClickable {
         bool check_draw_palissade_bottom_right(Coord v);
 
 };
+
+
+//
+void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game);
+

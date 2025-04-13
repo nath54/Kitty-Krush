@@ -1140,12 +1140,9 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
     }
 
     // Update camera to keep world point under mouse
-    cam_x = world_x * this->zoom - mouse_x;
-    cam_y = world_y * this->zoom - mouse_y;
+    this->cam_x = world_x * this->zoom - mouse_x;
+    this->cam_y = world_y * this->zoom - mouse_y;
 
-    // Round to nearest integer to match draw_elt's integer truncation
-    cam_x = round(cam_x);
-    cam_y = round(cam_y);
 }
 
 
@@ -1197,4 +1194,56 @@ bool WindowEltMapViewer::check_draw_palissade_bottom_right(Coord v){
 bool WindowEltMapViewer::check_draw_palissade_bottom_left(Coord v){
     //
     return this->check_draw_palissade_between_to_tiles(v, get_tile_bottom_left_to(v));
+}
+
+
+
+//
+void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game){
+
+    //
+    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    if (map_viewer->dragging_entity) {
+
+        //
+        map_viewer->dragging_entity = false;
+
+        //
+        if (map_viewer->dragging_new_entity){
+
+            // TODO: new entity -> call the model & update the visuals
+        }
+        //
+        else{
+
+            // TODO: move entity -> call the model & update the visuals
+
+        }
+
+        return;
+    }
+
+    //
+    EntityData edata = map_viewer->get_entity_data_at_coord( map_viewer->mouse_hover_tile );
+
+    //
+    if( !edata.type || edata.level <= 0 ){ return; }
+
+    //
+    int color = map_viewer->get_color_at_coord( map_viewer->mouse_hover_tile );
+
+    //
+    if ( color != map_viewer->current_color_to_play ){ return; }
+
+    //
+    map_viewer->dragging_entity = true;
+    map_viewer->dragging_new_entity = false;
+    map_viewer->tile_entity_dragged = map_viewer->mouse_hover_tile;
+    map_viewer->entity_dragged = edata;
+
 }
