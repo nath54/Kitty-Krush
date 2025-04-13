@@ -1310,8 +1310,22 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             dep_x->value -= this->zoom * ENTITY_MARGIN / 2;
             dep_y->value -= this->zoom * ENTITY_MARGIN / 2;
 
-        }
+            //
+            if(coord == this->mouse_hover_tile){
 
+                // set the color filter
+                tile_transform->do_color_mod = true;
+                tile_transform->color_mod = CL_DARK_GREY;
+
+                //
+                this->color_tile->draw_elt(main_view, tile_transform);
+
+                // remove the color filter
+                tile_transform->do_color_mod = false;
+
+            }
+
+        }
     }
 
 }
@@ -1778,6 +1792,113 @@ int WindowEltMapViewer::get_color_at_coord(Coord coord){
     //
     return this->colors_layers[coord];
 
+}
+
+
+//
+void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos){
+
+    //
+    double zoomed_W = (double) TILE_IMG_W * this->zoom;
+    double zoomed_H = (double) TILE_IMG_H * this->zoom;
+    double half_W = zoomed_W / 2.0;
+    double half_H = zoomed_H / 2.0;
+    double A = 36.0 * this->zoom;
+    double B = 53.0 * this->zoom;
+
+
+    //
+    double mx = (double) mouse_pos.x + this->cam_x;
+    double my = (double) mouse_pos.y + this->cam_y;
+
+    //
+    int lx = (int) ( mx / B );
+    //
+    if ( lx > 0){
+        lx += 1;
+    }
+
+    //
+    int ly = (int) ( my / zoomed_H );
+    //
+    if ( ly <= 0){
+        ly -= 1;
+    }
+
+    //
+    if ( lx % 2 == 1){
+        ly += 1;
+    }
+
+    //
+    std::vector< Coord > coords;
+    std::vector< double > center_x;
+    std::vector< double > center_y;
+
+    //
+    int minidx = 0;
+    double midist = -1;
+
+    //
+    Coord c1 = (Coord){lx, ly};
+    coords.push_back( c1 );
+    center_x.push_back( c1.x * B + half_W );
+    center_y.push_back( c1.y * zoomed_H + half_H + (c1.x % 2) * A );
+    //
+    Coord c2 = (Coord){lx - 1, ly};
+    coords.push_back( c2 );
+    center_x.push_back( c2.x * B + half_W );
+    center_y.push_back( c2.y * zoomed_H + half_H + (c2.x % 2) * A );
+    //
+    Coord c3 = (Coord){lx - 1, ly - 1};
+    coords.push_back( c3 );
+    center_x.push_back( c3.x * B + half_W );
+    center_y.push_back( c3.y * zoomed_H + half_H + (c3.x % 2) * A );
+    //
+    Coord c4 = (Coord){lx, ly - 1};
+    coords.push_back( c4 );
+    center_x.push_back( c4.x * B + half_W );
+    center_y.push_back( c4.y * zoomed_H + half_H + (c4.x % 2) * A );
+
+    //
+    for (int i = 0; i < 3; i++){
+
+        //
+        double cx = center_x[i];
+        double cy = center_y[i];
+
+        //
+        double dx = cx - mx;
+        double dy = cy - my;
+        //
+        double d = dx * dx + dy * dy;
+
+        //
+        if(midist == -1 || d < midist){
+            midist = d;
+            minidx = i;
+        }
+
+    }
+
+    //
+    this->mouse_hover_tile = coords[minidx];
+
+}
+
+
+//
+void WindowEltMapViewer::drag_entity(Coord tile_to_drag){
+    //
+    this->tile_entity_dragged = tile_to_drag;
+    this->dragging_entity = false;
+}
+
+
+//
+void WindowEltMapViewer::stop_dragging_entity(){
+    //
+    this->dragging_entity = false;
 }
 
 

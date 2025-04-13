@@ -793,6 +793,13 @@ class WindowEltMapViewer: public WindowElt {
         double zoom = 0.5;
 
         //
+        Coord mouse_hover_tile = (Coord){1, 1};
+
+        //
+        bool dragging_entity = false;
+        Coord tile_entity_dragged = (Coord){0, 0};
+
+        //
         WindowEltMapViewer( Style* style,
             Value* x,
             Value* y,
@@ -842,6 +849,15 @@ class WindowEltMapViewer: public WindowElt {
         void zoom_at_point(double mouse_x, double mouse_y, float zoom_factor);
 
         //
+        void update_mouse_hover_tile(Coord mouse_pos);
+
+        //
+        void drag_entity(Coord tile_to_drag);
+
+        //
+        void stop_dragging_entity();
+
+        //
         bool check_draw_palissade_between_to_tiles(Coord v1, Coord v2);
         //
         bool check_draw_palissade_top(Coord v);
@@ -855,6 +871,5 @@ class WindowEltMapViewer: public WindowElt {
         bool check_draw_palissade_bottom_left(Coord v);
         //
         bool check_draw_palissade_bottom_right(Coord v);
-
 
 };

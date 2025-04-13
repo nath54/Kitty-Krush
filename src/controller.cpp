@@ -135,6 +135,12 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
                     win_attr->update_mouse_button_state(-1, -1)
                 );
                 //
+                events_manager->new_event(
+                    new EventMouseMotion(
+                        event.motion.x, event.motion.y
+                    )
+                );
+                //
                 break;
 
             //

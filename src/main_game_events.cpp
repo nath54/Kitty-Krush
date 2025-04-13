@@ -156,6 +156,12 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
 
     }
 
+    //
+    Coord mouse_pos = (Coord){main_game->main_view->win_attr.mouse_x, main_game->main_view->win_attr.mouse_y};
+
+    //
+    map_viewer->update_mouse_hover_tile( mouse_pos );
+
 }
 
 
@@ -194,6 +200,12 @@ void on_scroll(MainGame* main_game, EventMouseScroll* event) {
         map_viewer->zoom_at_point(event->x, event->y, UNZOOM_FACTOR);
     }
 
+    //
+    Coord mouse_pos = (Coord){main_game->main_view->win_attr.mouse_x, main_game->main_view->win_attr.mouse_y};
+
+    //
+    map_viewer->update_mouse_hover_tile( mouse_pos );
+
 }
 
 
@@ -225,6 +237,43 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event) {
     map_viewer->cam_x -= event->dx * 2; // / map_viewer->zoom;
     map_viewer->cam_y -= event->dy * 2; // / map_viewer->zoom;
 
+    //
+    Coord mouse_pos = (Coord){main_game->main_view->win_attr.mouse_x, main_game->main_view->win_attr.mouse_y};
+
+    //
+    map_viewer->update_mouse_hover_tile( mouse_pos );
+}
+
+
+
+
+
+
+
+
+//
+void on_mouse_motion(MainGame* main_game, EventMouseMotion* event) {
+
+    //
+    if (event == nullptr || main_game->menu_state != 2) {
+        return;
+    }
+
+    //
+    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
+    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+
+    //
+    if (map_viewer == nullptr) {
+        cout << "Error : map_viewer can't convert to WindowEltMapViewer* !\n";
+        main_game->quit();
+    }
+
+    //
+    Coord mouse_pos = (Coord){event->x, event->y};
+
+    //
+    map_viewer->update_mouse_hover_tile( mouse_pos );
 }
 
 
@@ -248,6 +297,14 @@ void MainGame::execute_event(Event* event){
 
             //
             on_key_up( this, dynamic_cast<EventKeyUp*>( event ) );
+            //
+            break;
+
+        //
+        case EVT_MOUSE_MOTION:
+
+            //
+            on_mouse_motion( this, dynamic_cast<EventMouseMotion*>( event ) );
             //
             break;
 

@@ -8,6 +8,7 @@
 enum EventType{
     EVT_NULL,
     EVT_QUIT,
+    EVT_MOUSE_MOTION,
     EVT_MOUSE_CLICK,
     EVT_MOUSE_SCROLL,
     EVT_MOUSE_DRAGGING,
@@ -74,6 +75,25 @@ class EventMouse : public Event {
         int get_event_type(){
             //
             return EVT_NULL;
+        }
+
+};
+
+
+//
+class EventMouseMotion : public EventMouse {
+
+    //
+    public:
+
+        //
+        EventMouseMotion(int x, int y)
+            : EventMouse(x, y){}
+
+        //
+        int get_event_type(){
+            //
+            return EVT_MOUSE_MOTION;
         }
 
 };

@@ -62,3 +62,10 @@ static const Color allPlayerColors[10] = {
 };
 
 
+//
+static const Color CL_BLACK = (Color){ 0, 0, 0};
+static const Color CL_DARK_GREY = (Color){ 50, 50, 50};
+static const Color CL_GREY = (Color){ 100, 100, 100};
+static const Color CL_LIGHT_GREY = (Color){ 150, 150, 150};
+
+
