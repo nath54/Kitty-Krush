@@ -796,7 +796,12 @@ class WindowEltMapViewer: public WindowElt {
         Coord mouse_hover_tile = (Coord){1, 1};
 
         //
+        int current_color_to_play = 0;
+
+        //
         bool dragging_entity = false;
+        bool dragging_new_entity = true;
+        EntityData entity_dragged = (EntityData){4, true};
         Coord tile_entity_dragged = (Coord){0, 0};
 
         //
@@ -850,6 +855,9 @@ class WindowEltMapViewer: public WindowElt {
 
         //
         void update_mouse_hover_tile(Coord mouse_pos);
+
+        //
+        void draw_entity(EntityData edata, MainView* main_view, DrawTransform* transform, int color);
 
         //
         void drag_entity(Coord tile_to_drag);

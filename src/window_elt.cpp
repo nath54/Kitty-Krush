@@ -1057,6 +1057,75 @@ WindowEltMapViewer::WindowEltMapViewer( Style* style,
 }
 
 
+
+void WindowEltMapViewer::draw_entity(EntityData edata, MainView* main_view, DrawTransform* transform, int color){
+
+    //
+    if (edata.type){ // Warrior
+
+        //
+        if (edata.level == 0){
+
+            this->warrior_lvl_0->draw_elt(main_view, transform);
+
+        }
+
+        //
+        else if (edata.level == 1){
+
+            this->warrior_lvl_1->draw_elt(main_view, transform);
+
+        }
+
+        //
+        else if (edata.level == 2){
+
+            this->warrior_lvl_2->draw_elt(main_view, transform);
+
+        }
+
+        //
+        else if (edata.level == 3){
+
+            this->warrior_lvl_3->draw_elt(main_view, transform);
+
+        }
+
+        //
+        if (edata.level == 4){
+
+            this->warrior_lvl_4->draw_elt(main_view, transform);
+
+        }
+
+    }
+    //
+    else{       // Building
+
+        //
+        if (edata.level == 1 && color <= 0){
+
+            this->building_lvl_1_no_color->draw_elt(main_view, transform);
+
+        }
+        //
+        else if(edata.level == 1 && color > 0){
+
+            this->building_lvl_1->draw_elt(main_view, transform);
+
+        }
+        //
+        else if(edata.level == 2){
+
+            this->building_lvl_2->draw_elt(main_view, transform);
+
+        }
+
+    }
+
+}
+
+
 //
 void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform){
 
@@ -1131,7 +1200,6 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
                 dep_y->value = - base_dec_y + tile_y * zoomed_H;
             }
 
-
             // GROUND LAYER TILE
 
             //
@@ -1151,7 +1219,6 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
                 tile->draw_elt(main_view, tile_transform);
 
             }
-
 
             // COLOR LAYER TILE
 
@@ -1174,8 +1241,6 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
         }
 
     }
-
-
 
     //
     for( int tile_x = start_tile_x ; tile_x <= start_tile_x + nb_cols_to_display; tile_x ++ ){
@@ -1237,78 +1302,23 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             // ENTITY LAYER TILE
 
             //
-            EntityData edata = this->get_entity_data_at_coord( coord );
-
-            //
-            dep_x->value += this->zoom * ENTITY_MARGIN / 2;
-            dep_y->value += this->zoom * ENTITY_MARGIN / 2;
-
-            //
-            if (edata.type){ // Warrior
+            if( !(this->dragging_entity && !this->dragging_new_entity && coord == this->tile_entity_dragged) ){
 
                 //
-                if (edata.level == 0){
-
-                    this->warrior_lvl_0->draw_elt(main_view, tile_transform);
-
-                }
+                EntityData edata = this->get_entity_data_at_coord( coord );
 
                 //
-                else if (edata.level == 1){
-
-                    this->warrior_lvl_1->draw_elt(main_view, tile_transform);
-
-                }
+                dep_x->value += this->zoom * ENTITY_MARGIN / 2;
+                dep_y->value += this->zoom * ENTITY_MARGIN / 2;
 
                 //
-                else if (edata.level == 2){
-
-                    this->warrior_lvl_2->draw_elt(main_view, tile_transform);
-
-                }
+                this->draw_entity(edata, main_view, tile_transform, color);
 
                 //
-                else if (edata.level == 3){
-
-                    this->warrior_lvl_3->draw_elt(main_view, tile_transform);
-
-                }
-
-                //
-                if (edata.level == 4){
-
-                    this->warrior_lvl_4->draw_elt(main_view, tile_transform);
-
-                }
+                dep_x->value -= this->zoom * ENTITY_MARGIN / 2;
+                dep_y->value -= this->zoom * ENTITY_MARGIN / 2;
 
             }
-            //
-            else{       // Building
-
-                //
-                if (edata.level == 1 && color <= 0){
-
-                    this->building_lvl_1_no_color->draw_elt(main_view, tile_transform);
-
-                }
-                //
-                else if(edata.level == 1 && color > 0){
-
-                    this->building_lvl_1->draw_elt(main_view, tile_transform);
-
-                }
-                //
-                else if(edata.level == 2){
-
-                    this->building_lvl_2->draw_elt(main_view, tile_transform);
-
-                }
-
-            }
-
-            //
-            dep_x->value -= this->zoom * ENTITY_MARGIN / 2;
-            dep_y->value -= this->zoom * ENTITY_MARGIN / 2;
 
             //
             if(coord == this->mouse_hover_tile){
@@ -1326,6 +1336,18 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             }
 
         }
+    }
+
+    //
+    if( this->dragging_entity ){
+
+        //
+        dep_x->value = main_view->win_attr.mouse_x;
+        dep_y->value = main_view->win_attr.mouse_y;
+
+        //
+        this->draw_entity(this->entity_dragged, main_view, tile_transform, this->current_color_to_play);
+
     }
 
 }
