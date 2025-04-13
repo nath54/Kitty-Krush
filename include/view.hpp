@@ -369,7 +369,7 @@ class WindowEltClickable : public WindowElt {
     public:
 
         //
-        std::function<void(MainGame*)> on_click = nullptr;
+        std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr;
 
         //
         WindowEltClickable(
@@ -378,7 +378,7 @@ class WindowEltClickable : public WindowElt {
             Value* y,
             Value* w = new ValueInt(-1),
             Value* h = new ValueInt(-1),
-            std::function<void(MainGame*)> on_click = nullptr
+            std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
          )
         : WindowElt(style, x, y, w, h), on_click(on_click) {};
 
@@ -429,7 +429,7 @@ class WindowEltButton : public WindowEltClickable {
                          Value* y,
                          Value* w,
                          Value* h,
-                         std::function<void(MainGame*)> on_click = nullptr
+                         std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
                         )
         : WindowEltClickable(style, x, y, w, h, on_click), txt(txt) {};
 
@@ -749,7 +749,7 @@ class EntityData{
 
 
 //
-class WindowEltMapViewer: public WindowElt {
+class WindowEltMapViewer: public WindowEltClickable {
 
     //
     public:
@@ -809,7 +809,9 @@ class WindowEltMapViewer: public WindowElt {
             Value* x,
             Value* y,
             Value* w,
-            Value* h);
+            Value* h,
+            std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
+        );
 
         //
         void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);

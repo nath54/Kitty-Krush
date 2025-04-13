@@ -17,7 +17,7 @@
 
 
 //
-void on_bt_quit_click(MainGame* main_game) {
+void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game) {
 
     //
     main_game->quit();
@@ -26,7 +26,7 @@ void on_bt_quit_click(MainGame* main_game) {
 
 
 //
-void on_bt_change_page_to_main_menu(MainGame* main_game) {
+void on_bt_change_page_to_main_menu(WindowEltClickable* elt, MainGame* main_game) {
 
     //
     main_game->change_page("main_menu");
@@ -34,7 +34,7 @@ void on_bt_change_page_to_main_menu(MainGame* main_game) {
 
 
 //
-void on_bt_change_page_to_game_settings(MainGame* main_game) {
+void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_game) {
 
     //
     main_game->change_page("game_settings");
@@ -42,7 +42,7 @@ void on_bt_change_page_to_game_settings(MainGame* main_game) {
 
 
 //
-void on_bt_change_page_to_in_game(MainGame* main_game) {
+void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game) {
 
     //
     main_game->change_page("in_game");
@@ -93,7 +93,7 @@ void MainView::init_page_main_menu() {
             nvpwh(50, win_attr),                    // Value*                           y
             nvpww(30, win_attr),                    // Value*                           w
             nvi(100),                               // Value*                           h
-            on_bt_change_page_to_in_game            // std::function<void(MainGame*)>    on_click
+            on_bt_change_page_to_in_game            // std::function<void(WindowEltClickable*, MainGame*)>    on_click
         )
 
     );
@@ -109,7 +109,7 @@ void MainView::init_page_main_menu() {
             nvpwh(75, win_attr),                    // Value*                           y
             nvpww(20, win_attr),                    // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_quit_click                        // std::function<void(MainGame*)>    on_click
+            on_bt_quit_click                        // std::function<void(WindowEltClickable*, MainGame*)>    on_click
         )
 
     );
@@ -138,7 +138,7 @@ void MainView::init_page_game_settings() {
             nvi(15),                                // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_change_page_to_main_menu          // std::function<void(MainGame*)>    on_click
+            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
         )
 
     );
@@ -164,7 +164,8 @@ void MainView::init_page_in_game() {
             nvi(0),                                 // Value*                           x
             nvi(0),                                 // Value*                           y
             nvpww(100, win_attr),                   // Value*                           w
-            nvpwh(100, win_attr)                    // Value*                           h
+            nvpwh(100, win_attr),                   // Value*                           h
+            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*)>  on_click
         )
 
     );
@@ -180,7 +181,7 @@ void MainView::init_page_in_game() {
             nvi(15),                                // Value*                           y
             nvi(100),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_change_page_to_main_menu          // std::function<void(MainGame*)>    on_click
+            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
         )
 
     );

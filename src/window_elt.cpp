@@ -803,28 +803,17 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
 }
 
 //
-WindowEltMapViewer::WindowEltMapViewer( Style* style,
+WindowEltMapViewer::WindowEltMapViewer(
+    Style* style,
     Value* x,
     Value* y,
     Value* w,
-    Value* h)
-: WindowElt(style, x, y, w, h) {
+    Value* h,
+    std::function<void(WindowEltClickable*, MainGame*)> on_click
+)
+: WindowEltClickable(style, x, y, w, h, on_click) {
 
     //
-    // this->default_empty_tile = new WindowEltSprite(
-    //     this->style,
-    //     "res/sprites/map_w/deep_water.png",
-    //     nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
-    //     nvi(0),
-    //     false,
-    //     false,
-    //     SPRITE_NO_CROP(),
-    //     SPRITE_RATIO_CUSTOM(1, 1),
-    //     SPRITE_RESIZE_COVER(),
-    //     SPRITE_POS_ALIGN_START(),
-    //     SPRITE_POS_ALIGN_START()
-    // );
-
     this->default_empty_tile = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/map_w/deep_water/deep_water.png",
