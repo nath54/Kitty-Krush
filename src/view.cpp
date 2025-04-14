@@ -30,18 +30,27 @@ MainView::MainView(GameModel* game_model)
     }
     this->ttf_initialized = true;
 
+
+    //
+    int win_flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
+
     // Window creation
     this->sdl_window = SDL_CreateWindow(
                                         "Kitty Krush !",
                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                         WIN_SIZE_WIDTH_INIT, WIN_SIZE_HEIGHT_INIT,
-                                        SDL_WINDOW_SHOWN
+                                        win_flags
     );
 
     // Set window size
     this->win_attr.win_width = WIN_SIZE_WIDTH_INIT;
     this->win_attr.win_height = WIN_SIZE_HEIGHT_INIT;
 
+    // Maximize the window after creation
+    // SDL_MaximizeWindow(this->sdl_window);
+
+    //
+    SDL_SetWindowMinimumSize(this->sdl_window, WIN_SIZE_WIDTH_INIT / 1.25, WIN_SIZE_HEIGHT_INIT / 1.25);
 
     // Verify window creation
     if(!this->sdl_window){
