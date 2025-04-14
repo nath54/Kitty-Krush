@@ -64,7 +64,7 @@ void MainView::init_page_main_menu() {
         //
         new WindowEltSprite(
             this->win_page_manager->default_style,  // Style*           style,
-            "res/bgs/bg_main_menu_2.jpg",             // std::string      img_path,
+            "res/bgs/bg_main_menu_2.jpg",           // std::string      img_path,
             nvi(0),                                 // Value*           x,
             new ValueInt(0),                        // Value*           y,
             nvpww(100, win_attr),                   // Value*           w,
@@ -73,14 +73,15 @@ void MainView::init_page_main_menu() {
             false,                                  // bool             flip_h              = false,
             false,                                  // bool             flip_v              = false,
             SPRITE_NO_CROP(),                       // SpriteCrop*      sprite_crop         = SPRITE_NO_CROP(),
-            // SPRITE_RATIO_CUSTOM(1, 1),              // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
+            // SPRITE_RATIO_CUSTOM(1, 1),           // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
             SPRITE_RATIO_ORIGINAL(),                // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
-            SPRITE_RESIZE_COVER(),                    // SpriteResize*    sprite_resize       = SPRITE_RESIZE_KEEP_ORIGINAL(),
+            SPRITE_RESIZE_FIT(2.1),                 // SpriteResize*    sprite_resize       = SPRITE_RESIZE_KEEP_ORIGINAL(),
             SPRITE_POS_ALIGN_CENTER(),              // SpritePosition*  sprite_h_position   = SPRITE_POS_ALIGN_START(),
-            SPRITE_POS_ALIGN_CENTER()                // SpritePosition*  sprite_v_position   = SPRITE_POS_ALIGN_START()
+            SPRITE_POS_ALIGN_CENTER()               // SpritePosition*  sprite_v_position   = SPRITE_POS_ALIGN_START()
         )
 
     );
+
 
     //
     this->win_page_manager->pages["main_menu"]->elts.push_back(
