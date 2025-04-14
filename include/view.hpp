@@ -790,7 +790,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         //
         double cam_x = 0;
         double cam_y = 0;
-        double zoom = 0.5;
+        double zoom = 1.1;
 
         //
         Coord mouse_hover_tile = (Coord){1, 1};
