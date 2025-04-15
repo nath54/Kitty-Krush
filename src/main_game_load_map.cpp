@@ -5,6 +5,7 @@
 #include <iostream>
 #include <map>
 //
+#include "color.hpp"
 #include "main_game.hpp"
 #include "view.hpp"
 #include "strings_utils.hpp"
@@ -105,6 +106,28 @@ void MainGame::set_map_from_data(
         //
         map_viewer->update_closest_building_of_color();
 
+    }
+
+
+    // Init data
+
+    WindowElt* player_rect_elt = this->main_view->win_page_manager->pages["in_game"]->elts[2];
+    WindowElt* player_text_elt = this->main_view->win_page_manager->pages["in_game"]->elts[3];
+
+    //
+    WindowEltRect* player_rect = dynamic_cast<WindowEltRect*>(player_rect_elt);
+    WindowEltText* player_text = dynamic_cast<WindowEltText*>(player_text_elt);
+
+    //
+    if ( player_rect != nullptr ){
+        //
+        player_rect->cl = allPlayerColors[map_viewer->current_color_to_play - 1];
+    }
+
+    //
+    if ( player_text != nullptr ){
+        //
+        player_text->txt = "Player " + std::to_string(map_viewer->current_color_to_play);
     }
 
 }

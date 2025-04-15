@@ -187,6 +187,37 @@ void MainView::init_page_in_game() {
 
     );
 
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltRect(
+            this->win_page_manager->default_style,  // Style*                           style
+            (Color){150, 150, 150},                 // Color                            cl
+            nvpww(40, win_attr),                    // Value*                           x
+            nvi(15),                                // Value*                           y
+            nvpww(20, win_attr),                    // Value*                           w
+            nvi(40),                                // Value*                           h
+            nvi(15)                                 // Value*                           radius
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            "player 1",                             // std::string                      txt
+            nvpww(40, win_attr),                    // Value*                           x
+            nvi(15),                                // Value*                           y
+            nvpww(20, win_attr),                    // Value*                           w
+            nvi(40)                                 // Value*                           h
+        )
+
+    );
+
 }
 
 

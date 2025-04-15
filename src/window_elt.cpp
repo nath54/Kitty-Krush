@@ -267,6 +267,7 @@ int WindowElt::get_h(DrawTransform* transform){
     return res;
 }
 
+
 //
 void WindowElt::draw_elt(MainView* main_view, DrawTransform* transform){
 
@@ -274,6 +275,22 @@ void WindowElt::draw_elt(MainView* main_view, DrawTransform* transform){
 
 }
 
+
+//
+void WindowEltRect::draw_elt(MainView* main_view, DrawTransform* transform){
+
+    //
+    int x = this->get_x(transform);
+    int y = this->get_y(transform);
+    int w = this->get_w(transform);
+    int h = this->get_h(transform);
+    int r = 0;
+    if(this->radius != nullptr) { r = this->radius->get_value(); }
+
+    //
+    main_view->draw_rounded_rect(x, y, w, h, r, this->cl);
+
+}
 
 
 //

@@ -50,6 +50,9 @@ void MainGame::mainloop(){
     while(this->game_model->is_running){
 
         //
+        this->main_view->at_frame_start();
+
+        //
         this->game_controller->manage_events(this->main_view->get_win_attr(), this->events_manager);
 
         //
@@ -58,6 +61,8 @@ void MainGame::mainloop(){
         //
         this->mainloop_execute_all_events();
 
+        //
+        this->main_view->at_frame_end();
     }
 
 }

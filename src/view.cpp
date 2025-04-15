@@ -101,6 +101,24 @@ MainView::~MainView(){
     SDL_Quit();
 }
 
+
+//
+void MainView::at_frame_start(){
+    this->frameStart = SDL_GetTicks();
+}
+
+//
+void MainView::at_frame_end(){
+
+    //
+    this->frameTime = SDL_GetTicks() - this->frameStart;
+
+    if (frameDelay > this->frameTime) {
+        SDL_Delay(frameDelay - this->frameTime);
+    }
+}
+
+
 //
 void MainView::update_mouse_state(){
 

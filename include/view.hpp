@@ -30,6 +30,9 @@ static const int WIN_SIZE_HEIGHT_INIT = 836;
 //
 static char SDL_ERROR_BUFFER[1000];
 
+//
+static const int frameDelay = 16;  // 60 FPS
+
 
 // Forward declaration
 
@@ -48,6 +51,9 @@ class MainView{
 
         //
         uint32_t startTime = 0;
+        //
+        uint32_t frameStart = 0;
+        uint32_t frameTime = 0;
 
         // Window related attributes
         WindowAttributes win_attr;
@@ -94,6 +100,12 @@ class MainView{
 
         // Create the in game page
         void init_page_in_game();
+
+        //
+        void at_frame_start();
+
+        //
+        void at_frame_end();
 
         // Main update display method
         void update_display(int menu_state);
@@ -381,6 +393,33 @@ class WindowEltClickable : public WindowElt {
             std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
          )
         : WindowElt(style, x, y, w, h), on_click(on_click) {};
+
+};
+
+
+
+//
+class WindowEltRect : public WindowElt {
+
+    public:
+
+        //
+        Color cl;
+        Value* radius;
+
+        //
+        WindowEltRect( Style* style,
+                       Color cl,
+                       Value* x,
+                       Value* y,
+                       Value* w = new ValueInt(-1),
+                       Value* h = new ValueInt(-1),
+                       Value* radius = new ValueInt(0)
+                    )
+            : WindowElt(style, x, y, w, h), cl(cl), radius(radius) {};
+
+        //
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
 
 };
 
