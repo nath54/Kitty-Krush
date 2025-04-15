@@ -449,35 +449,6 @@ class WindowEltText : public WindowElt {
 };
 
 
-//
-class WindowEltButton : public WindowEltClickable {
-
-    public:
-
-        //
-        std::string txt;
-        //
-        Color color;
-        //
-        int fontSize;
-
-        //
-        WindowEltButton( Style* style,
-                         std::string txt,
-                         Value* x,
-                         Value* y,
-                         Value* w,
-                         Value* h,
-                         std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
-                        )
-        : WindowEltClickable(style, x, y, w, h, on_click), txt(txt) {};
-
-        //
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
-
-};
-
-
 
 //
 class SpriteCrop{
@@ -734,6 +705,37 @@ class WindowEltAnimatedSprite : public WindowElt {
                                  SpritePosition* sprite_h_position = SPRITE_POS_ALIGN_START(),
                                  SpritePosition* sprite_v_position = SPRITE_POS_ALIGN_START()
                                 );
+
+        //
+        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+
+};
+
+
+
+//
+class WindowEltButton : public WindowEltClickable {
+
+    public:
+
+        //
+        std::string txt;
+        //
+        Color color;
+        //
+        int fontSize;
+        //
+        WindowEltSprite* bt_sprite = nullptr;
+
+        //
+        WindowEltButton( Style* style,
+                         std::string txt,
+                         Value* x,
+                         Value* y,
+                         Value* w,
+                         Value* h,
+                         std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
+                        );
 
         //
         void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);

@@ -52,5 +52,11 @@ class WindowAttributes{
         //
         Event* update_keyboard_state(std::string key, bool pressed);
 
+        //
+        void update_window_size(int new_width, int new_height);
+
+        //
+        void update_window_position(int new_x, int new_y);
+
 };
 

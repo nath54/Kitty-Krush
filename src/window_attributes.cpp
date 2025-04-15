@@ -150,3 +150,22 @@ Event* WindowAttributes::update_keyboard_state(std::string key, bool pressed){
 }
 
 
+//
+void WindowAttributes::update_window_size(int new_width, int new_height){
+
+    //
+    this->win_width = new_width;
+    this->win_height = new_height;
+
+}
+
+
+//
+void WindowAttributes::update_window_position(int new_x, int new_y){
+
+    //
+    this->win_x = new_x;
+    this->win_y = new_y;
+
+}
+

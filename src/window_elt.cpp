@@ -4,12 +4,15 @@
 #include <vector>
 #include <list>
 #include <set>
+#include <string>
+#include <fstream>
+#include <random>
 //
 #include "geometry.hpp"
 #include "map_tiles.hpp"
 #include "view.hpp"
 //
-#include <random>
+
 
 
 //
@@ -315,6 +318,58 @@ void WindowEltText::draw_elt(MainView* main_view, DrawTransform* transform){
 }
 
 
+//
+inline bool check_file_exists(const std::string& name) {
+    if (FILE *file = fopen(name.c_str(), "r")) {
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+//
+inline bool ends_with(std::string const & value, std::string const & ending)
+{
+    if (ending.size() > value.size()) return false;
+    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+}
+
+
+//
+WindowEltButton::WindowEltButton( Style* style,
+    std::string txt,
+    Value* x,
+    Value* y,
+    Value* w,
+    Value* h,
+    std::function<void(WindowEltClickable*, MainGame*)> on_click
+   )
+: WindowEltClickable(style, x, y, w, h, on_click), txt(txt) {
+
+    //
+    if ( ( ends_with(txt, ".png") || ends_with(txt, ".jpg") || ends_with(txt, ".jpeg") ) && check_file_exists(txt) ){
+
+        //
+        this->bt_sprite = new WindowEltSprite(
+            this->style,
+            txt,
+            this->x, this->y, this->w, this->h,
+            nvi(0),
+            false,
+            false,
+            SPRITE_NO_CROP(),
+            SPRITE_RATIO_ORIGINAL(),
+            SPRITE_RESIZE_FIT(),
+            SPRITE_POS_ALIGN_CENTER(),
+            SPRITE_POS_ALIGN_CENTER()
+        );
+
+    }
+
+}
+
 
 //
 void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
@@ -348,7 +403,20 @@ void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
     }
 
     //
-    main_view->draw_button_1( x, y, w, h, this->txt, fg_cl, bg_cl, font_size, radius );
+    std::string txt = "";
+
+    //
+    if (this->bt_sprite == nullptr ){
+        txt = this->txt;
+    }
+
+    //
+    main_view->draw_button_1( x, y, w, h, txt, fg_cl, bg_cl, font_size, radius );
+
+    //
+    if (this->bt_sprite != nullptr){
+        this->bt_sprite->draw_elt(main_view, transform);
+    }
 
 }
 

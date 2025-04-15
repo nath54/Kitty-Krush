@@ -171,6 +171,13 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
                 break;
 
             //
+            case SDL_WINDOWEVENT_RESIZED:
+                //
+                win_attr->update_window_size(event.window.data1, event.window.data2);
+                //
+                break;
+
+            //
             default: break;
         }
     }

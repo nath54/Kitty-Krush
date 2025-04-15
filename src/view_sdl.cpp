@@ -225,7 +225,10 @@ void MainView::draw_button_1(int x, int y, int w, int h, std::string text, Color
     this->draw_rounded_rect(x, y, w, h, r, bg_cl);
 
     //
-    this->draw_text(text, fg_cl, fontSize, x, y, w, h);
+    if(text.size() > 0){
+        //
+        this->draw_text(text, fg_cl, fontSize, x, y, w, h);
+    }
 
 }
 

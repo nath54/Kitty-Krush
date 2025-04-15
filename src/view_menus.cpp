@@ -50,6 +50,69 @@ void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game) 
 
 
 //
+void set_new_entity_dragged(MainGame* main_game, int level, bool type){
+
+    //
+    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
+
+    //
+    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->dragging_entity = true;
+    map_viewer->dragging_new_entity = true;
+    map_viewer->entity_dragged.level = level;
+    map_viewer->entity_dragged.type = type;
+}
+
+
+//
+void on_bt_new_warrior_lvl1(WindowEltClickable* elt, MainGame* main_game) {
+    //
+    set_new_entity_dragged(main_game, 1, true);
+}
+
+
+//
+void on_bt_new_warrior_lvl2(WindowEltClickable* elt, MainGame* main_game) {
+    //
+    set_new_entity_dragged(main_game, 2, true);
+}
+
+
+//
+void on_bt_new_warrior_lvl3(WindowEltClickable* elt, MainGame* main_game) {
+    //
+    set_new_entity_dragged(main_game, 3, true);
+}
+
+
+//
+void on_bt_new_warrior_lvl4(WindowEltClickable* elt, MainGame* main_game) {
+    //
+    set_new_entity_dragged(main_game, 4, true);
+}
+
+
+//
+void on_bt_new_tower(WindowEltClickable* elt, MainGame* main_game) {
+    //
+    set_new_entity_dragged(main_game, 2, false);
+}
+
+
+//
+void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game) {
+    //
+    // TODO: end turn
+}
+
+
+
+//
 void MainView::init_page_main_menu() {
 
     //
@@ -214,6 +277,102 @@ void MainView::init_page_in_game() {
             nvi(15),                                // Value*                           y
             nvpww(20, win_attr),                    // Value*                           w
             nvi(40)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/sprites/entities/cat_lvl1_p.png",  // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(100),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(60),                                // Value*                           h
+            on_bt_new_warrior_lvl1                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(180),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(60),                                // Value*                           h
+            on_bt_new_warrior_lvl2                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(260),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(60),                                // Value*                           h
+            on_bt_new_warrior_lvl3                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(340),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(60),                                // Value*                           h
+            on_bt_new_warrior_lvl4                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/sprites/entities/tower_p.png",     // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(420),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(60),                                // Value*                           h
+            on_bt_new_tower                         // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "end turn",                             // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvpwh(94, win_attr),                    // Value*                           y
+            nvi(200),                               // Value*                           w
+            nvi(40),                                // Value*                           h
+            on_bt_end_turn                          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
         )
 
     );
