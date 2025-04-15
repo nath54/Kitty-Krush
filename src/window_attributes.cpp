@@ -89,12 +89,22 @@ Event* WindowAttributes::update_mouse_button_state(int button, int pressed){
     //
     else if( mouse_left_bt_clicked + mouse_right_bt_clicked > 0){
 
-        //
-        evt = new EventMouseClick(
+        if( euclidian_distance(
+            this->mouse_base_drag_x,
+            this->mouse_base_drag_y,
             this->mouse_x,
-            this->mouse_y,
-            button
-        );
+            this->mouse_y
+         ) <= MIN_DIST_DRAG
+        ){
+
+            //
+            evt = new EventMouseClick(
+                this->mouse_x,
+                this->mouse_y,
+                button
+            );
+
+        }
 
         //
         if( button == MOUSE_BUTTON_LEFT ){
