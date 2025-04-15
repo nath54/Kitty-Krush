@@ -6,42 +6,27 @@
 #include <vector>
 #include <string>
 #include <string_view>
+//
 #include "geometry.hpp"
 
+//
 using namespace std;
 typedef unsigned short int usint;
 
+//
 #define NEUTRAL 0
+
 
 // ========== [ Forward declarations ] ==========
 
+//
 class Province;
-
-// ========== [ Players ] ==========
-
-
-class Player {
-
-    private:
-
-        const string name; // name of the player
-        const usint color; // color of the player
-
-    public:
-
-        // Constructor
-        Player(const string player_name, const usint player_color)
-            : name(player_name), color(player_color) {};  // Automatic variable initialisation
-
-        // Getters
-        string _name() const;
-        usint _color() const;
-};
 
 
 // ========== [ Game Elements ] ==========
 
 
+//
 class Element {
 
     protected:
@@ -71,6 +56,7 @@ class Element {
 };
 
 
+//
 class Unit : public Element {
 
     private:
@@ -97,6 +83,7 @@ class Unit : public Element {
 };
 
 
+//
 class Building : public Element {
 
     private:
@@ -127,6 +114,7 @@ class Building : public Element {
 // ========== [ Map ] ==========
 
 
+//
 class Tile {
 
     private:
@@ -162,6 +150,7 @@ class Tile {
 };
 
 
+//
 class Province {
 
     private:
@@ -195,6 +184,7 @@ class Province {
 };
 
 
+//
 class Map {
 
     private:
@@ -234,9 +224,12 @@ class GameModel {
 
     private:
 
-        // Players are linked here, indexed by there name
-        map<string, Player*> players;
+        //
         Map* game_map;
+
+        //
+        int nb_players_colors = 2;
+        int current_player_color = 1;
 
     public:
 
@@ -285,7 +278,12 @@ class GameModel {
 
 // ========== [ Tools functions ] ==========
 
+//
 usint max(usint a, usint b);
+
+//
 bool is_adjacent(Coord c1, Coord c2);
+
+//
 vector<Coord> neighbours(Coord c);
 

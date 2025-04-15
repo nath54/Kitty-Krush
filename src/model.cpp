@@ -3,12 +3,6 @@
 #include <ctime> // time()
 
 
-// ===== Players =====
-
-string Player::_name() const { return name; }
-usint Player::_color() const { return color; }
-
-
 // ===== Elements =====
 
 Coord Element::_coord() const { return coord; }
@@ -298,8 +292,11 @@ void GameModel::reset_color_layer(){
 
 // ===== Tools functions =====
 
+//
 usint max(usint a, usint b) { return (a > b) ? a : b; }
 
+
+//
 bool is_adjacent(Coord c1, Coord c2)
 {
     int diff_x = c1.x - c2.x;
@@ -314,6 +311,8 @@ bool is_adjacent(Coord c1, Coord c2)
     return true;
 }
 
+
+//
 vector<Coord> neighbours(Coord c)
 {
     int x = c.x;
