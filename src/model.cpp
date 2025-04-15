@@ -212,7 +212,7 @@ void Map::fusion_provinces(Province* p1, Province* p2)
 // ===== Game =====
 
 //
-bool player_action_move_entity(Coord src, Coord dst){
+bool GameModel::player_action_move_entity(Coord src, Coord dst){
 
     // TODO
 
@@ -220,7 +220,7 @@ bool player_action_move_entity(Coord src, Coord dst){
 }
 
 //
-bool player_action_new_entity(Coord dst, int entity_level, bool entity_type){
+bool GameModel::player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 
     // TODO
 
@@ -228,7 +228,7 @@ bool player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 }
 
 //
-bool player_action_end_turn(){
+bool GameModel::player_action_end_turn(){
 
     // TODO
 
@@ -236,7 +236,7 @@ bool player_action_end_turn(){
 }
 
 //
-int get_current_player_color(){
+int GameModel::get_current_player_color(){
 
     // TODO
 
@@ -244,7 +244,7 @@ int get_current_player_color(){
 }
 
 //
-Province* get_tile_province(Coord coord){
+Province* GameModel::get_tile_province(Coord coord){
 
     // TODO
 
@@ -252,7 +252,7 @@ Province* get_tile_province(Coord coord){
 }
 
 //
-Element* get_tile_entity(Coord coord){
+Element* GameModel::get_tile_entity(Coord coord){
 
     // TODO
 
@@ -260,7 +260,7 @@ Element* get_tile_entity(Coord coord){
 }
 
 //
-int get_tile_color(Coord coord){
+int GameModel::get_tile_color(Coord coord){
 
     // TODO
 
@@ -268,28 +268,28 @@ int get_tile_color(Coord coord){
 }
 
 //
-void set_tile_entity(Coord coord, int entity_level, bool entity_type){
+void GameModel::set_tile_entity(Coord coord, int entity_level, bool entity_type){
 
     // TODO
 
 }
 
 //
-void set_tile_color(Coord coord, int color){
+void GameModel::set_tile_color(Coord coord, int color){
 
     // TODO
 
 }
 
 //
-void reset_entity_layer(){
+void GameModel::reset_entity_layer(){
 
     // TODO
 
 }
 
 //
-void reset_color_layer(){
+void GameModel::reset_color_layer(){
 
     // TODO
 
