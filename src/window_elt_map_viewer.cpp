@@ -55,6 +55,21 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
+    this->under_entity_effect = new WindowEltAnimatedSprite(
+        this->style,
+        "res/ui/under_entity.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 72, 72, 6, 200,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
     this->warrior_lvl_0 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/bandit.png",
@@ -257,8 +272,55 @@ WindowEltMapViewer::WindowEltMapViewer(
 }
 
 
+//
+void WindowEltMapViewer::draw_ground_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
 
-void WindowEltMapViewer::draw_entity(EntityData edata, MainView* main_view, DrawTransform* transform, int color){
+    // GROUND LAYER TILE
+
+    //
+    WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
+
+    //
+    if (tile == nullptr && this->default_empty_tile != nullptr){
+
+        //
+        this->default_empty_tile->draw_elt(main_view, transform);
+
+    }
+    //
+    else{
+
+        //
+        tile->draw_elt(main_view, transform);
+
+    }
+}
+
+
+//
+void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
+
+    // COLOR LAYER TILE
+
+    if ( color > 0 && color < MAX_COLOR){
+
+        // set the color filter
+        transform->do_color_mod = true;
+        transform->color_mod = allPlayerColors[color - 1];
+
+        //
+        this->color_tile->draw_elt(main_view, transform);
+
+        // remove the color filter
+        transform->do_color_mod = false;
+
+    }
+
+}
+
+
+//
+void WindowEltMapViewer::draw_entity_sprite(EntityData edata, MainView* main_view, DrawTransform* transform, int color){
 
     //
     if (edata.type){ // Warrior
@@ -327,6 +389,94 @@ void WindowEltMapViewer::draw_entity(EntityData edata, MainView* main_view, Draw
 
 
 //
+void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
+
+    // ENTITY LAYER TILE
+
+    //
+    if( !(this->dragging_entity && !this->dragging_new_entity && coord == this->tile_entity_dragged) ){
+
+        //
+        EntityData edata = this->get_entity_data_at_coord( coord );
+
+        //
+        if (edata.type && edata.level >= 0){
+            //
+            transform->do_color_mod = true;
+            if (color == this->current_color_to_play){
+                transform->color_mod = (Color){50, 200, 50};
+            }
+            else{
+                transform->color_mod = (Color){155, 20, 20};
+            }
+            //
+            this->under_entity_effect->draw_elt(main_view, transform);
+            //
+            transform->do_color_mod = false;
+        }
+        //
+        else if( !edata.type && edata.level == 1 && this->selected_villages.count( coord ) > 0 ){
+            //
+            transform->do_color_mod = true;
+            transform->color_mod = (Color){50, 50, 200};
+            this->under_entity_effect->draw_elt(main_view, transform);
+            transform->do_color_mod = false;
+        }
+
+        //
+        dep_x->value += this->zoom * ENTITY_MARGIN / 2;
+        dep_y->value += this->zoom * ENTITY_MARGIN / 2;
+
+        //
+        this->draw_entity_sprite(edata, main_view, transform, color);
+
+        //
+        dep_x->value -= this->zoom * ENTITY_MARGIN / 2;
+        dep_y->value -= this->zoom * ENTITY_MARGIN / 2;
+
+    }
+}
+
+
+//
+void WindowEltMapViewer::draw_barricade(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
+
+    // BARRICADES / WALLS
+
+    //
+    dep_x->value -= A;
+    dep_y->value -= A;
+
+    //
+    if (color > 0){
+        if(this->check_draw_palissade_top(coord)){
+            this->barricade_top->draw_elt(main_view, transform);
+        }
+        if(this->check_draw_palissade_top_right(coord)){
+            this->barricade_top_right->draw_elt(main_view, transform);
+        }
+        if(this->check_draw_palissade_top_left(coord)){
+            this->barricade_top_left->draw_elt(main_view, transform);
+        }
+        if(this->check_draw_palissade_bottom(coord)){
+            this->barricade_bottom->draw_elt(main_view, transform);
+        }
+        if(this->check_draw_palissade_bottom_right(coord)){
+            this->barricade_bottom_right->draw_elt(main_view, transform);
+        }
+        if(this->check_draw_palissade_bottom_left(coord)){
+            this->barricade_bottom_left->draw_elt(main_view, transform);
+        }
+    }
+
+    //
+    dep_x->value += A;
+    dep_y->value += A;
+
+}
+
+
+//
 void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
@@ -389,6 +539,9 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             Coord coord = {tile_x, tile_y};
 
             //
+            int color = this->get_color_at_coord( coord );
+
+            //
             dep_x->value = - base_dec_x + tile_x * B;
             //
             if (tile_x % 2 != 0){
@@ -400,43 +553,14 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
                 dep_y->value = - base_dec_y + tile_y * zoomed_H;
             }
 
-            // GROUND LAYER TILE
+            //
+            this->draw_ground_tile(coord, main_view, tile_transform, color, dep_x, dep_y, zoomed_W, zoomed_H, A, B);
 
             //
-            WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
+            this->draw_color_tile(coord, main_view, tile_transform, color, dep_x, dep_y, zoomed_W, zoomed_H, A, B);
 
             //
-            if (tile == nullptr && this->default_empty_tile != nullptr){
-
-                //
-                this->default_empty_tile->draw_elt(main_view, tile_transform);
-
-            }
-            //
-            else{
-
-                //
-                tile->draw_elt(main_view, tile_transform);
-
-            }
-
-            // COLOR LAYER TILE
-
-            int color = this->get_color_at_coord( coord );
-
-            if ( color > 0 && color < MAX_COLOR){
-
-                // set the color filter
-                tile_transform->do_color_mod = true;
-                tile_transform->color_mod = allPlayerColors[color - 1];
-
-                //
-                this->color_tile->draw_elt(main_view, tile_transform);
-
-                // remove the color filter
-                tile_transform->do_color_mod = false;
-
-            }
+            this->draw_entity(coord, main_view, tile_transform, color, dep_x, dep_y, zoomed_W, zoomed_H, A, B);
 
         }
 
@@ -466,57 +590,8 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
                 dep_y->value = - base_dec_y + tile_y * zoomed_H;
             }
 
-
-            // ENTITY LAYER TILE
-
             //
-            if( !(this->dragging_entity && !this->dragging_new_entity && coord == this->tile_entity_dragged) ){
-
-                //
-                EntityData edata = this->get_entity_data_at_coord( coord );
-
-                //
-                dep_x->value += this->zoom * ENTITY_MARGIN / 2;
-                dep_y->value += this->zoom * ENTITY_MARGIN / 2;
-
-                //
-                this->draw_entity(edata, main_view, tile_transform, color);
-
-                //
-                dep_x->value -= this->zoom * ENTITY_MARGIN / 2;
-                dep_y->value -= this->zoom * ENTITY_MARGIN / 2;
-
-            }
-
-            //
-            dep_x->value -= A;
-            dep_y->value -= A;
-
-            // TODO: BARRICADES / WALLS
-            if (color > 0){
-                if(this->check_draw_palissade_top(coord)){
-                    this->barricade_top->draw_elt(main_view, tile_transform);
-                }
-                if(this->check_draw_palissade_top_right(coord)){
-                    this->barricade_top_right->draw_elt(main_view, tile_transform);
-                }
-                if(this->check_draw_palissade_top_left(coord)){
-                    this->barricade_top_left->draw_elt(main_view, tile_transform);
-                }
-                if(this->check_draw_palissade_bottom(coord)){
-                    this->barricade_bottom->draw_elt(main_view, tile_transform);
-                }
-                if(this->check_draw_palissade_bottom_right(coord)){
-                    this->barricade_bottom_right->draw_elt(main_view, tile_transform);
-                }
-                if(this->check_draw_palissade_bottom_left(coord)){
-                    this->barricade_bottom_left->draw_elt(main_view, tile_transform);
-                }
-            }
-
-            //
-            dep_x->value += A;
-            dep_y->value += A;
+            this->draw_barricade(coord, main_view, tile_transform, color, dep_x, dep_y, zoomed_W, zoomed_H, A, B);
 
             //
             if(coord == this->mouse_hover_tile){
@@ -544,7 +619,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
         dep_y->value = main_view->win_attr.mouse_y;
 
         //
-        this->draw_entity(this->entity_dragged, main_view, tile_transform, this->current_color_to_play);
+        this->draw_entity_sprite(this->entity_dragged, main_view, tile_transform, this->current_color_to_play);
 
     }
 

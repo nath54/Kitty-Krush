@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstdio>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 #include <list>
@@ -805,6 +806,8 @@ class WindowEltMapViewer: public WindowEltClickable {
         // WindowEltSprite* default_empty_tile;
         WindowEltAnimatedSprite* default_empty_tile;
         WindowEltSprite* color_tile;
+        WindowEltAnimatedSprite* under_entity_effect;
+
 
         // TODO: sprites for all entities
 
@@ -844,6 +847,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         bool dragging_new_entity = true;
         EntityData entity_dragged = (EntityData){4, true};
         Coord tile_entity_dragged = (Coord){0, 0};
+        std::set<Coord> selected_villages;
 
         //
         WindowEltMapViewer( Style* style,
@@ -853,6 +857,21 @@ class WindowEltMapViewer: public WindowEltClickable {
             Value* h,
             std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
         );
+
+        //
+        void draw_ground_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
+
+        //
+        void draw_color_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
+
+        //
+        void draw_entity_sprite(EntityData edata, MainView* main_view, DrawTransform* transform, int color);
+
+        //
+        void draw_entity(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
+
+        //
+        void draw_barricade(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
 
         //
         void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
@@ -898,9 +917,6 @@ class WindowEltMapViewer: public WindowEltClickable {
 
         //
         void update_mouse_hover_tile(Coord mouse_pos);
-
-        //
-        void draw_entity(EntityData edata, MainView* main_view, DrawTransform* transform, int color);
 
         //
         void drag_entity(Coord tile_to_drag);
