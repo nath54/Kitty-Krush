@@ -188,7 +188,7 @@ class Province {
     // Functions
     void add_tile(Tile* tile);
     void remove_tile(Tile* tile);
-    
+
     void treasury_turn();
     void add_treasury(int amount);
     void remove_treasury(int amount);
@@ -245,6 +245,41 @@ class GameModel {
 
         // Constructor
         GameModel() {};
+
+
+        //
+        bool player_action_move_entity(Coord src, Coord dst);
+
+        //
+        bool player_action_new_entity(Coord dst, int entity_level, bool entity_type);
+
+        //
+        bool player_action_end_turn();
+
+        //
+        int get_current_player_color();
+
+        //
+        Province* get_tile_province(Coord coord);
+
+        //
+        Element* get_tile_entity(Coord coord);
+
+        //
+        int get_tile_color(Coord coord);
+
+        //
+        void set_tile_entity(Coord coord, int entity_level, bool entity_type);
+
+        //
+        void set_tile_color(Coord coord, int color);
+
+        //
+        void reset_entity_layer();
+
+        //
+        void reset_color_layer();
+
 };
 
 

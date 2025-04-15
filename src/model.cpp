@@ -212,6 +212,88 @@ void Map::fusion_provinces(Province* p1, Province* p2)
 // ===== Game =====
 
 //
+bool player_action_move_entity(Coord src, Coord dst){
+
+    // TODO
+
+    return false;
+}
+
+//
+bool player_action_new_entity(Coord dst, int entity_level, bool entity_type){
+
+    // TODO
+
+    return false;
+}
+
+//
+bool player_action_end_turn(){
+
+    // TODO
+
+    return false;
+}
+
+//
+int get_current_player_color(){
+
+    // TODO
+
+    return 1;
+}
+
+//
+Province* get_tile_province(Coord coord){
+
+    // TODO
+
+    return nullptr;
+}
+
+//
+Element* get_tile_entity(Coord coord){
+
+    // TODO
+
+    return nullptr;
+}
+
+//
+int get_tile_color(Coord coord){
+
+    // TODO
+
+    return -1;
+}
+
+//
+void set_tile_entity(Coord coord, int entity_level, bool entity_type){
+
+    // TODO
+
+}
+
+//
+void set_tile_color(Coord coord, int color){
+
+    // TODO
+
+}
+
+//
+void reset_entity_layer(){
+
+    // TODO
+
+}
+
+//
+void reset_color_layer(){
+
+    // TODO
+
+}
 
 
 // ===== Tools functions =====
