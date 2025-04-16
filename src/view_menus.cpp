@@ -131,8 +131,8 @@ void MainView::init_page_main_menu() {
             "res/bgs/bg_main_menu_2.png",           // std::string      img_path,
             nvi(0),                                 // Value*           x,
             new ValueInt(0),                        // Value*           y,
-            nvpww(100, win_attr),                   // Value*           w,
-            nvpwh(100, win_attr),                   // Value*           h,
+            nvpww(win_attr, 100),                   // Value*           w,
+            nvpwh(win_attr, 100),                   // Value*           h,
             nvi(0),                                 // Value*           angle               = new ValueInt(0),
             false,                                  // bool             flip_h              = false,
             false,                                  // bool             flip_v              = false,
@@ -154,9 +154,9 @@ void MainView::init_page_main_menu() {
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "Play !",                               // std::string                      text
-            nvpww(35, win_attr),                    // Value*                           x
-            nvpwh(45, win_attr),                    // Value*                           y
-            nvpww(30, win_attr),                    // Value*                           w
+            nvpww(win_attr, 35),                    // Value*                           x
+            nvpwh(win_attr, 45),                    // Value*                           y
+            nvpww(win_attr, 30),                    // Value*                           w
             nvi(100),                               // Value*                           h
             on_bt_change_page_to_in_game            // std::function<void(WindowEltClickable*, MainGame*)>    on_click
         )
@@ -170,9 +170,9 @@ void MainView::init_page_main_menu() {
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "Quit...",                              // std::string                      text
-            nvpww(40, win_attr),                    // Value*                           x
-            nvpwh(65, win_attr),                    // Value*                           y
-            nvpww(20, win_attr),                    // Value*                           w
+            nvpww(win_attr, 40),                    // Value*                           x
+            nvpwh(win_attr, 65),                    // Value*                           y
+            nvpww(win_attr, 20),                    // Value*                           w
             nvi(40),                                // Value*                           h
             on_bt_quit_click                        // std::function<void(WindowEltClickable*, MainGame*)>    on_click
         )
@@ -228,8 +228,8 @@ void MainView::init_page_in_game() {
             this->win_page_manager->default_style,  // Style*                           style
             nvi(0),                                 // Value*                           x
             nvi(0),                                 // Value*                           y
-            nvpww(100, win_attr),                   // Value*                           w
-            nvpwh(100, win_attr),                   // Value*                           h
+            nvpww(win_attr, 100),                   // Value*                           w
+            nvpwh(win_attr, 100),                   // Value*                           h
             on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*)>  on_click
         )
 
@@ -258,9 +258,9 @@ void MainView::init_page_in_game() {
         new WindowEltRect(
             this->win_page_manager->default_style,  // Style*                           style
             (Color){150, 150, 150},                 // Color                            cl
-            nvpww(40, win_attr),                    // Value*                           x
+            nvpww(win_attr, 40),                    // Value*                           x
             nvi(15),                                // Value*                           y
-            nvpww(20, win_attr),                    // Value*                           w
+            nvpww(win_attr, 20),                    // Value*                           w
             nvi(40),                                // Value*                           h
             nvi(15)                                 // Value*                           radius
         )
@@ -274,9 +274,9 @@ void MainView::init_page_in_game() {
         new WindowEltText(
             this->win_page_manager->default_style,  // Style*                           style
             "player 1",                             // std::string                      txt
-            nvpww(40, win_attr),                    // Value*                           x
+            nvpww(win_attr, 40),                    // Value*                           x
             nvi(15),                                // Value*                           y
-            nvpww(20, win_attr),                    // Value*                           w
+            nvpww(win_attr, 20),                    // Value*                           w
             nvi(40)                                 // Value*                           h
         )
 
@@ -445,7 +445,7 @@ void MainView::init_page_in_game() {
             this->win_page_manager->default_style,  // Style*                           style
             "end turn",                             // std::string                      text
             nvi(15),                                // Value*                           x
-            nvpwh(94, win_attr),                    // Value*                           y
+            nvpwh(win_attr, 100, -60),              // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
             on_bt_end_turn                          // std::function<void(WindowEltClickable*, MainGame*)>    on_click

@@ -197,12 +197,13 @@ class ValuePercentWinWidth: public Value{
 
         //
         float percent;
+        int shift = 0;
 
         //
         WindowAttributes* win_attr;
 
         //
-        ValuePercentWinWidth(float percent, WindowAttributes* win_attr): percent(percent), win_attr(win_attr) {}
+        ValuePercentWinWidth(WindowAttributes* win_attr, float percent, int shift = 0): win_attr(win_attr), percent(percent), shift(shift) {}
 
         //
         int get_value();
@@ -218,12 +219,13 @@ class ValuePercentWinHeight: public Value{
 
         //
         float percent;
+        int shift = 0;
 
         //
         WindowAttributes* win_attr;
 
         //
-        ValuePercentWinHeight(float percent, WindowAttributes* win_attr): percent(percent), win_attr(win_attr) {}
+        ValuePercentWinHeight(WindowAttributes* win_attr, float percent, int shift = 0): win_attr(win_attr), percent(percent), shift(shift) {}
 
         //
         int get_value();
@@ -239,10 +241,10 @@ ValueInt* nvi(int value);
 ValuePercent* nvp(float percent);
 
 //
-ValuePercentWinWidth* nvpww(float prc, WindowAttributes* win_attr);
+ValuePercentWinWidth* nvpww(WindowAttributes* win_attr, float prc, int shift=0);
 
 //
-ValuePercentWinHeight* nvpwh(float prc, WindowAttributes* win_attr);
+ValuePercentWinHeight* nvpwh(WindowAttributes* win_attr, float prc, int shift=0);
 
 
 

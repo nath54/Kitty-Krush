@@ -90,14 +90,14 @@ int ValuePercent::get_value_scaled(int value){
 //
 int ValuePercentWinWidth::get_value(){
     //
-    return (int)(this->percent * this->win_attr->win_width / 100.0 );
+    return (int)(this->percent * this->win_attr->win_width / 100.0 ) + this->shift;
 }
 
 
 //
 int ValuePercentWinHeight::get_value(){
     //
-    return (int)(this->percent * this->win_attr->win_height / 100.0 );
+    return (int)(this->percent * this->win_attr->win_height / 100.0 ) + this->shift;
 }
 
 
@@ -113,13 +113,13 @@ ValuePercent* nvp(float percent){
 }
 
 //
-ValuePercentWinWidth* nvpww(float prc, WindowAttributes* win_attr){
-    return new ValuePercentWinWidth(prc, win_attr);
+ValuePercentWinWidth* nvpww(WindowAttributes* win_attr, float prc, int shift){
+    return new ValuePercentWinWidth(win_attr, prc, shift);
 }
 
 //
-ValuePercentWinHeight* nvpwh(float prc, WindowAttributes* win_attr){
-    return new ValuePercentWinHeight(prc, win_attr);
+ValuePercentWinHeight* nvpwh(WindowAttributes* win_attr, float prc, int shift){
+    return new ValuePercentWinHeight(win_attr, prc, shift);
 }
 
 
