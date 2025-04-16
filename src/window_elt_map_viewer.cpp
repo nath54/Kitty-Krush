@@ -479,7 +479,7 @@ void WindowEltMapViewer::draw_barricade(Coord coord, MainView* main_view, DrawTr
     dep_y->value -= A;
 
     //
-    if (color > 0){
+    if (color >= 0){
         if(this->check_draw_palissade_top(coord)){
             this->barricade_top->draw_elt(main_view, transform);
         }
@@ -1254,12 +1254,42 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
 
 //
 bool WindowEltMapViewer::check_draw_palissade_between_to_tiles(Coord v1, Coord v2){
+
+    //
+    int color = this->get_color_at_coord(v1);
+    int color2 = this->get_color_at_coord(v2);
+
+
+    // FOR BANDITS CAMPS
+
+    if( color == 0 ){
+
+        //
+        if( this->entity_layers.count(v1) == 0 || this->entity_layers[v1].type ){
+            return false;
+        }
+        //
+        if(color2 != color){
+            return true;
+        }
+        //
+        if( this->entity_layers.count(v2) > 0 && !this->entity_layers[v2].type && color2 == 0 ){
+            return false;
+        }
+
+        //
+        return true;
+
+    }
+
+    // FOR PLAYERS
+
     //
     if (this->closest_building_of_color.count(v1) == 0 || this->closest_building_of_color[v1] > 1){
         return false;
     }
     //
-    if(this->colors_layers.count(v2) == 0 || this->colors_layers[v2] != this->colors_layers[v1]){
+    if(color2 != color){
         return true;
     }
     //
