@@ -274,6 +274,9 @@ int WindowElt::get_h(DrawTransform* transform){
 //
 void WindowElt::draw_elt(MainView* main_view, DrawTransform* transform){
 
+    //
+    if (!this->visible){ return; }
+
     // Template abstract class
 
 }
@@ -281,6 +284,9 @@ void WindowElt::draw_elt(MainView* main_view, DrawTransform* transform){
 
 //
 void WindowEltRect::draw_elt(MainView* main_view, DrawTransform* transform){
+
+    //
+    if (!this->visible){ return; }
 
     //
     int x = this->get_x(transform);
@@ -298,6 +304,9 @@ void WindowEltRect::draw_elt(MainView* main_view, DrawTransform* transform){
 
 //
 void WindowEltText::draw_elt(MainView* main_view, DrawTransform* transform){
+
+    //
+    if (!this->visible){ return; }
 
     //
     int elt_state = this->get_elt_state( main_view->get_win_attr(), transform );
@@ -375,13 +384,16 @@ WindowEltButton::WindowEltButton( Style* style,
 void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
+    if (!this->visible){ return; }
+
+    //
     int elt_state = this->get_elt_state( main_view->get_win_attr(), transform );
 
     //
-    Color fg_cl = this->style->get_fg_color( elt_state );
-    Color bg_cl = this->style->get_bg_color( elt_state );
-    int radius = this->style->get_radius( elt_state );
-    int font_size = this->style->get_font_size( elt_state );
+    Color fg_cl = this->style->get_fg_color( elt_state, this->disabled );
+    Color bg_cl = this->style->get_bg_color( elt_state, this->disabled );
+    int radius = this->style->get_radius( elt_state, this->disabled );
+    int font_size = this->style->get_font_size( elt_state, this->disabled );
 
     //
     int x = this->get_x(transform);
@@ -424,6 +436,9 @@ void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
 
 //
 void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
+
+    //
+    if (!this->visible){ return; }
 
     //
     // int elt_state = this->get_elt_state( main_view->get_win_attr(), transform );
@@ -711,6 +726,9 @@ WindowEltAnimatedSprite::WindowEltAnimatedSprite(
 void WindowEltAnimatedSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 
     //
+    if (!this->visible){ return; }
+
+    //
     uint32_t time_shift = 0;
     //
     if (transform != nullptr){
@@ -726,163 +744,5 @@ void WindowEltAnimatedSprite::draw_elt(MainView* main_view, DrawTransform* trans
 
     //
     this->sprite->draw_elt(main_view, transform);
-
-}
-
-
-//
-WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, Value* w, Value* h)
-: WindowElt(style, x, y, w, h), tile(tile)
-{
-    //
-    if ( tile < 0 || tile > 69 ){
-
-        //
-        return;
-
-    }
-
-    //
-    std::string img_path;
-
-    //
-    this->ground_base_layer = nullptr;
-    this->ground_top_layer = nullptr;
-
-    //
-    if ( allTileData[tile].tags[0] != nullptr  && allTileData[tile].nb_ground_layer_imgs > 0 ){
-
-        //
-        if ( allTileData[tile].nb_ground_layer_imgs == 1 ){
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[0]);
-
-        }
-
-        //
-        else{
-
-            //
-            int selected_img = ( std::rand() % ( allTileData[tile].nb_ground_layer_imgs ) );
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[selected_img]);
-
-        }
-
-        //
-        this->ground_base_layer = new WindowEltSprite(
-                style,
-                img_path,
-                this->x, this->y, this->w, this->h,
-                new ValueInt(0),
-                false,
-                false,
-                SPRITE_NO_CROP(),
-                SPRITE_RATIO_CUSTOM(1, 1),
-                SPRITE_RESIZE_COVER(),
-                SPRITE_POS_ALIGN_START(),
-                SPRITE_POS_ALIGN_START()
-        );
-
-    }
-
-    //
-    if ( allTileData[tile].nb_top_layer_imgs > 0 ){
-
-        //
-        if ( allTileData[tile].nb_top_layer_imgs == 1 ){
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[0]);
-
-        }
-
-        //
-        else{
-
-            //
-            int selected_img = ( std::rand() % ( allTileData[tile].nb_top_layer_imgs ) );
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].top_layer_img[selected_img]);
-
-        }
-
-        //
-        this->ground_top_layer = new WindowEltSprite(
-                style,
-                img_path,
-                this->x, this->y, this->w, this->h,
-                new ValueInt(0),
-                false,
-                false,
-                SPRITE_NO_CROP(),
-                SPRITE_RATIO_CUSTOM(1, 1),
-                SPRITE_RESIZE_COVER(),
-                SPRITE_POS_ALIGN_START(),
-                SPRITE_POS_ALIGN_START()
-        );
-
-    }
-
-}
-
-
-//
-void WindowEltMapTile::draw_elt(MainView* main_view, DrawTransform* transform){
-
-    //
-    if (this->ground_base_layer != nullptr){
-        //
-        this->ground_base_layer->draw_elt(main_view, transform);
-    }
-
-    //
-    if (this->ground_top_layer != nullptr){
-        //
-        this->ground_top_layer->draw_elt(main_view, transform);
-    }
-
-}
-
-
-//
-void WindowEltMapTile::set_ground_base(std::string ground_base_img){
-
-    //
-    if (this->ground_base_layer != nullptr){
-
-        //
-        delete this->ground_base_layer;
-
-    }
-
-    //
-    std::string img_path;
-
-    //
-    if (ground_base_img.rfind("res/sprites/map_w/", 0) == 0) {
-        img_path = ground_base_img;
-    }
-    else{
-        img_path = "res/sprites/map_w/" + ground_base_img;
-    }
-
-    //
-    this->ground_base_layer = new WindowEltSprite(
-        this->style,
-        img_path,
-        this->x, this->y, this->w, this->h,
-        new ValueInt(0),
-        false,
-        false,
-        SPRITE_NO_CROP(),
-        SPRITE_RATIO_CUSTOM(1, 1),
-        SPRITE_RESIZE_COVER(),
-        SPRITE_POS_ALIGN_START(),
-        SPRITE_POS_ALIGN_START()
-    );
 
 }

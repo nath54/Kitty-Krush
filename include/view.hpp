@@ -300,6 +300,9 @@ class WindowElt{
         Value* h;
 
         //
+        bool visible = true;
+
+        //
         Style* style;
 
         //
@@ -729,6 +732,9 @@ class WindowEltButton : public WindowEltClickable {
         int fontSize;
         //
         WindowEltSprite* bt_sprite = nullptr;
+
+        //
+        bool disabled = false;
 
         //
         WindowEltButton( Style* style,

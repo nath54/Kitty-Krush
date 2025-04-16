@@ -16,26 +16,39 @@ int clamp(int v, int mini, int maxi){
 
 
 //
-int Style::get_font_size(int win_state){
+int Style::get_font_size(int win_state, bool disabled){
+
     //
     int res;
+
     //
-    switch ( win_state ){
+    if(disabled){
+        //
+        res = this->base_font_size;
+    }
+
+    //
+    else{
 
         //
-        case STYLE_ELT_CLICKED:
-            res = this->clicked_font_size;
-            break;
+        switch ( win_state ){
 
-        //
-        case STYLE_ELT_HOVER:
-            res = this->hover_font_size;
-            break;
+            //
+            case STYLE_ELT_CLICKED:
+                res = this->clicked_font_size;
+                break;
 
-        //
-        default:
-            res = this->base_font_size;
-            break;
+            //
+            case STYLE_ELT_HOVER:
+                res = this->hover_font_size;
+                break;
+
+            //
+            default:
+                res = this->base_font_size;
+                break;
+
+        }
 
     }
 
@@ -45,7 +58,14 @@ int Style::get_font_size(int win_state){
 
 
 //
-Color Style::get_fg_color(int win_state){
+Color Style::get_fg_color(int win_state, bool disabled){
+
+    //
+    if(disabled){
+        //
+        return this->disabled_fg_color;
+    }
+
     //
     switch ( win_state ){
 
@@ -66,7 +86,14 @@ Color Style::get_fg_color(int win_state){
 
 
 //
-Color Style::get_bg_color(int win_state){
+Color Style::get_bg_color(int win_state, bool disabled){
+
+    //
+    if(disabled){
+        //
+        return this->disabled_bg_color;
+    }
+
     //
     switch ( win_state ){
 
@@ -87,27 +114,67 @@ Color Style::get_bg_color(int win_state){
 
 
 //
-int Style::get_radius(int win_state){
+int Style::get_radius(int win_state, bool disabled){
+
     //
     int res;
+
     //
-    switch ( win_state ){
-
+    if(disabled){
         //
-        case STYLE_ELT_CLICKED:
-            res = this->clicked_radius;
-            break;
-
-        //
-        case STYLE_ELT_HOVER:
-            res = this->hover_radius;
-            break;
-
-        //
-        default:
-            res = this->base_radius;
-            break;
+        res = this->base_radius;
     }
+
+    //
+    else{
+
+        //
+        switch ( win_state ){
+
+            //
+            case STYLE_ELT_CLICKED:
+                res = this->clicked_radius;
+                break;
+
+            //
+            case STYLE_ELT_HOVER:
+                res = this->hover_radius;
+                break;
+
+            //
+            default:
+                res = this->base_radius;
+                break;
+        }
+
+    }
+
     //
     return clamp(res, 0, 2000);
+}
+
+
+
+//
+AllYourStyles::AllYourStyles(){
+
+    //
+    this->styles["default"] = new Style();
+
+}
+
+
+
+//
+Style* AllYourStyles::get_style(std::string style_name){
+
+    //
+    if(this->styles.find(style_name) == this->styles.end()){
+        //
+        return this->styles["default"];
+    }
+
+    //
+    return this->styles[style_name];
+
 }

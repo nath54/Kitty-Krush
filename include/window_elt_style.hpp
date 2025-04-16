@@ -25,11 +25,13 @@ class Style{
         Color base_fg_color = Color(255, 255, 255);
         Color hover_fg_color = Color(255, 255, 255);
         Color clicked_fg_color = Color(255, 255, 255);
+        Color disabled_fg_color = Color(200, 200, 200);
 
         // Background Color
         Color base_bg_color = Color(200, 100, 150);
         Color hover_bg_color = Color(180, 100, 170);
         Color clicked_bg_color = Color(220, 100, 130);
+        Color disabled_bg_color = Color(80, 60, 70);
 
         // Radius
         int base_radius = 22;
@@ -38,16 +40,16 @@ class Style{
 
 
         //
-        int get_font_size(int win_state);
+        int get_font_size(int win_state, bool disabled=false);
 
         //
-        Color get_fg_color(int win_state);
+        Color get_fg_color(int win_state, bool disabled=false);
 
         //
-        Color get_bg_color(int win_state);
+        Color get_bg_color(int win_state, bool disabled=false);
 
         //
-        int get_radius(int win_state);
+        int get_radius(int win_state, bool disabled=false);
 
 };
 
@@ -61,27 +63,11 @@ class AllYourStyles{
         std::map<std::string, Style*> styles;
 
         //
-        AllYourStyles(){
-
-            //
-            this->styles["default"] = new Style();
-
-        }
+        AllYourStyles();
 
 
         //
-        Style* get_style(std::string style_name){
-
-            //
-            if(this->styles.find(style_name) == this->styles.end()){
-                //
-                return this->styles["default"];
-            }
-
-            //
-            return this->styles[style_name];
-
-        }
+        Style* get_style(std::string style_name);
 
 };
 
