@@ -274,6 +274,9 @@ void Map::split_province(Coord c)
         to_visit_num.pop_front();
 
         //
+        visited[v] = num;
+
+        //
         for( Coord vv : neighbours(v) ){
 
             //
