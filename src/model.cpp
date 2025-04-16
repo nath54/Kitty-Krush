@@ -100,9 +100,26 @@ void Province::add_treasury(int amount)
 void Province::remove_treasury(int amount)
 { treasury -= amount; }
 
-// --- Map ---
+// ----- Map -----
 
 usint Map::_size() const { return size; }
+
+Tile* Map::get_tile(Coord c)
+{ return (tiles_layer.find(c) != tiles_layer.end()) ? tiles_layer[c] : nullptr; }
+
+Province* Map::get_province(Coord c)
+{
+    Tile * tile = get_tile(c);
+    if (tile == nullptr) return nullptr;
+    if (tile->_color() == NEUTRAL) return nullptr;
+    for (Province* p : provinces_layer) {
+        for (auto& t : p->_tiles()) {
+            if (t.first.x == c.x && t.first.y == c.y)
+                return p;
+        }
+    }
+    return nullptr;
+}
 
 void Map::recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* province=nullptr)
 {
@@ -162,20 +179,6 @@ void Map::init_map(usint nb_players, int nb_provinces, int size_provinces, bool 
     if (bandits) {
         // ! to complete
     }
-}
-
-Tile* Map::get_tile(Coord c)
-{ return (tiles_layer.find(c) != tiles_layer.end()) ? tiles_layer[c] : nullptr; }
-
-Province* Map::get_province(Coord c)
-{
-    for (Province* p : provinces_layer) {
-        for (auto& t : p->_tiles()) {
-            if (t.first.x == c.x && t.first.y == c.y)
-                return p;
-        }
-    }
-    return nullptr;
 }
 
 void Map::add_province(Province* province)

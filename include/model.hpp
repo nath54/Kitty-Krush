@@ -92,7 +92,6 @@ class Building : public Element {
         usint color;
         usint defense;
         usint cost;
-        int treasury;
 
     public:
 
@@ -100,8 +99,7 @@ class Building : public Element {
         Building(Coord building_coord,
                  usint building_color,
                  usint building_defense = 1,
-                 usint building_cost = 0,
-                 int building_treasury = 0)
+                 usint building_cost = 0)
             : Element(building_coord, building_color, building_defense, building_cost) {};
         // Destructor
         ~Building() {}; // Default destructor
@@ -112,7 +110,6 @@ class Building : public Element {
 
 
 // ========== [ Map ] ==========
-
 
 //
 class Tile {
@@ -192,7 +189,7 @@ class Map {
 
         usint size;
         map<Coord, Tile*> tiles_layer;
-        map<Coord, Element*> elements_layer;
+        map<Coord, Element*> bandits_layer;
         vector<Province*> provinces_layer;
 
     public:
@@ -206,11 +203,11 @@ class Map {
         // Functions
         usint _size() const;
         Tile* get_tile(Coord c);
+        Province* get_province(Coord c);
 
         void recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* province);
         void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
 
-        Province* get_province(Coord c);
         void add_province(Province* province);
         void remove_province(Province* province);
         void fusion_provinces(Province* p1, Province* p2);
