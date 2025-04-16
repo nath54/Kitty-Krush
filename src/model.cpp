@@ -205,13 +205,21 @@ void Map::fusion_provinces(Province* p1, Province* p2)
     delete p2;
 }
 
+void Map::split_province(Coord c)
+{
+    Province* p = get_province(c);
+    if (p == nullptr) return;
+    if (p->_tiles().size() <= 1) return;
+    
+}
+
 
 // ===== Game =====
 
 //
 bool GameModel::player_action_move_entity(Coord src, Coord dst){
 
-    // TODO
+    // ! TODO
 
     return false;
 }
