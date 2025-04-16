@@ -31,15 +31,6 @@ Element* Tile::_element() const { return element; }
 void Tile::convert_color(usint new_color)
 { color = new_color; }
 
-bool Tile::adjacent_to_province(Province* p)
-{
-    for (const auto& t : p->_tiles()) {
-        if (is_adjacent(coord, t.first))
-            return true;
-    }
-    return false;
-}
-
 void Tile::add_element(Element* e)
 { element = e; }
 
@@ -194,6 +185,17 @@ void Map::remove_province(Province* province)
     }
 }
 
+bool Map::adjacent_to_province(Province* p, Coord c)
+{
+    if (get_province(c) == p) return true;
+    vector<Coord> n = neighbours(c);
+    for (auto& t : n) {
+        if (get_province(t) == p)
+            return true;
+    }
+    return false;
+}
+
 void Map::fusion_provinces(Province* p1, Province* p2)
 {
     if (p1 == nullptr || p2 == nullptr) return;
@@ -219,9 +221,36 @@ void Map::split_province(Coord c)
 //
 bool GameModel::player_action_move_entity(Coord src, Coord dst){
 
-    // ! TODO
+    Tile* src_tile = game_map->get_tile(src);
+    Tile* dst_tile = game_map->get_tile(dst);
 
-    return false;
+    if (src_tile == nullptr || dst_tile == nullptr) return false;
+    if (src_tile->_color() != this->current_player_color) return false;
+    if (src_tile->_element() == nullptr) return false;
+    if (dynamic_cast<Unit*>(src_tile->_element()) == nullptr) return false;
+    if (src_tile->_element()->_defense() == 0) return false; // bandit
+
+    Province* src_prov = game_map->get_province(src);
+    Province* dst_prov = game_map->get_province(dst);
+
+    if (!(game_map->adjacent_to_province(src_prov, dst))) return false;
+
+    if (dst_prov == src_prov)
+        return (dst_tile->_element() != nullptr);
+
+    if (src_tile->_element()->_defense() == 4) return true; // hero
+
+    vector<Coord> n = neighbours(dst);
+    usint def_max = dst_tile->_defense();
+
+    for (auto& t : n) {
+        if (game_map->get_province(t) == dst_prov) {
+            if (game_map->get_tile(t)->_element() != nullptr)
+                def_max = max(def_max, game_map->get_tile(t)->_element()->_defense());
+        }
+    }
+
+    return (src_tile->_element()->_defense() > def_max);
 }
 
 //

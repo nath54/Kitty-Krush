@@ -141,7 +141,6 @@ class Tile {
 
         // Functions
         void convert_color(usint new_color);
-        bool adjacent_to_province(Province* p);
         void add_element(Element* element);
         void remove_element();
         void delete_element();
@@ -209,6 +208,7 @@ class Map {
         void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
 
         void add_province(Province* province);
+        bool adjacent_to_province(Province* p, Coord c);
         void remove_province(Province* province);
         void fusion_provinces(Province* p1, Province* p2);
         void split_province(Coord c);

@@ -3,7 +3,6 @@
 ## Architecture
 
 - [x] Passer les layers de tuiles en dictionnaire
-- [ ] Passer les layers d'éléments en dictionnaire
 - [ ] Modifier les (x,y) en Coord
 
 ## Règles de jeu
