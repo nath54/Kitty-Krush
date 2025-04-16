@@ -1,7 +1,4 @@
 //
-#include "view.hpp"
-#include "color.hpp"
-//
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
@@ -12,6 +9,10 @@
 #include <unistd.h>
 #include <map>
 #include <vector>
+//
+#include "view.hpp"
+#include "color.hpp"
+#include "entity_data.hpp"
 
 
 
@@ -301,14 +302,44 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            std::to_string(units_new_costs[1]),     // std::string                      txt
+            nvi(15),                                // Value*                           x
+            nvi(165),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(20)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
             nvi(15),                                // Value*                           x
-            nvi(180),                               // Value*                           y
+            nvi(200),                               // Value*                           y
             nvi(60),                                // Value*                           w
             nvi(60),                                // Value*                           h
             on_bt_new_warrior_lvl2                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            std::to_string(units_new_costs[2]),     // std::string                      txt
+            nvi(15),                                // Value*                           x
+            nvi(265),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(20)                                 // Value*                           h
         )
 
     );
@@ -321,10 +352,25 @@ void MainView::init_page_in_game() {
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
             nvi(15),                                // Value*                           x
-            nvi(260),                               // Value*                           y
+            nvi(300),                               // Value*                           y
             nvi(60),                                // Value*                           w
             nvi(60),                                // Value*                           h
             on_bt_new_warrior_lvl3                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            std::to_string(units_new_costs[3]),     // std::string                      txt
+            nvi(15),                                // Value*                           x
+            nvi(365),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(20)                                 // Value*                           h
         )
 
     );
@@ -337,10 +383,25 @@ void MainView::init_page_in_game() {
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
             nvi(15),                                // Value*                           x
-            nvi(340),                               // Value*                           y
+            nvi(400),                               // Value*                           y
             nvi(60),                                // Value*                           w
             nvi(60),                                // Value*                           h
             on_bt_new_warrior_lvl4                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            std::to_string(units_new_costs[4]),     // std::string                      txt
+            nvi(15),                                // Value*                           x
+            nvi(465),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(20)                                 // Value*                           h
         )
 
     );
@@ -353,10 +414,25 @@ void MainView::init_page_in_game() {
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/tower_p.png",     // std::string                      text
             nvi(15),                                // Value*                           x
-            nvi(420),                               // Value*                           y
+            nvi(500),                               // Value*                           y
             nvi(60),                                // Value*                           w
             nvi(60),                                // Value*                           h
             on_bt_new_tower                         // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            std::to_string(buildings_new_costs[2]), // std::string                      txt
+            nvi(15),                                // Value*                           x
+            nvi(565),                               // Value*                           y
+            nvi(60),                                // Value*                           w
+            nvi(20)                                 // Value*                           h
         )
 
     );

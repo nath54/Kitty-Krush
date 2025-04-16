@@ -32,7 +32,7 @@ static const int WIN_SIZE_HEIGHT_INIT = 836;
 static char SDL_ERROR_BUFFER[1000];
 
 //
-static const int frameDelay = 16;  // 60 FPS
+static const int frameDelay = 16;  // 60 FPS = 1000 miliseconds / 60 frame per seconds = 16 miliseconds per frame
 
 
 // Forward declaration
