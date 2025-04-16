@@ -243,9 +243,7 @@ bool GameModel::player_action_end_turn(){
 //
 int GameModel::get_current_player_color(){
 
-    // TODO
-
-    return 1;
+    return this->current_player_color;
 }
 
 //
