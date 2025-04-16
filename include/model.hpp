@@ -132,6 +132,7 @@ class Tile {
             usint tile_defense=0,
             Element* tile_element=nullptr)
             : coord(tile_coord), color(tile_color), defense(tile_defense), element(tile_element) {};
+
         // Destructor
         ~Tile() {}; // Default destructor
 
@@ -231,6 +232,7 @@ class GameModel {
         int nb_players_colors = 2;
         int current_player_color = 1;
 
+    //
     public:
 
         // Game state
@@ -239,6 +241,8 @@ class GameModel {
         // Constructor
         GameModel() {};
 
+        //
+        int get_tot_colors();
 
         //
         bool player_action_move_entity(Coord src, Coord dst);

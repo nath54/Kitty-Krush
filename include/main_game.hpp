@@ -70,7 +70,18 @@ class MainGame{
         //
         void quit();
 
+
+        // ACTIONS
+        //
+        void at_player_turn_start();
+
+        //
+        void at_player_turn_end();
+
+        //
+        void move_entity(Coord src, Coord dst);
+
+        //
+        void new_entity(Coord dst, int level, bool type);
+
 };
-
-
-
