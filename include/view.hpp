@@ -807,6 +807,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         WindowEltAnimatedSprite* default_empty_tile;
         WindowEltSprite* color_tile;
         WindowEltAnimatedSprite* under_entity_effect;
+        WindowEltAnimatedSprite* can_go_here_effect;
 
 
         // TODO: sprites for all entities
@@ -847,7 +848,10 @@ class WindowEltMapViewer: public WindowEltClickable {
         bool dragging_new_entity = true;
         EntityData entity_dragged = (EntityData){4, true};
         Coord tile_entity_dragged = (Coord){0, 0};
+        //
         std::set<Coord> selected_villages;
+        //
+        std::set<Coord> can_go_here_tiles;
 
         //
         WindowEltMapViewer( Style* style,

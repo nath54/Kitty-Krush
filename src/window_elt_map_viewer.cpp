@@ -70,6 +70,21 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
+    this->can_go_here_effect = new WindowEltAnimatedSprite(
+        this->style,
+        "res/ui/can_go_here.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+        0, 0, 72, 72, 6, 200,
+        nvi(0),
+        false,
+        false,
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
+    //
     this->warrior_lvl_0 = new WindowEltAnimatedSprite(
         this->style,
         "res/sprites/entities/bandit.png",
@@ -269,6 +284,9 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START()
     );
 
+    //
+    // this->can_go_here_tiles.insert( (Coord){4, 5} );  // TO TEST THE EFFECT
+
 }
 
 
@@ -314,6 +332,15 @@ void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawT
         // remove the color filter
         transform->do_color_mod = false;
 
+    }
+
+    //
+    if( this->can_go_here_tiles.count(coord) > 0 ){
+        //
+        transform->do_color_mod = true;
+        transform->color_mod = (Color){50, 200, 50};
+        this->can_go_here_effect->draw_elt(main_view, transform);
+        transform->do_color_mod = false;
     }
 
 }
@@ -400,27 +427,31 @@ void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTrans
         EntityData edata = this->get_entity_data_at_coord( coord );
 
         //
-        if (edata.type && edata.level >= 0){
+        //if( this->can_go_here_tiles.count(coord) == 0){
+        if( this->can_go_here_tiles.size() == 0){
             //
-            transform->do_color_mod = true;
-            if (color == this->current_color_to_play){
-                transform->color_mod = (Color){50, 200, 50};
+            if (edata.type && edata.level >= 0){
+                //
+                transform->do_color_mod = true;
+                if (color == this->current_color_to_play){
+                    transform->color_mod = (Color){50, 200, 50};
+                }
+                else{
+                    transform->color_mod = (Color){155, 20, 20};
+                }
+                //
+                this->under_entity_effect->draw_elt(main_view, transform);
+                //
+                transform->do_color_mod = false;
             }
-            else{
-                transform->color_mod = (Color){155, 20, 20};
+            //
+            else if( !edata.type && edata.level == 1 && this->selected_villages.count( coord ) > 0 ){
+                //
+                transform->do_color_mod = true;
+                transform->color_mod = (Color){50, 50, 200};
+                this->under_entity_effect->draw_elt(main_view, transform);
+                transform->do_color_mod = false;
             }
-            //
-            this->under_entity_effect->draw_elt(main_view, transform);
-            //
-            transform->do_color_mod = false;
-        }
-        //
-        else if( !edata.type && edata.level == 1 && this->selected_villages.count( coord ) > 0 ){
-            //
-            transform->do_color_mod = true;
-            transform->color_mod = (Color){50, 50, 200};
-            this->under_entity_effect->draw_elt(main_view, transform);
-            transform->do_color_mod = false;
         }
 
         //
