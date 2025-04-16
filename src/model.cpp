@@ -1,6 +1,8 @@
 #include "model.hpp"
 #include <cstdlib>  // srand() et rand()
 #include <ctime> // time()
+#include <deque>
+#include <list>
 
 
 // ===== Elements =====
@@ -207,10 +209,124 @@ void Map::fusion_provinces(Province* p1, Province* p2)
 
 void Map::split_province(Coord c)
 {
+    //
     Province* p = get_province(c);
     if (p == nullptr) return;
     if (p->_tiles().size() <= 1) return;
-    
+
+    //
+    int color = p->_color();
+
+    //
+    std::map<Coord, int> visited;
+    std::map<int, int> to_convert_num;
+
+    //
+    std::deque<Coord> to_visit_coord;
+    std::deque<int> to_visit_num;
+
+    //
+    int nb_tot_nums = 0;
+
+    // INITIALISATION
+
+    std::vector<Coord> nbs = neighbours(c);
+
+    //
+    for(int i = 1; i < nbs.size(); i++){
+        //
+        Tile* tile_nb = this->get_tile( nbs[i] );
+        if( tile_nb == nullptr ){ continue; }
+        if( tile_nb->_color() != color ){ continue; }
+
+        //
+        to_visit_coord.push_back( nbs[i] );
+        to_visit_num.push_back( nb_tot_nums );
+        //
+        nb_tot_nums++;
+    }
+
+    // BOUCLE TANT QUE FILE NON VIDE
+
+    while( to_visit_coord.size() > 0 ){
+
+        //
+        Coord v = to_visit_coord.front();
+        int num = to_visit_num.front();
+
+        //
+        if(to_convert_num.count(num) > 0){ num = to_convert_num[num]; }
+
+        //
+        to_visit_coord.pop_front();
+        to_visit_num.pop_front();
+
+        //
+        for( Coord vv : neighbours(v) ){
+
+            //
+            if( visited.count(vv) > 0){
+                //
+                if( visited[vv] == num ){ continue; }
+
+                // else...
+                to_visit_num[visited[vv]] = num;
+
+                // Change all the different number to the same number for connex zones
+                for( std::pair<Coord, int> it : visited){
+                    if( it.second == visited[vv]){
+                        visited[it.first] = num;
+                    }
+                }
+
+            }
+
+            //
+            Tile* tile_vv = this->get_tile( vv );
+            if( tile_vv == nullptr ){ continue; }
+            if( tile_vv->_color() != color ){ continue; }
+
+            //
+            to_visit_coord.push_back( vv );
+            to_visit_num.push_back( num );
+
+        }
+
+    }
+
+    // Extract all the different new zones
+
+    int nb_differents = nb_tot_nums - to_convert_num.size();
+
+    if (nb_differents <= 1){
+
+        return; // No split to do
+
+    }
+
+    //
+    int crt_idx = 0;
+    std::map<int, int> num_idx;
+
+    //
+    std::vector< std::list<Coord> > splited_zones;
+
+    //
+    for( std::pair<Coord, int> it : visited){
+        //
+        int num = it.second;
+        //
+        if(num_idx.count(num) == 0){
+            num_idx[num] = crt_idx;
+            crt_idx++;
+        }
+        //
+        splited_zones[ num_idx[num] ].push_back( it.first );
+    }
+
+    // TODO: there is the list of regions in splited_zones (you can rename this variable if you have a better name)
+
+
 }
 
 
