@@ -198,7 +198,7 @@ WindowEltMapViewer::WindowEltMapViewer(
         this->style,
         "res/sprites/map_w/deep_water/deep_water.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
-        0, 0, 72, 72, 15, 200,
+        0, 0, 72, 72, 15, 150,
         nvi(0),
         false,
         false,
