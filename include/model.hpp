@@ -154,13 +154,13 @@ class Province {
 
         usint color;
         int treasury;
-        map<Coord, Tile*> tiles_layer;
+        std::map<Coord, Tile*> tiles_layer;
 
     public:
 
     // Constructor
     Province() {}; // Default constructor
-    Province(usint c, int t=0, map<Coord, Tile*> tiles=map<Coord, Tile*>())
+    Province(usint c, int t=0, map<Coord, Tile*> tiles=(std::map<Coord, Tile*>){})
         : color(c), treasury(t), tiles_layer(tiles) {};
     // Destructor
     ~Province() {}; // Default destructor
@@ -170,6 +170,7 @@ class Province {
     usint _color() const;
     int _treasury() const;
     map<Coord, Tile*> _tiles() const;
+    bool has_tile(Coord c);
 
     // Functions
     void add_tile(Tile* tile);
@@ -186,10 +187,10 @@ class Map {
 
     private:
 
-        usint size;
-        map<Coord, Tile*> tiles_layer;
-        map<Coord, Element*> bandits_layer;
-        vector<Province*> provinces_layer;
+        usint size = 100;
+        std::map<Coord, Tile*> tiles_layer;
+        std::map<Coord, Element*> bandits_layer;
+        std::vector<Province*> provinces_layer;
 
     public:
 
@@ -223,7 +224,7 @@ class GameModel {
     private:
 
         //
-        Map* game_map;
+        Map* game_map = nullptr;
 
         //
         int nb_players_colors = 2;
@@ -236,10 +237,13 @@ class GameModel {
         bool is_running = false;
 
         // Constructor
-        GameModel() {};
+        GameModel();
 
         //
-        int get_tot_colors();
+        Province* get_province_at_coord(Coord c);
+
+        //
+        int get_nb_players_colors();
 
         //
         bool player_action_move_entity(Coord src, Coord dst);

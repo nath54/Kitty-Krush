@@ -498,6 +498,12 @@ void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawT
         //
         this->color_tile->draw_elt(main_view, transform);
 
+        //
+        if( this->selected_province != nullptr && this->selected_province->has_tile(coord) ){
+            //
+            this->color_tile->draw_elt(main_view, transform);
+        }
+
         // remove the color filter
         transform->do_color_mod = false;
 
@@ -611,14 +617,6 @@ void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTrans
                 //
                 this->under_entity_effect->draw_elt(main_view, transform);
                 //
-                transform->do_color_mod = false;
-            }
-            //
-            else if( !edata.type && edata.level == 1 && this->selected_villages.count( coord ) > 0 ){
-                //
-                transform->do_color_mod = true;
-                transform->color_mod = (Color){50, 50, 200};
-                this->under_entity_effect->draw_elt(main_view, transform);
                 transform->do_color_mod = false;
             }
         }
@@ -1514,6 +1512,10 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
 
     //
     if(map_viewer == nullptr){ return; }
+    if(main_game == nullptr){ return; }
+
+    //
+    main_game->update_selected_province( map_viewer->mouse_hover_tile );
 
     //
     if (map_viewer->dragging_entity) {
@@ -1525,11 +1527,13 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
         if (map_viewer->dragging_new_entity){
 
             // TODO: new entity -> call the model & update the visuals
+            main_game->action_new_entity( map_viewer->mouse_hover_tile, map_viewer->entity_dragged.level, map_viewer->entity_dragged.type );
         }
         //
         else{
 
             // TODO: move entity -> call the model & update the visuals
+            main_game->action_move_entity( map_viewer->tile_entity_dragged, map_viewer->mouse_hover_tile );
 
         }
 
@@ -1553,5 +1557,8 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
     map_viewer->dragging_new_entity = false;
     map_viewer->tile_entity_dragged = map_viewer->mouse_hover_tile;
     map_viewer->entity_dragged = edata;
+
+    //
+    main_game->update_where_entity_can_move( map_viewer->tile_entity_dragged );
 
 }

@@ -79,9 +79,21 @@ class MainGame{
         void at_player_turn_end();
 
         //
-        void move_entity(Coord src, Coord dst);
+        void update_selected_province(Coord src);
 
         //
-        void new_entity(Coord dst, int level, bool type);
+        void update_where_entity_can_move(Coord src, bool new_entity=false);
+
+        //
+        void action_move_entity(Coord src, Coord dst);
+
+        //
+        void action_new_entity(Coord dst, int level, bool type);
+
+        //
+        void action_end_turn();
+
+        //
+        void bandit_turn();
 
 };

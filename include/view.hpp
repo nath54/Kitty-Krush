@@ -38,6 +38,7 @@ static const int frameDelay = 16;  // 60 FPS = 1000 miliseconds / 60 frame per s
 // Forward declaration
 
 class WindowPagesManager;
+class WindowEltMapViewer;
 
 
 // Class MainView, manages the SDL environment & SDL Window
@@ -77,6 +78,9 @@ class MainView{
 
         // Reference to game_model
         GameModel* game_model = nullptr;
+
+        // Reference to map viewer
+        WindowEltMapViewer* map_viewer = nullptr;
 
         // Constructor
         MainView(GameModel* game_model);
@@ -857,7 +861,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         EntityData entity_dragged = (EntityData){4, true};
         Coord tile_entity_dragged = (Coord){0, 0};
         //
-        std::set<Coord> selected_villages;
+        Province* selected_province = nullptr;
         //
         std::set<Coord> can_go_here_tiles;
 

@@ -99,16 +99,13 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     }
 
     //
-    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
-
-    //
-    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 
     //
     if ( map_viewer == nullptr ){
 
         //
-        cout << "Error : map_viewer can't convert to WindowEltMapViewer* !\n";
+        cout << "Error : no map viewer !\n";
         //
         main_game->quit();
     }
@@ -174,12 +171,11 @@ void on_scroll(MainGame* main_game, EventMouseScroll* event) {
     }
 
     //
-    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
-    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 
     //
     if (map_viewer == nullptr) {
-        cout << "Error : map_viewer can't convert to WindowEltMapViewer* !\n";
+        cout << "Error : no map viewer !\n";
         main_game->quit();
     }
 
@@ -221,12 +217,11 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event) {
     }
 
     //
-    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
-    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 
     //
     if (map_viewer == nullptr) {
-        cout << "Error : map_viewer can't convert to WindowEltMapViewer* !\n";
+        cout << "Error : no map_viewer !\n";
         main_game->quit();
     }
 
@@ -260,12 +255,11 @@ void on_mouse_motion(MainGame* main_game, EventMouseMotion* event) {
     }
 
     //
-    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
-    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 
     //
     if (map_viewer == nullptr) {
-        cout << "Error : map_viewer can't convert to WindowEltMapViewer* !\n";
+        cout << "Error : no map viewer !\n";
         main_game->quit();
     }
 

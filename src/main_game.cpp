@@ -116,3 +116,89 @@ void MainGame::quit(){
     this->game_model->is_running = false;
 
 }
+
+
+// ACTIONS
+
+
+//
+void MainGame::at_player_turn_start(){
+
+    //
+
+}
+
+
+//
+void MainGame::at_player_turn_end(){
+
+    //
+
+}
+
+
+//
+void MainGame::update_selected_province(Coord src){
+
+    //
+    if( this->game_model == nullptr ){ return; }
+    if( this->main_view == nullptr ) { return; }
+    if( this->main_view->map_viewer == nullptr ) { return; }
+
+    //
+    this->main_view->map_viewer->selected_province = this->game_model->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
+
+}
+
+
+//
+void MainGame::update_where_entity_can_move(Coord src, bool new_entity){
+
+    //
+    if( new_entity ){
+
+        // TODO
+
+    }
+
+    //
+    else{
+
+        // TODO
+
+    }
+
+}
+
+
+//
+void MainGame::action_move_entity(Coord src, Coord dst){
+
+    //
+
+}
+
+
+//
+void MainGame::action_new_entity(Coord dst, int level, bool type){
+
+    //
+
+}
+
+
+//
+void MainGame::action_end_turn(){
+
+    //
+
+
+}
+
+
+//
+void MainGame::bandit_turn(){
+
+    //
+
+}

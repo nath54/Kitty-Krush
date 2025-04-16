@@ -54,10 +54,7 @@ void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game) 
 void set_new_entity_dragged(MainGame* main_game, int level, bool type){
 
     //
-    WindowElt* map_viewer_elt = main_game->main_view->win_page_manager->pages["in_game"]->elts[0];
-
-    //
-    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -67,6 +64,10 @@ void set_new_entity_dragged(MainGame* main_game, int level, bool type){
     map_viewer->dragging_new_entity = true;
     map_viewer->entity_dragged.level = level;
     map_viewer->entity_dragged.type = type;
+
+    //
+    main_game->update_where_entity_can_move((Coord){0, 0}, true);
+
 }
 
 
@@ -108,7 +109,7 @@ void on_bt_new_tower(WindowEltClickable* elt, MainGame* main_game) {
 //
 void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game) {
     //
-    // TODO: end turn
+    main_game->action_end_turn();
 }
 
 
@@ -221,19 +222,17 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"] = new WindowPage();
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltMapViewer(
-            this->win_page_manager->default_style,  // Style*                           style
-            nvi(0),                                 // Value*                           x
-            nvi(0),                                 // Value*                           y
-            nvpww(win_attr, 100),                   // Value*                           w
-            nvpwh(win_attr, 100),                   // Value*                           h
-            on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*)>  on_click
-        )
-
+    this->map_viewer = new WindowEltMapViewer(
+        this->win_page_manager->default_style,  // Style*                           style
+        nvi(0),                                 // Value*                           x
+        nvi(0),                                 // Value*                           y
+        nvpww(win_attr, 100),                   // Value*                           w
+        nvpwh(win_attr, 100),                   // Value*                           h
+        on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*)>  on_click
     );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back(
