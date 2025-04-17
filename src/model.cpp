@@ -272,10 +272,16 @@ void Map::set_tile_color(Coord coord, int tile_color){
 
 
 //
-void Map::add_province_from_list_of_tiles_and_color(std::list<Coord> tiles_list, int color, bool with_treasury, int treasury){
+void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color, bool with_treasury, int treasury){
 
     //
     Province* p = new Province();
+
+    //
+    if( color == -1 ){
+        //
+        color = this->get_tile_color( tiles_list.front() );
+    }
 
     //
     p->set_color( color );
@@ -332,6 +338,7 @@ void Map::recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* 
     for (auto c : neighbours(c))
         if (rand() % 2) recursive_fill(c, nb_cover, cover, province);
 }
+
 
 // ! Gérer le bool bandits
 void Map::init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits)
@@ -830,7 +837,15 @@ void GameModel::calculate_all_provinces_after_map_initialisation(){
     }
 
     //
+    this->reset_provinces();
 
+    //
+    for ( std::list<Coord> list_of_tiles : all_province_zones ){
+
+        //
+        this->game_map->add_province_from_list_of_tiles( list_of_tiles );
+
+    }
 
 }
 

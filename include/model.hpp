@@ -215,7 +215,7 @@ class Map {
         void set_tile_entity(Coord coord, int entity_level, bool entity_type);
         void set_tile_color(Coord coord, int tile_color);
         //
-        void add_province_from_list_of_tiles_and_color(std::list<Coord> tiles_list, int color, bool with_treasury = false, int treasury = 0);
+        void add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color = -1, bool with_treasury = false, int treasury = 0);
 
         void recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* province);
         void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
