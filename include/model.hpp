@@ -259,13 +259,22 @@ class GameModel {
         int get_nb_players_colors();
 
         //
-        bool player_action_move_entity(Coord src, Coord dst);
+        bool check_player_action_move_entity(Coord src, Coord dst);
 
         //
-        bool player_action_new_entity(Coord dst, int entity_level, bool entity_type);
+        void do_player_action_move_entity(Coord src, Coord dst);
 
         //
-        bool player_action_end_turn();
+        bool check_player_action_new_entity(Coord dst, int entity_level, bool entity_type);
+
+        //
+        void do_player_action_new_entity(Coord dst, int entity_level, bool entity_type);
+
+        //
+        bool check_player_action_end_turn();
+
+        //
+        void do_player_action_end_turn();
 
         //
         int get_current_player_color();

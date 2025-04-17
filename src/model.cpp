@@ -595,58 +595,146 @@ GameModel::GameModel(){
 
 
 //
-bool GameModel::player_action_move_entity(Coord src, Coord dst){
+bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
 
-    //
-    if( this->game_map == nullptr ) {return false; }
+    // Check game map existence
+    if( this->game_map == nullptr ) { return false; }
 
-    //
+    // Get the tile
     Tile* src_tile = this->game_map->get_tile(src);
     Tile* dst_tile = this->game_map->get_tile(dst);
 
-    if (src_tile == nullptr || dst_tile == nullptr) return false;
-    if (src_tile->_color() != this->current_player_color) return false;
-    if (src_tile->_element() == nullptr) return false;
-    if (dynamic_cast<Unit*>(src_tile->_element()) == nullptr) return false;
-    if (src_tile->_element()->_defense() == 0) return false; // bandit
+    // Check if tiles exists
+    if (src_tile == nullptr || dst_tile == nullptr){ return false; }
 
+    // Check if we move current player entity
+    if (src_tile->_color() != this->current_player_color){ return false; }
+
+    // Check if there is an entity at the source of the mouvement
+    if (src_tile->_element() == nullptr){ return false; }
+
+    // Get the unit to move
+    Unit* unit_to_move = dynamic_cast<Unit*>(src_tile->_element());
+
+    // Check if the element is a unit and not a building
+    if (unit_to_move == nullptr){ return false; }
+
+    // Check if the unit to move is not a bandit
+    if (unit_to_move->_defense() == 0){ return false; }
+
+    // Get the provinces of the movements
     Province* src_prov = this->game_map->get_province(src);
     Province* dst_prov = this->game_map->get_province(dst);
 
-    if (!(this->game_map->adjacent_to_province(src_prov, dst))) return false;
+    // To avoid system errors, src_prov should always be different than nullptr
+    if ( src_prov == nullptr ){ return false; }
 
-    if (dst_prov == src_prov)
-        return (dst_tile->_element() != nullptr);
+    // Check if the movement is adjacent to the province
+    if ( !(this->game_map->adjacent_to_province(src_prov, dst)) ){ return false; }
 
-    if (src_tile->_element()->_defense() == 4) return true; // hero
+    // If there is destination province
+    if(dst_prov != nullptr){
 
-    vector<Coord> n = neighbours(dst);
+        // If the movement is inside a province of the same color
+        if (dst_prov->_color() == src_prov->_color()){
+
+            // Check if there an element in the destination tile
+            if( dst_tile->_element() != nullptr ){
+
+                // Get the unit at destination tile
+                Unit* dst_unit = dynamic_cast<Unit*>(dst_tile->_element());
+
+                // If it's building at destination tile
+                if( dst_unit == nullptr){ return false; }
+
+                // If the destination unit hasn't the same level than the unit to move (no fusion of units to unit of higher level)
+                if( unit_to_move->_defense() != dst_unit->_defense() ){ return false; }
+            }
+        }
+
+    }
+
+    // If the source unit is an hero, he can go anywhere
+    if (src_tile->_element()->_defense() == 4){ return true; }
+
+    // Get the neighbours of the destination tile
+    std::vector<Coord> n = neighbours(dst);
+
+    // Initializing the maximum defense with the defense of destination tile
     usint def_max = dst_tile->_defense();
 
-    for (auto& t : n) {
-        if (this->game_map->get_province(t) == dst_prov) {
-            if (this->game_map->get_tile(t)->_element() != nullptr)
-                def_max = max(def_max, this->game_map->get_tile(t)->_element()->_defense());
+    // Checking if there is an higher defense in the neighbours of the destination tile
+    for (Coord v : n) {
+
+        // Get the tile at coordinate v
+        Tile* tile = this->game_map->get_tile(v);
+
+        // If no tiles here, abort for coordinate v
+        if( tile == nullptr ){ continue; }
+
+        // Get the province at coordinate v
+        Province* prov = this->game_map->get_province(v);
+
+        // If no province here, abort for coordinate v
+        if( prov == nullptr ){ continue; }
+
+        // Check if the destination tile and its neighbour tile have the same province
+        if (prov == dst_prov) {
+
+            // If there is an element on this tile that has an higher defense
+            if (tile->_element() != nullptr && tile->_element()->_defense() > def_max){
+
+                // Update the maximum defense of the destination tile
+                def_max = tile->_element()->_defense();
+            }
         }
     }
 
-    return (src_tile->_element()->_defense() > def_max);
+    // If the current unit to move has an higher defense than the destination tile, he can go there
+    return (unit_to_move->_defense() > def_max);
 }
 
+
 //
-bool GameModel::player_action_new_entity(Coord dst, int entity_level, bool entity_type){
+void GameModel::do_player_action_move_entity(Coord src, Coord dst){
+
+    // TODO
+
+    return;
+}
+
+
+//
+bool GameModel::check_player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 
     // TODO
 
     return false;
 }
 
+
 //
-bool GameModel::player_action_end_turn(){
+void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 
     // TODO
 
-    return false;
+    return;
+}
+
+//
+bool GameModel::check_player_action_end_turn(){
+
+    // TODO
+
+    return true;
+}
+
+//
+void GameModel::do_player_action_end_turn(){
+
+    // TODO
+
+    return;
 }
 
 //

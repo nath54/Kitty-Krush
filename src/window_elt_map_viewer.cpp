@@ -510,11 +510,11 @@ void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawT
     }
 
     //
-    if( this->can_go_here_tiles.count(coord) > 0 ){
+    if( this->can_go_here_tiles.size() > 0 && this->can_go_here_tiles.count(coord) == 0 ){
         //
         transform->do_color_mod = true;
-        transform->color_mod = (Color){50, 200, 50};
-        this->can_go_here_effect->draw_elt(main_view, transform);
+        transform->color_mod = (Color){50, 50, 50};
+        this->color_tile->draw_elt(main_view, transform);
         transform->do_color_mod = false;
     }
 
@@ -1563,6 +1563,10 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
 
         }
 
+        //
+        main_game->update_where_entity_can_move(map_viewer->mouse_hover_tile, false, true);
+
+        //
         return;
     }
 

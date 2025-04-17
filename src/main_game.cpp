@@ -129,6 +129,9 @@ void MainGame::quit(){
 void MainGame::at_player_turn_start(){
 
     //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+
+    //
     this->update_current_player_display();
 
     // TODO: maybe update here with the first province of the current player
@@ -143,12 +146,18 @@ void MainGame::at_player_turn_start(){
 void MainGame::at_player_turn_end(){
 
     //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+
+    //
 
 }
 
 
 //
 void MainGame::update_current_player_display(){
+
+    //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
     this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[this->main_view->map_viewer->current_color_to_play - 1];
@@ -161,6 +170,9 @@ void MainGame::update_current_player_display(){
 
 //
 void MainGame::set_selected_province(Province* p){
+
+    //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
     this->main_view->map_viewer->selected_province = p;
@@ -220,9 +232,7 @@ void MainGame::set_selected_province(Province* p){
 void MainGame::update_selected_province(Coord src){
 
     //
-    if( this->game_model == nullptr ){ return; }
-    if( this->main_view == nullptr ) { return; }
-    if( this->main_view->map_viewer == nullptr ) { return; }
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
     Province* new_province = this->game_model->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
@@ -237,7 +247,16 @@ void MainGame::update_selected_province(Coord src){
 
 
 //
-void MainGame::update_where_entity_can_move(Coord src, bool new_entity){
+void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool reset){
+
+    //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+
+    //
+    this->main_view->map_viewer->can_go_here_tiles.clear();
+
+    //
+    if( reset ){ return; }
 
     //
     if( new_entity ){
@@ -249,7 +268,51 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity){
     //
     else{
 
-        // TODO
+        //
+        Province* p = this->game_model->get_province_at_coord( src );
+
+        if( p == nullptr ){ return; }
+
+        //
+        for ( std::pair<const Coord, Tile*> it : p->_tiles() ){
+
+            //
+            Coord c = it.first;
+
+            //
+            this->main_view->map_viewer->can_go_here_tiles.insert( c );
+
+            //
+            for ( Coord v : neighbours(c) ){
+
+                //
+                this->main_view->map_viewer->can_go_here_tiles.insert( v );
+
+            }
+
+        }
+
+        //
+        for (std::set<Coord>::iterator it = this->main_view->map_viewer->can_go_here_tiles.begin(); it != this->main_view->map_viewer->can_go_here_tiles.end(); ) {
+
+            Coord current_dst = *it; // Dereference the iterator to get the current element
+
+            //
+            if (!(this->game_model->check_player_action_move_entity(src, current_dst))) {
+
+                // Erase the current element and get a valid iterator to the next element
+                it = this->main_view->map_viewer->can_go_here_tiles.erase(it);
+
+            }
+
+            //
+            else {
+
+                // Move to the next element
+                ++it;
+            }
+
+        }
 
     }
 
@@ -260,6 +323,15 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity){
 void MainGame::action_move_entity(Coord src, Coord dst){
 
     //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+
+    //
+    if( !this->game_model->check_player_action_move_entity(src, dst) ){
+        return;
+    }
+
+    //
+    this->game_model->do_player_action_move_entity(src, dst);
 
 }
 
@@ -268,6 +340,15 @@ void MainGame::action_move_entity(Coord src, Coord dst){
 void MainGame::action_new_entity(Coord dst, int level, bool type){
 
     //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+
+    //
+    if( !this->game_model->check_player_action_new_entity(dst, level, type) ){
+        return;
+    }
+
+    //
+    this->game_model->do_player_action_new_entity(dst, level, type);
 
 }
 
@@ -276,13 +357,38 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
 void MainGame::action_end_turn(){
 
     //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
+    //
+    if( !this->game_model->check_player_action_end_turn() ){
+        return;
+    }
+
+    //
+    int crt_color = this->game_model->get_current_player_color();
+
+    //
+    this->at_player_turn_end();
+
+    //
+    this->game_model->do_player_action_end_turn();
+
+    //
+    if( this->game_model->get_current_player_color() < crt_color ){
+
+        //
+        this->bandit_turn();
+
+    }
 
 }
 
 
 //
 void MainGame::bandit_turn(){
+
+    //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
 
