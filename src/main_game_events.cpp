@@ -229,8 +229,8 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event) {
     // int dec_cam = BASE_DEC_CAM * map_viewer->zoom;
 
     //
-    map_viewer->cam_x -= event->dx * 2; // / map_viewer->zoom;
-    map_viewer->cam_y -= event->dy * 2; // / map_viewer->zoom;
+    map_viewer->cam_x -= event->dx; // * 2; // / map_viewer->zoom;
+    map_viewer->cam_y -= event->dy; // * 2; // / map_viewer->zoom;
 
     //
     Coord mouse_pos = (Coord){main_game->main_view->win_attr.mouse_x, main_game->main_view->win_attr.mouse_y};
