@@ -4,6 +4,8 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <list>
+#include <deque>
 #include <string>
 #include <string_view>
 //
@@ -34,7 +36,6 @@ class Element {
         Coord coord;    // coordinates of the element
         usint color;    // owner of the element
         usint defense;  // level (= defense) of the element
-        usint cost;     // Cost of the element
 
     public:
 
@@ -42,9 +43,8 @@ class Element {
         Element () {}; // Default constructor
         Element(Coord element_coord,
                 usint element_color,
-                usint element_defense = 0,
-                usint element_cost = 0)
-            : coord(element_coord), color(element_color), defense(element_defense), cost(element_cost) {};
+                usint element_defense = 0)
+            : coord(element_coord), color(element_color), defense(element_defense) {};
         // Destructor
         virtual ~Element() {}; // Virtual destructor
 
@@ -52,60 +52,52 @@ class Element {
         Coord _coord() const;
         usint _color() const;
         usint _defense() const;
-        usint _cost() const;
+
+        //
+        virtual int get_upkeep_cost();
 };
 
 
 //
 class Unit : public Element {
 
-    private:
-
-        Coord coord;
-        usint color;
-        usint defense;
-        usint cost;
-
     public:
 
         // Constructor
         Unit(Coord unit_coord,
             usint unit_color,
-            usint unit_defense = 1,
-            usint unit_cost = 2)
-            : Element(unit_coord, unit_color, unit_defense, unit_cost) {};
+            usint unit_defense = 1)
+            : Element(unit_coord, unit_color, unit_defense) {};
         // Destructor
         ~Unit() {}; // Default destructor
 
         // Functions
         void upgrade(); // Increase unit defense
         void convert_bandit(); // Change the unit into a bandits
+
+        //
+        int get_upkeep_cost();
 };
 
 
 //
 class Building : public Element {
 
-    private:
-
-        Coord coord;
-        usint color;
-        usint defense;
-        usint cost;
-
     public:
 
         // Constructor
         Building(Coord building_coord,
                  usint building_color,
-                 usint building_defense = 1,
-                 usint building_cost = 0)
-            : Element(building_coord, building_color, building_defense, building_cost) {};
+                 usint building_defense = 1)
+            : Element(building_coord, building_color, building_defense) {};
         // Destructor
         ~Building() {}; // Default destructor
 
         // Functions
         bool is_town() const; // Return true if town, false if tower
+
+        //
+        int get_upkeep_cost();
 };
 
 
@@ -141,8 +133,7 @@ class Tile {
 
         // Functions
         void convert_color(usint new_color);
-        void add_element(Element* element);
-        void remove_element();
+        void set_element(Element* element);
         void delete_element();
 };
 
@@ -171,6 +162,10 @@ class Province {
     int _treasury() const;
     map<Coord, Tile*> _tiles() const;
     bool has_tile(Coord c);
+
+    // Setters
+    void set_color(usint new_color);
+    void set_treasury(int new_treasury);
 
     // Functions
     void add_tile(Tile* tile);
@@ -202,8 +197,25 @@ class Map {
 
         // Functions
         usint _size() const;
+        //
         Tile* get_tile(Coord c);
+        Element* get_tile_entity(Coord c);
+        int get_tile_color(Coord c);
         Province* get_province(Coord c);
+        //
+        std::map<Coord, Tile*>* get_tiles_layer();
+        std::map<Coord, Element*>* get_bandits_layer();
+        std::vector<Province*>* get_provinces_layer();
+        //
+        void reset_tiles_layer();
+        void reset_provinces_layer();
+        void reset_bandits_layer();
+        //
+        void set_tile(Coord coord, Tile* tile);
+        void set_tile_entity(Coord coord, int entity_level, bool entity_type);
+        void set_tile_color(Coord coord, int tile_color);
+        //
+        void add_province_from_list_of_tiles_and_color(std::list<Coord> tiles_list, int color, bool with_treasury = false, int treasury = 0);
 
         void recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* province);
         void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
@@ -273,10 +285,16 @@ class GameModel {
         void set_tile_color(Coord coord, int color);
 
         //
-        void reset_entity_layer();
+        void calculate_all_provinces_after_map_initialisation();
 
         //
-        void reset_color_layer();
+        void reset_bandits_layer();
+
+        //
+        void reset_tiles_layer();
+
+        //
+        void reset_provinces();
 
 };
 

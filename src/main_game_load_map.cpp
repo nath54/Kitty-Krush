@@ -20,6 +20,16 @@ void MainGame::set_map_from_data(
 
     //
     WindowEltMapViewer* map_viewer = this->main_view->map_viewer;
+    GameModel* game_model = this->game_model;
+
+    //
+    if ( game_model == nullptr ){
+
+        //
+        cout << "Error : no game model !\n";
+        //
+        this->quit();
+    }
 
     //
     if ( map_viewer == nullptr ){
@@ -68,6 +78,8 @@ void MainGame::set_map_from_data(
 
             //
             map_viewer->set_color_to_color_layer( coord.x, coord.y, color_num );
+            //
+            game_model->set_tile_color( coord, color_num );
 
         }
 
@@ -88,13 +100,19 @@ void MainGame::set_map_from_data(
 
             if (entity_num >= 10) { // Warriors
 
+                //
                 map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num - 10, true );
+                //
+                game_model->set_tile_entity( coord, entity_num - 10, true );
 
             }
 
             else{ // Buildings
 
+                //
                 map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num, false );
+                //
+                game_model->set_tile_entity( coord, entity_num, false );
 
             }
 
@@ -105,6 +123,8 @@ void MainGame::set_map_from_data(
 
     }
 
+    //
+    game_model->calculate_all_provinces_after_map_initialisation();
 
     // Init data
 
