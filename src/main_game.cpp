@@ -154,6 +154,17 @@ void MainGame::update_selected_province(Coord src){
     //
     this->main_view->map_viewer->selected_province = new_province;
 
+    //
+    this->main_view->map_viewer->txt_province_treasury->txt = std::to_string(new_province->_treasury());
+
+    //
+    int expected_income = new_province->expected_income();
+    if( expected_income >= 0 ){
+        this->main_view->map_viewer->txt_province_expected_income->txt = "(+" + std::to_string(expected_income) + ")";
+    }
+    else{
+        this->main_view->map_viewer->txt_province_expected_income->txt = "(" + std::to_string(expected_income) + ")";
+    }
 }
 
 

@@ -90,24 +90,41 @@ void Province::add_tile(Tile* tile)
 void Province::remove_tile(Tile* tile)
 { tiles_layer.erase(tile->_coord()); }
 
-void Province::treasury_turn()
-{
-    // Income
+
+
+int Province::expected_income(){
+
+    //
+    int income = 0;
+
+    //
     for (const auto& t : tiles_layer) {
         if (t.second->_element() != nullptr &&
             t.second->_element()->_defense() == 0) // bandit
             continue;
-        else treasury++;
+        else income++;
     }
     // Expenses
     for (const auto& t : tiles_layer) {
         if (t.second->_element() == nullptr) continue;
         //
-        treasury -= t.second->_element()->get_upkeep_cost();
+        income -= t.second->_element()->get_upkeep_cost();
     }
+
+    //
+    return income;
+
+}
+
+void Province::treasury_turn()
+{
+    // Income
+    this->treasury += this->expected_income();
+
     // Units management
-    if (treasury >= 0) return; // units are paid
-    treasury = 0;
+    if (this->treasury >= 0) return; // units are paid
+
+    this->treasury = 0;
     Unit* u = nullptr;
     for (auto& t : tiles_layer) {
         u = dynamic_cast<Unit*>(t.second->_element());
@@ -115,11 +132,9 @@ void Province::treasury_turn()
     }
 }
 
-void Province::add_treasury(int amount)
-{ treasury += amount; }
+void Province::add_treasury(int amount) { this->treasury += amount; }
 
-void Province::remove_treasury(int amount)
-{ treasury -= amount; }
+void Province::remove_treasury(int amount) { this->treasury -= amount; }
 
 // ----- Map -----
 

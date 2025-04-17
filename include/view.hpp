@@ -869,6 +869,10 @@ class WindowEltMapViewer: public WindowEltClickable {
         GameModel* game_model = nullptr;
 
         //
+        WindowEltText* txt_province_treasury = nullptr;
+        WindowEltText* txt_province_expected_income = nullptr;
+
+        //
         WindowEltMapViewer( Style* style,
             Value* x,
             Value* y,

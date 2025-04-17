@@ -171,6 +171,7 @@ class Province {
     void add_tile(Tile* tile);
     void remove_tile(Tile* tile);
 
+    int expected_income();
     void treasury_turn();
     void add_treasury(int amount);
     void remove_treasury(int amount);

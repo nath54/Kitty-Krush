@@ -233,6 +233,26 @@ void MainView::init_page_in_game() {
     this->map_viewer->game_model = this->game_model;
 
     //
+    this->map_viewer->txt_province_treasury = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        "10",                                   // std::string                      txt
+        nvpww(win_attr, 38, 160),               // Value*                           x
+        nvi(70),                                // Value*                           y
+        nvi(40),                                // Value*                           w
+        nvi(40)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->txt_province_expected_income = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        "(+10)",                                // std::string                      txt
+        nvpww(win_attr, 38, 230),               // Value*                           x
+        nvi(70),                                // Value*                           y
+        nvi(40),                                // Value*                           w
+        nvi(40)                                 // Value*                           h
+    );
+
+    //
     this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer );
 
     //
@@ -282,6 +302,43 @@ void MainView::init_page_in_game() {
 
     );
 
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Selected province : ",                 // std::string                      txt
+            nvpww(win_attr, 38, 0),                 // Value*                           x
+            nvi(70),                                // Value*                           y
+            nvi(160),                               // Value*                           w
+            nvi(40)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_province_treasury );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltSprite(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/ui/gold.png",                      // std::string                      txt
+            nvpww(win_attr, 38, 200),               // Value*                           x
+            nvi(80),                                // Value*                           y
+            nvi(40),                                // Value*                           w
+            nvi(40)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_province_expected_income );
+
     //
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
@@ -309,6 +366,21 @@ void MainView::init_page_in_game() {
             nvi(165),                               // Value*                           y
             nvi(60),                                // Value*                           w
             nvi(20)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltSprite(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/ui/gold.png",                      // std::string                      txt
+            nvi(57),                                // Value*                           x
+            nvi(168),                               // Value*                           y
+            nvi(40),                                // Value*                           w
+            nvi(40)                                 // Value*                           h
         )
 
     );
@@ -348,6 +420,21 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
+        new WindowEltSprite(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/ui/gold.png",                      // std::string                      txt
+            nvi(57),                                // Value*                           x
+            nvi(268),                               // Value*                           y
+            nvi(40),                                // Value*                           w
+            nvi(40)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
@@ -371,6 +458,21 @@ void MainView::init_page_in_game() {
             nvi(365),                               // Value*                           y
             nvi(60),                                // Value*                           w
             nvi(20)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltSprite(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/ui/gold.png",                      // std::string                      txt
+            nvi(57),                                // Value*                           x
+            nvi(368),                               // Value*                           y
+            nvi(40),                                // Value*                           w
+            nvi(40)                                 // Value*                           h
         )
 
     );
@@ -410,6 +512,21 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
+        new WindowEltSprite(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/ui/gold.png",                      // std::string                      txt
+            nvi(57),                                // Value*                           x
+            nvi(468),                               // Value*                           y
+            nvi(40),                                // Value*                           w
+            nvi(40)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/tower_p.png",     // std::string                      text
@@ -433,6 +550,21 @@ void MainView::init_page_in_game() {
             nvi(565),                               // Value*                           y
             nvi(60),                                // Value*                           w
             nvi(20)                                 // Value*                           h
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["in_game"]->elts.push_back(
+
+        //
+        new WindowEltSprite(
+            this->win_page_manager->default_style,  // Style*                           style
+            "res/ui/gold.png",                      // std::string                      txt
+            nvi(57),                                // Value*                           x
+            nvi(568),                               // Value*                           y
+            nvi(40),                                // Value*                           w
+            nvi(40)                                 // Value*                           h
         )
 
     );
