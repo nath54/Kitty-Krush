@@ -146,7 +146,13 @@ void MainGame::update_selected_province(Coord src){
     if( this->main_view->map_viewer == nullptr ) { return; }
 
     //
-    this->main_view->map_viewer->selected_province = this->game_model->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
+    Province* new_province = this->game_model->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
+
+    //
+    if( new_province == nullptr ){ return; }
+
+    //
+    this->main_view->map_viewer->selected_province = new_province;
 
 }
 

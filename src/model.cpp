@@ -69,10 +69,22 @@ bool Province::has_tile(Coord c){
 
 void Province::add_tile(Tile* tile)
 {
-    if (tiles_layer.find(tile->_coord()) != tiles_layer.end())
-        return; // already exists
-    tile->convert_color(color);
-    tiles_layer.insert({tile->_coord(), tile});
+    //
+    if (tile == nullptr){ return; }
+
+    //
+    Coord c = tile->_coord();
+
+    //
+    if ( tiles_layer.count(c) > 0){
+        return;  // already exists
+    }
+
+    //
+    // tile->convert_color(this->color);
+
+    // insert
+    tiles_layer[c] = tile;
 }
 
 void Province::remove_tile(Tile* tile)
@@ -152,14 +164,26 @@ int Map::get_tile_color(Coord c){
 
 Province* Map::get_province(Coord c)
 {
+
+    //
     Tile * tile = this->get_tile(c);
+    //
     if (tile == nullptr) return nullptr;
+    //
     if (tile->_color() == NEUTRAL) return nullptr;
-    for (Province* p : provinces_layer) {
-        for (auto& t : p->_tiles()) {
-            if (t.first.x == c.x && t.first.y == c.y){ return p; }
+
+    //
+    for (Province* p : this->provinces_layer) {
+
+        //
+        if( p->has_tile(c) ){
+
+            return p;
         }
+
     }
+
+    //
     return nullptr;
 }
 
@@ -307,6 +331,9 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
         p->add_tile( tile );
 
     }
+
+    //
+    this->add_province( p );
 
 }
 
@@ -770,6 +797,9 @@ void GameModel::calculate_all_provinces_after_map_initialisation(){
         to_visit_num.pop_front();
 
         //
+        if( visited.count(v) > 0 ){ continue; }
+
+        //
         visited[v] = num;
 
         //
@@ -778,8 +808,8 @@ void GameModel::calculate_all_provinces_after_map_initialisation(){
             //
             int color2 = this->get_tile_color(vv);
             //
-            if( color2 || color2 != color ){
-                return;
+            if( color2 == -1 || color2 != color ){
+                continue;
             }
 
             //
@@ -798,11 +828,6 @@ void GameModel::calculate_all_provinces_after_map_initialisation(){
                 }
 
             }
-
-            //
-            Tile* tile_vv = this->game_map->get_tile( vv );
-            if( tile_vv == nullptr ){ continue; }
-            if( tile_vv->_color() != color ){ continue; }
 
             //
             to_visit_coord.push_back( vv );
