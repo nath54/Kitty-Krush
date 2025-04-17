@@ -513,7 +513,8 @@ void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawT
     if( this->can_go_here_tiles.size() > 0 && this->can_go_here_tiles.count(coord) == 0 ){
         //
         transform->do_color_mod = true;
-        transform->color_mod = (Color){50, 50, 50};
+        transform->color_mod = (Color){0, 0, 0};
+        this->color_tile->draw_elt(main_view, transform);
         this->color_tile->draw_elt(main_view, transform);
         transform->do_color_mod = false;
     }
