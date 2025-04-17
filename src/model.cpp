@@ -490,10 +490,19 @@ void Map::split_province(Coord c)
         to_visit_num.pop_front();
 
         //
+        if( visited.count(v) > 0 ){ continue; }
+
+        //
         visited[v] = num;
 
         //
         for( Coord vv : neighbours(v) ){
+
+            //
+            int color2 = this->get_tile_color( vv );
+
+            //
+            if( color2 == -1 || color != color2 ){ continue; }
 
             //
             if( visited.count(vv) > 0){
@@ -501,7 +510,7 @@ void Map::split_province(Coord c)
                 if( visited[vv] == num ){ continue; }
 
                 // else...
-                to_visit_num[visited[vv]] = num;
+                to_convert_num[visited[vv]] = num;
 
                 // Change all the different number to the same number for connex zones
                 for( std::pair<Coord, int> it : visited){
@@ -511,11 +520,6 @@ void Map::split_province(Coord c)
                 }
 
             }
-
-            //
-            Tile* tile_vv = this->get_tile( vv );
-            if( tile_vv == nullptr ){ continue; }
-            if( tile_vv->_color() != color ){ continue; }
 
             //
             to_visit_coord.push_back( vv );
@@ -818,7 +822,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation(){
                 if( visited[vv] == num ){ continue; }
 
                 // else...
-                to_visit_num[visited[vv]] = num;
+                to_convert_num[visited[vv]] = num;
 
                 // Change all the different number to the same number for connex zones
                 for( std::pair<Coord, int> it : visited){
