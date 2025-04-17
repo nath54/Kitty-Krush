@@ -71,6 +71,12 @@ void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event
         if ( elt_c == nullptr ){ continue; }
 
         //
+        if ( !(elt_c->visible)  ){ continue; }
+
+        //
+        if ( elt_c->disabled ){ continue; }
+
+        //
         if ( elt_c->on_click == nullptr ){ continue; }
 
         //

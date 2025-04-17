@@ -8,6 +8,7 @@
 #include "main_game.hpp"
 #include "view.hpp"
 #include "strings_utils.hpp"
+#include "entity_data.hpp"
 
 
 // Constructor of the MainGame class, initializes all the components
@@ -94,6 +95,9 @@ void MainGame::change_page(std::string new_page){
         this->load_map_from_file("res/map_tests/map_2.kkmap");
 
         //
+        this->at_player_turn_start();
+
+        //
         this->menu_state = 2;
     }
     //
@@ -125,6 +129,12 @@ void MainGame::quit(){
 void MainGame::at_player_turn_start(){
 
     //
+    this->update_current_player_display();
+
+    // TODO: maybe update here with the first province of the current player
+    this->set_selected_province( nullptr );
+
+    // TODO: all the income of each province
 
 }
 
@@ -133,6 +143,75 @@ void MainGame::at_player_turn_start(){
 void MainGame::at_player_turn_end(){
 
     //
+
+}
+
+
+//
+void MainGame::update_current_player_display(){
+
+    //
+    this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[this->main_view->map_viewer->current_color_to_play - 1];
+
+    //
+    this->main_view->map_viewer->txt_current_player->txt = "Player " + std::to_string( this->main_view->map_viewer->current_color_to_play );
+
+}
+
+
+//
+void MainGame::set_selected_province(Province* p){
+
+    //
+    this->main_view->map_viewer->selected_province = p;
+
+    //
+    if( p == nullptr ){
+
+        //
+        this->main_view->map_viewer->elt_province_1->visible = false;
+        this->main_view->map_viewer->elt_province_2->visible = false;
+        this->main_view->map_viewer->txt_province_treasury->visible = false;
+        this->main_view->map_viewer->txt_province_expected_income->visible = false;
+
+        //
+        this->main_view->map_viewer->bt_unit_lvl1->disabled = true;
+        this->main_view->map_viewer->bt_unit_lvl2->disabled = true;
+        this->main_view->map_viewer->bt_unit_lvl3->disabled = true;
+        this->main_view->map_viewer->bt_unit_lvl4->disabled = true;
+        this->main_view->map_viewer->bt_building_lvl2->disabled = true;
+
+        //
+        return;
+    }
+
+    //
+    this->main_view->map_viewer->elt_province_1->visible = true;
+    this->main_view->map_viewer->elt_province_2->visible = true;
+    this->main_view->map_viewer->txt_province_treasury->visible = true;
+    this->main_view->map_viewer->txt_province_expected_income->visible = true;
+
+    //
+    int treasury = p->_treasury();
+
+    //
+    this->main_view->map_viewer->bt_unit_lvl1->disabled = treasury < units_new_costs[1];
+    this->main_view->map_viewer->bt_unit_lvl2->disabled = treasury < units_new_costs[2];
+    this->main_view->map_viewer->bt_unit_lvl3->disabled = treasury < units_new_costs[3];
+    this->main_view->map_viewer->bt_unit_lvl4->disabled = treasury < units_new_costs[4];
+    this->main_view->map_viewer->bt_building_lvl2->disabled = treasury < buildings_new_costs[2];
+
+    //
+    this->main_view->map_viewer->txt_province_treasury->txt = std::to_string(treasury);
+
+    //
+    int expected_income = p->expected_income();
+    if( expected_income >= 0 ){
+        this->main_view->map_viewer->txt_province_expected_income->txt = "(+" + std::to_string(expected_income) + ")";
+    }
+    else{
+        this->main_view->map_viewer->txt_province_expected_income->txt = "(" + std::to_string(expected_income) + ")";
+    }
 
 }
 
@@ -152,19 +231,8 @@ void MainGame::update_selected_province(Coord src){
     if( new_province == nullptr ){ return; }
 
     //
-    this->main_view->map_viewer->selected_province = new_province;
+    this->set_selected_province( new_province );
 
-    //
-    this->main_view->map_viewer->txt_province_treasury->txt = std::to_string(new_province->_treasury());
-
-    //
-    int expected_income = new_province->expected_income();
-    if( expected_income >= 0 ){
-        this->main_view->map_viewer->txt_province_expected_income->txt = "(+" + std::to_string(expected_income) + ")";
-    }
-    else{
-        this->main_view->map_viewer->txt_province_expected_income->txt = "(" + std::to_string(expected_income) + ")";
-    }
 }
 
 

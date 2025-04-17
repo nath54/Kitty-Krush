@@ -79,6 +79,12 @@ class MainGame{
         void at_player_turn_end();
 
         //
+        void update_current_player_display();
+
+        //
+        void set_selected_province(Province* p);
+
+        //
         void update_selected_province(Coord src);
 
         //

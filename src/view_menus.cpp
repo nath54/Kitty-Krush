@@ -233,11 +233,52 @@ void MainView::init_page_in_game() {
     this->map_viewer->game_model = this->game_model;
 
     //
+    this->map_viewer->rect_current_player = new WindowEltRect(
+        this->win_page_manager->default_style,  // Style*                           style
+        (Color){150, 150, 150},                 // Color                            cl
+        nvpww(win_attr, 40),                    // Value*                           x
+        nvi(15),                                // Value*                           y
+        nvpww(win_attr, 20),                    // Value*                           w
+        nvi(40),                                // Value*                           h
+        nvi(15)                                 // Value*                           radius
+    );
+
+    //
+    this->map_viewer->txt_current_player = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        "player 1",                             // std::string                      txt
+        nvpww(win_attr, 40),                    // Value*                           x
+        nvi(15),                                // Value*                           y
+        nvpww(win_attr, 20),                    // Value*                           w
+        nvi(40)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->elt_province_1 = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        "Selected province : ",                 // std::string                      txt
+        nvpww(win_attr, 38, 0),                 // Value*                           x
+        nvi(70),                                // Value*                           y
+        nvi(160),                               // Value*                           w
+        nvi(40)                                 // Value*                           h
+    );
+
+    //
     this->map_viewer->txt_province_treasury = new WindowEltText(
         this->win_page_manager->default_style,  // Style*                           style
         "10",                                   // std::string                      txt
         nvpww(win_attr, 38, 160),               // Value*                           x
         nvi(70),                                // Value*                           y
+        nvi(40),                                // Value*                           w
+        nvi(40)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->elt_province_2 = new WindowEltSprite(
+        this->win_page_manager->default_style,  // Style*                           style
+        "res/ui/gold.png",                      // std::string                      txt
+        nvpww(win_attr, 38, 200),               // Value*                           x
+        nvi(80),                                // Value*                           y
         nvi(40),                                // Value*                           w
         nvi(40)                                 // Value*                           h
     );
@@ -250,6 +291,111 @@ void MainView::init_page_in_game() {
         nvi(70),                                // Value*                           y
         nvi(40),                                // Value*                           w
         nvi(40)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->bt_unit_lvl1 = new WindowEltButton(
+        this->win_page_manager->default_style,  // Style*                           style
+        "res/sprites/entities/cat_lvl1_p.png",  // std::string                      text
+        nvi(15),                                // Value*                           x
+        nvi(100),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(60),                                // Value*                           h
+        on_bt_new_warrior_lvl1                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+    );
+
+    //
+    this->map_viewer->txt_unit_lvl1 = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        std::to_string(units_new_costs[1]),     // std::string                      txt
+        nvi(15),                                // Value*                           x
+        nvi(165),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(20)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->bt_unit_lvl2 = new WindowEltButton(
+        this->win_page_manager->default_style,  // Style*                           style
+        "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
+        nvi(15),                                // Value*                           x
+        nvi(200),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(60),                                // Value*                           h
+        on_bt_new_warrior_lvl2                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+    );
+
+    //
+    this->map_viewer->txt_unit_lvl2 = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        std::to_string(units_new_costs[2]),     // std::string                      txt
+        nvi(15),                                // Value*                           x
+        nvi(265),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(20)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->bt_unit_lvl3 = new WindowEltButton(
+        this->win_page_manager->default_style,  // Style*                           style
+        "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
+        nvi(15),                                // Value*                           x
+        nvi(300),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(60),                                // Value*                           h
+        on_bt_new_warrior_lvl3                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+    );
+
+    //
+    this->map_viewer->txt_unit_lvl3 = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        std::to_string(units_new_costs[3]),     // std::string                      txt
+        nvi(15),                                // Value*                           x
+        nvi(365),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(20)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->bt_unit_lvl4 = new WindowEltButton(
+        this->win_page_manager->default_style,  // Style*                           style
+        "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
+        nvi(15),                                // Value*                           x
+        nvi(400),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(60),                                // Value*                           h
+        on_bt_new_warrior_lvl4                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+    );
+
+    //
+    this->map_viewer->txt_unit_lvl4 = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        std::to_string(units_new_costs[4]),     // std::string                      txt
+        nvi(15),                                // Value*                           x
+        nvi(465),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(20)                                 // Value*                           h
+    );
+
+    //
+    this->map_viewer->bt_building_lvl2 = new WindowEltButton(
+        this->win_page_manager->default_style,  // Style*                           style
+        "res/sprites/entities/tower_p.png",     // std::string                      text
+        nvi(15),                                // Value*                           x
+        nvi(500),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(60),                                // Value*                           h
+        on_bt_new_tower                         // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+    );
+
+    //
+    this->map_viewer->txt_building_lvl2 = new WindowEltText(
+        this->win_page_manager->default_style,  // Style*                           style
+        std::to_string(buildings_new_costs[2]), // std::string                      txt
+        nvi(15),                                // Value*                           x
+        nvi(565),                               // Value*                           y
+        nvi(60),                                // Value*                           w
+        nvi(20)                                 // Value*                           h
     );
 
     //
@@ -272,103 +418,29 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltRect(
-            this->win_page_manager->default_style,  // Style*                           style
-            (Color){150, 150, 150},                 // Color                            cl
-            nvpww(win_attr, 40),                    // Value*                           x
-            nvi(15),                                // Value*                           y
-            nvpww(win_attr, 20),                    // Value*                           w
-            nvi(40),                                // Value*                           h
-            nvi(15)                                 // Value*                           radius
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->rect_current_player );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltText(
-            this->win_page_manager->default_style,  // Style*                           style
-            "player 1",                             // std::string                      txt
-            nvpww(win_attr, 40),                    // Value*                           x
-            nvi(15),                                // Value*                           y
-            nvpww(win_attr, 20),                    // Value*                           w
-            nvi(40)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_current_player );
 
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltText(
-            this->win_page_manager->default_style,  // Style*                           style
-            "Selected province : ",                 // std::string                      txt
-            nvpww(win_attr, 38, 0),                 // Value*                           x
-            nvi(70),                                // Value*                           y
-            nvi(160),                               // Value*                           w
-            nvi(40)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->elt_province_1 );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_province_treasury );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltSprite(
-            this->win_page_manager->default_style,  // Style*                           style
-            "res/ui/gold.png",                      // std::string                      txt
-            nvpww(win_attr, 38, 200),               // Value*                           x
-            nvi(80),                                // Value*                           y
-            nvi(40),                                // Value*                           w
-            nvi(40)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->elt_province_2 );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_province_expected_income );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltButton(
-            this->win_page_manager->default_style,  // Style*                           style
-            "res/sprites/entities/cat_lvl1_p.png",  // std::string                      text
-            nvi(15),                                // Value*                           x
-            nvi(100),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(60),                                // Value*                           h
-            on_bt_new_warrior_lvl1                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->bt_unit_lvl1 );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltText(
-            this->win_page_manager->default_style,  // Style*                           style
-            std::to_string(units_new_costs[1]),     // std::string                      txt
-            nvi(15),                                // Value*                           x
-            nvi(165),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(20)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_unit_lvl1 );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back(
@@ -386,35 +458,10 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltButton(
-            this->win_page_manager->default_style,  // Style*                           style
-            "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
-            nvi(15),                                // Value*                           x
-            nvi(200),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(60),                                // Value*                           h
-            on_bt_new_warrior_lvl2                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->bt_unit_lvl2 );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltText(
-            this->win_page_manager->default_style,  // Style*                           style
-            std::to_string(units_new_costs[2]),     // std::string                      txt
-            nvi(15),                                // Value*                           x
-            nvi(265),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(20)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_unit_lvl2 );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back(
@@ -432,35 +479,10 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltButton(
-            this->win_page_manager->default_style,  // Style*                           style
-            "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
-            nvi(15),                                // Value*                           x
-            nvi(300),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(60),                                // Value*                           h
-            on_bt_new_warrior_lvl3                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->bt_unit_lvl3 );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltText(
-            this->win_page_manager->default_style,  // Style*                           style
-            std::to_string(units_new_costs[3]),     // std::string                      txt
-            nvi(15),                                // Value*                           x
-            nvi(365),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(20)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_unit_lvl3 );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back(
@@ -478,35 +500,10 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltButton(
-            this->win_page_manager->default_style,  // Style*                           style
-            "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
-            nvi(15),                                // Value*                           x
-            nvi(400),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(60),                                // Value*                           h
-            on_bt_new_warrior_lvl4                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->bt_unit_lvl4 );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltText(
-            this->win_page_manager->default_style,  // Style*                           style
-            std::to_string(units_new_costs[4]),     // std::string                      txt
-            nvi(15),                                // Value*                           x
-            nvi(465),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(20)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_unit_lvl4 );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back(
@@ -524,35 +521,10 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltButton(
-            this->win_page_manager->default_style,  // Style*                           style
-            "res/sprites/entities/tower_p.png",     // std::string                      text
-            nvi(15),                                // Value*                           x
-            nvi(500),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(60),                                // Value*                           h
-            on_bt_new_tower                         // std::function<void(WindowEltClickable*, MainGame*)>    on_click
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->bt_building_lvl2 );
 
     //
-    this->win_page_manager->pages["in_game"]->elts.push_back(
-
-        //
-        new WindowEltText(
-            this->win_page_manager->default_style,  // Style*                           style
-            std::to_string(buildings_new_costs[2]), // std::string                      txt
-            nvi(15),                                // Value*                           x
-            nvi(565),                               // Value*                           y
-            nvi(60),                                // Value*                           w
-            nvi(20)                                 // Value*                           h
-        )
-
-    );
+    this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer->txt_building_lvl2 );
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back(

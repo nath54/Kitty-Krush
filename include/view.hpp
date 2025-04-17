@@ -391,6 +391,9 @@ class WindowEltClickable : public WindowElt {
     public:
 
         //
+        bool disabled = false;
+
+        //
         std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr;
 
         //
@@ -738,9 +741,6 @@ class WindowEltButton : public WindowEltClickable {
         WindowEltSprite* bt_sprite = nullptr;
 
         //
-        bool disabled = false;
-
-        //
         WindowEltButton( Style* style,
                          std::string txt,
                          Value* x,
@@ -869,8 +869,26 @@ class WindowEltMapViewer: public WindowEltClickable {
         GameModel* game_model = nullptr;
 
         //
+        WindowEltRect* rect_current_player = nullptr;
+        WindowEltText* txt_current_player = nullptr;
+
+        //
+        WindowEltText* elt_province_1 = nullptr;
+        WindowEltSprite* elt_province_2 = nullptr;
         WindowEltText* txt_province_treasury = nullptr;
         WindowEltText* txt_province_expected_income = nullptr;
+
+        //
+        WindowEltButton* bt_unit_lvl1 = nullptr;
+        WindowEltText* txt_unit_lvl1 = nullptr;
+        WindowEltButton* bt_unit_lvl2 = nullptr;
+        WindowEltText* txt_unit_lvl2 = nullptr;
+        WindowEltButton* bt_unit_lvl3 = nullptr;
+        WindowEltText* txt_unit_lvl3 = nullptr;
+        WindowEltButton* bt_unit_lvl4 = nullptr;
+        WindowEltText* txt_unit_lvl4 = nullptr;
+        WindowEltButton* bt_building_lvl2 = nullptr;
+        WindowEltText* txt_building_lvl2 = nullptr;
 
         //
         WindowEltMapViewer( Style* style,
