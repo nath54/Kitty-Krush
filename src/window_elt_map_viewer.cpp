@@ -1276,7 +1276,7 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
     Building* building = dynamic_cast<Building*>( elt );
     Unit* unit = dynamic_cast<Unit*>( elt );
     //
-    entity.type = !(building == nullptr);
+    entity.type = (building == nullptr);
 
     //
     return entity;
