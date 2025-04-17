@@ -230,6 +230,7 @@ void MainView::init_page_in_game() {
         nvpwh(win_attr, 100),                   // Value*                           h
         on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*)>  on_click
     );
+    this->map_viewer->game_model = this->game_model;
 
     //
     this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer );

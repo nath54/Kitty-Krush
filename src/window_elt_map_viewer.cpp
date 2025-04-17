@@ -1261,15 +1261,35 @@ WindowEltMapTile* WindowEltMapViewer::get_layer_tile_at_coord(Coord coord){
 EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
 
     //
-    if ( this->entity_layers.count( coord ) <= 0 ){
-
-        //
-        return (EntityData){-1, false};
-
-    }
+    EntityData entity = (EntityData){-1, false};
 
     //
-    return this->entity_layers[coord];
+    if( this->game_model == nullptr){ return entity; }
+    //
+    Element* elt = this->game_model->get_tile_entity( coord );
+    //
+    if( elt == nullptr){ return entity; }
+
+    //
+    entity.level = elt->_defense();
+    //
+    Unit* unit = dynamic_cast<Unit*>( elt );
+    //
+    entity.type = (unit == nullptr);
+
+    //
+    return entity;
+
+    // //
+    // if ( this->entity_layers.count( coord ) <= 0 ){
+
+    //     //
+    //     return (EntityData){-1, false};
+
+    // }
+
+    // //
+    // return this->entity_layers[coord];
 
 }
 
@@ -1278,15 +1298,20 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
 int WindowEltMapViewer::get_color_at_coord(Coord coord){
 
     //
-    if ( this->colors_layers.count( coord ) <= 0 ){
-
-        //
-        return -1;
-
-    }
+    if( this->game_model == nullptr){ return -1; }
+    //
+    return this->game_model->get_tile_color( coord );
 
     //
-    return this->colors_layers[coord];
+    // if ( this->colors_layers.count( coord ) <= 0 ){
+
+    //     //
+    //     return -1;
+
+    // }
+
+    // //
+    // return this->colors_layers[coord];
 
 }
 

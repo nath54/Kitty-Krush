@@ -866,6 +866,9 @@ class WindowEltMapViewer: public WindowEltClickable {
         std::set<Coord> can_go_here_tiles;
 
         //
+        GameModel* game_model = nullptr;
+
+        //
         WindowEltMapViewer( Style* style,
             Value* x,
             Value* y,

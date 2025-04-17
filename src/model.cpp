@@ -644,14 +644,22 @@ int GameModel::get_tile_color(Coord coord){
 //
 void GameModel::set_tile_entity(Coord coord, int entity_level, bool entity_type){
 
-    // TODO
+    //
+    if( this->game_map == nullptr ){ return; }
+
+    //
+    this->game_map->set_tile_entity(coord, entity_level, entity_type);
 
 }
 
 //
 void GameModel::set_tile_color(Coord coord, int color){
 
-    // TODO
+    //
+    if( this->game_map == nullptr ){ return; }
+
+    //
+    this->game_map->set_tile_color(coord, color);
 
 }
 
