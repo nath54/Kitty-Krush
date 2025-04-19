@@ -138,6 +138,7 @@ void MainGame::at_player_turn_start(){
     this->set_selected_province( nullptr );
 
     // TODO: all the income of each province
+    this->game_model->at_player_turn_start();
 
 }
 
@@ -148,7 +149,6 @@ void MainGame::at_player_turn_end(){
     //
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
-    //
 
 }
 
@@ -160,10 +160,10 @@ void MainGame::update_current_player_display(){
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
-    this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[this->main_view->map_viewer->current_color_to_play - 1];
+    this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[this->game_model->get_current_player_color() - 1];
 
     //
-    this->main_view->map_viewer->txt_current_player->txt = "Player " + std::to_string( this->main_view->map_viewer->current_color_to_play );
+    this->main_view->map_viewer->txt_current_player->txt = "Player " + std::to_string( this->game_model->get_current_player_color() );
 
 }
 
@@ -380,6 +380,9 @@ void MainGame::action_end_turn(){
         this->bandit_turn();
 
     }
+
+    //
+    this->at_player_turn_start();
 
 }
 

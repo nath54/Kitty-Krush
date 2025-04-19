@@ -609,7 +609,7 @@ void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTrans
             if (edata.type && edata.level >= 0){
                 //
                 transform->do_color_mod = true;
-                if (color == this->current_color_to_play){
+                if (color == this->game_model->get_current_player_color() && edata.level > 0){
                     transform->color_mod = (Color){50, 200, 50};
                 }
                 else{
@@ -821,7 +821,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
         dep_y->value = main_view->win_attr.mouse_y;
 
         //
-        this->draw_entity_sprite(this->entity_dragged, main_view, tile_transform, this->current_color_to_play);
+        this->draw_entity_sprite(this->entity_dragged, main_view, tile_transform, this->game_model->get_current_player_color());
 
     }
 
@@ -1581,7 +1581,7 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
     int color = map_viewer->get_color_at_coord( map_viewer->mouse_hover_tile );
 
     //
-    if ( color != map_viewer->current_color_to_play ){ return; }
+    if ( color != main_game->game_model->get_current_player_color() ){ return; }
 
     //
     map_viewer->dragging_entity = true;
