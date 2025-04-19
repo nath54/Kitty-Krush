@@ -10,38 +10,50 @@
 
 // ===== Elements =====
 
+
 Coord Element::_coord() const { return this->coord; }
 usint Element::_color() const { return this->color; }
 usint Element::_defense() const { return this->defense; }
 
+
 int Element::get_upkeep_cost() { return 0; }
+
 
 void Unit::upgrade() { this->defense++; }
 
+
 void Unit::convert_bandit() { this->color = -1; this->defense = 0; }
+
 
 int Unit::get_upkeep_cost() { return units_upkeep_costs[this->defense]; }
 
+
 bool Building::is_town() const { return (this->defense == 1); }
+
 
 int Building::get_upkeep_cost() { return buildings_upkeep_costs[this->defense]; }
 
+
 // ===== [ Map ] =====
 
+
 // --- Tile ---
+
 
 Coord Tile::_coord() const { return this->coord; }
 usint Tile::_color() const { return this->color; }
 usint Tile::_defense() const { return this->defense; }
 Element* Tile::_element() const { return this->element; }
 
+
 void Tile::convert_color(usint new_color) { this->color = new_color; }
 
-void Tile::set_element(Element* e)
-{
+
+void Tile::set_element(Element* e){
     this->delete_element();
     this->element = e;
 }
+
 
 void Tile::delete_element()
 {
@@ -49,23 +61,27 @@ void Tile::delete_element()
     this->element = nullptr;
 }
 
+
 // --- Province ---
+
 
 // Getters
 usint Province::_color() const { return this->color; }
 int Province::_treasury() const { return this->treasury; }
 map<Coord, Tile*> Province::_tiles() const { return this->tiles_layer; }
 
+
 // Setters
 void Province::set_color(usint new_color){ this->color = new_color; }
 void Province::set_treasury(int new_treasury){ this->treasury = new_treasury; };
 
-//
 
+//
 bool Province::has_tile(Coord c){
     //
     return (this->tiles_layer.count(c) > 0);
 }
+
 
 void Province::add_tile(Tile* tile)
 {
@@ -87,8 +103,8 @@ void Province::add_tile(Tile* tile)
     tiles_layer[c] = tile;
 }
 
-void Province::remove_tile(Tile* tile)
-{ tiles_layer.erase(tile->_coord()); }
+
+void Province::remove_tile(Tile* tile) { tiles_layer.erase(tile->_coord()); }
 
 
 
@@ -116,6 +132,7 @@ int Province::expected_income(){
 
 }
 
+
 void Province::treasury_turn()
 {
     // Income
@@ -132,13 +149,18 @@ void Province::treasury_turn()
     }
 }
 
+
 void Province::add_treasury(int amount) { this->treasury += amount; }
+
 
 void Province::remove_treasury(int amount) { this->treasury -= amount; }
 
+
 // ----- Map -----
 
+
 usint Map::_size() const { return size; }
+
 
 Tile* Map::get_tile(Coord c)
 {
@@ -164,6 +186,7 @@ Element* Map::get_tile_entity(Coord c){
 
 }
 
+
 int Map::get_tile_color(Coord c){
 
     //
@@ -177,8 +200,8 @@ int Map::get_tile_color(Coord c){
 
 }
 
-Province* Map::get_province(Coord c)
-{
+
+Province* Map::get_province(Coord c){
 
     //
     Tile * tile = this->get_tile(c);
@@ -415,8 +438,9 @@ void Map::init_map(usint nb_players, int nb_provinces, int size_provinces, bool 
     }
 }
 
-void Map::add_province(Province* province)
-{ provinces_layer.push_back(province); }
+
+void Map::add_province(Province* province) { provinces_layer.push_back(province); }
+
 
 void Map::remove_province(Province* province)
 {
@@ -427,6 +451,7 @@ void Map::remove_province(Province* province)
         break;
     }
 }
+
 
 bool Map::adjacent_to_province(Province* p, Coord c)
 {
@@ -439,6 +464,7 @@ bool Map::adjacent_to_province(Province* p, Coord c)
     return false;
 }
 
+
 void Map::fusion_provinces(Province* p1, Province* p2)
 {
     if (p1 == nullptr || p2 == nullptr) return;
@@ -449,6 +475,7 @@ void Map::fusion_provinces(Province* p1, Province* p2)
     remove_province(p2);
     delete p2;
 }
+
 
 void Map::split_province(Coord c)
 {
@@ -598,6 +625,21 @@ GameModel::GameModel(){
 void GameModel::at_player_turn_start(){
 
     //
+    std::vector<Province*>* provinces = this->game_map->get_provinces_layer();
+    for( Province* p : *provinces ){
+
+        //
+        if( p->_color() != this->current_player_color ){
+
+            //
+            continue;
+
+        }
+
+        //
+        p->treasury_turn();
+
+    }
 
 }
 
@@ -733,6 +775,7 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
     return;
 }
 
+
 //
 bool GameModel::check_player_action_end_turn(){
 
@@ -741,19 +784,31 @@ bool GameModel::check_player_action_end_turn(){
     return true;
 }
 
+
 //
 void GameModel::do_player_action_end_turn(){
 
-    // TODO
+    //
+    this->current_player_color++;
 
+    //
+    if ( this->current_player_color > this->nb_players_colors ){
+
+        this->current_player_color = 1;
+
+    }
+
+    //
     return;
 }
+
 
 //
 int GameModel::get_current_player_color(){
 
     return this->current_player_color;
 }
+
 
 //
 Province* GameModel::get_tile_province(Coord coord){
@@ -766,6 +821,7 @@ Province* GameModel::get_tile_province(Coord coord){
 
 }
 
+
 //
 Element* GameModel::get_tile_entity(Coord coord){
 
@@ -777,6 +833,7 @@ Element* GameModel::get_tile_entity(Coord coord){
 
 }
 
+
 //
 int GameModel::get_tile_color(Coord coord){
 
@@ -786,6 +843,7 @@ int GameModel::get_tile_color(Coord coord){
     //
     return this->game_map->get_tile_color(coord);
 }
+
 
 //
 void GameModel::set_tile_entity(Coord coord, int entity_level, bool entity_type){
@@ -798,6 +856,7 @@ void GameModel::set_tile_entity(Coord coord, int entity_level, bool entity_type)
 
 }
 
+
 //
 void GameModel::set_tile_color(Coord coord, int color){
 
@@ -809,6 +868,7 @@ void GameModel::set_tile_color(Coord coord, int color){
 
 }
 
+
 //
 void GameModel::reset_tiles_layer(){
 
@@ -819,6 +879,7 @@ void GameModel::reset_tiles_layer(){
     this->game_map->reset_tiles_layer();
 
 }
+
 
 //
 void GameModel::reset_bandits_layer(){
@@ -850,7 +911,6 @@ int GameModel::get_nb_players_colors(){
     return this->nb_players_colors;
 
 }
-
 
 
 //

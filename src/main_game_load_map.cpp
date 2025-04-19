@@ -138,13 +138,13 @@ void MainGame::set_map_from_data(
     //
     if ( player_rect != nullptr ){
         //
-        player_rect->cl = allPlayerColors[map_viewer->current_color_to_play - 1];
+        player_rect->cl = allPlayerColors[game_model->get_current_player_color() - 1];
     }
 
     //
     if ( player_text != nullptr ){
         //
-        player_text->txt = "Player " + std::to_string(map_viewer->current_color_to_play);
+        player_text->txt = "Player " + std::to_string(game_model->get_current_player_color());
     }
 
 }
