@@ -187,6 +187,7 @@ class Map {
         std::map<Coord, Tile*> tiles_layer;
         std::map<Coord, Element*> bandits_layer;
         std::vector<Province*> provinces_layer;
+        std::list<Province*> provinces_to_remove;
 
     public:
 
@@ -207,6 +208,7 @@ class Map {
         std::map<Coord, Tile*>* get_tiles_layer();
         std::map<Coord, Element*>* get_bandits_layer();
         std::vector<Province*>* get_provinces_layer();
+        std::list<Province*>* get_provinces_to_remove();
         //
         void reset_tiles_layer();
         void reset_provinces_layer();
@@ -254,6 +256,9 @@ class GameModel {
 
         //
         Province* get_province_at_coord(Coord c);
+
+        //
+        Map* get_map();
 
         //
         int get_nb_players_colors();

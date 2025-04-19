@@ -3,6 +3,9 @@
 #include <ctime> // time()
 #include <deque>
 #include <list>
+#include <vector>
+#include <map>
+#include <algorithm>
 //
 #include "entity_data.hpp"
 #include "model.hpp"
@@ -232,6 +235,10 @@ std::vector<Province*>* Map::get_provinces_layer() { return &(this->provinces_la
 
 
 //
+std::list<Province*>* Map::get_provinces_to_remove() { return &(this->provinces_to_remove); }
+
+
+//
 void Map::reset_tiles_layer(){
 
     //
@@ -434,12 +441,15 @@ void Map::add_province(Province* province) { provinces_layer.push_back(province)
 
 void Map::remove_province(Province* province)
 {
-    for (auto p = provinces_layer.begin(); p != provinces_layer.end(); p++) {
-        if (*p != province) continue;
-        (*p)->_tiles().clear();
-        delete *p;
-        break;
-    }
+    //
+    this->provinces_layer.erase(
+        std::remove(this->provinces_layer.begin(), this->provinces_layer.end(), province),
+        this->provinces_layer.end()
+    );
+
+    //
+    this->get_provinces_to_remove()->push_back( province );
+
 }
 
 
@@ -609,6 +619,13 @@ GameModel::GameModel(){
     //
     this->game_map = new Map();
 
+}
+
+
+//
+Map* GameModel::get_map(){
+    //
+    return this->game_map;
 }
 
 
@@ -1154,11 +1171,11 @@ vector<Coord> neighbours(Coord c)
     int x = c.x;
     int y = c.y;
     vector<Coord> n;
-    n.push_back(Coord(x-1, y));
-    n.push_back(Coord(x+1, y));
-    n.push_back(Coord(x, y-1));
-    n.push_back(Coord(x, y+1));
-    n.push_back(Coord(x+1, y+1-((x%2)*2)));
-    n.push_back(Coord(x-1, y+1-((x%2)*2)));
+    n.push_back(get_tile_top_to(c));
+    n.push_back(get_tile_top_left_to(c));
+    n.push_back(get_tile_top_right_to(c));
+    n.push_back(get_tile_bottom_to(c));
+    n.push_back(get_tile_bottom_left_to(c));
+    n.push_back(get_tile_bottom_right_to(c));
     return n;
 }

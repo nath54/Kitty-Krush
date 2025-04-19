@@ -333,6 +333,29 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     //
     this->game_model->do_player_action_move_entity(src, dst);
 
+    // Check for provinces to remove
+
+    //
+    std::list<Province*>* provinces_to_remove = this->game_model->get_map()->get_provinces_to_remove();
+    //
+    while ( provinces_to_remove->size() > 0 ){
+
+        //
+        Province* province = provinces_to_remove->front();
+        //
+        provinces_to_remove->pop_front();
+
+        //
+        if( this->main_view->map_viewer->selected_province == province ){
+            this->main_view->map_viewer->selected_province = nullptr;
+        }
+
+        //
+        delete province;
+
+    }
+
+
 }
 
 
