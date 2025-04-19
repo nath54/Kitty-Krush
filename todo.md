@@ -26,3 +26,11 @@
 - [ ] `bool action_new_entity(usint x, usint y, usint level, bool type)` : retourne TRUE si le joueur peut poser l'entité demandé à cet endroit
 - [ ] `bool action_end_turn()` : renvoyer TRUE
 - [ ] `list<Coord> possible_movements_of_entity(int x, int y)` : Renvoie la liste des cases où l'entité à la position (x, y) peuvent se déplacer
+
+
+## Mettre en smart_pointer: (on le fera quand on aura a un jeu qui fonctionne bien, parce que le code risque de devenir un peu plus illisible après)
+
+- [ ] `Value*`
+- [ ] `Province*`
+- [ ] `Tile*`
+- [ ] `Element*`
