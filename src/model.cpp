@@ -39,13 +39,12 @@ void Tile::convert_color(usint new_color) { this->color = new_color; }
 
 void Tile::set_element(Element* e)
 {
-    this->delete_element();
     this->element = e;
 }
 
 void Tile::delete_element()
 {
-    if ( this->element != nullptr ){ delete this->element; };
+    if (this->element != nullptr) { delete this->element; }
     this->element = nullptr;
 }
 
@@ -70,20 +69,16 @@ bool Province::has_tile(Coord c){
 void Province::add_tile(Tile* tile)
 {
     //
-    if (tile == nullptr){ return; }
+    if (tile == nullptr) { return; }
 
     //
     Coord c = tile->_coord();
 
     //
-    if ( tiles_layer.count(c) > 0){
-        return;  // already exists
-    }
-
-    //
-    // tile->convert_color(this->color);
+    if (tiles_layer.count(c) > 0) { return; }  // already exists
 
     // insert
+    tile->convert_color(this->color);
     tiles_layer[c] = tile;
 }
 
@@ -92,8 +87,8 @@ void Province::remove_tile(Tile* tile)
 
 
 
-int Province::expected_income(){
-
+int Province::expected_income()
+{
     //
     int income = 0;
 
@@ -113,7 +108,6 @@ int Province::expected_income(){
 
     //
     return income;
-
 }
 
 void Province::treasury_turn()
@@ -151,8 +145,8 @@ Tile* Map::get_tile(Coord c)
 }
 
 
-Element* Map::get_tile_entity(Coord c){
-
+Element* Map::get_tile_entity(Coord c)
+{
     //
     Tile* tile = this->get_tile(c);
 
@@ -164,8 +158,8 @@ Element* Map::get_tile_entity(Coord c){
 
 }
 
-int Map::get_tile_color(Coord c){
-
+int Map::get_tile_color(Coord c)
+{
     //
     Tile* tile = this->get_tile(c);
 
@@ -179,7 +173,6 @@ int Map::get_tile_color(Coord c){
 
 Province* Map::get_province(Coord c)
 {
-
     //
     Tile * tile = this->get_tile(c);
     //
@@ -204,15 +197,15 @@ Province* Map::get_province(Coord c)
 
 
 //
-std::map<Coord, Tile*>* Map::get_tiles_layer(){ return &(this->tiles_layer); }
+std::map<Coord, Tile*>* Map::get_tiles_layer() { return &(this->tiles_layer); }
 
 
 //
-std::map<Coord, Element*>* Map::get_bandits_layer(){ return &(this->bandits_layer); }
+std::map<Coord, Element*>* Map::get_bandits_layer() { return &(this->bandits_layer); }
 
 
 //
-std::vector<Province*>* Map::get_provinces_layer(){ return &(this->provinces_layer); }
+std::vector<Province*>* Map::get_provinces_layer() { return &(this->provinces_layer); }
 
 
 //
@@ -296,16 +289,13 @@ void Map::set_tile_color(Coord coord, int tile_color){
     Tile* tile = this->get_tile(coord);
 
     //
-    if( tile == nullptr ){
-
-        //
+    if (tile == nullptr) {
         tile = new Tile(coord);
-        this->set_tile( coord, tile );
-
+        this->set_tile(coord, tile);
     }
 
     //
-    tile->convert_color( tile_color );
+    tile->convert_color(tile_color);
 
 }
 
@@ -446,6 +436,7 @@ void Map::fusion_provinces(Province* p1, Province* p2)
     if (p1->_color() != p2->_color()) return;
 
     for (auto& t : p2->_tiles()) p1->add_tile(t.second);
+    p1->add_treasury(p2->_treasury());
     remove_province(p2);
     delete p2;
 }
@@ -702,7 +693,66 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
 //
 void GameModel::do_player_action_move_entity(Coord src, Coord dst){
 
-    // TODO
+    // TODO : changer province case si nécessaire
+    // Détruire camp/tour/pion adverse si nécessaire (camp -> prendre les sous)
+    // Fusion provinces si nécessaire
+    // Fusion bonhomme si nécessaire
+
+    Tile* src_tile = this->game_map->get_tile(src);
+    Tile* dst_tile = this->game_map->get_tile(dst);
+    Province* src_prov = this->game_map->get_province(src);
+    Province* dst_prov = this->game_map->get_province(dst);
+
+    if (dst_prov == src_prov) { // Same province, just move and may fusion
+
+        if (dst_tile->_element() != nullptr) {
+            dynamic_cast<Unit*>(dst_tile->_element())->upgrade();
+            src_tile->delete_element();
+        }
+
+        else {
+            dst_tile->set_element(src_tile->_element());
+            src_tile->set_element(nullptr);
+        }
+
+        return;
+    }
+
+    // adverse province
+    if (dst_prov != nullptr) {
+
+        this->game_map->split_province(dst_tile->_coord());
+
+        if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr)
+            src_prov->add_treasury(dst_prov->_treasury());
+    }
+
+    dst_tile->delete_element();
+    dst_tile->set_element(src_tile->_element());
+    src_tile->set_element(nullptr);
+    src_prov->add_tile(dst_tile);
+
+    // Look for same color tiles connexion
+    vector<Coord> n = neighbours(dst);
+
+    for (Coord v : n) {
+
+        Tile* tile = this->game_map->get_tile(v);
+        if (tile == nullptr) continue;
+        if (tile->_color() != src_prov->_color()) continue;
+        Province* prov = this->game_map->get_province(v);
+
+        if (prov == nullptr) {
+            src_prov->add_tile(tile);
+            vector<Coord> n2 = neighbours(tile->_coord());
+            n.insert(n.end(), n2.begin(), n2.end());
+        }
+
+        else if (prov != src_prov)
+            this->game_map->fusion_provinces(src_prov, prov);
+
+        else continue;
+    }
 
     return;
 }

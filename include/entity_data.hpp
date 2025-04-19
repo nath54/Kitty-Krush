@@ -4,7 +4,7 @@
 
 //
 static const int MAX_UNIT_LEVEL = 4;
-static const int MAX_BUILDING_LEVEL = 4;
+static const int MAX_BUILDING_LEVEL = 2;
 
 //
 static const int units_new_costs[] = {
@@ -37,6 +37,6 @@ static const int buildings_new_costs[] = {
 //
 static const int buildings_upkeep_costs[] = {
     0,      //
-    1,      // level 1 = village
+    0,      // level 1 = village
     2       // level 2 = tower
 };
