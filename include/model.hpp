@@ -259,6 +259,9 @@ class GameModel {
         int get_nb_players_colors();
 
         //
+        void at_player_turn_start();
+
+        //
         bool check_player_action_move_entity(Coord src, Coord dst);
 
         //

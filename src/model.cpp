@@ -595,6 +595,14 @@ GameModel::GameModel(){
 
 
 //
+void GameModel::at_player_turn_start(){
+
+    //
+
+}
+
+
+//
 bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
 
     // Check game map existence
