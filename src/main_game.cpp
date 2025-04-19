@@ -350,8 +350,8 @@ void MainGame::action_move_entity(Coord src, Coord dst){
             this->main_view->map_viewer->selected_province = nullptr;
         }
 
-        //
-        delete province;
+        // TODO: manage the memory correctly ! Because some pointers are lost !
+        // delete province;
 
     }
 

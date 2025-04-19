@@ -53,13 +53,23 @@ void Tile::convert_color(usint new_color) { this->color = new_color; }
 
 void Tile::set_element(Element* e)
 {
+    this->delete_element();
     this->element = e;
 }
 
 
 void Tile::delete_element()
 {
-    if (this->element != nullptr) { delete this->element; }
+    //
+    if (this->element != nullptr) {
+
+        //
+        // TODO: manage the memory correctly ! Because some pointers can be lost lost !
+
+        //
+        // delete this->element;
+    }
+    //
     this->element = nullptr;
 }
 
