@@ -101,6 +101,9 @@ void MainGame::change_page(std::string new_page){
         this->at_player_turn_start();
 
         //
+        this->main_view->map_viewer->update_closest_building_of_color();
+
+        //
         this->menu_state = 2;
     }
     //

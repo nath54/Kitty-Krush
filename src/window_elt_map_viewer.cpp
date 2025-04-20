@@ -1079,19 +1079,16 @@ void WindowEltMapViewer::update_closest_building_of_color(){
     this->closest_building_of_color.clear();
 
     //
+    if( this->game_model->get_map() == nullptr ){ return; }
+
+    //
     std::list< Coord > starting_points;
 
     //
-    for( std::pair< Coord, EntityData > it : this->entity_layers ){
+    for( Building* b : this->game_model->get_map()->get_all_buildings() ){
 
         //
-        if( it.second.type ){ continue; }
-
-        //
-        if( this->colors_layers.count(it.first) == 0){ continue; }
-
-        //
-        starting_points.push_back( it.first );
+        starting_points.push_back( b->_coord() );
 
     }
 

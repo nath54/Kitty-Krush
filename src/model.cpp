@@ -114,6 +114,31 @@ bool Province::is_adjacent_to_coord(Coord c){
 
 
 //
+std::list<Building*> Province::get_buildings(){
+
+    //
+    std::list<Building*> buildings;
+
+    //
+    for ( std::pair<Coord, Tile*> it : this->tiles_layer ){
+
+        //
+        Building* b = dynamic_cast<Building*>( it.second->_element() );
+
+        //
+        if( b != nullptr ){
+            buildings.push_back( b );
+        }
+
+    }
+
+    //
+    return buildings;
+
+}
+
+
+//
 void Province::add_tile(Tile* tile)
 {
     //
@@ -248,6 +273,44 @@ Province* Map::get_province(Coord c)
 
     //
     return nullptr;
+}
+
+
+//
+std::list<Building*> Map::get_all_buildings(bool with_bandit_buildings){
+
+    //
+    std::list<Building*> buildings;
+
+    //
+    for (Province* p : this->provinces_layer) {
+
+        //
+        buildings.splice(buildings.end(), p->get_buildings());
+
+    }
+
+    //
+    if( !with_bandit_buildings ){
+        return buildings;
+    }
+
+    //
+    for ( std::pair<Coord, Element*> it : this->bandits_layer ){
+
+        //
+        Building* b = dynamic_cast<Building*>(it.second);
+
+        //
+        if( b != nullptr ){
+            buildings.push_back( b );
+        }
+
+    }
+
+    //
+    return buildings;
+
 }
 
 

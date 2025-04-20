@@ -166,6 +166,7 @@ class Province {
     map<Coord, Tile*> _tiles() const;
     bool has_tile(Coord c);
     bool is_adjacent_to_coord(Coord c);
+    std::list<Building*> get_buildings();
 
     // Setters
     void set_color(usint new_color);
@@ -208,6 +209,7 @@ class Map {
         Element* get_tile_entity(Coord c);
         int get_tile_color(Coord c);
         Province* get_province(Coord c);
+        std::list<Building*> get_all_buildings(bool with_bandit_buildings=false);
         //
         std::map<Coord, Tile*>* get_tiles_layer();
         std::map<Coord, Element*>* get_bandits_layer();
