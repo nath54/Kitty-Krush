@@ -676,6 +676,19 @@ void GameModel::at_player_turn_start(){
         //
         p->treasury_turn();
 
+        //
+        for( std::pair<Coord, Tile*> it : p->_tiles() ){
+
+            //
+            Unit* unit = dynamic_cast<Unit*>(it.second->_element());
+
+            //
+            if( unit != nullptr ){
+                unit->can_move = true;
+            }
+
+        }
+
     }
 
 }
@@ -757,6 +770,9 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
 
     // Check if the element is a unit and not a building
     if (unit_to_move == nullptr){ return false; }
+
+    //
+    if (!(unit_to_move->can_move)){ return false; }
 
     // Check if the unit to move is not a bandit
     if (unit_to_move->_defense() == 0){ return false; }
@@ -862,7 +878,7 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst){
         //
         else {
             //
-            dst_tile->set_element(src_tile->_element());
+            dst_tile->set_element(unit_to_move);
             src_tile->set_element(nullptr);
         }
 
@@ -879,9 +895,11 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst){
     }
 
     dst_tile->delete_element();
-    dst_tile->set_element(src_tile->_element());
+    dst_tile->set_element(unit_to_move);
     src_tile->set_element(nullptr);
     src_prov->add_tile(dst_tile);
+    //
+    unit_to_move->can_move = false;
 
     // Look for same color tiles connexion
     vector<Coord> n = neighbours(dst);
@@ -1055,6 +1073,9 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
     if(entity_type){
         unit_to_move = new Unit( dst, this->current_player_color, entity_level );
     }
+    else{
+        unit_to_move = new Building( dst, this->current_player_color, entity_level );
+    }
 
     //
     if( unit_to_move == nullptr ){ return; }
@@ -1073,7 +1094,7 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
             if( unit != nullptr && unit->_color() == unit_to_move->_color() ){
 
                 //
-                if( unit->_defense() != unit_to_move->_defense() ){ return; }
+                if( !entity_type || unit->_defense() != unit_to_move->_defense() ){ return; }
 
                 //
                 fusion_with = unit;
@@ -1111,6 +1132,9 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
     dst_tile->delete_element();
     dst_tile->set_element(unit_to_move);
     src_prov->add_tile(dst_tile);
+    //
+    Unit* unit_to_move_unit = dynamic_cast<Unit*>(unit_to_move);
+    if( unit_to_move_unit != nullptr ){ unit_to_move_unit->can_move = false; }
 
     //
     src_prov->remove_treasury( unit_cost );

@@ -63,6 +63,9 @@ class Unit : public Element {
 
     public:
 
+        //
+        bool can_move = true;
+
         // Constructor
         Unit(Coord unit_coord,
             usint unit_color,

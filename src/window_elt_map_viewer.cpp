@@ -610,7 +610,13 @@ void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTrans
                 //
                 transform->do_color_mod = true;
                 if (color == this->game_model->get_current_player_color() && edata.level > 0){
-                    transform->color_mod = (Color){50, 200, 50};
+                    //
+                    if( edata.can_move ){
+                        transform->color_mod = (Color){50, 200, 50};
+                    }
+                    else{
+                        transform->color_mod = (Color){30, 30, 30};
+                    }
                 }
                 else{
                     transform->color_mod = (Color){155, 20, 20};
@@ -1121,6 +1127,9 @@ void WindowEltMapViewer::update_closest_building_of_color(){
             }
 
             //
+            if(dist >= 1){ continue; }
+
+            //
             for ( Coord vv : this->get_adjacents_colors( v ) ){
 
                 //
@@ -1278,6 +1287,11 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
     Unit* unit = dynamic_cast<Unit*>( elt );
     //
     entity.type = (building == nullptr);
+
+    //
+    if( unit != nullptr ){
+        entity.can_move = unit->can_move;
+    }
 
     //
     return entity;
@@ -1456,13 +1470,16 @@ bool WindowEltMapViewer::check_draw_palissade_between_to_tiles(Coord v1, Coord v
     int color = this->get_color_at_coord(v1);
     int color2 = this->get_color_at_coord(v2);
 
+    //
+    EntityData e1 = this->get_entity_data_at_coord(v1);
+    EntityData e2 = this->get_entity_data_at_coord(v2);
 
     // FOR BANDITS CAMPS
 
     if( color == 0 ){
 
         //
-        if( this->entity_layers.count(v1) == 0 || this->entity_layers[v1].type ){
+        if( e1.level == -1 || e1.type ){
             return false;
         }
         //
@@ -1470,7 +1487,7 @@ bool WindowEltMapViewer::check_draw_palissade_between_to_tiles(Coord v1, Coord v
             return true;
         }
         //
-        if( this->entity_layers.count(v2) > 0 && !this->entity_layers[v2].type && color2 == 0 ){
+        if( e2.level != -1 && !e2.type && color2 == 0 ){
             return false;
         }
 

@@ -413,6 +413,9 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     //
     this->update_selected_province(dst);
 
+    //
+    this->main_view->map_viewer->update_closest_building_of_color();
+
 }
 
 
@@ -453,6 +456,9 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
 
     //
     this->update_selected_province(dst);
+
+    //
+    this->main_view->map_viewer->update_closest_building_of_color();
 
 }
 
