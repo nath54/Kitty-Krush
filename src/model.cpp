@@ -1322,16 +1322,31 @@ usint max(usint a, usint b) { return (a > b) ? a : b; }
 //
 bool is_adjacent(Coord c1, Coord c2)
 {
-    int diff_x = c1.x - c2.x;
-    int diff_y = c1.y - c2.y;
 
-    // False cases
-    if (diff_x == 0 && diff_y == 0) return false; // same tile
-    if (abs(diff_x) > 1 || abs(diff_y) > 1) return false; // too far
-    if (c1.x%2 == 0 && diff_x == 1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
-    else if (c1.x%2 == 1 && diff_x == -1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+    //
+    if( get_tile_top_to(c1) == c2 ){ return true; }
+    if( get_tile_top_left_to(c1) == c2 ){ return true; }
+    if( get_tile_top_right_to(c1) == c2 ){ return true; }
+    if( get_tile_bottom_to(c1) == c2 ){ return true; }
+    if( get_tile_bottom_left_to(c1) == c2 ){ return true; }
+    if( get_tile_bottom_right_to(c1) == c2 ){ return true; }
 
-    return true;
+    //
+    return false;
+
+
+    // //
+
+    // int diff_x = c1.x - c2.x;
+    // int diff_y = c1.y - c2.y;
+
+    // // False cases
+    // if (diff_x == 0 && diff_y == 0) return false; // same tile
+    // if (abs(diff_x) > 1 || abs(diff_y) > 1) return false; // too far
+    // if (c1.x%2 == 0 && diff_x == 1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+    // else if (c1.x%2 == 1 && diff_x == -1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+
+    // return true;
 }
 
 

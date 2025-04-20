@@ -250,7 +250,7 @@ void MainGame::update_selected_province(Coord src){
 
 
 //
-void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool reset){
+void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool reset, int new_entity_level, int new_entity_type){
 
     //
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
@@ -297,7 +297,7 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
             Coord current_dst = *it; // Dereference the iterator to get the current element
 
             //
-            if (!(this->game_model->check_player_action_move_entity(src, current_dst))) {
+            if (!(this->game_model->check_player_action_new_entity(current_dst, new_entity_level, new_entity_type))) {
 
                 // Erase the current element and get a valid iterator to the next element
                 it = this->main_view->map_viewer->can_go_here_tiles.erase(it);

@@ -88,7 +88,7 @@ class MainGame{
         void update_selected_province(Coord src);
 
         //
-        void update_where_entity_can_move(Coord src, bool new_entity=false, bool reset=false);
+        void update_where_entity_can_move(Coord src, bool new_entity=false, bool reset=false, int new_entity_level = 1, int new_entity_type = true);
 
         //
         void action_move_entity(Coord src, Coord dst);

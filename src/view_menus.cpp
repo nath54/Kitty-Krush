@@ -66,7 +66,7 @@ void set_new_entity_dragged(MainGame* main_game, int level, bool type){
     map_viewer->entity_dragged.type = type;
 
     //
-    main_game->update_where_entity_can_move((Coord){0, 0}, true);
+    main_game->update_where_entity_can_move((Coord){0, 0}, true, false, level, type);
 
 }
 
