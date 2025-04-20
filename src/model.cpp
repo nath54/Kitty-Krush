@@ -912,8 +912,6 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst){
 //
 bool GameModel::check_player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 
-    // TODO
-
     // Check if the destination tile exists
     //
     Tile* dst_tile = this->game_map->get_tile( dst );
@@ -1008,8 +1006,132 @@ bool GameModel::check_player_action_new_entity(Coord dst, int entity_level, bool
 //
 void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 
-    // TODO
+    //
+    int unit_cost;
+    //
+    if( entity_type ){ unit_cost = units_new_costs[entity_level]; }
+    //
+    else{ unit_cost = buildings_new_costs[entity_level]; }
 
+    //
+    Tile* dst_tile = this->game_map->get_tile(dst);
+    Province* dst_prov = this->game_map->get_province(dst);
+    Province* src_prov = nullptr;
+
+    //
+    if( dst_tile == nullptr ){ return; }
+
+    //
+    if( dst_prov == nullptr || dst_prov->_color() != this->current_player_color ){
+
+        //
+        for( Province* prov : *( this->game_map->get_provinces_layer() ) ){
+            //
+            if( prov->is_adjacent_to_coord(dst) ){
+                //
+                if( prov->_color() != this->current_player_color ){ continue; }
+                //
+                if( prov->_treasury() < unit_cost ){ continue; }
+                //
+                src_prov = prov;
+                //
+                break;
+            }
+        }
+
+    } else {
+        src_prov = dst_prov;
+    }
+
+    //
+    if( src_prov == nullptr ){
+        return;
+    }
+
+    //
+    Element* unit_to_move;
+
+    //
+    if(entity_type){
+        unit_to_move = new Unit( dst, this->current_player_color, entity_level );
+    }
+
+    //
+    if( unit_to_move == nullptr ){ return; }
+
+    //
+    if ( dst_prov != nullptr && dst_prov->_color() == this->current_player_color) { // Same province, just move and may fusion
+
+        //
+        Unit* fusion_with = nullptr;
+
+        if (dst_tile->_element() != nullptr) {
+
+            //
+            Unit* unit = dynamic_cast<Unit*>(dst_tile->_element());
+
+            if( unit != nullptr && unit->_color() == unit_to_move->_color() ){
+
+                //
+                if( unit->_defense() != unit_to_move->_defense() ){ return; }
+
+                //
+                fusion_with = unit;
+
+            }
+
+        }
+
+        //
+        if( fusion_with != nullptr ){
+            //
+            fusion_with->upgrade();
+        }
+        //
+        else {
+            //
+            dst_tile->set_element(unit_to_move);
+        }
+
+        return;
+    }
+
+    // adverse province
+    if (dst_prov != nullptr) {
+
+        this->game_map->split_province(dst_tile->_coord());
+
+        if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr)
+            src_prov->add_treasury(dst_prov->_treasury());
+    }
+
+    dst_tile->delete_element();
+    dst_tile->set_element(unit_to_move);
+    src_prov->add_tile(dst_tile);
+
+    // Look for same color tiles connexion
+    vector<Coord> n = neighbours(dst);
+
+    for (Coord v : n) {
+
+        Tile* tile = this->game_map->get_tile(v);
+        if (tile == nullptr) continue;
+        if (tile->_color() != src_prov->_color()) continue;
+        Province* prov = this->game_map->get_province(v);
+
+        if (prov == nullptr) {
+            src_prov->add_tile(tile);
+            vector<Coord> n2 = neighbours(tile->_coord());
+            n.insert(n.end(), n2.begin(), n2.end());
+        }
+
+        else if (prov != src_prov)
+            this->game_map->fusion_provinces(src_prov, prov);
+
+        else continue;
+    }
+
+    //
     return;
 }
 
