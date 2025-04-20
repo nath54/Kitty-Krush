@@ -788,14 +788,44 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst){
     Province* src_prov = this->game_map->get_province(src);
     Province* dst_prov = this->game_map->get_province(dst);
 
+    //
+    Unit* unit_to_move = dynamic_cast<Unit*>( src_tile->_element() );
+
+    //
+    if( unit_to_move == nullptr ){ return; }
+
+    //
     if (dst_prov == src_prov) { // Same province, just move and may fusion
 
+        //
+        Unit* fusion_with = nullptr;
+
         if (dst_tile->_element() != nullptr) {
-            dynamic_cast<Unit*>(dst_tile->_element())->upgrade();
-            src_tile->delete_element();
+
+            //
+            Unit* unit = dynamic_cast<Unit*>(dst_tile->_element());
+
+            if( unit != nullptr && unit->_color() == unit_to_move->_color() ){
+
+                //
+                if( unit->_defense() != unit_to_move->_defense() ){ return; }
+
+                //
+                fusion_with = unit;
+
+            }
+
         }
 
+        //
+        if( fusion_with != nullptr ){
+            //
+            fusion_with->upgrade();
+            src_tile->delete_element();
+        }
+        //
         else {
+            //
             dst_tile->set_element(src_tile->_element());
             src_tile->set_element(nullptr);
         }
