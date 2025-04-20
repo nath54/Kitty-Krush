@@ -162,6 +162,7 @@ class Province {
     int _treasury() const;
     map<Coord, Tile*> _tiles() const;
     bool has_tile(Coord c);
+    bool is_adjacent_to_coord(Coord c);
 
     // Setters
     void set_color(usint new_color);
@@ -262,6 +263,9 @@ class GameModel {
 
         //
         int get_nb_players_colors();
+
+        //
+        int get_tile_defense(Coord c, Province* dst_prov = nullptr);
 
         //
         void at_player_turn_start();

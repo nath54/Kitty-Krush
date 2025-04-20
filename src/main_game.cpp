@@ -264,7 +264,54 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
     //
     if( new_entity ){
 
-        // TODO
+        //
+        for( Province* p : *( this->game_model->get_map()->get_provinces_layer() ) ){
+
+            //
+            if( p->_color() != this->game_model->get_current_player_color() ){ continue; }
+
+            //
+            for ( std::pair<const Coord, Tile*> it : p->_tiles() ){
+
+                //
+                Coord c = it.first;
+
+                //
+                this->main_view->map_viewer->can_go_here_tiles.insert( c );
+
+                //
+                for ( Coord v : neighbours(c) ){
+
+                    //
+                    this->main_view->map_viewer->can_go_here_tiles.insert( v );
+
+                }
+
+            }
+
+        }
+
+        //
+        for (std::set<Coord>::iterator it = this->main_view->map_viewer->can_go_here_tiles.begin(); it != this->main_view->map_viewer->can_go_here_tiles.end(); ) {
+
+            Coord current_dst = *it; // Dereference the iterator to get the current element
+
+            //
+            if (!(this->game_model->check_player_action_move_entity(src, current_dst))) {
+
+                // Erase the current element and get a valid iterator to the next element
+                it = this->main_view->map_viewer->can_go_here_tiles.erase(it);
+
+            }
+
+            //
+            else {
+
+                // Move to the next element
+                ++it;
+            }
+
+        }
 
     }
 
