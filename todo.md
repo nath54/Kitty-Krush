@@ -34,3 +34,6 @@
 - [ ] `Province*`
 - [ ] `Tile*`
 - [ ] `Element*`
+
+
+On pourra utiliser des `#define ` pour raccourcir tous les noms de fonctions liés au smartpointers

@@ -323,6 +323,11 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
 void MainGame::action_move_entity(Coord src, Coord dst){
 
     //
+    if( src == dst ){
+        return;
+    }
+
+    //
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
