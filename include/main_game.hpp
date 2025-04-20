@@ -102,4 +102,7 @@ class MainGame{
         //
         void bandit_turn();
 
+        //
+        void reset_map();
+
 };

@@ -92,6 +92,9 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "in_game" ){
 
         //
+        this->reset_map();
+
+        //
         this->load_map_from_file("res/map_tests/map_2.kkmap");
 
         //
@@ -423,4 +426,17 @@ void MainGame::bandit_turn(){
 
     //
 
+}
+
+
+//
+void MainGame::reset_map(){
+
+    //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+
+    //
+    this->game_model->get_map()->reset_tiles_layer();
+    this->game_model->get_map()->reset_provinces_layer();
+    this->game_model->get_map()->reset_bandits_layer();
 }

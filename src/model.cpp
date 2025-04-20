@@ -715,6 +715,9 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
                 // If it's building at destination tile
                 if( dst_unit == nullptr){ return false; }
 
+                // If it's a bandit
+                if( dst_unit->_color() != dst_prov->_color() ){ return true; }
+
                 // If the destination unit hasn't the same level than the unit to move (no fusion of units to unit of higher level)
                 if( unit_to_move->_defense() != dst_unit->_defense() ){ return false; }
 
@@ -749,6 +752,11 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
 
         // If no province here, abort for coordinate v
         if( prov == nullptr ){ continue; }
+
+        // An unit can move anywhere on its color
+        if( prov->_color() == unit_to_move->_color() ){
+            continue;
+        }
 
         // Check if the destination tile and its neighbour tile have the same province
         if (prov == dst_prov) {
