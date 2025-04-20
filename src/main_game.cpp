@@ -410,6 +410,8 @@ void MainGame::action_move_entity(Coord src, Coord dst){
 
     }
 
+    //
+    this->update_selected_province(dst);
 
 }
 
@@ -427,6 +429,30 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
 
     //
     this->game_model->do_player_action_new_entity(dst, level, type);
+
+
+    //
+    std::list<Province*>* provinces_to_remove = this->game_model->get_map()->get_provinces_to_remove();
+    //
+    while ( provinces_to_remove->size() > 0 ){
+
+        //
+        Province* province = provinces_to_remove->front();
+        //
+        provinces_to_remove->pop_front();
+
+        //
+        if( this->main_view->map_viewer->selected_province == province ){
+            this->main_view->map_viewer->selected_province = nullptr;
+        }
+
+        // TODO: manage the memory correctly ! Because some pointers are lost !
+        // delete province;
+
+    }
+
+    //
+    this->update_selected_province(dst);
 
 }
 

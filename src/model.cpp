@@ -1093,6 +1093,9 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
             dst_tile->set_element(unit_to_move);
         }
 
+        //
+        src_prov->remove_treasury( unit_cost );
+
         return;
     }
 
@@ -1108,6 +1111,9 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
     dst_tile->delete_element();
     dst_tile->set_element(unit_to_move);
     src_prov->add_tile(dst_tile);
+
+    //
+    src_prov->remove_treasury( unit_cost );
 
     // Look for same color tiles connexion
     vector<Coord> n = neighbours(dst);
