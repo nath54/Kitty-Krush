@@ -92,10 +92,16 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "in_game" ){
 
         //
+        this->reset_map();
+
+        //
         this->load_map_from_file("res/map_tests/map_2.kkmap");
 
         //
         this->at_player_turn_start();
+
+        //
+        this->main_view->map_viewer->update_closest_building_of_color();
 
         //
         this->menu_state = 2;
@@ -247,7 +253,7 @@ void MainGame::update_selected_province(Coord src){
 
 
 //
-void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool reset){
+void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool reset, int new_entity_level, int new_entity_type){
 
     //
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
@@ -261,7 +267,54 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
     //
     if( new_entity ){
 
-        // TODO
+        //
+        for( Province* p : *( this->game_model->get_map()->get_provinces_layer() ) ){
+
+            //
+            if( p->_color() != this->game_model->get_current_player_color() ){ continue; }
+
+            //
+            for ( std::pair<const Coord, Tile*> it : p->_tiles() ){
+
+                //
+                Coord c = it.first;
+
+                //
+                this->main_view->map_viewer->can_go_here_tiles.insert( c );
+
+                //
+                for ( Coord v : neighbours(c) ){
+
+                    //
+                    this->main_view->map_viewer->can_go_here_tiles.insert( v );
+
+                }
+
+            }
+
+        }
+
+        //
+        for (std::set<Coord>::iterator it = this->main_view->map_viewer->can_go_here_tiles.begin(); it != this->main_view->map_viewer->can_go_here_tiles.end(); ) {
+
+            Coord current_dst = *it; // Dereference the iterator to get the current element
+
+            //
+            if (!(this->game_model->check_player_action_new_entity(current_dst, new_entity_level, new_entity_type))) {
+
+                // Erase the current element and get a valid iterator to the next element
+                it = this->main_view->map_viewer->can_go_here_tiles.erase(it);
+
+            }
+
+            //
+            else {
+
+                // Move to the next element
+                ++it;
+            }
+
+        }
 
     }
 
@@ -323,6 +376,11 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
 void MainGame::action_move_entity(Coord src, Coord dst){
 
     //
+    if( src == dst ){
+        return;
+    }
+
+    //
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
@@ -332,6 +390,34 @@ void MainGame::action_move_entity(Coord src, Coord dst){
 
     //
     this->game_model->do_player_action_move_entity(src, dst);
+
+    // Check for provinces to remove
+
+    //
+    std::list<Province*>* provinces_to_remove = this->game_model->get_map()->get_provinces_to_remove();
+    //
+    while ( provinces_to_remove->size() > 0 ){
+
+        //
+        Province* province = provinces_to_remove->front();
+        //
+        provinces_to_remove->pop_front();
+
+        //
+        if( this->main_view->map_viewer->selected_province == province ){
+            this->main_view->map_viewer->selected_province = nullptr;
+        }
+
+        // TODO: manage the memory correctly ! Because some pointers are lost !
+        // delete province;
+
+    }
+
+    //
+    this->update_selected_province(dst);
+
+    //
+    this->main_view->map_viewer->update_closest_building_of_color();
 
 }
 
@@ -349,6 +435,33 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
 
     //
     this->game_model->do_player_action_new_entity(dst, level, type);
+
+
+    //
+    std::list<Province*>* provinces_to_remove = this->game_model->get_map()->get_provinces_to_remove();
+    //
+    while ( provinces_to_remove->size() > 0 ){
+
+        //
+        Province* province = provinces_to_remove->front();
+        //
+        provinces_to_remove->pop_front();
+
+        //
+        if( this->main_view->map_viewer->selected_province == province ){
+            this->main_view->map_viewer->selected_province = nullptr;
+        }
+
+        // TODO: manage the memory correctly ! Because some pointers are lost !
+        // delete province;
+
+    }
+
+    //
+    this->update_selected_province(dst);
+
+    //
+    this->main_view->map_viewer->update_closest_building_of_color();
 
 }
 
@@ -395,4 +508,17 @@ void MainGame::bandit_turn(){
 
     //
 
+}
+
+
+//
+void MainGame::reset_map(){
+
+    //
+    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+
+    //
+    this->game_model->get_map()->reset_tiles_layer();
+    this->game_model->get_map()->reset_provinces_layer();
+    this->game_model->get_map()->reset_bandits_layer();
 }

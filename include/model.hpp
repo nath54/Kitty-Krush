@@ -63,6 +63,9 @@ class Unit : public Element {
 
     public:
 
+        //
+        bool can_move = true;
+
         // Constructor
         Unit(Coord unit_coord,
             usint unit_color,
@@ -162,6 +165,8 @@ class Province {
     int _treasury() const;
     map<Coord, Tile*> _tiles() const;
     bool has_tile(Coord c);
+    bool is_adjacent_to_coord(Coord c);
+    std::list<Building*> get_buildings();
 
     // Setters
     void set_color(usint new_color);
@@ -187,6 +192,7 @@ class Map {
         std::map<Coord, Tile*> tiles_layer;
         std::map<Coord, Element*> bandits_layer;
         std::vector<Province*> provinces_layer;
+        std::list<Province*> provinces_to_remove;
 
     public:
 
@@ -203,10 +209,12 @@ class Map {
         Element* get_tile_entity(Coord c);
         int get_tile_color(Coord c);
         Province* get_province(Coord c);
+        std::list<Building*> get_all_buildings(bool with_bandit_buildings=false);
         //
         std::map<Coord, Tile*>* get_tiles_layer();
         std::map<Coord, Element*>* get_bandits_layer();
         std::vector<Province*>* get_provinces_layer();
+        std::list<Province*>* get_provinces_to_remove();
         //
         void reset_tiles_layer();
         void reset_provinces_layer();
@@ -256,7 +264,13 @@ class GameModel {
         Province* get_province_at_coord(Coord c);
 
         //
+        Map* get_map();
+
+        //
         int get_nb_players_colors();
+
+        //
+        int get_tile_defense(Coord c, Province* dst_prov = nullptr);
 
         //
         void at_player_turn_start();

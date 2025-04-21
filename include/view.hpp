@@ -796,8 +796,9 @@ class EntityData{
 
         int level;
         bool type;
+        bool can_move;
 
-        EntityData(int level = -1, bool type = false) : level(level), type(type) {}
+        EntityData(int level = -1, bool type = false, bool can_move = true) : level(level), type(type), can_move(can_move) {}
 
 };
 

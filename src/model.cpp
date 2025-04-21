@@ -3,6 +3,9 @@
 #include <ctime> // time()
 #include <deque>
 #include <list>
+#include <vector>
+#include <map>
+#include <algorithm>
 //
 #include "entity_data.hpp"
 #include "model.hpp"
@@ -50,13 +53,23 @@ void Tile::convert_color(usint new_color) { this->color = new_color; }
 
 void Tile::set_element(Element* e)
 {
+    this->delete_element();
     this->element = e;
 }
 
 
 void Tile::delete_element()
 {
-    if (this->element != nullptr) { delete this->element; }
+    //
+    if (this->element != nullptr) {
+
+        //
+        // TODO: manage the memory correctly ! Because some pointers can be lost lost !
+
+        //
+        // delete this->element;
+    }
+    //
     this->element = nullptr;
 }
 
@@ -82,6 +95,50 @@ bool Province::has_tile(Coord c){
 }
 
 
+//
+bool Province::is_adjacent_to_coord(Coord c){
+    //
+    if ( this->has_tile(c) ){ return true; }
+
+    //
+    for ( std::pair<Coord, Tile*> it : this->tiles_layer ){
+        //
+        if( is_adjacent(it.first, c) ){
+            return true;
+        }
+    }
+
+    //
+    return false;
+}
+
+
+//
+std::list<Building*> Province::get_buildings(){
+
+    //
+    std::list<Building*> buildings;
+
+    //
+    for ( std::pair<Coord, Tile*> it : this->tiles_layer ){
+
+        //
+        Building* b = dynamic_cast<Building*>( it.second->_element() );
+
+        //
+        if( b != nullptr ){
+            buildings.push_back( b );
+        }
+
+    }
+
+    //
+    return buildings;
+
+}
+
+
+//
 void Province::add_tile(Tile* tile)
 {
     //
@@ -220,6 +277,44 @@ Province* Map::get_province(Coord c)
 
 
 //
+std::list<Building*> Map::get_all_buildings(bool with_bandit_buildings){
+
+    //
+    std::list<Building*> buildings;
+
+    //
+    for (Province* p : this->provinces_layer) {
+
+        //
+        buildings.splice(buildings.end(), p->get_buildings());
+
+    }
+
+    //
+    if( !with_bandit_buildings ){
+        return buildings;
+    }
+
+    //
+    for ( std::pair<Coord, Element*> it : this->bandits_layer ){
+
+        //
+        Building* b = dynamic_cast<Building*>(it.second);
+
+        //
+        if( b != nullptr ){
+            buildings.push_back( b );
+        }
+
+    }
+
+    //
+    return buildings;
+
+}
+
+
+//
 std::map<Coord, Tile*>* Map::get_tiles_layer() { return &(this->tiles_layer); }
 
 
@@ -229,6 +324,10 @@ std::map<Coord, Element*>* Map::get_bandits_layer() { return &(this->bandits_lay
 
 //
 std::vector<Province*>* Map::get_provinces_layer() { return &(this->provinces_layer); }
+
+
+//
+std::list<Province*>* Map::get_provinces_to_remove() { return &(this->provinces_to_remove); }
 
 
 //
@@ -434,12 +533,15 @@ void Map::add_province(Province* province) { provinces_layer.push_back(province)
 
 void Map::remove_province(Province* province)
 {
-    for (auto p = provinces_layer.begin(); p != provinces_layer.end(); p++) {
-        if (*p != province) continue;
-        (*p)->_tiles().clear();
-        delete *p;
-        break;
-    }
+    //
+    this->provinces_layer.erase(
+        std::remove(this->provinces_layer.begin(), this->provinces_layer.end(), province),
+        this->provinces_layer.end()
+    );
+
+    //
+    this->get_provinces_to_remove()->push_back( province );
+
 }
 
 
@@ -613,6 +715,13 @@ GameModel::GameModel(){
 
 
 //
+Map* GameModel::get_map(){
+    //
+    return this->game_map;
+}
+
+
+//
 void GameModel::at_player_turn_start(){
 
     //
@@ -630,7 +739,72 @@ void GameModel::at_player_turn_start(){
         //
         p->treasury_turn();
 
+        //
+        for( std::pair<Coord, Tile*> it : p->_tiles() ){
+
+            //
+            Unit* unit = dynamic_cast<Unit*>(it.second->_element());
+
+            //
+            if( unit != nullptr ){
+                unit->can_move = true;
+            }
+
+        }
+
     }
+
+}
+
+
+//
+int GameModel::get_tile_defense(Coord dst, Province* dst_prov){
+
+    //
+    Tile* dst_tile = this->game_map->get_tile( dst );
+    //
+    if( dst_tile == nullptr ){ return 0; }
+
+    // Get the neighbours of the destination tile
+    std::vector<Coord> n = neighbours(dst);
+
+    // Initializing the maximum defense with the defense of destination tile
+    usint def_max = dst_tile->_defense();
+
+    // Checking if there is an higher defense in the neighbours of the destination tile
+    for (Coord v : n) {
+
+        // Get the tile at coordinate v
+        Tile* tile = this->game_map->get_tile(v);
+
+        // If no tiles here, abort for coordinate v
+        if( tile == nullptr ){ continue; }
+
+        // Get the province at coordinate v
+        Province* prov = this->game_map->get_province(v);
+
+        // If no province here, abort for coordinate v
+        if( prov == nullptr ){ continue; }
+
+        // An unit can move anywhere on its color
+        if( prov->_color() == this->get_current_player_color() ){
+            continue;
+        }
+
+        // Check if the destination tile and its neighbour tile have the same province
+        if (prov == dst_prov) {
+
+            // If there is an element on this tile that has an higher defense
+            if (tile->_element() != nullptr && tile->_element()->_defense() > def_max){
+
+                // Update the maximum defense of the destination tile
+                def_max = tile->_element()->_defense();
+            }
+        }
+    }
+
+    //
+    return def_max;
 
 }
 
@@ -660,6 +834,9 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
     // Check if the element is a unit and not a building
     if (unit_to_move == nullptr){ return false; }
 
+    //
+    if (!(unit_to_move->can_move)){ return false; }
+
     // Check if the unit to move is not a bandit
     if (unit_to_move->_defense() == 0){ return false; }
 
@@ -688,6 +865,9 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
                 // If it's building at destination tile
                 if( dst_unit == nullptr){ return false; }
 
+                // If it's a bandit
+                if( dst_unit->_color() != dst_prov->_color() ){ return true; }
+
                 // If the destination unit hasn't the same level than the unit to move (no fusion of units to unit of higher level)
                 if( unit_to_move->_defense() != dst_unit->_defense() ){ return false; }
 
@@ -702,41 +882,11 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
     // If the source unit is an hero, he can go anywhere
     if (src_tile->_element()->_defense() == 4){ return true; }
 
-    // Get the neighbours of the destination tile
-    std::vector<Coord> n = neighbours(dst);
-
-    // Initializing the maximum defense with the defense of destination tile
-    usint def_max = dst_tile->_defense();
-
-    // Checking if there is an higher defense in the neighbours of the destination tile
-    for (Coord v : n) {
-
-        // Get the tile at coordinate v
-        Tile* tile = this->game_map->get_tile(v);
-
-        // If no tiles here, abort for coordinate v
-        if( tile == nullptr ){ continue; }
-
-        // Get the province at coordinate v
-        Province* prov = this->game_map->get_province(v);
-
-        // If no province here, abort for coordinate v
-        if( prov == nullptr ){ continue; }
-
-        // Check if the destination tile and its neighbour tile have the same province
-        if (prov == dst_prov) {
-
-            // If there is an element on this tile that has an higher defense
-            if (tile->_element() != nullptr && tile->_element()->_defense() > def_max){
-
-                // Update the maximum defense of the destination tile
-                def_max = tile->_element()->_defense();
-            }
-        }
-    }
+    // Get the tile defense
+    int tile_def = this->get_tile_defense( dst );
 
     // If the current unit to move has an higher defense than the destination tile, he can go there
-    return (unit_to_move->_defense() > def_max);
+    return (unit_to_move->_defense() > tile_def);
 }
 
 
@@ -749,15 +899,45 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst)
     Province* src_prov = this->game_map->get_province(src);
     Province* dst_prov = this->game_map->get_province(dst);
 
+    //
+    Unit* unit_to_move = dynamic_cast<Unit*>( src_tile->_element() );
+
+    //
+    if( unit_to_move == nullptr ){ return; }
+
+    //
     if (dst_prov == src_prov) { // Same province, just move and may fusion
 
+        //
+        Unit* fusion_with = nullptr;
+
         if (dst_tile->_element() != nullptr) {
-            dynamic_cast<Unit*>(dst_tile->_element())->upgrade();
-            src_tile->delete_element();
+
+            //
+            Unit* unit = dynamic_cast<Unit*>(dst_tile->_element());
+
+            if( unit != nullptr && unit->_color() == unit_to_move->_color() ){
+
+                //
+                if( unit->_defense() != unit_to_move->_defense() ){ return; }
+
+                //
+                fusion_with = unit;
+
+            }
+
         }
 
+        //
+        if( fusion_with != nullptr ){
+            //
+            fusion_with->upgrade();
+            src_tile->delete_element();
+        }
+        //
         else {
-            dst_tile->set_element(src_tile->_element());
+            //
+            dst_tile->set_element(unit_to_move);
             src_tile->set_element(nullptr);
         }
 
@@ -774,9 +954,11 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst)
     }
 
     dst_tile->delete_element();
-    dst_tile->set_element(src_tile->_element());
+    dst_tile->set_element(unit_to_move);
     src_tile->set_element(nullptr);
     src_prov->add_tile(dst_tile);
+    //
+    unit_to_move->can_move = false;
 
     // Look for same color tiles connexion
     vector<Coord> n = neighbours(dst);
@@ -807,17 +989,238 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst)
 //
 bool GameModel::check_player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 
-    // TODO
+    // Check if the destination tile exists
+    //
+    Tile* dst_tile = this->game_map->get_tile( dst );
+    if( dst_tile == nullptr ){ return false; }
 
-    return false;
+    // Verify the entity_level is correct
+    //
+    if( this->current_player_color == 0){
+        //
+        if( entity_level != 0 ){ return false; }
+    }
+    //
+    else{
+        //
+        if( entity_type ){
+            if( entity_level <= 0 || entity_level > MAX_UNIT_LEVEL ){ return false; }
+        }
+        //
+        else{
+            if( entity_level <= 0 || entity_level > MAX_BUILDING_LEVEL ){ return false; }
+        }
+    }
+
+    // Get the unit cost
+    //
+    int unit_cost;
+    //
+    if( entity_type ){ unit_cost = units_new_costs[entity_level]; }
+    //
+    else{ unit_cost = buildings_new_costs[entity_level]; }
+
+    // Check if there is a province of the current player color adjacent to this tile that has the money to pay the unit
+    //
+    Province* dst_prov = nullptr;
+    //
+    for( Province* prov : *( this->game_map->get_provinces_layer() ) ){
+        //
+        if( prov->is_adjacent_to_coord(dst) ){
+            //
+            if( prov->_color() != this->current_player_color ){ continue; }
+            //
+            if( prov->_treasury() < unit_cost ){ continue; }
+            //
+            dst_prov = prov;
+            //
+            break;
+        }
+    }
+    //
+    if( dst_prov == nullptr ){ return false; }
+
+    // Check if there is an unit in the tile destination
+    //
+    if( dst_tile->_element() != nullptr ){
+
+        //
+        Unit* dst_unit = dynamic_cast<Unit*>( dst_tile->_element() );
+
+        // If it is a building
+        if( dst_unit == nullptr ){ return false; }
+
+        // If it is an unit of the same color
+        if( dst_unit->_color() == this->current_player_color ){
+            //
+            if( dst_unit->_defense() == entity_level ){
+                return true;
+            }
+            return false;
+        }
+        //
+        else{
+            //
+            if( dst_unit->_defense() >= entity_level ){
+                return false;
+            }
+        }
+
+    }
+
+    // If the source unit is an hero, he can go anywhere
+    if (entity_level == 4){ return true; }
+
+    // Get the tile defense
+    int tile_def = this->get_tile_defense( dst );
+
+    // If the current unit to move has an higher defense than the destination tile, he can go there
+    return (entity_level > tile_def);
+
 }
 
 
 //
 void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool entity_type){
 
-    // TODO
+    //
+    int unit_cost;
+    //
+    if( entity_type ){ unit_cost = units_new_costs[entity_level]; }
+    //
+    else{ unit_cost = buildings_new_costs[entity_level]; }
 
+    //
+    Tile* dst_tile = this->game_map->get_tile(dst);
+    Province* dst_prov = this->game_map->get_province(dst);
+    Province* src_prov = nullptr;
+
+    //
+    if( dst_tile == nullptr ){ return; }
+
+    //
+    if( dst_prov == nullptr || dst_prov->_color() != this->current_player_color ){
+
+        //
+        for( Province* prov : *( this->game_map->get_provinces_layer() ) ){
+            //
+            if( prov->is_adjacent_to_coord(dst) ){
+                //
+                if( prov->_color() != this->current_player_color ){ continue; }
+                //
+                if( prov->_treasury() < unit_cost ){ continue; }
+                //
+                src_prov = prov;
+                //
+                break;
+            }
+        }
+
+    } else {
+        src_prov = dst_prov;
+    }
+
+    //
+    if( src_prov == nullptr ){
+        return;
+    }
+
+    //
+    Element* unit_to_move;
+
+    //
+    if(entity_type){
+        unit_to_move = new Unit( dst, this->current_player_color, entity_level );
+    }
+    else{
+        unit_to_move = new Building( dst, this->current_player_color, entity_level );
+    }
+
+    //
+    if( unit_to_move == nullptr ){ return; }
+
+    //
+    if ( dst_prov != nullptr && dst_prov->_color() == this->current_player_color) { // Same province, just move and may fusion
+
+        //
+        Unit* fusion_with = nullptr;
+
+        if (dst_tile->_element() != nullptr) {
+
+            //
+            Unit* unit = dynamic_cast<Unit*>(dst_tile->_element());
+
+            if( unit != nullptr && unit->_color() == unit_to_move->_color() ){
+
+                //
+                if( !entity_type || unit->_defense() != unit_to_move->_defense() ){ return; }
+
+                //
+                fusion_with = unit;
+
+            }
+
+        }
+
+        //
+        if( fusion_with != nullptr ){
+            //
+            fusion_with->upgrade();
+        }
+        //
+        else {
+            //
+            dst_tile->set_element(unit_to_move);
+        }
+
+        //
+        src_prov->remove_treasury( unit_cost );
+
+        return;
+    }
+
+    // adverse province
+    if (dst_prov != nullptr) {
+
+        this->game_map->split_province(dst_tile->_coord());
+
+        if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr)
+            src_prov->add_treasury(dst_prov->_treasury());
+    }
+
+    dst_tile->delete_element();
+    dst_tile->set_element(unit_to_move);
+    src_prov->add_tile(dst_tile);
+    //
+    Unit* unit_to_move_unit = dynamic_cast<Unit*>(unit_to_move);
+    if( unit_to_move_unit != nullptr ){ unit_to_move_unit->can_move = false; }
+
+    //
+    src_prov->remove_treasury( unit_cost );
+
+    // Look for same color tiles connexion
+    vector<Coord> n = neighbours(dst);
+
+    for (Coord v : n) {
+
+        Tile* tile = this->game_map->get_tile(v);
+        if (tile == nullptr) continue;
+        if (tile->_color() != src_prov->_color()) continue;
+        Province* prov = this->game_map->get_province(v);
+
+        if (prov == nullptr) {
+            src_prov->add_tile(tile);
+            vector<Coord> n2 = neighbours(tile->_coord());
+            n.insert(n.end(), n2.begin(), n2.end());
+        }
+
+        else if (prov != src_prov)
+            this->game_map->fusion_provinces(src_prov, prov);
+
+        else continue;
+    }
+
+    //
     return;
 }
 
@@ -825,8 +1228,7 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
 //
 bool GameModel::check_player_action_end_turn(){
 
-    // TODO
-
+    //
     return true;
 }
 
@@ -1131,16 +1533,31 @@ usint max(usint a, usint b) { return (a > b) ? a : b; }
 //
 bool is_adjacent(Coord c1, Coord c2)
 {
-    int diff_x = c1.x - c2.x;
-    int diff_y = c1.y - c2.y;
 
-    // False cases
-    if (diff_x == 0 && diff_y == 0) return false; // same tile
-    if (abs(diff_x) > 1 || abs(diff_y) > 1) return false; // too far
-    if (c1.x%2 == 0 && diff_x == 1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
-    else if (c1.x%2 == 1 && diff_x == -1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+    //
+    if( get_tile_top_to(c1) == c2 ){ return true; }
+    if( get_tile_top_left_to(c1) == c2 ){ return true; }
+    if( get_tile_top_right_to(c1) == c2 ){ return true; }
+    if( get_tile_bottom_to(c1) == c2 ){ return true; }
+    if( get_tile_bottom_left_to(c1) == c2 ){ return true; }
+    if( get_tile_bottom_right_to(c1) == c2 ){ return true; }
 
-    return true;
+    //
+    return false;
+
+
+    // //
+
+    // int diff_x = c1.x - c2.x;
+    // int diff_y = c1.y - c2.y;
+
+    // // False cases
+    // if (diff_x == 0 && diff_y == 0) return false; // same tile
+    // if (abs(diff_x) > 1 || abs(diff_y) > 1) return false; // too far
+    // if (c1.x%2 == 0 && diff_x == 1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+    // else if (c1.x%2 == 1 && diff_x == -1 && abs(diff_y) == 1) return false; // diagonal movement not allowed
+
+    // return true;
 }
 
 
@@ -1150,11 +1567,11 @@ vector<Coord> neighbours(Coord c)
     int x = c.x;
     int y = c.y;
     vector<Coord> n;
-    n.push_back(Coord(x-1, y));
-    n.push_back(Coord(x+1, y));
-    n.push_back(Coord(x, y-1));
-    n.push_back(Coord(x, y+1));
-    n.push_back(Coord(x+1, y+1-((x%2)*2)));
-    n.push_back(Coord(x-1, y+1-((x%2)*2)));
+    n.push_back(get_tile_top_to(c));
+    n.push_back(get_tile_top_left_to(c));
+    n.push_back(get_tile_top_right_to(c));
+    n.push_back(get_tile_bottom_to(c));
+    n.push_back(get_tile_bottom_left_to(c));
+    n.push_back(get_tile_bottom_right_to(c));
     return n;
 }
