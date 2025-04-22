@@ -55,6 +55,10 @@ class Element {
 
         //
         virtual int get_upkeep_cost();
+
+        //
+        virtual void convert_bandit(); // Change the element into a bandits
+
 };
 
 
@@ -98,6 +102,7 @@ class Building : public Element {
 
         // Functions
         bool is_town() const; // Return true if town, false if tower
+        void convert_bandit(); // Change the unit into a bandits
 
         //
         int get_upkeep_cost();

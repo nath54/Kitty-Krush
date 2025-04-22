@@ -17,6 +17,7 @@
 Coord Element::_coord() const { return this->coord; }
 usint Element::_color() const { return this->color; }
 usint Element::_defense() const { return this->defense; }
+void Element::convert_bandit() { this->color = 0; this->defense = 0; }
 
 
 int Element::get_upkeep_cost() { return 0; }
@@ -25,13 +26,16 @@ int Element::get_upkeep_cost() { return 0; }
 void Unit::upgrade() { this->defense++; }
 
 
-void Unit::convert_bandit() { this->color = -1; this->defense = 0; }
+void Unit::convert_bandit() { this->color = 0; this->defense = 0; }
 
 
 int Unit::get_upkeep_cost() { return units_upkeep_costs[this->defense]; }
 
 
 bool Building::is_town() const { return (this->defense == 1); }
+
+
+void Building::convert_bandit() { this->color = 0; this->defense = 2; }
 
 
 int Building::get_upkeep_cost() { return buildings_upkeep_costs[this->defense]; }
@@ -578,6 +582,9 @@ void Map::split_province(Coord c)
     if (p->_tiles().size() <= 1) return;
 
     //
+    cout << "DEBUG 0 | province to split has size=" << p->_tiles().size() << " | color=" << p->_color() << " | and has treasury=" << p->_treasury() << "\n";
+
+    //
     int color = p->_color();
 
     //
@@ -608,6 +615,9 @@ void Map::split_province(Coord c)
         //
         nb_tot_nums++;
     }
+
+    //
+    cout << "DEBUG 1 | to_visit_coord.size()=" << to_visit_coord.size() << "\n";
 
     // WHILE THERE ARE TILES TO VISIT
 
@@ -668,6 +678,9 @@ void Map::split_province(Coord c)
 
     int nb_differents = nb_tot_nums - to_convert_num.size();
 
+    //
+    cout << "DEBUG 2 | to_convert_num.size()=" << to_convert_num.size() << " | visited.size() = " << visited.size() << " | nb_differents=" << nb_differents << "\n";
+
     if (nb_differents <= 1){
 
         return; // No split to do
@@ -695,6 +708,9 @@ void Map::split_province(Coord c)
         //
         splited_zones[ num_idx[num] ].push_back( it.first );
     }
+
+    //
+    cout << "DEBUG 3 | splited_zones.size()=" << splited_zones.size() << "\n";
 
     // TODO: there is the list of regions in splited_zones (you can rename this variable if you have a better name)
 
@@ -749,6 +765,17 @@ void Map::split_province(Coord c)
 
             for( Coord cc : splited_zones[i] ){
                 //
+                Tile* t = this->get_tile( cc );
+                //
+                if( t == nullptr ){ continue; }
+                //
+                Element* elt = t->_element();
+                //
+                if( elt != nullptr ){
+                    //
+                    elt->convert_bandit();
+                }
+                //
                 this->set_tile_color( cc, 0 );
             }
 
@@ -761,7 +788,7 @@ void Map::split_province(Coord c)
             //
 
             //
-            Province* pp = new Province();
+            Province* pp = new Province( p->_color() );
 
             //
             for( Coord cc : splited_zones[i] ){
@@ -777,6 +804,9 @@ void Map::split_province(Coord c)
         }
 
     }
+
+    //
+    cout << "DEBUG 4 | new_provinces.size()=" << new_provinces.size() << " | nb_tiles_to_split_prov=" << nb_tiles_to_split_prov << "\n";
 
     //
     for( Province* pp : new_provinces ){
