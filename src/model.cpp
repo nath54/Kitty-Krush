@@ -982,12 +982,8 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
 
 
 //
-void GameModel::do_player_action_move_entity(Coord src, Coord dst){
-
-    // TODO : changer province case si nécessaire
-    // Détruire camp/tour/pion adverse si nécessaire (camp -> prendre les sous)
-    // Fusion provinces si nécessaire
-    // Fusion bonhomme si nécessaire
+void GameModel::do_player_action_move_entity(Coord src, Coord dst)
+{
 
     Tile* src_tile = this->game_map->get_tile(src);
     Tile* dst_tile = this->game_map->get_tile(dst);
