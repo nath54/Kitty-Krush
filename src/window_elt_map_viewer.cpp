@@ -497,6 +497,7 @@ void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawT
 
         //
         this->color_tile->draw_elt(main_view, transform);
+        this->color_tile->draw_elt(main_view, transform);
 
         //
         if( this->selected_province != nullptr && this->selected_province->has_tile(coord) ){

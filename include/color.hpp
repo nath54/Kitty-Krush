@@ -30,34 +30,34 @@ class Color{
 static const Color allPlayerColors[10] = {
 
     // Player 1 : Red
-    { 255, 0, 255 },
+    { 250, 50, 50 },
 
-    // Player 2 : Blue
-    { 0, 255, 255 },
+    // Player 2 : Cyan
+    { 0, 250, 250 },
 
     // Player 3 : Gren
-    { 0, 255, 0 },
+    { 150, 250, 00 },
 
     // Player 4 : Purple
-    { 200, 200, 100 },
+    { 150, 100, 200 },
 
-    // Player 5 : Cyan
-    { 100, 200, 200 },
+    // Player 5 : Orange
+    { 250, 200, 150 },
 
-    // Player 6 : Yellow
-    { 200, 100, 200 },
+    // Player 6 : Mauve
+    { 100, 50, 150 },
 
-    // Player 7 : Red
-    { 200, 100, 100 },
+    // Player 7 : Yellow
+    { 250, 250, 100 },
 
-    // Player 8 : Red
-    { 200, 100, 100 },
+    // Player 8 : White
+    { 250, 250, 250 },
 
-    // Player 9 : Red
-    { 200, 100, 100 },
+    // Player 9 : Between Green and cyan
+    { 50, 200, 150 },
 
-    // Player 10 : Red
-    { 200, 100, 100 }
+    // Player 10 : Between Green and yellow
+    { 150, 200, 50 }
 
 };
 
