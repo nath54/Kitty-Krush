@@ -698,6 +698,97 @@ void Map::split_province(Coord c)
 
     // TODO: there is the list of regions in splited_zones (you can rename this variable if you have a better name)
 
+    //
+    std::list<Province*> new_provinces;
+
+    //
+    int nb_tiles_to_split_prov = 0;
+
+    //
+    for( int i = 0; i < splited_zones.size(); i++ ){
+
+        // Check if there is a village in the splited zone
+        //
+        bool village = false;
+
+        //
+        for( Coord cc : splited_zones[i] ){
+
+            //
+            Tile* t = this->get_tile(cc);
+
+            //
+            if( t == nullptr ){ continue; }
+
+            //
+            if( t->_element() == nullptr ){ continue; }
+
+            //
+            Building* b = dynamic_cast<Building*>( t->_element() );
+
+            //
+            if( b == nullptr ){ continue; }
+
+            //
+            if( b->_color() == 0 ){ continue; }
+
+            //
+            if( b->_defense() == 1 ){
+                //
+                village = true;
+                break;
+            }
+
+        }
+
+        //
+        if( !village ){
+
+            // Remove all the tiles of the color
+            //
+
+            for( Coord cc : splited_zones[i] ){
+                //
+                this->set_tile_color( cc, 0 );
+            }
+
+        }
+
+        //
+        else{
+
+            // Create a new province and add it all the tiles
+            //
+
+            //
+            Province* pp = new Province();
+
+            //
+            for( Coord cc : splited_zones[i] ){
+                //
+                pp->add_tile( this->get_tile( cc ) );
+                //
+                nb_tiles_to_split_prov++;
+            }
+
+            //
+            new_provinces.push_back( pp );
+
+        }
+
+    }
+
+    //
+    for( Province* pp : new_provinces ){
+        //
+        pp->set_treasury( (int)( p->_treasury() * ( pp->_tiles().size() / nb_tiles_to_split_prov ) ) );
+
+        //
+        this->add_province( pp );
+    }
+
+    //
+    this->remove_province( p );
 
 }
 

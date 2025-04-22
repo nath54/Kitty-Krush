@@ -391,6 +391,10 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     //
     this->game_model->do_player_action_move_entity(src, dst);
 
+    //
+    this->game_model->get_map()->split_province( dst );
+
+
     // Check for provinces to remove
 
     //
@@ -435,6 +439,9 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
 
     //
     this->game_model->do_player_action_new_entity(dst, level, type);
+
+    //
+    this->game_model->get_map()->split_province( dst );
 
 
     //
