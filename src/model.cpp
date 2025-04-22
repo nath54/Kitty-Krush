@@ -151,8 +151,8 @@ void Province::add_tile(Tile* tile)
     //
     Coord c = tile->_coord();
 
-    //
-    if (tiles_layer.count(c) > 0) { return; }  // already exists
+    // //
+    // if (tiles_layer.count(c) > 0) { return; }  // already exists
 
     // insert
     tile->convert_color(this->color);
@@ -162,6 +162,8 @@ void Province::add_tile(Tile* tile)
 
 void Province::remove_tile(Tile* tile) { tiles_layer.erase(tile->_coord()); }
 
+
+void Province::remove_tile_at_coord(Coord c){ tiles_layer.erase(c); }
 
 
 int Province::expected_income()
@@ -574,12 +576,12 @@ void Map::fusion_provinces(Province* p1, Province* p2)
 }
 
 
-void Map::split_province(Coord c)
+void Map::split_province(Coord c, Province* p)
 {
-    //
-    Province* p = get_province(c);
-    if (p == nullptr) return;
-    if (p->_tiles().size() <= 1) return;
+    // //
+    // Province* p = get_province(c);
+    // if (p == nullptr) return;
+    // if (p->_tiles().size() <= 1) return;
 
     //
     cout << "DEBUG 0 | province to split has size=" << p->_tiles().size() << " | color=" << p->_color() << " | and has treasury=" << p->_treasury() << "\n";
@@ -603,7 +605,7 @@ void Map::split_province(Coord c)
     std::vector<Coord> nbs = neighbours(c);
 
     //
-    for(int i = 1; i < nbs.size(); i++){
+    for(int i = 0; i < nbs.size(); i++){
         //
         Tile* tile_nb = this->get_tile( nbs[i] );
         if( tile_nb == nullptr ){ continue; }
@@ -613,7 +615,7 @@ void Map::split_province(Coord c)
         to_visit_coord.push_back( nbs[i] );
         to_visit_num.push_back( nb_tot_nums );
         //
-        nb_tot_nums++;
+        nb_tot_nums += 1;
     }
 
     //
@@ -651,6 +653,7 @@ void Map::split_province(Coord c)
 
             //
             if( visited.count(vv) > 0){
+
                 //
                 if( visited[vv] == num ){ continue; }
 
@@ -681,7 +684,7 @@ void Map::split_province(Coord c)
     //
     cout << "DEBUG 2 | to_convert_num.size()=" << to_convert_num.size() << " | visited.size() = " << visited.size() << " | nb_differents=" << nb_differents << "\n";
 
-    if (nb_differents <= 1){
+    if (nb_differents < 1){
 
         return; // No split to do
 
@@ -777,6 +780,9 @@ void Map::split_province(Coord c)
                 }
                 //
                 this->set_tile_color( cc, 0 );
+
+                //
+                this->remove_tile_of_all_provinces( cc );
             }
 
         }
@@ -819,6 +825,23 @@ void Map::split_province(Coord c)
 
     //
     this->remove_province( p );
+
+}
+
+
+//
+void Map::remove_tile_of_all_provinces(Coord c){
+
+    //
+    for( Province* p : this->provinces_layer ){
+
+        //
+        if( p->has_tile(c) ){
+            //
+            p->remove_tile_at_coord(c);
+        }
+
+    }
 
 }
 
@@ -1068,7 +1091,7 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst)
     // adverse province
     if (dst_prov != nullptr) {
 
-        this->game_map->split_province(dst_tile->_coord());
+        // this->game_map->split_province(dst_tile->_coord());
 
         if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr)
             src_prov->add_treasury(dst_prov->_treasury());
@@ -1076,7 +1099,8 @@ void GameModel::do_player_action_move_entity(Coord src, Coord dst)
 
     dst_tile->delete_element();
     dst_tile->set_element(unit_to_move);
-    src_tile->set_element(nullptr);
+    src_tile->delete_element();
+    this->game_map->remove_tile_of_all_provinces( dst_tile->_coord() );
     src_prov->add_tile(dst_tile);
     //
     unit_to_move->can_move = false;
@@ -1303,7 +1327,7 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
     // adverse province
     if (dst_prov != nullptr) {
 
-        this->game_map->split_province(dst_tile->_coord());
+        // this->game_map->split_province(dst_tile->_coord());
 
         if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr)
             src_prov->add_treasury(dst_prov->_treasury());
@@ -1311,6 +1335,7 @@ void GameModel::do_player_action_new_entity(Coord dst, int entity_level, bool en
 
     dst_tile->delete_element();
     dst_tile->set_element(unit_to_move);
+    this->game_map->remove_tile_of_all_provinces( dst_tile->_coord() );
     src_prov->add_tile(dst_tile);
     //
     Unit* unit_to_move_unit = dynamic_cast<Unit*>(unit_to_move);

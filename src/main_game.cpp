@@ -389,10 +389,29 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     }
 
     //
+    Province* prev_prov_dst = this->game_model->get_province_at_coord(dst);
+
+    //
     this->game_model->do_player_action_move_entity(src, dst);
 
     //
-    this->game_model->get_map()->split_province( dst );
+    Province* new_prov_dst = this->game_model->get_province_at_coord(dst);
+
+    //
+    this->game_model->get_map()->remove_tile_of_all_provinces( dst );
+
+    //
+    Tile* t = this->game_model->get_map()->get_tile(dst);
+    //
+    new_prov_dst->add_tile( t );
+
+    //
+    if( prev_prov_dst != nullptr && prev_prov_dst != new_prov_dst){
+
+        //
+        this->game_model->get_map()->split_province( dst, prev_prov_dst );
+
+    }
 
 
     // Check for provinces to remove
@@ -438,11 +457,19 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
     }
 
     //
+    Province* prev_prov_dst = this->game_model->get_province_at_coord(dst);
+
+    //
     this->game_model->do_player_action_new_entity(dst, level, type);
 
     //
-    this->game_model->get_map()->split_province( dst );
+    Province* new_prov_dst = this->game_model->get_province_at_coord(dst);
 
+    //
+    if( prev_prov_dst != nullptr && prev_prov_dst != new_prov_dst){
+        //
+        this->game_model->get_map()->split_province( dst, prev_prov_dst );
+    }
 
     //
     std::list<Province*>* provinces_to_remove = this->game_model->get_map()->get_provinces_to_remove();

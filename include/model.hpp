@@ -180,6 +180,7 @@ class Province {
     // Functions
     void add_tile(Tile* tile);
     void remove_tile(Tile* tile);
+    void remove_tile_at_coord(Coord c);
 
     int expected_income();
     void treasury_turn();
@@ -238,7 +239,10 @@ class Map {
         bool adjacent_to_province(Province* p, Coord c);
         void remove_province(Province* province);
         void fusion_provinces(Province* p1, Province* p2);
-        void split_province(Coord c);
+        void split_province(Coord c, Province* p);
+
+        //
+        void remove_tile_of_all_provinces(Coord c);
 };
 
 
