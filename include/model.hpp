@@ -118,7 +118,6 @@ class Tile {
 
         Coord coord;
         usint color;
-        usint defense;
         Element* element;
 
     public:
@@ -126,9 +125,8 @@ class Tile {
         // Constructor
         Tile(Coord tile_coord,
             usint tile_color=NEUTRAL,
-            usint tile_defense=0,
             Element* tile_element=nullptr)
-            : coord(tile_coord), color(tile_color), defense(tile_defense), element(tile_element) {};
+            : coord(tile_coord), color(tile_color), element(tile_element) {};
 
         // Destructor
         ~Tile() {}; // Default destructor
@@ -136,10 +134,10 @@ class Tile {
         // Getters
         Coord _coord() const;
         usint _color() const;
-        usint _defense() const;
         Element* _element() const;
 
         // Functions
+        usint get_defense() const;
         void convert_color(usint new_color);
         void set_element(Element* element);
         void delete_element();
@@ -279,7 +277,7 @@ class GameModel {
         int get_nb_players_colors();
 
         //
-        int get_tile_defense(Coord c, Province* dst_prov = nullptr);
+        usint get_tile_defense(Coord c, Province* dst_prov = nullptr);
 
         //
         void at_player_turn_start();

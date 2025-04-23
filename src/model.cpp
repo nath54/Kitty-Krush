@@ -1,4 +1,3 @@
-//
 #include <cstdlib>  // srand() et rand()
 #include <ctime> // time()
 #include <deque>
@@ -16,7 +15,6 @@
 
 Coord Element::_coord() const { return this->coord; }
 usint Element::_color() const { return this->color; }
-usint Element::_defense() const { return this->defense; }
 void Element::convert_bandit() { this->color = 0; this->defense = 0; }
 
 
@@ -297,12 +295,10 @@ std::list<Building*> Map::get_all_buildings(bool with_bandit_buildings){
     }
 
     //
-    if( !with_bandit_buildings ){
-        return buildings;
-    }
+    if (!with_bandit_buildings) { return buildings; }
 
     //
-    for ( std::pair<Coord, Element*> it : this->bandits_layer ){
+    for (std::pair<Coord, Element*> it : this->bandits_layer) {
 
         //
         Building* b = dynamic_cast<Building*>(it.second);
@@ -902,12 +898,12 @@ void GameModel::at_player_turn_start(){
 
 
 //
-int GameModel::get_tile_defense(Coord dst, Province* dst_prov){
+usint GameModel::get_tile_defense(Coord dst, Province* dst_prov){
 
     //
-    Tile* dst_tile = this->game_map->get_tile( dst );
+    Tile* dst_tile = this->game_map->get_tile(dst);
     //
-    if( dst_tile == nullptr ){ return 0; }
+    if(dst_tile == nullptr) { return 0; }
 
     // Get the neighbours of the destination tile
     std::vector<Coord> n = neighbours(dst);
@@ -922,18 +918,17 @@ int GameModel::get_tile_defense(Coord dst, Province* dst_prov){
         Tile* tile = this->game_map->get_tile(v);
 
         // If no tiles here, abort for coordinate v
-        if( tile == nullptr ){ continue; }
+        if (tile == nullptr) { continue; }
 
         // Get the province at coordinate v
         Province* prov = this->game_map->get_province(v);
 
         // If no province here, abort for coordinate v
-        if( prov == nullptr ){ continue; }
+        if (prov == nullptr) { continue; }
 
         // An unit can move anywhere on its color
-        if( prov->_color() == this->get_current_player_color() ){
-            continue;
-        }
+        if (prov->_color() == this->get_current_player_color())
+            { continue; }
 
         // Check if the destination tile and its neighbour tile have the same province
         if (prov == dst_prov) {
@@ -957,63 +952,60 @@ int GameModel::get_tile_defense(Coord dst, Province* dst_prov){
 bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
 
     // Check game map existence
-    if( this->game_map == nullptr ) { return false; }
+    if (this->game_map == nullptr) { return false; }
 
     // Get the tile
     Tile* src_tile = this->game_map->get_tile(src);
     Tile* dst_tile = this->game_map->get_tile(dst);
 
     // Check if tiles exists
-    if (src_tile == nullptr || dst_tile == nullptr){ return false; }
+    if (src_tile == nullptr || dst_tile == nullptr) { return false; }
 
     // Check if we move current player entity
-    if (src_tile->_color() != this->current_player_color){ return false; }
-
-    // Check if there is an entity at the source of the mouvement
-    if (src_tile->_element() == nullptr){ return false; }
+    if (src_tile->_color() != this->current_player_color) { return false; }
 
     // Get the unit to move
     Unit* unit_to_move = dynamic_cast<Unit*>(src_tile->_element());
 
-    // Check if the element is a unit and not a building
-    if (unit_to_move == nullptr){ return false; }
+    // Check if the element is a unit and not a building/nullptr
+    if (unit_to_move == nullptr) { return false; }
 
     //
-    if (!(unit_to_move->can_move)){ return false; }
+    if (!(unit_to_move->can_move)) { return false; }
 
     // Check if the unit to move is not a bandit
-    if (unit_to_move->_defense() == 0){ return false; }
+    if (unit_to_move->_defense() == 0) { return false; }
 
     // Get the provinces of the movements
     Province* src_prov = this->game_map->get_province(src);
     Province* dst_prov = this->game_map->get_province(dst);
 
     // To avoid system errors, src_prov should always be different than nullptr
-    if ( src_prov == nullptr ){ return false; }
+    if (src_prov == nullptr) { return false; }
 
     // Check if the movement is adjacent to the province
-    if ( !(this->game_map->adjacent_to_province(src_prov, dst)) ){ return false; }
+    if (!(this->game_map->adjacent_to_province(src_prov, dst))) { return false; }
 
     // If there is destination province
-    if(dst_prov != nullptr){
+    if (dst_prov != nullptr) {
 
         // If the movement is inside a province of the same color
-        if (dst_prov->_color() == src_prov->_color()){
+        if (dst_prov->_color() == src_prov->_color()) {
 
             // Check if there an element in the destination tile
-            if( dst_tile->_element() != nullptr ){
+            if (dst_tile->_element() != nullptr) {
 
                 // Get the unit at destination tile
                 Unit* dst_unit = dynamic_cast<Unit*>(dst_tile->_element());
 
                 // If it's building at destination tile
-                if( dst_unit == nullptr){ return false; }
+                if (dst_unit == nullptr) { return false; }
 
                 // If it's a bandit
-                if( dst_unit->_color() != dst_prov->_color() ){ return true; }
+                if (dst_unit->_color() != dst_prov->_color()) { return true; }
 
                 // If the destination unit hasn't the same level than the unit to move (no fusion of units to unit of higher level)
-                if( unit_to_move->_defense() != dst_unit->_defense() ){ return false; }
+                if (unit_to_move->_defense() != dst_unit->_defense()) { return false; }
 
             }
 
@@ -1026,11 +1018,8 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
     // If the source unit is an hero, he can go anywhere
     if (src_tile->_element()->_defense() == 4){ return true; }
 
-    // Get the tile defense
-    int tile_def = this->get_tile_defense( dst );
-
     // If the current unit to move has an higher defense than the destination tile, he can go there
-    return (unit_to_move->_defense() > tile_def);
+    return (unit_to_move->_defense() > this->get_tile_defense(dst));
 }
 
 
