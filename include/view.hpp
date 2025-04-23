@@ -813,7 +813,6 @@ class WindowEltMapViewer: public WindowEltClickable {
         std::map< Coord, WindowEltMapTile* > tiles_layers;
         std::map< Coord, int > colors_layers;
         std::map< Coord, EntityData > entity_layers;
-        std::map< Coord, int > closest_building_of_color;
 
         //
         // WindowEltSprite* default_empty_tile;
@@ -932,9 +931,6 @@ class WindowEltMapViewer: public WindowEltClickable {
 
         //
         void complete_all_tile_layer_ground_base();
-
-        //
-        void update_closest_building_of_color();
 
         //
         std::list< Coord > get_adjacents_colors( Coord v );

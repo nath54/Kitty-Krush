@@ -92,6 +92,9 @@ class Building : public Element {
 
     public:
 
+        //
+        int treasury = 0;
+
         // Constructor
         Building(Coord building_coord,
                  usint building_color,

@@ -47,7 +47,12 @@ int Building::get_upkeep_cost() { return buildings_upkeep_costs[this->defense]; 
 
 Coord Tile::_coord() const { return this->coord; }
 usint Tile::_color() const { return this->color; }
-usint Tile::_defense() const { return this->defense; }
+usint Tile::get_defense() const {
+    if( this->element == nullptr ){
+        return 0;
+    }
+    return this->element->_defense();
+}
 Element* Tile::_element() const { return this->element; }
 
 
@@ -580,9 +585,6 @@ void Map::split_province(Coord c, Province* p)
     // if (p->_tiles().size() <= 1) return;
 
     //
-    cout << "DEBUG 0 | province to split has size=" << p->_tiles().size() << " | color=" << p->_color() << " | and has treasury=" << p->_treasury() << "\n";
-
-    //
     int color = p->_color();
 
     //
@@ -613,9 +615,6 @@ void Map::split_province(Coord c, Province* p)
         //
         nb_tot_nums += 1;
     }
-
-    //
-    cout << "DEBUG 1 | to_visit_coord.size()=" << to_visit_coord.size() << "\n";
 
     // WHILE THERE ARE TILES TO VISIT
 
@@ -678,8 +677,6 @@ void Map::split_province(Coord c, Province* p)
     int nb_differents = nb_tot_nums - to_convert_num.size();
 
     //
-    cout << "DEBUG 2 | to_convert_num.size()=" << to_convert_num.size() << " | visited.size() = " << visited.size() << " | nb_differents=" << nb_differents << "\n";
-
     if (nb_differents < 1){
 
         return; // No split to do
@@ -707,9 +704,6 @@ void Map::split_province(Coord c, Province* p)
         //
         splited_zones[ num_idx[num] ].push_back( it.first );
     }
-
-    //
-    cout << "DEBUG 3 | splited_zones.size()=" << splited_zones.size() << "\n";
 
     // TODO: there is the list of regions in splited_zones (you can rename this variable if you have a better name)
 
@@ -806,9 +800,6 @@ void Map::split_province(Coord c, Province* p)
         }
 
     }
-
-    //
-    cout << "DEBUG 4 | new_provinces.size()=" << new_provinces.size() << " | nb_tiles_to_split_prov=" << nb_tiles_to_split_prov << "\n";
 
     //
     for( Province* pp : new_provinces ){
