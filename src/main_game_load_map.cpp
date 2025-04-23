@@ -118,9 +118,6 @@ void MainGame::set_map_from_data(
 
         }
 
-        //
-        map_viewer->update_closest_building_of_color();
-
     }
 
     //

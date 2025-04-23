@@ -1073,83 +1073,6 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 }
 
 
-//
-void WindowEltMapViewer::update_closest_building_of_color(){
-
-    //
-    this->closest_building_of_color.clear();
-
-    //
-    if( this->game_model->get_map() == nullptr ){ return; }
-
-    //
-    std::list< Coord > starting_points;
-
-    //
-    for( Building* b : this->game_model->get_map()->get_all_buildings() ){
-
-        //
-        starting_points.push_back( b->_coord() );
-
-    }
-
-    //
-    while (starting_points.size() > 0){
-
-        //
-        Coord starting_point = starting_points.front();
-        starting_points.pop_front();
-
-        //
-        std::list< Coord > to_explore;
-        std::list< int > crt_distance;
-
-        //
-        to_explore.push_back( starting_point );
-        crt_distance.push_back( 0 );
-
-        //
-        while ( to_explore.size() > 0 ){
-
-            //
-            Coord v = to_explore.front();
-            to_explore.pop_front();
-
-            //
-            int dist = crt_distance.front();
-            crt_distance.pop_front();
-
-            //
-            if ( this->closest_building_of_color.count(v) == 0 || this->closest_building_of_color[v] > dist ){
-                this->closest_building_of_color[v] = dist;
-            }
-
-            //
-            if(dist >= 1){ continue; }
-
-            //
-            for ( Coord vv : this->get_adjacents_colors( v ) ){
-
-                //
-                if ( this->closest_building_of_color.count(vv) > 0 && this->closest_building_of_color[vv] < dist + 1 ){
-                    continue;
-                }
-
-                //
-                if ( this->colors_layers[vv] == this->colors_layers[v] ){
-                    to_explore.push_back(vv);
-                    crt_distance.push_back(dist+1);
-                }
-
-            }
-
-        }
-
-    }
-
-}
-
-
 
 //
 std::list< Coord > WindowEltMapViewer::get_adjacents_colors( Coord v ){
@@ -1462,6 +1385,36 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
 
 
 //
+bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord c, int color){
+
+    //
+    Building* b = dynamic_cast<Building*>( game_model->get_tile_entity(c) );
+
+    //
+    if( b != nullptr && b->_color() == color ) { return true; }
+
+    //
+    for(Coord v : neighbours(c)){
+
+        //
+        b = dynamic_cast<Building*>( game_model->get_tile_entity(v) );
+
+        //
+        if( b == nullptr ){ continue; }
+
+        //
+        if( b->_color() == color ) { return true; }
+
+    }
+
+    //
+    return false;
+
+}
+
+
+
+//
 bool WindowEltMapViewer::check_draw_palissade_between_to_tiles(Coord v1, Coord v2){
 
     //
@@ -1497,17 +1450,20 @@ bool WindowEltMapViewer::check_draw_palissade_between_to_tiles(Coord v1, Coord v
     // FOR PLAYERS
 
     //
-    if (this->closest_building_of_color.count(v1) == 0 || this->closest_building_of_color[v1] > 1){
+    if( ! has_building_of_color_in_neighbours_or_itself(this->game_model, v1, color) ){
         return false;
     }
+
     //
-    if(color2 != color){
+    if( color != color2 ){
         return true;
     }
+
     //
-    if (this->closest_building_of_color.count(v2) == 1 && this->closest_building_of_color[v2] <= 1){
+    if( has_building_of_color_in_neighbours_or_itself(this->game_model, v2, color) ){
         return false;
     }
+
     //
     return true;
 }

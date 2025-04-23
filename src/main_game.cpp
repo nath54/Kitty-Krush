@@ -101,9 +101,6 @@ void MainGame::change_page(std::string new_page){
         this->at_player_turn_start();
 
         //
-        this->main_view->map_viewer->update_closest_building_of_color();
-
-        //
         this->menu_state = 2;
     }
     //
@@ -439,9 +436,6 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     //
     this->update_selected_province(dst);
 
-    //
-    this->main_view->map_viewer->update_closest_building_of_color();
-
 }
 
 
@@ -493,9 +487,6 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
 
     //
     this->update_selected_province(dst);
-
-    //
-    this->main_view->map_viewer->update_closest_building_of_color();
 
 }
 
