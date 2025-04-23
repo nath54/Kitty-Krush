@@ -49,7 +49,12 @@ int Building::get_upkeep_cost() { return buildings_upkeep_costs[this->defense]; 
 
 Coord Tile::_coord() const { return this->coord; }
 usint Tile::_color() const { return this->color; }
-usint Tile::_defense() const { return this->defense; }
+usint Tile::get_defense() const {
+    if( this->element == nullptr ){
+        return 0;
+    }
+    return this->element->_defense();
+}
 Element* Tile::_element() const { return this->element; }
 
 
