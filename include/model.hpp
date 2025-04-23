@@ -228,7 +228,7 @@ class Map {
         void reset_bandits_layer();
         //
         void set_tile(Coord coord, Tile* tile);
-        void set_tile_entity(Coord coord, int entity_level, bool entity_type);
+        void set_tile_entity(Coord coord, int entity_level, bool entity_type, int entity_treasury = 0);
         void set_tile_color(Coord coord, int tile_color);
         //
         void add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color = -1, bool with_treasury = false, int treasury = 0);
@@ -307,6 +307,9 @@ class GameModel {
         int get_current_player_color();
 
         //
+        void set_current_player_color( int new_player_color );
+
+        //
         Province* get_tile_province(Coord coord);
 
         //
@@ -316,7 +319,7 @@ class GameModel {
         int get_tile_color(Coord coord);
 
         //
-        void set_tile_entity(Coord coord, int entity_level, bool entity_type);
+        void set_tile_entity(Coord coord, int entity_level, bool entity_type, int entity_treasury = 0);
 
         //
         void set_tile_color(Coord coord, int color);

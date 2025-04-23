@@ -377,7 +377,7 @@ void Map::set_tile(Coord coord, Tile* new_tile){
 
 
 //
-void Map::set_tile_entity(Coord coord, int entity_level, bool entity_type){
+void Map::set_tile_entity(Coord coord, int entity_level, bool entity_type, int entity_attribute){
 
     //
     Tile* tile = this->get_tile(coord);
@@ -395,13 +395,21 @@ void Map::set_tile_entity(Coord coord, int entity_level, bool entity_type){
     if(entity_type){
 
         //
-        tile->set_element( new Unit(coord, tile->_color(), entity_level) );
+        Unit* u = new Unit(coord, tile->_color(), entity_level);
+        u->can_move = !(entity_attribute == 1);
+
+        //
+        tile->set_element( u );
 
     }
     else{
 
         //
-        tile->set_element( new Building(coord, tile->_color(), entity_level) );
+        Building* b = new Building(coord, tile->_color(), entity_level);
+        b->treasury = entity_attribute;
+
+        //
+        tile->set_element( b );
 
     }
 
@@ -442,12 +450,7 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
     p->set_color( color );
 
     //
-    if( with_treasury ){
-        p->set_treasury( treasury );
-    }
-    else{
-        p->set_treasury( tiles_list.size() );
-    }
+    int tr = 0;
 
     //
     for( Coord c : tiles_list ){
@@ -459,8 +462,24 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
         if( tile == nullptr ) { continue; }
 
         //
+        Building* b = dynamic_cast<Building*>( tile->_element() );
+
+        //
+        if( b != nullptr ){
+            tr += b->treasury;
+        }
+
+        //
         p->add_tile( tile );
 
+    }
+
+    //
+    if( with_treasury ){
+        p->set_treasury( treasury );
+    }
+    else{
+        p->set_treasury( tr );
     }
 
     //
@@ -582,9 +601,6 @@ void Map::split_province(Coord c, Province* p)
     // if (p->_tiles().size() <= 1) return;
 
     //
-    cout << "DEBUG 0 | province to split has size=" << p->_tiles().size() << " | color=" << p->_color() << " | and has treasury=" << p->_treasury() << "\n";
-
-    //
     int color = p->_color();
 
     //
@@ -615,9 +631,6 @@ void Map::split_province(Coord c, Province* p)
         //
         nb_tot_nums += 1;
     }
-
-    //
-    cout << "DEBUG 1 | to_visit_coord.size()=" << to_visit_coord.size() << "\n";
 
     // WHILE THERE ARE TILES TO VISIT
 
@@ -678,9 +691,6 @@ void Map::split_province(Coord c, Province* p)
     // Extract all the different new zones
 
     int nb_differents = nb_tot_nums - to_convert_num.size();
-
-    //
-    cout << "DEBUG 2 | to_convert_num.size()=" << to_convert_num.size() << " | visited.size() = " << visited.size() << " | nb_differents=" << nb_differents << "\n";
 
     if (nb_differents < 1){
 
@@ -815,7 +825,7 @@ void Map::split_province(Coord c, Province* p)
     //
     for( Province* pp : new_provinces ){
         //
-        pp->set_treasury( (int)( p->_treasury() * ( pp->_tiles().size() / nb_tiles_to_split_prov ) ) );
+        pp->set_treasury( (int)( (float) p->_treasury() * (float) ( (float) (pp->_tiles().size()) / (float) (nb_tiles_to_split_prov) ) ) );
 
         //
         this->add_province( pp );
@@ -1385,7 +1395,17 @@ void GameModel::do_player_action_end_turn(){
 //
 int GameModel::get_current_player_color(){
 
+    //
     return this->current_player_color;
+}
+
+
+//
+void GameModel::set_current_player_color( int new_player_color ){
+
+    //
+    this->current_player_color = new_player_color;
+
 }
 
 
@@ -1425,7 +1445,7 @@ int GameModel::get_tile_color(Coord coord){
 
 
 //
-void GameModel::set_tile_entity(Coord coord, int entity_level, bool entity_type){
+void GameModel::set_tile_entity(Coord coord, int entity_level, bool entity_type, int entity_treasury){
 
     //
     if( this->game_map == nullptr ){ return; }
