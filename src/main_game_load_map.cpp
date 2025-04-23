@@ -13,9 +13,11 @@
 
 //
 void MainGame::set_map_from_data(
-    std::map< Coord, int >* tiles_layer ,      // Tiles layer
-    std::map< Coord, int >* colors_layer,      // Colors layer
-    std::map< Coord, int >* entities_layer     // Entities layer
+    std::map< Coord, int >* tiles_layer ,           // Tiles layer
+    std::map< Coord, int >* colors_layer,           // Colors layer
+    std::map< Coord, int >* entities_layer,         // Entities layer
+    std::map< Coord, int >* entities_attributes,    // Entities attributes (treasury or can_move )
+    int current_color_to_play
 ){
 
     //
@@ -77,8 +79,6 @@ void MainGame::set_map_from_data(
             if (color_num < 0){ continue; }
 
             //
-            map_viewer->set_color_to_color_layer( coord.x, coord.y, color_num );
-            //
             game_model->set_tile_color( coord, color_num );
 
         }
@@ -96,23 +96,27 @@ void MainGame::set_map_from_data(
             int entity_num = it.second;
 
             //
+            int entity_attribute = 0;
+
+            //
+            if( (*entities_attributes).count(coord) > 0 ){
+                entity_attribute = (*entities_attributes)[coord];
+            }
+
+            //
             if (entity_num < 0 ){ continue; }
 
             if (entity_num >= 10) { // Warriors
 
                 //
-                map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num - 10, true );
-                //
-                game_model->set_tile_entity( coord, entity_num - 10, true );
+                game_model->set_tile_entity( coord, entity_num - 10, true, entity_attribute );
 
             }
 
             else{ // Buildings
 
                 //
-                map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num, false );
-                //
-                game_model->set_tile_entity( coord, entity_num, false );
+                game_model->set_tile_entity( coord, entity_num, false, entity_attribute );
 
             }
 
@@ -122,6 +126,9 @@ void MainGame::set_map_from_data(
 
     //
     game_model->calculate_all_provinces_after_map_initialisation();
+
+    //
+    game_model->set_current_player_color( current_color_to_play );
 
     // Init data
 
@@ -147,6 +154,27 @@ void MainGame::set_map_from_data(
 }
 
 
+
+
+//
+std::vector<std::string> splitStringStream(const std::string& s, char delimiter) {
+    std::vector<std::string> tokens;
+    std::string token;
+    std::stringstream ss(s); // Create a stringstream from the input string
+
+    // Use std::getline, specifying the stream, token, and delimiter
+    while (std::getline(ss, token, delimiter)) {
+        // Optionally, ignore empty tokens if needed
+        if (!token.empty()) {
+             tokens.push_back(token);
+        }
+    }
+    return tokens;
+}
+
+
+
+
 //
 void MainGame::load_map_from_file(std::string map_path) {
 
@@ -162,6 +190,13 @@ void MainGame::load_map_from_file(std::string map_path) {
     std::map< Coord, int >* colors_layer = nullptr;
     std::map< Coord, int >* entities_layer = nullptr;
 
+    //
+    std::map< Coord, int >* entities_attributes = nullptr;
+
+    //
+    int current_color_to_play = 1;
+
+    //
     std::string line;
     std::string current_type = "";
     std::string current_layer = "";
@@ -224,6 +259,12 @@ void MainGame::load_map_from_file(std::string map_path) {
                     //
                     entities_layer = new std::map< Coord, int >();
                 }
+                //
+                if( entities_attributes == nullptr ){
+                    //
+                    entities_attributes = new std::map< Coord, int >();
+                }
+                //
                 else{
                     //
                     std::cerr << "Error, multiple entities_layer parts in map file : " << map_path << std::endl;
@@ -235,49 +276,109 @@ void MainGame::load_map_from_file(std::string map_path) {
             continue;
         }
 
-        // Process grid line (semicolon-separated integers)
-        std::stringstream ss(line);
-        std::string cell;
-        int x = 0;
+        //
+        else if( current_type == "grid" ){
 
-        while (std::getline(ss, cell, ';')) {
+            // Process grid line (semicolon-separated integers)
+            std::stringstream ss(line);
+            std::string cell;
+            int x = 0;
 
-            // Clean whitespace
-            cell = trim(cell);
+            while (std::getline(ss, cell, ';')) {
 
-            //
-            if (!cell.empty()) {
-                int value = std::stoi(cell);
-                Coord coord = Coord(x, y);
+                // Clean whitespace
+                cell = trim(cell);
 
-                if (current_type == "grid") {
+                //
+                if (!cell.empty()) {
+                    int value = std::stoi(cell);
+                    Coord coord = Coord(x, y);
 
-                    if (current_layer == "tiles_layer") {
-                        (*tiles_layer)[coord] = value;
+                    if (current_type == "grid") {
+
+                        if (current_layer == "tiles_layer") {
+                            (*tiles_layer)[coord] = value;
+                        }
+                        else if (current_layer == "colors_layer") {
+                            (*colors_layer)[coord] = value;
+                        }
+                        else if (current_layer == "entities_layer") {
+                            (*entities_layer)[coord] = value;
+                        }
                     }
-                    else if (current_layer == "colors_layer") {
-                        (*colors_layer)[coord] = value;
-                    }
-                    else if (current_layer == "entities_layer") {
-                        (*entities_layer)[coord] = value;
-                    }
+
+                    x++;
                 }
-
-                x++;
             }
+
+            y++;
+
         }
 
-        y++;
+        //
+        else if( current_type == "coordinate_value" ){
+
+            //
+            std::vector<std::string> split_text = splitStringStream(line, ';');
+
+            //
+            if( split_text.size() <=  2 ){ continue; }
+
+            //
+            Coord coord = Coord(
+                std::stoi( split_text[0] ), // x
+                std::stoi( split_text[1] )  // y
+            );
+
+            //
+            int value = std::stoi( split_text[2] );
+
+            //
+            int value2 = 0;
+            if( split_text.size() >= 4 ){ value2 = std::stoi( split_text[3] ); }
+
+            //
+            if (current_layer == "tiles_layer") {
+                (*tiles_layer)[coord] = value;
+            }
+            else if (current_layer == "colors_layer") {
+                (*colors_layer)[coord] = value;
+            }
+            else if (current_layer == "entities_layer") {
+                //
+                (*entities_layer)[coord] = value;
+                //
+                if( value2 != 0 ){
+                    (*entities_attributes)[coord] = value;
+                }
+            }
+
+        }
+
+        //
+        else if( current_type == "value" ){
+
+            //
+            int value = std::stoi( line );
+
+            //
+            if( current_layer == "current_color_to_play" ){
+                current_color_to_play = value;
+            }
+
+        }
+
     }
 
     file.close();
 
     // Now send the layers to the viewer
-    this->set_map_from_data(tiles_layer, colors_layer, entities_layer);
+    this->set_map_from_data(tiles_layer, colors_layer, entities_layer, entities_attributes, current_color_to_play);
 
     // Now, free the memory
     if( tiles_layer != nullptr ){ delete tiles_layer; }
     if( colors_layer != nullptr ){ delete colors_layer; }
     if( entities_layer != nullptr ){ delete entities_layer; }
+    if( entities_attributes != nullptr ){ delete entities_attributes; }
 
 }

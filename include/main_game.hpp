@@ -59,9 +59,11 @@ class MainGame{
 
         //
         void set_map_from_data(
-            std::map< Coord, int >*,      // Tiles layers
-            std::map< Coord, int >*,      // Colors layers
-            std::map< Coord, int >*       // Entity layers
+            std::map< Coord, int >* tiles_layer,            // Tiles layers
+            std::map< Coord, int >* colors_layer,           // Colors layers
+            std::map< Coord, int >* entity_layer,           // Entity layers
+            std::map< Coord, int >* entities_attributes,    // Entities attributes (treasury or can_move)
+            int current_color_to_play
         );
 
         //

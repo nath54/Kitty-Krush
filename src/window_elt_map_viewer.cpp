@@ -331,9 +331,9 @@ WindowEltMapViewer::WindowEltMapViewer(
     //
     this->building_lvl_1_no_color = new WindowEltAnimatedSprite(
         this->style,
-        "res/sprites/entities/bandit_camp.png",
+        "res/sprites/entities/bandit_camp2.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
-        0, 0, 72, 72, 1, 100,
+        0, 0, 1536, 1536, 1, 100,
         nvi(0),
         false,
         false,
@@ -346,9 +346,9 @@ WindowEltMapViewer::WindowEltMapViewer(
     //
     this->building_lvl_1 = new WindowEltAnimatedSprite(
         this->style,
-        "res/sprites/entities/village.png",
+        "res/sprites/entities/village2.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
-        0, 0, 96, 96, 1, 100,
+        0, 0, 1280, 1280, 1, 100,
         nvi(0),
         false,
         false,
@@ -361,9 +361,9 @@ WindowEltMapViewer::WindowEltMapViewer(
     //
     this->building_lvl_2 = new WindowEltAnimatedSprite(
         this->style,
-        "res/sprites/entities/tower.png",
+        "res/sprites/entities/tower2.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
-        0, 0, 54, 54, 1, 100,
+        0, 0, 1024, 1024, 1, 100,
         nvi(0),
         false,
         false,
@@ -885,62 +885,6 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
 
 
 //
-void WindowEltMapViewer::set_color_to_color_layer ( int tile_x, int tile_y, int color_num ){
-
-    //
-    Coord v = (Coord){tile_x, tile_y};
-
-    //
-    bool tile_present = (this->colors_layers.count( v ) > 0);
-
-    //
-    if ( color_num == -1 ){
-        //
-        if ( tile_present ){
-            //
-            this->colors_layers.erase( v );
-        }
-    }
-    else{
-        //
-        this->colors_layers[v] = color_num;
-    }
-
-}
-
-
-//
-void WindowEltMapViewer::set_entity_to_entity_layer ( int tile_x, int tile_y, int entity_level, bool entity_type ){
-
-    //
-    Coord v = (Coord){tile_x, tile_y};
-
-    //
-    bool tile_present = (this->entity_layers.count( v ) > 0);
-
-    //
-    if ( entity_level == -1 ){
-        //
-        if ( tile_present ){
-            //
-            this->entity_layers.erase( v );
-        }
-    }
-    else{
-        //
-        if ( tile_present ){
-            this->entity_layers[v].level = entity_level;
-            this->entity_layers[v].type = entity_type;
-        }
-        else{
-            this->entity_layers[v] = (EntityData){entity_level, entity_type};
-        }
-    }
-
-}
-
-
-//
 void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
     //
@@ -1073,35 +1017,6 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 }
 
 
-
-//
-std::list< Coord > WindowEltMapViewer::get_adjacents_colors( Coord v ){
-
-    //
-    std::list< Coord > adjacent_tiles;
-
-    //
-    Coord coord1 = get_tile_top_to( v );
-    Coord coord2 = get_tile_top_right_to( v );
-    Coord coord3 = get_tile_top_left_to( v );
-    Coord coord4 = get_tile_bottom_to( v );
-    Coord coord5 = get_tile_bottom_right_to( v );
-    Coord coord6 = get_tile_bottom_left_to( v );
-
-    //
-    if ( this->colors_layers.count( coord1 ) ) { adjacent_tiles.push_back( coord1 ); }
-    if ( this->colors_layers.count( coord2 ) ) { adjacent_tiles.push_back( coord2 ); }
-    if ( this->colors_layers.count( coord3 ) ) { adjacent_tiles.push_back( coord3 ); }
-    if ( this->colors_layers.count( coord4 ) ) { adjacent_tiles.push_back( coord4 ); }
-    if ( this->colors_layers.count( coord5 ) ) { adjacent_tiles.push_back( coord5 ); }
-    if ( this->colors_layers.count( coord6 ) ) { adjacent_tiles.push_back( coord6 ); }
-
-    //
-    return adjacent_tiles;
-
-}
-
-
 //
 std::vector< Coord > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(int x, int y){
 
@@ -1217,17 +1132,6 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
     //
     return entity;
 
-    // //
-    // if ( this->entity_layers.count( coord ) <= 0 ){
-
-    //     //
-    //     return (EntityData){-1, false};
-
-    // }
-
-    // //
-    // return this->entity_layers[coord];
-
 }
 
 
@@ -1238,17 +1142,6 @@ int WindowEltMapViewer::get_color_at_coord(Coord coord){
     if( this->game_model == nullptr){ return -1; }
     //
     return this->game_model->get_tile_color( coord );
-
-    //
-    // if ( this->colors_layers.count( coord ) <= 0 ){
-
-    //     //
-    //     return -1;
-
-    // }
-
-    // //
-    // return this->colors_layers[coord];
 
 }
 

@@ -380,7 +380,7 @@ void MainView::init_page_in_game() {
     //
     this->map_viewer->bt_building_lvl2 = new WindowEltButton(
         this->win_page_manager->default_style,  // Style*                           style
-        "res/sprites/entities/tower_p.png",     // std::string                      text
+        "res/sprites/entities/tower2_p.png",    // std::string                      text
         nvi(15),                                // Value*                           x
         nvi(500),                               // Value*                           y
         nvi(60),                                // Value*                           w
