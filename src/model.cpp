@@ -220,7 +220,7 @@ void Map::set_tile_color(Coord coord, int tile_color)
     tile->convert_color(tile_color);
 }
 
-void Map::set_tile_element(Coord coord, usint element_level, bool is_unit)
+void Map::set_tile_element(Coord coord, usint element_level, bool is_unit, int element_attribute)
 {
     Tile* tile = this->get_tile(coord);
 
@@ -229,10 +229,17 @@ void Map::set_tile_element(Coord coord, usint element_level, bool is_unit)
         this->set_tile( coord, tile );
     }
 
-    if (is_unit)
-        tile->set_element( new Unit(coord, tile->_color(), element_level) );
-    else
-        tile->set_element( new Building(coord, tile->_color(), element_level) );
+    if (is_unit){
+
+        Unit* u = new Unit(coord, tile->_color(), element_level);
+        u->can_move = !(element_attribute == 1);
+        tile->set_element( u );
+    }
+    else{
+        Building* b = new Building(coord, tile->_color(), element_level);
+        b->treasury = element_attribute;
+        tile->set_element( b );
+    }
 
 }
 
@@ -445,7 +452,7 @@ void Map::split_province(Coord c, Province* p)
         if(num_idx.count(num) == 0){
             num_idx[num] = crt_idx;
             crt_idx++;
-    
+
             splited_zones.push_back( (std::list<Coord>){} );
         }
 
@@ -495,7 +502,7 @@ void Map::split_province(Coord c, Province* p)
 
         else {
             // Create a new province and add it all the tiles
- 
+
             Province* pp = new Province(p->_color());
 
             for (Coord cc : splited_zones[i]) {
@@ -571,7 +578,7 @@ usint GameModel::get_tile_defense(Coord c)
         if (neib_prov == nullptr) continue;
 
         // Check if the destination tile and its neighbour tile have the same province
-        if (neib_prov == prov) 
+        if (neib_prov == prov)
             // If there is an element on this tile that has an higher defense
             if (neib->_element() != nullptr && neib->_element()->_defense() > def_max)
                 def_max = neib->_element()->_defense(); // update destination defense
@@ -593,8 +600,11 @@ Province* GameModel::get_province_at_coord(Coord c)
 void GameModel::set_tile_color(Coord coord, usint color)
 { if (this->game_map != nullptr) this->game_map->set_tile_color(coord, color); }
 
-void GameModel::set_tile_element(Coord c, usint elt_level, bool is_unit)
-{ if (this->game_map != nullptr) this->game_map->set_tile_element(c, elt_level, is_unit); }
+void GameModel::set_tile_element(Coord c, usint elt_level, bool is_unit, int element_attribute)
+{ if (this->game_map != nullptr) this->game_map->set_tile_element(c, elt_level, is_unit, element_attribute); }
+
+void GameModel::set_current_player(int new_player)
+{ this->current_player = new_player; }
 
 // >> Resetters <<
 void GameModel::reset_tiles_layer()
@@ -612,7 +622,7 @@ void GameModel::at_player_turn_start()
     std::vector<Province*>* provinces = this->game_map->_provinces_layer();
 
     for (Province* p : *provinces) {
-        
+
         if (p->_color() != this->current_player) continue;
         p->treasury_turn();
 
@@ -996,7 +1006,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
         for (Coord vv : neighbours(v)) {
 
             int color2 = this->get_tile_color(vv);
-    
+
             if (color2 == -1 || color2 != color) continue;
 
             if (visited.count(vv) > 0) {

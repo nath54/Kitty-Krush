@@ -128,7 +128,7 @@ void MainGame::set_map_from_data(
     game_model->calculate_all_provinces_after_map_initialisation();
 
     //
-    game_model->set_current_player_color( current_color_to_play );
+    game_model->set_current_player( current_color_to_play );
 
     // Init data
 
