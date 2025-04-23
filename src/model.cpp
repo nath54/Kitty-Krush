@@ -868,30 +868,22 @@ void GameModel::at_player_turn_start(){
 
     //
     std::vector<Province*>* provinces = this->game_map->get_provinces_layer();
-    for( Province* p : *provinces ){
+    for (Province* p : *provinces) {
 
         //
-        if( p->_color() != this->current_player_color ){
-
-            //
-            continue;
-
-        }
+        if (p->_color() != this->current_player_color) { continue; }
 
         //
         p->treasury_turn();
 
         //
-        for( std::pair<Coord, Tile*> it : p->_tiles() ){
+        for (std::pair<Coord, Tile*> it : p->_tiles()) {
 
             //
             Unit* unit = dynamic_cast<Unit*>(it.second->_element());
 
             //
-            if( unit != nullptr ){
-                unit->can_move = true;
-            }
-
+            if (unit != nullptr) { unit->can_move = true; }
         }
 
     }
@@ -900,12 +892,14 @@ void GameModel::at_player_turn_start(){
 
 
 //
-usint GameModel::get_tile_defense(Coord dst, Province* dst_prov){
+usint GameModel::get_tile_defense(Coord dst) {
 
     //
     Tile* dst_tile = this->game_map->get_tile(dst);
     //
     if(dst_tile == nullptr) { return 0; }
+
+    Province *dst_prov = this->game_map->get_province(dst);
 
     // Get the neighbours of the destination tile
     std::vector<Coord> n = neighbours(dst);
@@ -1018,7 +1012,7 @@ bool GameModel::check_player_action_move_entity(Coord src, Coord dst){
     }
 
     // If the source unit is an hero, he can go anywhere
-    if (src_tile->_element()->_defense() == 4){ return true; }
+    if (unit_to_move->_defense() == MAX_UNIT_LEVEL) { return true; }
 
     // If the current unit to move has an higher defense than the destination tile, he can go there
     return (unit_to_move->_defense() > this->get_tile_defense(dst));

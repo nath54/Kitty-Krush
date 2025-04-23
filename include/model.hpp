@@ -280,7 +280,7 @@ class GameModel {
         int get_nb_players_colors();
 
         //
-        usint get_tile_defense(Coord c, Province* dst_prov = nullptr);
+        usint get_tile_defense(Coord c);
 
         //
         void at_player_turn_start();
