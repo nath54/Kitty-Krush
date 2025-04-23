@@ -9,7 +9,7 @@
 #define TILE_DEC_Y 36
 #define TILE_DEC_X 53
 
-#define ENTITY_MARGIN 20
+#define ENTITY_MARGIN 5
 
 
 // A structure holding all static information for a tile.
