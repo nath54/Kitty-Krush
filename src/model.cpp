@@ -911,7 +911,7 @@ usint GameModel::get_tile_defense(Coord dst, Province* dst_prov){
     std::vector<Coord> n = neighbours(dst);
 
     // Initializing the maximum defense with the defense of destination tile
-    usint def_max = dst_tile->_defense();
+    usint def_max = dst_tile->get_defense();
 
     // Checking if there is an higher defense in the neighbours of the destination tile
     for (Coord v : n) {
