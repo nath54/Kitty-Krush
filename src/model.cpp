@@ -59,6 +59,8 @@ void Tile::set_element(Element* e)
     this->element = e;
 }
 
+usint Tile::get_defense() { return (this->element == nullptr) ? 0 : this->element->_defense(); }
+
 
 void Tile::delete_element()
 {
