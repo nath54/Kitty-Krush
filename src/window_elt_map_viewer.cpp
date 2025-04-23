@@ -610,7 +610,7 @@ void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTrans
             if (edata.type && edata.level >= 0){
                 //
                 transform->do_color_mod = true;
-                if (color == this->game_model->get_current_player_color() && edata.level > 0){
+                if (color == this->game_model->_current_player() && edata.level > 0){
                     //
                     if( edata.can_move ){
                         transform->color_mod = (Color){50, 200, 50};
@@ -828,7 +828,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
         dep_y->value = main_view->win_attr.mouse_y;
 
         //
-        this->draw_entity_sprite(this->entity_dragged, main_view, tile_transform, this->game_model->get_current_player_color());
+        this->draw_entity_sprite(this->entity_dragged, main_view, tile_transform, this->game_model->_current_player());
 
     }
 
@@ -1197,7 +1197,7 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
     //
     if( this->game_model == nullptr){ return entity; }
     //
-    Element* elt = this->game_model->get_tile_entity( coord );
+    Element* elt = this->game_model->get_tile_element( coord );
     //
     if( elt == nullptr){ return entity; }
 
@@ -1388,7 +1388,7 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
 bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord c, int color){
 
     //
-    Building* b = dynamic_cast<Building*>( game_model->get_tile_entity(c) );
+    Building* b = dynamic_cast<Building*>( game_model->get_tile_element(c) );
 
     //
     if( b != nullptr && b->_color() == color ) { return true; }
@@ -1397,7 +1397,7 @@ bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord 
     for(Coord v : neighbours(c)){
 
         //
-        b = dynamic_cast<Building*>( game_model->get_tile_entity(v) );
+        b = dynamic_cast<Building*>( game_model->get_tile_element(v) );
 
         //
         if( b == nullptr ){ continue; }
@@ -1552,7 +1552,7 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
     int color = map_viewer->get_color_at_coord( map_viewer->mouse_hover_tile );
 
     //
-    if ( color != main_game->game_model->get_current_player_color() ){ return; }
+    if ( color != main_game->game_model->_current_player() ){ return; }
 
     //
     map_viewer->dragging_entity = true;

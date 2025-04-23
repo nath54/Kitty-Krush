@@ -163,10 +163,10 @@ void MainGame::update_current_player_display(){
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
-    this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[this->game_model->get_current_player_color() - 1];
+    this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[this->game_model->_current_player() - 1];
 
     //
-    this->main_view->map_viewer->txt_current_player->txt = "Player " + std::to_string( this->game_model->get_current_player_color() );
+    this->main_view->map_viewer->txt_current_player->txt = "Player " + std::to_string( this->game_model->_current_player() );
 
 }
 
@@ -265,13 +265,13 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
     if( new_entity ){
 
         //
-        for( Province* p : *( this->game_model->get_map()->get_provinces_layer() ) ){
+        for( Province* p : *( this->game_model->_map()->_provinces_layer() ) ){
 
             //
-            if( p->_color() != this->game_model->get_current_player_color() ){ continue; }
+            if (p->_color() != this->game_model->_current_player()) continue;
 
             //
-            for ( std::pair<const Coord, Tile*> it : p->_tiles() ){
+            for ( std::pair<const Coord, Tile*> it : *(p->_tiles())) {
 
                 //
                 Coord c = it.first;
@@ -297,7 +297,7 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
             Coord current_dst = *it; // Dereference the iterator to get the current element
 
             //
-            if (!(this->game_model->check_player_action_new_entity(current_dst, new_entity_level, new_entity_type))) {
+            if (!(this->game_model->check_action_new_element(current_dst, new_entity_level, new_entity_type))) {
 
                 // Erase the current element and get a valid iterator to the next element
                 it = this->main_view->map_viewer->can_go_here_tiles.erase(it);
@@ -324,7 +324,7 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
         if( p == nullptr ){ return; }
 
         //
-        for ( std::pair<const Coord, Tile*> it : p->_tiles() ){
+        for (std::pair<const Coord, Tile*> it : *(p->_tiles())) {
 
             //
             Coord c = it.first;
@@ -348,7 +348,7 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
             Coord current_dst = *it; // Dereference the iterator to get the current element
 
             //
-            if (!(this->game_model->check_player_action_move_entity(src, current_dst))) {
+            if (!(this->game_model->check_action_move_unit(src, current_dst))) {
 
                 // Erase the current element and get a valid iterator to the next element
                 it = this->main_view->map_viewer->can_go_here_tiles.erase(it);
@@ -381,7 +381,7 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
-    if( !this->game_model->check_player_action_move_entity(src, dst) ){
+    if( !this->game_model->check_action_move_unit(src, dst) ){
         return;
     }
 
@@ -389,16 +389,16 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     Province* prev_prov_dst = this->game_model->get_province_at_coord(dst);
 
     //
-    this->game_model->do_player_action_move_entity(src, dst);
+    this->game_model->do_action_move_unit(src, dst);
 
     //
     Province* new_prov_dst = this->game_model->get_province_at_coord(dst);
 
     //
-    this->game_model->get_map()->remove_tile_of_all_provinces( dst );
+    this->game_model->_map()->remove_tile_of_all_provinces( dst );
 
     //
-    Tile* t = this->game_model->get_map()->get_tile(dst);
+    Tile* t = this->game_model->_map()->get_tile(dst);
     //
     new_prov_dst->add_tile( t );
 
@@ -406,7 +406,7 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     if( prev_prov_dst != nullptr && prev_prov_dst != new_prov_dst){
 
         //
-        this->game_model->get_map()->split_province( dst, prev_prov_dst );
+        this->game_model->_map()->split_province( dst, prev_prov_dst );
 
     }
 
@@ -414,7 +414,7 @@ void MainGame::action_move_entity(Coord src, Coord dst){
     // Check for provinces to remove
 
     //
-    std::list<Province*>* provinces_to_remove = this->game_model->get_map()->get_provinces_to_remove();
+    std::list<Province*>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
     //
     while ( provinces_to_remove->size() > 0 ){
 
@@ -446,7 +446,7 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
-    if( !this->game_model->check_player_action_new_entity(dst, level, type) ){
+    if( !this->game_model->check_action_new_element(dst, level, type) ){
         return;
     }
 
@@ -454,7 +454,7 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
     Province* prev_prov_dst = this->game_model->get_province_at_coord(dst);
 
     //
-    this->game_model->do_player_action_new_entity(dst, level, type);
+    this->game_model->do_action_new_element(dst, level, type);
 
     //
     Province* new_prov_dst = this->game_model->get_province_at_coord(dst);
@@ -462,11 +462,11 @@ void MainGame::action_new_entity(Coord dst, int level, bool type){
     //
     if( prev_prov_dst != nullptr && prev_prov_dst != new_prov_dst){
         //
-        this->game_model->get_map()->split_province( dst, prev_prov_dst );
+        this->game_model->_map()->split_province( dst, prev_prov_dst );
     }
 
     //
-    std::list<Province*>* provinces_to_remove = this->game_model->get_map()->get_provinces_to_remove();
+    std::list<Province*>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
     //
     while ( provinces_to_remove->size() > 0 ){
 
@@ -498,21 +498,21 @@ void MainGame::action_end_turn(){
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
-    if( !this->game_model->check_player_action_end_turn() ){
+    if( !this->game_model->check_action_end_turn() ){
         return;
     }
 
     //
-    int crt_color = this->game_model->get_current_player_color();
+    int crt_color = this->game_model->_current_player();
 
     //
     this->at_player_turn_end();
 
     //
-    this->game_model->do_player_action_end_turn();
+    this->game_model->do_action_end_turn();
 
     //
-    if( this->game_model->get_current_player_color() < crt_color ){
+    if( this->game_model->_current_player() < crt_color ){
 
         //
         this->bandit_turn();
@@ -530,7 +530,7 @@ void MainGame::bandit_turn(){
 
     //
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
-
+    this->game_model->bandit_turn();
     //
 
 }
@@ -543,7 +543,7 @@ void MainGame::reset_map(){
     if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
 
     //
-    this->game_model->get_map()->reset_tiles_layer();
-    this->game_model->get_map()->reset_provinces_layer();
-    this->game_model->get_map()->reset_bandits_layer();
+    this->game_model->_map()->reset_tiles_layer();
+    this->game_model->_map()->reset_provinces_layer();
+    this->game_model->_map()->reset_bandits_layer();
 }

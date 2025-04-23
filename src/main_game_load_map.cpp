@@ -103,7 +103,7 @@ void MainGame::set_map_from_data(
                 //
                 map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num - 10, true );
                 //
-                game_model->set_tile_entity( coord, entity_num - 10, true );
+                game_model->set_tile_element( coord, entity_num - 10, true );
 
             }
 
@@ -112,7 +112,7 @@ void MainGame::set_map_from_data(
                 //
                 map_viewer->set_entity_to_entity_layer( coord.x, coord.y, entity_num, false );
                 //
-                game_model->set_tile_entity( coord, entity_num, false );
+                game_model->set_tile_element( coord, entity_num, false );
 
             }
 
@@ -135,13 +135,13 @@ void MainGame::set_map_from_data(
     //
     if ( player_rect != nullptr ){
         //
-        player_rect->cl = allPlayerColors[game_model->get_current_player_color() - 1];
+        player_rect->cl = allPlayerColors[game_model->_current_player() - 1];
     }
 
     //
     if ( player_text != nullptr ){
         //
-        player_text->txt = "Player " + std::to_string(game_model->get_current_player_color());
+        player_text->txt = "Player " + std::to_string(game_model->_current_player());
     }
 
 }
