@@ -441,7 +441,7 @@ void Map::split_province(Coord c, Province* p)
 
     cout << "DEBUG 2 | to_convert_num.size()=" << to_convert_num.size() << " | visited.size() = " << visited.size() << " | nb_differents=" << nb_differents << "\n";
 
-    if (nb_differents < 1) return; // No split to do
+    if (nb_differents < 1) { return; } // No split to do
 
     int crt_idx = 0;
     std::map<int, int> num_idx;
@@ -724,19 +724,12 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     Province* dst_prov = this->game_map->get_province(dst);
     Unit* unit_to_move = dynamic_cast<Unit*>(src_tile->_element());
 
-    if (unit_to_move == nullptr) return;
-
     if (dst_prov == src_prov && dst_tile->_element() != nullptr) {
         // Same province, just move and may fusion if possible
 
         Unit* unit_to_fusion = dynamic_cast<Unit*>(dst_tile->_element());
 
         if (unit_to_fusion != nullptr && unit_to_fusion->_color() == unit_to_move->_color()) {
-
-            if (unit_to_fusion->_defense() == MAX_UNIT_LEVEL) { return; }
-            if (unit_to_fusion->_defense() == 0) { return; } // bandit
-            if (unit_to_fusion->_defense() != unit_to_move->_defense()) { return; }
-
             unit_to_fusion->upgrade();
             src_tile->delete_element();
         }
@@ -894,13 +887,13 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
             Unit* unit = dynamic_cast<Unit*>(tile->_element());
 
             if (unit != nullptr && unit->_color() == new_elt->_color()) {
-                if( !is_unit || unit->_defense() != new_elt->_defense()) return;
+                if( !is_unit || unit->_defense() != new_elt->_defense()) { return; }
                 fusion_with = unit;
             }
         }
 
-        if (fusion_with != nullptr) fusion_with->upgrade();
-        else tile->set_element(new_elt);
+        if (fusion_with != nullptr) { fusion_with->upgrade(); }
+        else { tile->set_element(new_elt); }
 
         src_prov->remove_treasury(unit_cost);
 
@@ -911,16 +904,16 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     if (dst_prov != nullptr) {
         // this->game_map->split_province(dst_tile->_coord());
         if (dynamic_cast<Building*>(tile->_element()) != nullptr)
-            src_prov->add_treasury(dst_prov->_treasury());
+            { src_prov->add_treasury(dst_prov->_treasury()); }
     }
 
     tile->delete_element();
-    tile->set_element(new_unit);
+    tile->set_element(new_elt);
     this->game_map->remove_tile_of_all_provinces(tile->_coord());
     src_prov->add_tile(tile);
     //
-    Unit* unit_to_move_unit = dynamic_cast<Unit*>(new_unit);
-    if (unit_to_move_unit != nullptr) unit_to_move_unit->can_move = false;
+    Unit* unit_to_move_unit = dynamic_cast<Unit*>(new_elt);
+    if (unit_to_move_unit != nullptr) { unit_to_move_unit->can_move = false; }
 
     src_prov->remove_treasury(unit_cost);
 
@@ -930,8 +923,8 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     for (Coord v : n) {
 
         Tile* tile = this->game_map->get_tile(v);
-        if (tile == nullptr) continue;
-        if (tile->_color() != src_prov->_color()) continue;
+        if (tile == nullptr) { continue; }
+        if (tile->_color() != src_prov->_color()) { continue; }
         Province* prov = this->game_map->get_province(v);
 
         if (prov == nullptr) {
@@ -943,7 +936,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
         else if (prov != src_prov)
             this->game_map->fusion_provinces(src_prov, prov);
 
-        else continue;
+        else { continue; }
     }
 
     return;
@@ -964,7 +957,7 @@ void GameModel::do_action_end_turn()
 void GameModel::calculate_all_provinces_after_map_initialisation()
 {
 
-    if (this->game_map == nullptr) return;
+    if (this->game_map == nullptr) { return; }
 
     std::map< int, int > to_convert_num;
     std::map< Coord, int > visited;
@@ -977,7 +970,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
     for (std::pair<Coord, Tile*> it : *(this->game_map->_tiles_layer())) {
 
         Building* building = dynamic_cast<Building*>(this->game_map->get_tile_element(it.first));
-        if (building == nullptr || building->_color() == NEUTRAL) continue;
+        if (building == nullptr || building->_color() == NEUTRAL) { continue; }
 
         to_visit_coord.push_back(building->_coord());
         to_visit_num.push_back(nb_tot_nums);
@@ -998,7 +991,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
         to_visit_coord.pop_front();
         to_visit_num.pop_front();
 
-        if (visited.count(v) > 0) continue;
+        if (visited.count(v) > 0) { continue; }
 
         visited[v] = num;
 
@@ -1006,11 +999,11 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
 
             int color2 = this->get_tile_color(vv);
 
-            if (color2 == -1 || color2 != color) continue;
+            if (color2 == -1 || color2 != color) { continue; }
 
             if (visited.count(vv) > 0) {
 
-                if (visited[vv] == num) continue;
+                if (visited[vv] == num) { continue; }
                 // else...
                 to_convert_num[visited[vv]] = num;
 
@@ -1030,7 +1023,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
 
     int nb_differents = nb_tot_nums - to_convert_num.size();
 
-    if (nb_differents <= 1) return; // no split to do
+    if (nb_differents <= 1) { return; } // no split to do
 
     int crt_idx = 0;
     std::map<int, int> num_idx;
@@ -1052,7 +1045,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
     this->reset_provinces();
 
     for (std::list<Coord> list_of_tiles : all_province_zones)
-        this->game_map->add_province_from_list_of_tiles(list_of_tiles);
+        { this->game_map->add_province_from_list_of_tiles(list_of_tiles); }
 }
 
 
