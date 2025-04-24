@@ -204,9 +204,9 @@ class Map {
         std::list<Building*> get_all_buildings(bool with_bandit_buildings=false);
 
         // Setters
-        void set_tile(Coord coord, Tile* tile);
-        void set_tile_color(Coord coord, int tile_color);
-        void set_tile_element(Coord coord, usint element_level, bool is_unit, int element_attribute=0);
+        void set_tile(Coord c, Tile* new_tile);
+        void set_tile_color(Coord c, int color);
+        void set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attribute = 0);
 
         // Resetters
         void reset_tiles_layer();
@@ -214,7 +214,7 @@ class Map {
         void reset_provinces_layer();
 
         // Initialization
-        void recursive_fill(Coord c, unsigned int nb_cover, usint cover, Province* province);
+        void recursive_fill(Coord c, unsigned int nb_cover, usint color_cover, Province* p = nullptr);
         void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
 
         // Provinces managment
