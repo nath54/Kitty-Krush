@@ -915,11 +915,11 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     }
 
     tile->delete_element();
-    tile->set_element(new_unit);
+    tile->set_element(new_elt);
     this->game_map->remove_tile_of_all_provinces(tile->_coord());
     src_prov->add_tile(tile);
     //
-    Unit* unit_to_move_unit = dynamic_cast<Unit*>(new_unit);
+    Unit* unit_to_move_unit = dynamic_cast<Unit*>(new_elt);
     if (unit_to_move_unit != nullptr) unit_to_move_unit->can_move = false;
 
     src_prov->remove_treasury(unit_cost);

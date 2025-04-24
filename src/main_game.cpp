@@ -74,6 +74,13 @@ void MainGame::mainloop(){
 void MainGame::change_page(std::string new_page){
 
     //
+    if( this->main_view->win_page_manager->current_page == "in_game" ){
+
+        this->save_map( "saved_data/saved_map.kkmap" );
+
+    }
+
+    //
     this->main_view->win_page_manager->current_page = new_page;
 
     //
@@ -96,6 +103,7 @@ void MainGame::change_page(std::string new_page){
 
         //
         this->load_map_from_file("res/map_tests/map_2.kkmap");
+        //this->load_map_from_file("saved_data/saved_map.kkmap");
 
         //
         this->at_player_turn_start();
