@@ -148,7 +148,7 @@ void MainGame::at_player_turn_start(){
     // TODO: maybe update here with the first province of the current player
     this->set_selected_province( nullptr );
 
-    // TODO: all the income of each province
+    //
     this->game_model->at_player_turn_start();
 
 }
