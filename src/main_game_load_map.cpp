@@ -4,11 +4,13 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <filesystem> // Required for C++17 filesystem features
 //
 #include "color.hpp"
 #include "main_game.hpp"
 #include "view.hpp"
 #include "strings_utils.hpp"
+#include "model.hpp"
 
 
 //
@@ -385,9 +387,93 @@ void MainGame::load_map_from_file(std::string map_path) {
 
 
 //
-void MainGame::save_map(std::string file_path){
+void MainGame::save_map(std::string file_path) {
+
+    // Ensure directory exists
+    std::filesystem::path path_obj(file_path);
+    std::filesystem::path dir = path_obj.parent_path();
+
+    if (!dir.empty() && !std::filesystem::exists(dir)) {
+        std::error_code ec;
+        if (!std::filesystem::create_directories(dir, ec)) {
+            std::cerr << "Error creating directories for: " << dir << "\nReason: " << ec.message() << std::endl;
+            return;
+        }
+    }
+
+    // Open the file
+    std::ofstream file(file_path);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file for saving: " << file_path << std::endl;
+        return;
+    }
 
     //
-    
+    std::vector<Coord> coords;
 
+    // -- Save the tile layer --
+
+    file << "# coordinate_value, tiles_layer\n";
+
+    for (auto it : this->main_view->map_viewer->tiles_layers) {
+
+        Coord coord = it.first;
+        WindowEltMapTile* tile = it.second;
+
+        coords.push_back(coord);
+
+        file << coord.x << ";" << coord.y << ";" << tile->tile << "\n";
+    }
+
+    // -- Save the color layer --
+
+    file << "# coordinate_value, colors_layer\n";
+
+    for (Coord c : coords) {
+
+        int cl = this->game_model->get_tile_color(c);
+
+        if (cl < 0) continue;
+
+        file << c.x << ";" << c.y << ";" << cl << "\n";
+    }
+
+    // -- Save the entity layer --
+
+    file << "# coordinate_value, entities_layer\n";
+
+    for (Coord c : coords) {
+
+        Element* e = this->game_model->get_tile_element(c);
+
+        if (!e) continue;
+
+        Building* b = dynamic_cast<Building*>(e);
+        Unit* u = dynamic_cast<Unit*>(e);
+
+        if (b != nullptr) {
+
+            if (b->treasury == 0) {
+                file << c.x << ";" << c.y << ";" << b->_defense() << "\n";
+            } else {
+                file << c.x << ";" << c.y << ";" << b->_defense() << ";" << b->treasury << "\n";
+            }
+
+        } else if (u != nullptr) {
+
+            if (u->can_move) {
+                file << c.x << ";" << c.y << ";" << u->_defense() + 10 << "\n";
+            } else {
+                file << c.x << ";" << c.y << ";" << u->_defense() + 10 << ";1\n";
+            }
+        }
+    }
+
+    // -- Save the current player to play --
+
+    file << "# value, current_color_to_play\n";
+    file << this->game_model->_current_player() << "\n";
+
+    file.close();
 }
+
