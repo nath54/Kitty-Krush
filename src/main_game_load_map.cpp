@@ -382,3 +382,12 @@ void MainGame::load_map_from_file(std::string map_path) {
     if( entities_attributes != nullptr ){ delete entities_attributes; }
 
 }
+
+
+//
+void MainGame::save_map(std::string file_path){
+
+    //
+    
+
+}

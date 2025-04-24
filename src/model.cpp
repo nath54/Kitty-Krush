@@ -252,7 +252,7 @@ void Map::reset_provinces_layer() { this->provinces_layer.clear(); }
 void Map::recursive_fill(Coord coord, unsigned int nb_cover, usint cover, Province* province=nullptr)
 {
     if (cover == NEUTRAL) {
-        if (tiles_layer.size() >= nb_cover) return; // inhaf NEUTRAL
+        if (tiles_layer.size() >= nb_cover) { return; } // inhaf NEUTRAL
         if (tiles_layer.count(coord) != 0) return; // already exists
         tiles_layer.insert({coord, new Tile(coord, cover)});
     }

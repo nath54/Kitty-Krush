@@ -70,6 +70,9 @@ class MainGame{
         void load_map_from_file(std::string map_path);
 
         //
+        void save_map(std::string file_path);
+
+        //
         void quit();
 
 
