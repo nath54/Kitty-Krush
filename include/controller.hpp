@@ -3,7 +3,7 @@
 //
 #include <string>
 //
-#include "model.hpp"
+#include "model_game.hpp"
 #include "events.hpp"
 #include "window_attributes.hpp"
 

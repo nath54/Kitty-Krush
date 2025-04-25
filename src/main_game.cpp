@@ -114,7 +114,7 @@ void MainGame::change_page(std::string new_page){
     else {
 
         //
-        cout << "Error: Unknown page : `" << new_page << "` !\n";
+        std::cout << "Error: Unknown page : `" << new_page << "` !\n";
 
         //
         this->quit();

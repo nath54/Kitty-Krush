@@ -11,7 +11,7 @@
 //
 #include "view.hpp"
 #include "color.hpp"
-#include "element.hpp"
+#include "model_element.hpp"
 
 
 void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game) {

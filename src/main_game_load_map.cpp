@@ -1,16 +1,15 @@
-//
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <iostream>
 #include <map>
 #include <filesystem> // Required for C++17 filesystem features
-//
+
 #include "color.hpp"
 #include "main_game.hpp"
 #include "view.hpp"
 #include "strings_utils.hpp"
-#include "model.hpp"
+#include "model_game.hpp"
 
 
 //
@@ -30,7 +29,7 @@ void MainGame::set_map_from_data(
     if ( game_model == nullptr ){
 
         //
-        cout << "Error : no game model !\n";
+        std::cout << "Error : no game model !\n";
         //
         this->quit();
     }
@@ -39,7 +38,7 @@ void MainGame::set_map_from_data(
     if ( map_viewer == nullptr ){
 
         //
-        cout << "Error : no map viewer !\n";
+        std::cout << "Error : no map viewer !\n";
         //
         this->quit();
     }

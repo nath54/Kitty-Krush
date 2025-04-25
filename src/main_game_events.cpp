@@ -111,7 +111,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event){
     if ( map_viewer == nullptr ){
 
         //
-        cout << "Error : no map viewer !\n";
+        std::cout << "Error : no map viewer !\n";
         //
         main_game->quit();
     }
@@ -181,7 +181,7 @@ void on_scroll(MainGame* main_game, EventMouseScroll* event) {
 
     //
     if (map_viewer == nullptr) {
-        cout << "Error : no map viewer !\n";
+        std::cout << "Error : no map viewer !\n";
         main_game->quit();
     }
 
@@ -227,7 +227,7 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event) {
 
     //
     if (map_viewer == nullptr) {
-        cout << "Error : no map_viewer !\n";
+        std::cout << "Error : no map_viewer !\n";
         main_game->quit();
     }
 
@@ -265,7 +265,7 @@ void on_mouse_motion(MainGame* main_game, EventMouseMotion* event) {
 
     //
     if (map_viewer == nullptr) {
-        cout << "Error : no map viewer !\n";
+        std::cout << "Error : no map viewer !\n";
         main_game->quit();
     }
 

@@ -1,11 +1,6 @@
-//
 #pragma once
 //
-#include <map>
-//
-#include "geometry.hpp"
-//
-#include "model.hpp"
+#include "model_game.hpp"
 #include "controller.hpp"
 #include "events.hpp"
 // #include "view.hpp"

@@ -1,6 +1,7 @@
 #pragma once
 
-//
+#include <vector>
+
 class Coord {
 
     public:
@@ -40,19 +41,17 @@ class Coord {
 
 };
 
-//
+// === Utility functions ===
+
 bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh);
 
-//
 Coord get_tile_top_to(Coord v);
-//
 Coord get_tile_top_right_to(Coord v);
-//
 Coord get_tile_top_left_to(Coord v);
-//
 Coord get_tile_bottom_to(Coord v);
-//
 Coord get_tile_bottom_right_to(Coord v);
-//
 Coord get_tile_bottom_left_to(Coord v);
 
+bool is_adjacent(Coord c1, Coord c2);
+
+std::vector<Coord> neighbours(Coord c);

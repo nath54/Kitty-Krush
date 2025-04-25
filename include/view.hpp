@@ -19,7 +19,7 @@
 #include "main_game.hpp"
 #include "geometry.hpp"
 #include "color.hpp"
-#include "model.hpp"
+#include "model_game.hpp"
 #include "window_elt_style.hpp"
 #include "window_attributes.hpp"
 
@@ -71,10 +71,10 @@ class MainView{
         const char* font_path = "res/fonts/blinky_star/BlinkyStar.otf";
 
         // SDL ttf related attributes
-        map<int, TTF_Font*> ttf_fonts;
+        std::map<int, TTF_Font*> ttf_fonts;
 
         // SDL image related attributes
-        map<std::string, SDL_Texture*> loaded_textures;
+        std::map<std::string, SDL_Texture*> loaded_textures;
 
         // Reference to game_model
         GameModel* game_model = nullptr;
