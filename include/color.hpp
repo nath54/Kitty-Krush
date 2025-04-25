@@ -1,10 +1,8 @@
-//
 #pragma once
-//
+
 #include <stdint.h>
 
 
-// Hey hey, color class UwU
 class Color{
 
     public:
@@ -14,11 +12,9 @@ class Color{
         int b = 0;
         int a = 255;
 
-        //
         Color(int r = 0, int g = 0, int b = 0, int a = 255)
             : r(r), g(g), b(b), a(a) {};
 
-        //
         uint32_t to_hex();
 
 };
@@ -26,6 +22,10 @@ class Color{
 
 #define MAX_COLOR 10
 
+static const Color CL_BLACK = (Color){ 0, 0, 0};
+static const Color CL_DARK_GREY = (Color){ 50, 50, 50};
+static const Color CL_GREY = (Color){ 100, 100, 100};
+static const Color CL_LIGHT_GREY = (Color){ 150, 150, 150};
 
 static const Color allPlayerColors[10] = {
 
@@ -61,11 +61,5 @@ static const Color allPlayerColors[10] = {
 
 };
 
-
-//
-static const Color CL_BLACK = (Color){ 0, 0, 0};
-static const Color CL_DARK_GREY = (Color){ 50, 50, 50};
-static const Color CL_GREY = (Color){ 100, 100, 100};
-static const Color CL_LIGHT_GREY = (Color){ 150, 150, 150};
 
 

@@ -1,15 +1,13 @@
-//
 #pragma once
-//
+
 #include <string>
-//
+
 #include "model_game.hpp"
 #include "events.hpp"
 #include "window_attributes.hpp"
 
 
-//
-class PlayerController{
+class PlayerController {
 
         // Player name, it is in the name   ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧
         const std::string player_name;
@@ -17,12 +15,10 @@ class PlayerController{
         // Constructor
         PlayerController(const std::string player_name)
             : player_name(player_name) {};  // Automatic variable initialisation
-
 };
 
 
-//
-class GameController{
+class GameController {
 
     public:
 
@@ -32,9 +28,8 @@ class GameController{
         // list of players controllers
         PlayerController** player_controllers = nullptr;
 
-        //
         const int max_events_to_poll_at_each_frame = 100;
-        //
+
         int polled_events = 0;
 
         // Constructor
@@ -42,6 +37,5 @@ class GameController{
 
         // Manage events (called in mainloop)
         void manage_events(WindowAttributes* win_attr, EventsManager* events_manager);
-
 };
 
