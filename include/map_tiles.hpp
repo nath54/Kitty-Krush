@@ -1,8 +1,5 @@
-//
 #pragma once
 
-
-//
 #define TILE_IMG_W 72
 #define TILE_IMG_H 72
 
@@ -15,13 +12,13 @@
 // A structure holding all static information for a tile.
 // We use const char* (instead of std::string) to avoid any dynamic allocations.
 typedef struct TileData {
-    int id;                             // valid values: 0 to 69
-    int global_type;                    // -1: impassable; 0: neutral; [1-n]: owned by a player
-    const char* tile_name;              // human-readable name
+    int id;                           // valid values: 0 to 69
+    int global_type;                  // -1: impassable; 0: neutral; [1-n]: owned by a player
+    const char* tile_name;            // human-readable name
     const int nb_ground_layer_imgs;
-    const char* ground_layer_img[5];       // Maximum 5 sprites per tile, unused slots are set to nullptr
+    const char* ground_layer_img[5];  // Maximum 5 sprites per tile, unused slots are set to nullptr
     const int nb_top_layer_imgs;
-    const char* top_layer_img[5];          // Maximum 5 sprites per tile, unused slots are set to nullptr
+    const char* top_layer_img[5];     // Maximum 5 sprites per tile, unused slots are set to nullptr
 
     // Maximum 5 tags per tile; unused slots are set to nullptr.
     const char* tags[5];

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "model_game.hpp"
 #include "events.hpp"
 #include "window_attributes.hpp"

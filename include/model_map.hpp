@@ -5,8 +5,7 @@
 
 #define NEUTRAL 0
 
-// ========================= [ Forward declarations ] =========================
-
+// Forward declaration
 class Province;
 
 
@@ -41,7 +40,8 @@ class Tile {
 };
 
 
-//
+// ================================ [ Province ] ==============================
+
 class Province {
 
     private:
@@ -88,6 +88,8 @@ class Province {
     bool is_adjacent_to_coord(Coord c);
 };
 
+
+// ================================ [ Map ] ===================================
 
 class Map {
 
