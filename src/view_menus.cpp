@@ -1,4 +1,3 @@
-//
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
@@ -12,12 +11,9 @@
 //
 #include "view.hpp"
 #include "color.hpp"
-#include "entity_data.hpp"
+#include "element.hpp"
 
 
-
-
-//
 void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game) {
 
     //

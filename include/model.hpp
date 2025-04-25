@@ -9,6 +9,7 @@
 #include <string_view>
 
 #include "geometry.hpp"
+#include "element.hpp"
 
 using namespace std;
 typedef unsigned short int usint;
@@ -19,77 +20,6 @@ typedef unsigned short int usint;
 // ========================= [ Forward declarations ] =========================
 
 class Province;
-
-
-// ============================== [ Elements ] ================================
-
-class Element {
-
-    protected:
-
-        Coord coord;    // coordinates of the element
-        usint color;    // owner of the element
-        usint defense;  // level (= defense) of the element
-
-    public:
-
-        // Constructor
-        Element () {}; // Default constructor
-        Element(Coord element_coord, usint element_color, usint element_defense = 0)
-            : coord(element_coord), color(element_color), defense(element_defense) {};
-        // Destructor
-        virtual ~Element() {}; // Virtual destructor
-
-        // Getters
-        Coord _coord() const;
-        usint _color() const;
-        usint _defense() const;
-
-        // Other functions
-        virtual int get_upkeep_cost() = 0; // Return the upkeep cost of the element
-        virtual void convert_bandit() = 0; // Change the element into a bandit element
-};
-
-
-class Unit : public Element {
-
-    public:
-
-        // Additional Attribute
-        bool can_move = true;
-
-        // Constructor
-        Unit(Coord unit_coord, usint unit_color, usint unit_defense = 1)
-            : Element(unit_coord, unit_color, unit_defense) {};
-        // Destructor
-        ~Unit() {}; // Default destructor
-
-        // Other Functions
-        void upgrade(); // Increase unit level
-        int get_upkeep_cost() override;
-        void convert_bandit() override;
-};
-
-
-class Building : public Element {
-
-    public:
-
-        // Additional Attribute
-        int treasury = 0;
-
-        // Constructor
-        Building(Coord building_coord, usint building_color, usint building_defense = 1)
-                : Element(building_coord, building_color, building_defense) {}
-        // Destructor
-        ~Building() {}; // Default destructor
-
-        // Other Functions
-        bool is_town() const; // Return true if town, false if tower
-        void update_treasury(int change);
-        int get_upkeep_cost() override;
-        void convert_bandit() override;
-};
 
 
 // ================================= [ Map ] ==================================
@@ -290,8 +220,6 @@ class GameModel {
 
 
 // ========================== [ Utility functions ] ===========================
-
-usint max(usint a, usint b);
 
 bool is_adjacent(Coord c1, Coord c2);
 

@@ -6,29 +6,9 @@
 #include <map>
 #include <algorithm>
 
-#include "entity_data.hpp"
 #include "model.hpp"
 
 #define MAP_EXISTS this->game_map != nullptr
-
-
-// ============================== [ Elements ] ================================
-
-// >> Getters <<
-Coord Element::_coord() const { return this->coord; }
-usint Element::_color() const { return this->color; }
-usint Element::_defense() const { return this->defense; }
-
-// >> Unit <<
-void Unit::upgrade() { if (this->defense < MAX_UNIT_LEVEL) this->defense++; }
-void Unit::convert_bandit() { this->color = 0; this->defense = 0; }
-int Unit::get_upkeep_cost() { return units_upkeep_costs[this->defense]; }
-
-// >> Building <<
-bool Building::is_town() const { return (this->defense == 1); }
-void Building::update_treasury(int change) { this->treasury += change; }
-void Building::convert_bandit() { this->color = 0; this->defense = 1; }
-int Building::get_upkeep_cost() { return buildings_upkeep_costs[this->defense]; }
 
 
 // ================================= [ Map ] ==================================
@@ -555,8 +535,8 @@ usint GameModel::get_tile_defense(Coord c)
     usint def_max = tile->get_defense();
 
     Province *prov = this->game_map->get_province(c);
-    if (prov == nullptr) return def_max; // No neighbours defense
-    if (prov->_color() == this->current_player) return 0; // Can move if same province
+    if (prov == nullptr) { return def_max; } // No neighbours defense
+    if (prov->_color() == this->current_player) { return 0; } // Can move if same province
 
     std::vector<Coord> n = neighbours(c);
 
@@ -573,7 +553,8 @@ usint GameModel::get_tile_defense(Coord c)
         if (neib_prov == prov)
             // If there is an element on this tile that has an higher defense
             if (neib->_element() != nullptr && neib->_element()->_defense() > def_max)
-                def_max = neib->_element()->_defense(); // update destination defense
+                { def_max = neib->_element()->_defense(); }
+
     }
 
     return def_max;
@@ -1040,8 +1021,6 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
 
 
 // ========================== [ Utility functions ] ===========================
-
-usint max(usint a, usint b) { return (a > b) ? a : b; }
 
 bool is_adjacent(Coord c1, Coord c2)
 {

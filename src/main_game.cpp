@@ -8,7 +8,6 @@
 #include "main_game.hpp"
 #include "view.hpp"
 #include "strings_utils.hpp"
-#include "entity_data.hpp"
 
 
 // Constructor of the MainGame class, initializes all the components
