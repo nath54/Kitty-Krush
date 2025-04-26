@@ -2,31 +2,15 @@
 
 ## Architecture
 
-- [x] Passer les layers de tuiles en dictionnaire
-- [x] Modifier les (x,y) en Coord
+- [ ] Utiliser delete_bandit_element pour supprimer un (camp de) bandit, sinon il reste dans le bandit_layer
 
 ## Règles de jeu
 
-- [ ] Implémenter les bandits
-- [x] Implémenter le calcul des palissade/défense des unités
 - [ ] Implémenter le repoussement des troupes si elles étaient derrière une palissade
 
 ## Fonctions à coder dans Map
 
-- [x] `void_reset_color_layer()` : Vider le dictionnaire
-- [x] `void reset_entity_layer()` : Vider le dictionnaire
-- [x] `void set_tile_color(usint x, usint y, short tile_color)` (tile->convert_type)
-- [x] `void set_tile_element(usint x, usint y, usint level, bool type)` : ajouter l'entité au dictionnaire
-=> bool type : TRUE = unit, FALSE = building
-- [x] `short get_tile_color(usint x, usint y)` (tile->_color)
-- [x] `Element* get_tile_entity(usint x, usint y)` : renvoyer le pointeur sur l'élémenent (find du dictionnaire)
-- [x] `Province* get_tile_province(usint x, usint y)` : retourne la province à laquelle appartient la tuile
-- [x] `usint get_player_toplay()` : retourne le numéro du joueur dont c'est le tour
-- [x] `bool action_move_entity(usint x1, usint y1, usint x2, usint y2)`: retourne TRUE si une entité présente sur x1y1 peut aller sur x2y2
-- [x] `bool action_new_entity(usint x, usint y, usint level, bool type)` : retourne TRUE si le joueur peut poser l'entité demandé à cet endroit
-- [x] `bool action_end_turn()` : renvoyer TRUE
 - [ ] `list<Coord> possible_movements_of_entity(int x, int y)` : Renvoie la liste des cases où l'entité à la position (x, y) peuvent se déplacer
-
 
 ## Mettre en smart_pointer: (on le fera quand on aura a un jeu qui fonctionne bien, parce que le code risque de devenir un peu plus illisible après)
 
@@ -35,5 +19,4 @@
 - [ ] `Tile*`
 - [ ] `Element*`
 
-
-On pourra utiliser des `#define ` pour raccourcir tous les noms de fonctions liés au smartpointers
+On pourra utiliser des `#define` pour raccourcir tous les noms de fonctions liés au smartpointers
