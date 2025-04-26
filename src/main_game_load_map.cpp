@@ -133,22 +133,17 @@ void MainGame::set_map_from_data(
     //
     Province* p = nullptr;
     //
-    for( Building* b : game_model->_map()->get_all_buildings() ){
+    for( std::pair<Coord, Tile*> it : *(game_model->_map()->_tiles_layer()) ){
         //
-        for (auto it = game_model->_map()->_tiles_layer()->begin();
-                  it != game_model->_map()->_tiles_layer()->end();
-                  ++it)
-        {
-            Tile* t = it->second;
-            if (t == nullptr) { continue; }
-            if (t->_element() == b) {
-                p = game_model->get_tile_province(t->_coord());
-                break;
-            }
-        }
+        Tile* t = it.second;
+        if (t == nullptr) { continue; }
+
         //
-        if (p != nullptr && b->treasury > 0 )
-            { p->set_treasury( b->treasury ); }
+        Building* b = dynamic_cast<Building*>(t->_element());
+        //
+        if (b == nullptr) { continue; }
+        //
+        if (p != nullptr && b->treasury > 0 ) { p->set_treasury( b->treasury ); }
     }
 
     //
