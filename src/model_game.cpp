@@ -112,9 +112,12 @@ void GameModel::at_player_turn_start()
 
 void GameModel::bandit_turn()
 {
-    usint nb_bandits = 0;
+    usint nb_coins = 0;
+    bool bandits = false;
+    Coord new_camp = {-1, -1};
     std::vector<Coord> bandit_camps;
 
+    // Move existing bandits
     for (std::pair<Coord, Element*> it : *(this->game_map->_bandits_layer())) {
 
         Tile* tile = this->game_map->get_tile(it.first);
@@ -122,19 +125,88 @@ void GameModel::bandit_turn()
 
         Unit* unit = dynamic_cast<Unit*>(it.second);
 
-        if (unit == nullptr) { bandit_camps.push_back(it.first); } // building
+        // building
+        if (unit == nullptr) {
+            bandit_camps.push_back(it.first);
+            continue;
+        }
 
-        else { // unit
-            nb_bandits++;
-            // ! TODO : bouger le bandit
+        //unit
+        bandits = true;
+        if (tile->_color() != NEUTRAL) {
+            nb_coins++;
+            if (this->game_map->get_province(it.first) == nullptr) {
+                tile->convert_color(NEUTRAL);
+                continue;
+            }
+        }
+        
+        std::vector<Coord> dest = {};
+        std::vector<Coord> colored_dest = {};
+        std::vector<Coord> n = neighbours(it.first);
+
+        for (Coord v : n) {
+            Tile* t = this->game_map->get_tile(v);
+            if (t == nullptr) { continue; }
+            if (t->_element() == nullptr && t->get_defense() == 0) {
+                dest.push_back(v);
+                if (t->_color() != NEUTRAL)
+                    { colored_dest.push_back(v); }
+            }
+        }
+
+        if (colored_dest.size() > 0) {
+            usint id = rand() % colored_dest.size();
+            this->game_map->move_bandit(it.first, colored_dest[id]);
+            if (new_camp == Coord(-1, -1)) { new_camp = it.first; }
+        }
+
+        else if (tile->_color() == NEUTRAL) {
+            usint id = rand() % dest.size();
+            this->game_map->move_bandit(it.first, dest[id]);
+            if (new_camp == Coord(-1, -1)) { new_camp = it.first; }
         }
     }
 
-    for (Coord c : bandit_camps) {
-        Tile* tile = this->game_map->get_tile(c);
-        dynamic_cast<Building*>(tile->_element())->update_treasury(nb_bandits);
+    // If there is no bandit camp, create a new one
+    if (bandits && bandit_camps.size() == 0) {
+        this->game_map->create_bandit_element(new_camp, false);
+        bandit_camps.push_back(new_camp);
     }
 
+    // Manage camps treasury and bandits creation
+    for (Coord c : bandit_camps) {
+        Building* b = dynamic_cast<Building*>(this->game_map->get_tile(c)->_element());
+
+        if (nb_coins != 0)
+            { b->update_treasury(1 + ((nb_coins - 1) / bandit_camps.size())); }
+        
+        if (b->treasury >= 3) {
+            std::vector<Coord> n = neighbours(c);
+            std::vector<Coord> dest = {};
+            std::vector<Coord> colored_dest = {};
+            for (Coord v : n) {
+                Tile* t = this->game_map->get_tile(v);
+                if (t == nullptr) { continue; }
+                if (t->_element() == nullptr && t->get_defense() == 0) {
+                    dest.push_back(v);
+                    if (t->_color() != NEUTRAL)
+                        { colored_dest.push_back(v); }
+                }
+            }
+            if (colored_dest.size() > 0) {
+                usint id = rand() % colored_dest.size();
+                this->game_map->create_bandit_element(colored_dest[id], true);
+                b->update_treasury(-3);
+            }
+            else if (dest.size() > 0) {
+                usint id = rand() % dest.size();
+                this->game_map->create_bandit_element(dest[id], true);
+                b->update_treasury(-3);
+            }
+        }
+    }
+    
     return;
 }
 
@@ -349,9 +421,9 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     Element* new_elt;
 
     if (is_unit)
-        { new_elt = new Unit(c, this->current_player, elt_level); }
+        { new_elt = new Unit(this->current_player, elt_level); }
     else
-        { new_elt = new Building(c, this->current_player, elt_level); }
+        { new_elt = new Building(this->current_player, elt_level); }
 
     if (new_elt == nullptr) { return; }
 
@@ -452,7 +524,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
         Building* building = dynamic_cast<Building*>(this->game_map->get_tile_element(it.first));
         if (building == nullptr || building->_color() == NEUTRAL) { continue; }
 
-        to_visit_coord.push_back(building->_coord());
+        to_visit_coord.push_back(it.first);
         to_visit_num.push_back(nb_tot_nums);
         nb_tot_nums++;
     }

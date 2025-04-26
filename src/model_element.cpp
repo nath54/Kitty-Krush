@@ -1,7 +1,6 @@
 # include "model_element.hpp"
 
 // >> Getters <<
-Coord Element::_coord() const { return this->coord; }
 usint Element::_color() const { return this->color; }
 usint Element::_defense() const { return this->defense; }
 

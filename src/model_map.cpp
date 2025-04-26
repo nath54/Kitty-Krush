@@ -26,14 +26,16 @@ void Tile::set_element(Element* e)
     this->element = e;
 }
 
+void Tile::reset_element()
+{ this->element = nullptr; }
+
 void Tile::delete_element()
 {
-    if (this->element != nullptr) {
+    if (this->element == nullptr) { return; }
 
-        // TODO: manage the memory correctly ! Because some pointers can be lost lost !
-        // delete this->element;
-    }
-    this->element = nullptr;
+    // TODO: manage the memory correctly ! Because some pointers can be lost lost !
+    // delete this->element;
+    this->reset_element();
 }
 
 
@@ -226,12 +228,12 @@ void Map::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attri
     }
 
     if (is_unit) {
-        Unit* u = new Unit(c, tile->_color(), elt_level);
+        Unit* u = new Unit(tile->_color(), elt_level);
         u->can_move = !(elt_attribute == 1);
         tile->set_element(u);
     }
     else {
-        Building* b = new Building(c, tile->_color(), elt_level);
+        Building* b = new Building(tile->_color(), elt_level);
         b->treasury = elt_attribute;
         tile->set_element(b);
     }
@@ -265,7 +267,7 @@ void Map::recursive_fill(Coord c, unsigned int nb_cover, usint color_cover, Prov
             p = new Province(color_cover);
             p->add_treasury(7);
             add_province(p);
-            tile->set_element(new Building(c, color_cover));
+            tile->set_element(new Building(color_cover));
         }
 
         if (p->_tiles()->size() >= nb_cover) { return; } // inhaf cover
@@ -276,7 +278,7 @@ void Map::recursive_fill(Coord c, unsigned int nb_cover, usint color_cover, Prov
         { if (rand() % 2) { recursive_fill(n, nb_cover, color_cover, p); } }
 }
 
-// ! TODO: Gérer le bool bandits
+
 void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
 {
 
@@ -306,7 +308,23 @@ void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
     }
 
     if (bandits) {
-        // ! to complete
+        seed.x = rand() % size;
+        seed.y = rand() % size;
+
+        while (tiles_layer.count(seed) == 0
+                || tiles_layer[seed]->_color() != NEUTRAL)
+            { seed.x = rand() % size; seed.y = rand() % size; }
+
+        tiles_layer[seed]->set_element(new Building(NEUTRAL));
+        dynamic_cast<Building*>(tiles_layer[seed]->_element())->update_treasury(3);
+        bandits_layer[seed] = tiles_layer[seed]->_element();
+
+        while (tiles_layer.count(seed) == 0
+                || tiles_layer[seed]->get_defense() != 0)
+            { seed.x = rand() % size; seed.y = rand() % size; }
+
+        tiles_layer[seed]->set_element(new Unit(NEUTRAL));
+        bandits_layer[seed] = tiles_layer[seed]->_element();
     }
 }
 
@@ -530,4 +548,39 @@ bool Map::adjacent_to_province(Coord c, Province* p)
         if (get_province(t) == p) { return true; }
 
     return false;
+}
+
+// >> Bandits managment <<
+// Checks are done in bandit_turn function
+
+void Map::create_bandit_element(Coord c, bool is_unit)
+{
+    if (is_unit) {
+        Unit* u = new Unit(NEUTRAL);
+        this->get_tile(c)->set_element(u);
+        this->bandits_layer[c] = u;
+    }
+    else {
+        Building* b = new Building(NEUTRAL);
+        this->get_tile(c)->set_element(b);
+        this->bandits_layer[c] = b;
+    }
+}
+
+
+void Map::move_bandit(Coord src, Coord dst)
+{
+    Element* bandit = this->bandits_layer[src];
+    this->bandits_layer.erase(src);
+    this->bandits_layer[dst] = bandit;
+
+    this->get_tile(src)->reset_element();
+    this->get_tile(dst)->set_element(bandit);
+}
+
+
+void Map::delete_bandit_element(Coord c)
+{
+    this->get_tile(c)->delete_element();
+    this->bandits_layer.erase(c);
 }

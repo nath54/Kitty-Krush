@@ -43,7 +43,6 @@ class Element {
 
     protected:
 
-        Coord coord;    // coordinates of the element
         usint color;    // owner of the element
         usint defense;  // level (= defense) of the element
 
@@ -51,13 +50,12 @@ class Element {
 
         // Constructor
         Element () {}; // Default constructor
-        Element(Coord element_coord, usint element_color, usint element_defense = 0)
-            : coord(element_coord), color(element_color), defense(element_defense) {};
+        Element(usint element_color, usint element_defense = 0)
+            : color(element_color), defense(element_defense) {};
         // Destructor
         virtual ~Element() {}; // Virtual destructor
 
         // Getters
-        Coord _coord() const;
         usint _color() const;
         usint _defense() const;
 
@@ -75,8 +73,8 @@ class Unit : public Element {
         bool can_move = true;
 
         // Constructor
-        Unit(Coord unit_coord, usint unit_color, usint unit_defense = 1)
-            : Element(unit_coord, unit_color, unit_defense) {};
+        Unit(usint unit_color, usint unit_defense = 1)
+            : Element(unit_color, unit_defense) {};
         // Destructor
         ~Unit() {}; // Default destructor
 
@@ -95,8 +93,8 @@ class Building : public Element {
         int treasury = 0;
 
         // Constructor
-        Building(Coord building_coord, usint building_color, usint building_defense = 1)
-                : Element(building_coord, building_color, building_defense) {}
+        Building(usint building_color, usint building_defense = 1)
+                : Element(building_color, building_defense) {}
         // Destructor
         ~Building() {}; // Default destructor
 
