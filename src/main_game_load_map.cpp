@@ -135,11 +135,20 @@ void MainGame::set_map_from_data(
     //
     for( Building* b : game_model->_map()->get_all_buildings() ){
         //
-        p = game_model->get_province_at_coord( b->_coord() );
-        //
-        if( p != nullptr && b->treasury > 0 ){
-            p->set_treasury( b->treasury );
+        for (auto it = game_model->_map()->_tiles_layer()->begin();
+                  it != game_model->_map()->_tiles_layer()->end();
+                  ++it)
+        {
+            Tile* t = it->second;
+            if (t == nullptr) { continue; }
+            if (t->_element() == b) {
+                p = game_model->get_tile_province(t->_coord());
+                break;
+            }
         }
+        //
+        if (p != nullptr && b->treasury > 0 )
+            { p->set_treasury( b->treasury ); }
     }
 
     //
