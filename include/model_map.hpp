@@ -77,7 +77,6 @@ class Province {
     bool has_tile(Coord c);
     void add_tile(Tile* tile);
     void remove_tile(Tile* tile);
-    void remove_tile_at_coord(Coord c);
 
     // Functions: treasury
     int expected_income();

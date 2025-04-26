@@ -83,8 +83,6 @@ void Province::add_tile(Tile* tile)
 
 void Province::remove_tile(Tile* tile) { tiles_layer.erase(tile->_coord()); }
 
-void Province::remove_tile_at_coord(Coord c) { tiles_layer.erase(c); }
-
 
 // >> Functions: treasury <<
 
@@ -438,7 +436,7 @@ void Map::split_province(Coord c, Province* p)
                 // Change all the different number to the same number for connex zones
                 for (std::pair<Coord, int> it : visited) {
                     if (it.second == visited[vv])
-                        visited[it.first] = num;
+                        { visited[it.first] = num; }
                 }
             }
 
@@ -521,10 +519,10 @@ void Map::split_province(Coord c, Province* p)
     }
 
     for (Province* pp : new_provinces) {
-        pp->set_treasury((int) (p->_treasury() * (pp->_tiles()->size() / nb_tiles_of_split_prov)));
+        pp->set_treasury((int) ((float)(p->_treasury()) * ((float)(pp->_tiles()->size()) / (float)(nb_tiles_of_split_prov))));
         this->add_province(pp);
 
-        std::cout << "Province " << pp->_color() << " created with " << pp->_tiles()->size() << " tiles and a treasury of " << pp->_treasury() << std::endl;
+        // ? DEBUG: std::cout << "Province " << pp->_color() << " created with " << pp->_tiles()->size() << " tiles and a treasury of " << pp->_treasury() << std::endl;
     }
 
     this->remove_province(p);
@@ -533,8 +531,10 @@ void Map::split_province(Coord c, Province* p)
 
 void Map::remove_tile_of_all_provinces(Coord c)
 {
-    for (Province* p : this->provinces_layer)
-        if (p->has_tile(c)) p->remove_tile_at_coord(c);
+    for (Province* p : this->provinces_layer) {
+        if (p->has_tile(c))
+            { p->_tiles()->erase(c) ; }
+    }
 }
 
 
