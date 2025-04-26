@@ -110,6 +110,20 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "game_settings" ){
 
         //
+        this->update_detected_all_map_files();
+
+        //
+        if( this->previous_detected_map_files != this->all_detected_map_files){
+
+            //
+            this->main_view->update_menu_game_settings(this);
+
+            //
+            this->previous_detected_map_files = this->all_detected_map_files;
+
+        }
+
+        //
         this->menu_state = 1;
     }
     //
@@ -129,6 +143,8 @@ void MainGame::change_page(std::string new_page){
         }
 
         this->change_to_in_game_page_with_map_file( this->crt_map_file );
+
+        this->save_map( "maps/saved_data/saved_map.kkmap" );
 
     }
     //

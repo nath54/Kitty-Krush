@@ -124,6 +124,9 @@ class MainView{
         // Draw In Game
         void display_menu_in_game();
 
+        //
+        void update_menu_game_settings(MainGame* main_game, bool update_all_maps = true);
+
         // Get font
         TTF_Font* get_font(int fontSize);
 
@@ -347,7 +350,8 @@ class WindowEltClickable : public WindowElt {
 
         // Attributes
         bool disabled = false;
-        std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr;
+        std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr;
+        std::vector<std::string> additional_fn_args;
 
         // Constructor
         WindowEltClickable(
@@ -356,9 +360,10 @@ class WindowEltClickable : public WindowElt {
             Value* y,
             Value* w = new ValueInt(-1),
             Value* h = new ValueInt(-1),
-            std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
+            std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr,
+            std::vector<std::string> additional_fn_args = (std::vector<std::string>){}
          )
-        : WindowElt(style, x, y, w, h), on_click(on_click) {};
+        : WindowElt(style, x, y, w, h), on_click(on_click), additional_fn_args(additional_fn_args) {};
 };
 
 
@@ -658,7 +663,8 @@ class WindowEltButton : public WindowEltClickable {
                          Value* y,
                          Value* w,
                          Value* h,
-                         std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
+                         std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr,
+                         std::vector<std::string> additional_fn_args = (std::vector<std::string>){}
                         );
 
         // Function
@@ -786,7 +792,7 @@ class WindowEltMapViewer: public WindowEltClickable {
             Value* y,
             Value* w,
             Value* h,
-            std::function<void(WindowEltClickable*, MainGame*)> on_click = nullptr
+            std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr
         );
 
         // Functions : darw
@@ -840,5 +846,5 @@ class WindowEltMapViewer: public WindowEltClickable {
 };
 
 
-void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game);
+void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args);
 

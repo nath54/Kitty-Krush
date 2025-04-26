@@ -50,7 +50,7 @@ void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event
 
         if (elt_c->get_elt_state(main_game->main_view->get_win_attr()) != STYLE_ELT_BASE) {
 
-            elt_c->on_click(elt_c, main_game);
+            elt_c->on_click(elt_c, main_game, elt_c->additional_fn_args);
             event->valid = false;
             return;
         }

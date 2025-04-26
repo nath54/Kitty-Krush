@@ -336,9 +336,10 @@ WindowEltButton::WindowEltButton( Style* style,
     Value* y,
     Value* w,
     Value* h,
-    std::function<void(WindowEltClickable*, MainGame*)> on_click
+    std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click,
+    std::vector<std::string> additional_fn_args
    )
-: WindowEltClickable(style, x, y, w, h, on_click), txt(txt) {
+: WindowEltClickable(style, x, y, w, h, on_click, additional_fn_args), txt(txt) {
 
     //
     if ( ( ends_with(txt, ".png") || ends_with(txt, ".jpg") || ends_with(txt, ".jpeg") ) && check_file_exists(txt) ){

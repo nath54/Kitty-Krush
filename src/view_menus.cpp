@@ -12,9 +12,10 @@
 #include "view.hpp"
 #include "color.hpp"
 #include "model_element.hpp"
+#include "utils.hpp"
 
 
-void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
     main_game->quit();
@@ -23,7 +24,7 @@ void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game) {
 
 
 //
-void on_bt_change_page_to_main_menu(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_change_page_to_main_menu(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
     main_game->change_page("main_menu");
@@ -31,7 +32,7 @@ void on_bt_change_page_to_main_menu(WindowEltClickable* elt, MainGame* main_game
 
 
 //
-void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
     main_game->change_page("game_settings");
@@ -39,7 +40,7 @@ void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_
 
 
 //
-void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
     main_game->change_page("in_game");
@@ -68,53 +69,68 @@ void set_new_entity_dragged(MainGame* main_game, int level, bool type){
 
 
 //
-void on_bt_new_warrior_lvl1(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_new_warrior_lvl1(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 1, true);
 }
 
 
 //
-void on_bt_new_warrior_lvl2(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_new_warrior_lvl2(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 2, true);
 }
 
 
 //
-void on_bt_new_warrior_lvl3(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_new_warrior_lvl3(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 3, true);
 }
 
 
 //
-void on_bt_new_warrior_lvl4(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_new_warrior_lvl4(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 4, true);
 }
 
 
 //
-void on_bt_new_tower(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_new_tower(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 2, false);
 }
 
 
 //
-void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     main_game->action_end_turn();
 }
 
 
 //
-void on_bt_continue_previous_game(WindowEltClickable* elt, MainGame* main_game) {
+void on_bt_continue_previous_game(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
-    
+    main_game->crt_map_file = "maps/saved_data/saved_map.kkmap";
+    //
+    main_game->change_page("in_game");
 }
 
+
+//
+void on_bt_play_map(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+    //
+    if( additional_fn_args.size() == 0 ){
+        std::cerr << "Error : no map file given in arguments !\n";
+        return;
+    }
+    //
+    main_game->crt_map_file = additional_fn_args[0];
+    //
+    main_game->change_page("in_game");
+}
 
 
 //
@@ -162,7 +178,7 @@ void MainView::init_page_main_menu() {
             nvpwh(win_attr, 45),                    // Value*                           y
             nvpww(win_attr, 30),                    // Value*                           w
             nvi(100),                               // Value*                           h
-            on_bt_change_page_to_in_game            // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+            on_bt_change_page_to_game_settings      // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -178,7 +194,7 @@ void MainView::init_page_main_menu() {
             nvpwh(win_attr, 65),                    // Value*                           y
             nvpww(win_attr, 20),                    // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_quit_click                        // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+            on_bt_quit_click                        // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -200,6 +216,30 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
+        new WindowEltSprite(
+            this->win_page_manager->default_style,  // Style*           style,
+            "res/bgs/bg_game_settings_menu.png",    // std::string      img_path,
+            nvi(0),                                 // Value*           x,
+            new ValueInt(0),                        // Value*           y,
+            nvpww(win_attr, 100),                   // Value*           w,
+            nvpwh(win_attr, 100),                   // Value*           h,
+            nvi(0),                                 // Value*           angle               = new ValueInt(0),
+            false,                                  // bool             flip_h              = false,
+            false,                                  // bool             flip_v              = false,
+            SPRITE_NO_CROP(),                       // SpriteCrop*      sprite_crop         = SPRITE_NO_CROP(),
+            // SPRITE_RATIO_CUSTOM(1, 1),           // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
+            SPRITE_RATIO_ORIGINAL(),                // SpriteRatio*     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
+            SPRITE_RESIZE_FIT(1.9),                 // SpriteResize*    sprite_resize       = SPRITE_RESIZE_KEEP_ORIGINAL(),
+            SPRITE_POS_ALIGN_CENTER(),              // SpritePosition*  sprite_h_position   = SPRITE_POS_ALIGN_START(),
+            SPRITE_POS_ALIGN_CENTER()               // SpritePosition*  sprite_v_position   = SPRITE_POS_ALIGN_START()
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "Back",                                 // std::string                      text
@@ -207,7 +247,7 @@ void MainView::init_page_game_settings() {
             nvi(15),                                // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -219,11 +259,43 @@ void MainView::init_page_game_settings() {
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "Continue game",                        // std::string                      text
-            nvi(15),                                // Value*                           x
-            nvi(15),                                // Value*                           y
-            nvi(200),                               // Value*                           w
-            nvi(40),                                // Value*                           h
-            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+            nvpww(win_attr, 20),                    // Value*                           x
+            nvi(100),                               // Value*                           y
+            nvpww(win_attr, 100 - 2 * 20),          // Value*                           w
+            nvi(60),                                // Value*                           h
+            on_bt_continue_previous_game            // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
+        new WindowEltRect(
+            this->win_page_manager->default_style,  // Style*                           style
+            (Color){255, 255, 255},                 // Color                            cl
+            nvpww(win_attr, 15),                    // Value*                           x
+            nvi(185),                               // Value*                           y
+            nvpww(win_attr, 100 - 2 * 15),          // Value*                           w
+            nvi(2),                                 // Value*                           h
+            new ValueInt(2)                         // Value*                           radius
+        )
+
+    );
+
+
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
+        new WindowEltText(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Create a new game :",                  // std::string                      txt
+            nvpww(win_attr, 15),                    // Value*                           x
+            nvi(200),                               // Value*                           y
+            nvpww(win_attr, 100 - 2 * 15),          // Value*                           w
+            nvi(50)                                 // Value*                           h
         )
 
     );
@@ -249,7 +321,7 @@ void MainView::init_page_in_game() {
         nvi(0),                                 // Value*                           y
         nvpww(win_attr, 100),                   // Value*                           w
         nvpwh(win_attr, 100),                   // Value*                           h
-        on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*)>  on_click
+        on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>  on_click
     );
     this->map_viewer->game_model = this->game_model;
 
@@ -322,7 +394,7 @@ void MainView::init_page_in_game() {
         nvi(100),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl1                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        on_bt_new_warrior_lvl1                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
@@ -343,7 +415,7 @@ void MainView::init_page_in_game() {
         nvi(200),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl2                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        on_bt_new_warrior_lvl2                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
@@ -364,7 +436,7 @@ void MainView::init_page_in_game() {
         nvi(300),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl3                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        on_bt_new_warrior_lvl3                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
@@ -385,7 +457,7 @@ void MainView::init_page_in_game() {
         nvi(400),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl4                  // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        on_bt_new_warrior_lvl4                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
@@ -406,7 +478,7 @@ void MainView::init_page_in_game() {
         nvi(500),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_tower                         // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        on_bt_new_tower                         // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
@@ -433,7 +505,7 @@ void MainView::init_page_in_game() {
             nvi(15),                                // Value*                           y
             nvi(100),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+            on_bt_change_page_to_game_settings      // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -573,7 +645,7 @@ void MainView::init_page_in_game() {
             nvpwh(win_attr, 100, -60),              // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_end_turn                          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+            on_bt_end_turn                          // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -620,6 +692,56 @@ void MainView::display_menu_game_settings(){
 
 // Draw In Game
 void MainView::display_menu_in_game(){
+
+}
+
+
+// Update Game Settings Menu Before Displaying it
+void MainView::update_menu_game_settings(MainGame* main_game, bool update_all_maps){
+
+    //
+    WindowEltButton* bt = dynamic_cast<WindowEltButton*>( this->win_page_manager->pages["game_settings"]->elts[2] );
+
+    //
+    if( bt == nullptr ){ return; }
+
+    //
+    bt->disabled = !check_file_exists("maps/saved_data/saved_map.kkmap");
+
+    //
+    std::vector<WindowElt*>* v = &(this->win_page_manager->pages["game_settings"]->elts);
+
+    //
+    if( !update_all_maps ){ return; }
+
+    //
+    v->erase(v->begin() + 5, v->end());
+
+    //
+    int i = -1;
+    //
+    for( std::string map_file : main_game->all_detected_map_files ){
+
+        //
+        i++;
+
+        //
+        v->push_back(
+
+            new WindowEltButton(
+                bt->style,
+                map_file.substr(5, map_file.size() - 11),
+                bt->x,
+                nvi(280 + 75 * i),
+                bt->w,
+                bt->h,
+                on_bt_play_map,
+                (std::vector<std::string>){map_file}
+            )
+
+        );
+
+    }
 
 }
 

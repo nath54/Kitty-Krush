@@ -39,6 +39,9 @@ class MainGame{
         //
         std::vector<std::string> all_detected_map_files;
 
+        //
+        std::vector<std::string> previous_detected_map_files;
+
         // Constructor
         MainGame();
 

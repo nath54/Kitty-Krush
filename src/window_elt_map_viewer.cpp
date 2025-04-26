@@ -189,7 +189,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     Value* y,
     Value* w,
     Value* h,
-    std::function<void(WindowEltClickable*, MainGame*)> on_click
+    std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click
 )
 : WindowEltClickable(style, x, y, w, h, on_click) {
 
@@ -1396,7 +1396,7 @@ bool WindowEltMapViewer::check_draw_palissade_bottom_left(Coord v){
 
 
 //
-void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game){
+void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
     WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
