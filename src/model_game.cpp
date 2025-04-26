@@ -521,8 +521,10 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
 
     for (std::pair<Coord, Tile*> it : *(this->game_map->_tiles_layer())) {
 
-        Building* building = dynamic_cast<Building*>(this->game_map->get_tile_element(it.first));
-        if (building == nullptr || building->_color() == NEUTRAL) { continue; }
+        Tile* t = it.second;
+
+        Building* building = dynamic_cast<Building*>( t->_element() );
+        if (building == nullptr || building->_color() == NEUTRAL || t->_color()) { continue; }
 
         to_visit_coord.push_back(it.first);
         to_visit_num.push_back(nb_tot_nums);
@@ -537,8 +539,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
         int num = to_visit_num.front();
         int color = this->get_tile_color(v);
 
-        if (to_convert_num.count(num) > 0)
-            num = to_convert_num[num];
+        if (to_convert_num.count(num) > 0){ num = to_convert_num[num]; }
 
         to_visit_coord.pop_front();
         to_visit_num.pop_front();
@@ -561,8 +562,9 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
 
                 // Change all the different number to the same number for connex zones
                 for (std::pair<Coord, int> it : visited) {
-                    if (it.second == visited[vv])
+                    if (it.second == visited[vv]){
                         visited[it.first] = num;
+                    }
                 }
             }
 
@@ -571,11 +573,7 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
         }
     }
 
-    // Extract all the different new zones
-
-    int nb_differents = nb_tot_nums - to_convert_num.size();
-
-    if (nb_differents <= 1) { return; } // no split to do
+    // Extract all the different zones
 
     int crt_idx = 0;
     std::map<int, int> num_idx;

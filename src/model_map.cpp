@@ -500,7 +500,9 @@ void Map::split_province(Coord c, Province* p)
                 Element* elt = t->_element();
                 if( elt != nullptr ) elt->convert_bandit();
 
-                // this->set_tile_color(cc, NEUTRAL); // let colored tiles
+                this->set_tile_color(cc, NEUTRAL);
+                 // let colored tiles ?
+
                 this->remove_tile_of_all_provinces(cc);
             }
         }
