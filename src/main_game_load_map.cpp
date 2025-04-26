@@ -131,6 +131,18 @@ void MainGame::set_map_from_data(
     game_model->calculate_all_provinces_after_map_initialisation();
 
     //
+    Province* p = nullptr;
+    //
+    for( Building* b : game_model->_map()->get_all_buildings() ){
+        //
+        p = game_model->get_province_at_coord( b->_coord() );
+        //
+        if( p != nullptr && b->treasury > 0 ){
+            p->set_treasury( b->treasury );
+        }
+    }
+
+    //
     game_model->set_current_player( current_color_to_play );
 
     //
@@ -462,9 +474,14 @@ void MainGame::save_map(std::string file_path) {
         Building* b = dynamic_cast<Building*>(e);
         Unit* u = dynamic_cast<Unit*>(e);
 
+        Province* p = this->game_model->get_province_at_coord(c);
+
         if (b != nullptr) {
 
-            if (b->treasury == 0) {
+            //
+            if( p != nullptr ){
+                file << c.x << ";" << c.y << ";" << b->_defense() << ";" << p->_treasury() << "\n";
+            } else if (b->treasury == 0) {
                 file << c.x << ";" << c.y << ";" << b->_defense() << "\n";
             } else {
                 file << c.x << ";" << c.y << ";" << b->_defense() << ";" << b->treasury << "\n";
