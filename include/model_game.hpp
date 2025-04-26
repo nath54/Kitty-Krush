@@ -20,6 +20,9 @@ class GameModel {
         // Game state (additional attribute)
         bool is_running = false;
 
+        //
+        bool do_turn_start_map_loading = true;
+
         // Constructor
         GameModel() { this->game_map = new Map(); };
 

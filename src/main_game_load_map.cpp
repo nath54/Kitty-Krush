@@ -18,7 +18,8 @@ void MainGame::set_map_from_data(
     std::map< Coord, int >* colors_layer,           // Colors layer
     std::map< Coord, int >* entities_layer,         // Entities layer
     std::map< Coord, int >* entities_attributes,    // Entities attributes (treasury or can_move )
-    int current_color_to_play
+    int current_color_to_play,
+    bool do_turn_start
 ){
 
     //
@@ -100,7 +101,8 @@ void MainGame::set_map_from_data(
             int entity_attribute = 0;
 
             //
-            if( (*entities_attributes).count(coord) > 0 ){
+            if( entities_attributes->count(coord) > 0 ){
+                //
                 entity_attribute = (*entities_attributes)[coord];
             }
 
@@ -130,6 +132,9 @@ void MainGame::set_map_from_data(
 
     //
     game_model->set_current_player( current_color_to_play );
+
+    //
+    game_model->do_turn_start_map_loading = do_turn_start;
 
     // Init data
 
@@ -196,6 +201,9 @@ void MainGame::load_map_from_file(std::string map_path) {
 
     //
     int current_color_to_play = 1;
+
+    //
+    bool do_turn_start = true;
 
     //
     std::string line;
@@ -350,7 +358,7 @@ void MainGame::load_map_from_file(std::string map_path) {
                 (*entities_layer)[coord] = value;
                 //
                 if( value2 != 0 ){
-                    (*entities_attributes)[coord] = value;
+                    (*entities_attributes)[coord] = value2;
                 }
             }
 
@@ -366,6 +374,10 @@ void MainGame::load_map_from_file(std::string map_path) {
             if( current_layer == "current_color_to_play" ){
                 current_color_to_play = value;
             }
+            //
+            else if( current_layer == "do_turn_start" ){
+                do_turn_start = (bool)value;
+            }
 
         }
 
@@ -374,7 +386,7 @@ void MainGame::load_map_from_file(std::string map_path) {
     file.close();
 
     // Now send the layers to the viewer
-    this->set_map_from_data(tiles_layer, colors_layer, entities_layer, entities_attributes, current_color_to_play);
+    this->set_map_from_data(tiles_layer, colors_layer, entities_layer, entities_attributes, current_color_to_play, do_turn_start);
 
     // Now, free the memory
     if( tiles_layer != nullptr ){ delete tiles_layer; }
@@ -472,6 +484,12 @@ void MainGame::save_map(std::string file_path) {
 
     file << "# value, current_color_to_play\n";
     file << this->game_model->_current_player() << "\n";
+
+    // -- Save saying do not do turn start at loading --
+
+    file << "# value, do_turn_start\n";
+    file << "0" << "\n";
+
 
     file.close();
 }

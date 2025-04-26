@@ -61,7 +61,8 @@ class MainGame{
             std::map< Coord, int >* colors_layer,           // Colors layers
             std::map< Coord, int >* entity_layer,           // Entity layers
             std::map< Coord, int >* entities_attributes,    // Entities attributes (treasury or can_move)
-            int current_color_to_play
+            int current_color_to_play,
+            bool do_turn_start_map_loading
         );
 
         //

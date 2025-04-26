@@ -212,7 +212,12 @@ void MainGame::at_player_turn_start(){
     this->set_selected_province( nullptr );
 
     //
-    this->game_model->at_player_turn_start();
+    if( ! this->game_model->do_turn_start_map_loading ){
+        this->game_model->do_turn_start_map_loading = true;
+    }
+    else{
+        this->game_model->at_player_turn_start();
+    }
 
 }
 

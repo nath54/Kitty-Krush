@@ -2,6 +2,7 @@
 # include <ctime>   // For time()
 # include <algorithm> // For remove()
 # include <deque>     // For std::deque
+# include <iostream>
 
 # include "model_map.hpp"
 
