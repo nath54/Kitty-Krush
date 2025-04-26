@@ -160,6 +160,15 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "map_creator" ){
 
         //
+        for(int i = 5; i < 5 + 69 + 10 + 8; i++){
+            //
+            if(this->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
+            //
+            this->main_view->win_page_manager->pages["map_creator"]->elts[i]->visible = false;
+        }
+
+
+        //
         this->main_view->map_viewer->clear();
 
         //
