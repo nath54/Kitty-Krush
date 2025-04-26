@@ -35,7 +35,7 @@ void Tile::delete_element()
 
     // TODO: manage the memory correctly ! Because some pointers can be lost lost !
     // delete this->element;
-    this->reset_element();
+    this->element = nullptr;
 }
 
 
@@ -331,7 +331,7 @@ void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
 
 // >> Provinces managment <<
 
-void Map::add_province(Province* p) { provinces_layer.push_back(p); }
+void Map::add_province(Province* p) { this->provinces_layer.push_back(p); }
 
 
 void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color, bool with_treasury, int treasury)
@@ -393,13 +393,13 @@ void Map::split_province(Coord c, Province* p)
 
     std::vector<Coord> nbs = neighbours(c);
 
-    for (int i = 0; i < nbs.size(); i++) {
+    for (Coord i : nbs) {
 
-        Tile* tile_nb = this->get_tile(nbs[i]);
+        Tile* tile_nb = this->get_tile(i);
         if (tile_nb == nullptr) { continue; }
         if (tile_nb->_color() != color) { continue; }
 
-        to_visit_coord.push_back(nbs[i]);
+        to_visit_coord.push_back(i);
         to_visit_num.push_back(nb_tot_nums);
 
         nb_tot_nums += 1;
@@ -413,7 +413,7 @@ void Map::split_province(Coord c, Province* p)
         int num = to_visit_num.front();
 
         if (to_convert_num.count(num) > 0)
-            num = to_convert_num[num];
+            { num = to_convert_num[num]; }
 
         to_visit_coord.pop_front();
         to_visit_num.pop_front();
@@ -442,8 +442,8 @@ void Map::split_province(Coord c, Province* p)
                 }
             }
 
-            to_visit_coord.push_back( vv );
-            to_visit_num.push_back( num );
+            to_visit_coord.push_back(vv);
+            to_visit_num.push_back(num);
         }
     }
 
@@ -455,33 +455,31 @@ void Map::split_province(Coord c, Province* p)
 
     int crt_idx = 0;
     std::map<int, int> num_idx;
-    std::vector< std::list<Coord> > splited_zones;
+    std::vector< std::list<Coord> > areas;
 
     for (std::pair<Coord, int> it : visited) {
 
         int num = it.second;
 
-        if(num_idx.count(num) == 0){
+        if (num_idx.count(num) == 0) {
             num_idx[num] = crt_idx;
             crt_idx++;
 
-            splited_zones.push_back((std::list<Coord>){});
+            areas.push_back((std::list<Coord>){});
         }
 
-        splited_zones[num_idx[num]].push_back(it.first);
+        areas[num_idx[num]].push_back(it.first);
     }
 
-    // TODO: there is the list of regions in splited_zones (you can rename this variable if you have a better name)
-
     std::list<Province*> new_provinces;
-    int nb_tiles_to_split_prov = 0;
+    int nb_tiles_of_split_prov = 0;
 
-    for (int i = 0; i < splited_zones.size(); i++) {
+    for (int i = 0; i < areas.size(); i++) {
 
-        // Check if there is a village in the splited zone
-        bool village = false;
+        // Check if there is a town in the splited zone
+        bool town = false;
 
-        for (Coord cc : splited_zones[i]) {
+        for (Coord cc : areas[i]) {
 
             Tile* t = this->get_tile(cc);
 
@@ -491,13 +489,12 @@ void Map::split_province(Coord c, Province* p)
 
             if( b == nullptr || b->_color() == NEUTRAL) { continue; }
 
-            if (b->_defense() == 1) {village = true; break;}
+            if (b->_defense() == 1) {town = true; break;}
         }
 
-        if (!village) {
-            // Remove all the tiles of the color
-
-            for (Coord cc : splited_zones[i]) {
+        if (!town) {
+            // Remove the tiles which no longer belong to the province
+            for (Coord cc : areas[i]) {
 
                 Tile* t = this->get_tile(cc);
                 if (t == nullptr) { continue; }
@@ -505,7 +502,7 @@ void Map::split_province(Coord c, Province* p)
                 Element* elt = t->_element();
                 if( elt != nullptr ) elt->convert_bandit();
 
-                this->set_tile_color(cc, NEUTRAL);
+                // this->set_tile_color(cc, NEUTRAL); // let colored tiles
                 this->remove_tile_of_all_provinces(cc);
             }
         }
@@ -514,9 +511,9 @@ void Map::split_province(Coord c, Province* p)
             // Create a new province and add it all the tiles
             Province* pp = new Province(p->_color());
 
-            for (Coord cc : splited_zones[i]) {
+            for (Coord cc : areas[i]) {
                 pp->add_tile(this->get_tile(cc));
-                nb_tiles_to_split_prov++;
+                nb_tiles_of_split_prov++;
             }
 
             new_provinces.push_back(pp);
@@ -524,8 +521,10 @@ void Map::split_province(Coord c, Province* p)
     }
 
     for (Province* pp : new_provinces) {
-        pp->set_treasury((int) (p->_treasury() * (pp->_tiles()->size() / nb_tiles_to_split_prov)));
+        pp->set_treasury((int) (p->_treasury() * (pp->_tiles()->size() / nb_tiles_of_split_prov)));
         this->add_province(pp);
+
+        std::cout << "Province " << pp->_color() << " created with " << pp->_tiles()->size() << " tiles and a treasury of " << pp->_treasury() << std::endl;
     }
 
     this->remove_province(p);
@@ -541,11 +540,11 @@ void Map::remove_tile_of_all_provinces(Coord c)
 
 bool Map::adjacent_to_province(Coord c, Province* p)
 {
-    if (get_province(c) == p) { return true; }
+    if (this->get_province(c) == p) { return true; }
 
     std::vector<Coord> n = neighbours(c);
     for (auto& t : n)
-        if (get_province(t) == p) { return true; }
+        if (this->get_province(t) == p) { return true; }
 
     return false;
 }
