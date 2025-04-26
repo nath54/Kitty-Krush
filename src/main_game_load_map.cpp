@@ -8,7 +8,7 @@
 #include "color.hpp"
 #include "main_game.hpp"
 #include "view.hpp"
-#include "strings_utils.hpp"
+#include "utils.hpp"
 #include "model_game.hpp"
 
 
@@ -475,4 +475,5 @@ void MainGame::save_map(std::string file_path) {
 
     file.close();
 }
+
 

@@ -11,6 +11,7 @@
 #include "geometry.hpp"
 #include "map_tiles.hpp"
 #include "view.hpp"
+#include "utils.hpp"
 //
 
 
@@ -326,24 +327,6 @@ void WindowEltText::draw_elt(MainView* main_view, DrawTransform* transform){
 
 }
 
-
-//
-inline bool check_file_exists(const std::string& name) {
-    if (FILE *file = fopen(name.c_str(), "r")) {
-        fclose(file);
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-//
-inline bool ends_with(std::string const & value, std::string const & ending)
-{
-    if (ending.size() > value.size()) return false;
-    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
-}
 
 
 //

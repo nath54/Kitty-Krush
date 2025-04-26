@@ -33,6 +33,12 @@ class MainGame{
         //   -  2 = In Game
         int menu_state = 0;
 
+        //
+        std::string crt_map_file = "";
+
+        //
+        std::vector<std::string> all_detected_map_files;
+
         // Constructor
         MainGame();
 
@@ -47,7 +53,6 @@ class MainGame{
 
         void change_page(std::string new_page);
 
-
         void set_map_from_data(
             std::map< Coord, int >* tiles_layer,            // Tiles layers
             std::map< Coord, int >* colors_layer,           // Colors layers
@@ -56,9 +61,15 @@ class MainGame{
             int current_color_to_play
         );
 
+        //
+        void update_detected_all_map_files();
 
         void load_map_from_file(std::string map_path);
         void save_map(std::string file_path);
+
+        //
+        void change_to_in_game_page_with_map_file(std::string map_path);
+
 
         void quit();
 

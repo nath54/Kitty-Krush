@@ -3,11 +3,12 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <filesystem>
 #include <map>
 //
 #include "main_game.hpp"
 #include "view.hpp"
-#include "strings_utils.hpp"
+#include "utils.hpp"
 
 
 // Constructor of the MainGame class, initializes all the components
@@ -69,18 +70,35 @@ void MainGame::mainloop(){
 
 
 
+
+
+//
+void MainGame::change_to_in_game_page_with_map_file(std::string map_path){
+
+    //
+    this->reset_map();
+
+    //
+    this->load_map_from_file(map_path);
+
+    //
+    this->at_player_turn_start();
+
+    //
+    this->menu_state = 2;
+}
+
+
+
 //
 void MainGame::change_page(std::string new_page){
 
     //
     if( this->main_view->win_page_manager->current_page == "in_game" ){
 
-        this->save_map( "saved_data/saved_map.kkmap" );
+        this->save_map( "maps/saved_data/saved_map.kkmap" );
 
     }
-
-    //
-    this->main_view->win_page_manager->current_page = new_page;
 
     //
     if( new_page == "main_menu" ){
@@ -98,17 +116,20 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "in_game" ){
 
         //
-        this->reset_map();
+        if( this->crt_map_file == "" ){
+            //
+            this->update_detected_all_map_files();
+            //
+            if( this->all_detected_map_files.size() == 0 ){
+                //
+                std::cerr << "\nError: no game map files found !\n";
+            }
+            //
+            this->crt_map_file = this->all_detected_map_files[0];
+        }
 
-        //
-        this->load_map_from_file("res/map_tests/map_2.kkmap");
-        //this->load_map_from_file("saved_data/saved_map.kkmap");
+        this->change_to_in_game_page_with_map_file( this->crt_map_file );
 
-        //
-        this->at_player_turn_start();
-
-        //
-        this->menu_state = 2;
     }
     //
     else {
@@ -119,6 +140,10 @@ void MainGame::change_page(std::string new_page){
         //
         this->quit();
     }
+
+    //
+    this->main_view->win_page_manager->current_page = new_page;
+
 }
 
 
@@ -128,6 +153,29 @@ void MainGame::quit(){
 
     //
     this->game_model->is_running = false;
+
+}
+
+
+//
+void MainGame::update_detected_all_map_files(){
+
+    //
+    this->all_detected_map_files.clear();
+
+    //
+    std::string base_path = "maps/";
+    //
+    for (const auto & entry : std::filesystem::directory_iterator(base_path)){
+        //
+        std::string filepath = entry.path();
+        //
+        if( ! ends_with(filepath, ".kkmap") ){
+            continue;
+        }
+        //
+        this->all_detected_map_files.push_back( filepath );
+    }
 
 }
 

@@ -109,6 +109,13 @@ void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game) {
 }
 
 
+//
+void on_bt_continue_previous_game(WindowEltClickable* elt, MainGame* main_game) {
+    //
+    
+}
+
+
 
 //
 void MainView::init_page_main_menu() {
@@ -204,6 +211,24 @@ void MainView::init_page_game_settings() {
         )
 
     );
+
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Continue game",                        // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(15),                                // Value*                           y
+            nvi(200),                               // Value*                           w
+            nvi(40),                                // Value*                           h
+            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*)>    on_click
+        )
+
+    );
+
+
 }
 
 
