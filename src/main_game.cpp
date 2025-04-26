@@ -99,6 +99,12 @@ void MainGame::change_page(std::string new_page){
         this->save_map( "maps/saved_data/saved_map.kkmap" );
 
     }
+    //
+    else if( this->main_view->win_page_manager->current_page == "map_creator" ){
+
+        this->save_map( "maps/map_created.kkmap" );
+
+    }
 
     //
     if( new_page == "main_menu" ){
@@ -145,6 +151,28 @@ void MainGame::change_page(std::string new_page){
         this->change_to_in_game_page_with_map_file( this->crt_map_file );
 
         this->save_map( "maps/saved_data/saved_map.kkmap" );
+
+        //
+        this->menu_state = 2;
+
+    }
+    //
+    else if( new_page == "map_creator" ){
+
+        //
+        this->main_view->map_viewer->clear();
+
+        //
+        this->game_model->reset_bandits_layer();
+
+        //
+        this->game_model->reset_provinces();
+
+        //
+        this->game_model->reset_tiles_layer();
+
+        //
+        this->menu_state = 3;
 
     }
     //

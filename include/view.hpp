@@ -102,6 +102,9 @@ class MainView{
         // Create the in game page
         void init_page_in_game();
 
+        // Create the map creator page
+        void init_page_map_creator();
+
         // At frame
         void at_frame_start();
         void at_frame_end();
@@ -123,6 +126,9 @@ class MainView{
 
         // Draw In Game
         void display_menu_in_game();
+
+        // Draw Map Creator
+        void display_menu_map_creator();
 
         //
         void update_menu_game_settings(MainGame* main_game, bool update_all_maps = true);

@@ -30,7 +30,7 @@ void MainGame::mainloop_execute_all_events()
 //
 void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event)
 {
-    if (event == nullptr || main_game->main_view == nullptr 
+    if (event == nullptr || main_game->main_view == nullptr
         || main_game->main_view->win_page_manager == nullptr)
         { return; }
 
@@ -60,7 +60,7 @@ void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event
 //
 void on_key_up(MainGame* main_game, EventKeyUp* event)
 {
-    if (event == nullptr || main_game->menu_state != 2) { return; }
+    if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
     WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 
@@ -101,7 +101,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event)
 //
 void on_scroll(MainGame* main_game, EventMouseScroll* event)
 {
-    if (event == nullptr || main_game->menu_state != 2) { return; }
+    if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
     WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 
@@ -126,7 +126,7 @@ void on_scroll(MainGame* main_game, EventMouseScroll* event)
 //
 void on_dragging(MainGame* main_game, EventMouseDragging* event)
 {
-    if (event == nullptr || main_game->menu_state != 2)
+    if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3)
         { return; }
 
     WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
@@ -150,7 +150,7 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event)
 //
 void on_mouse_motion(MainGame* main_game, EventMouseMotion* event)
 {
-    if (event == nullptr || main_game->menu_state != 2) { return; }
+    if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
     WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
 

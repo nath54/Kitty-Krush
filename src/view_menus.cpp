@@ -48,6 +48,14 @@ void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game, 
 
 
 //
+void on_bt_change_page_to_map_creator(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    main_game->change_page("map_creator");
+}
+
+
+//
 void set_new_entity_dragged(MainGame* main_game, int level, bool type){
 
     //
@@ -256,6 +264,22 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
+        new WindowEltRect(
+            this->win_page_manager->default_style,  // Style*                           style
+            (Color){255, 255, 255},                 // Color                            cl
+            nvpww(win_attr, 15),                    // Value*                           x
+            nvi(80),                               // Value*                           y
+            nvpww(win_attr, 100 - 2 * 15),          // Value*                           w
+            nvi(2),                                 // Value*                           h
+            new ValueInt(2)                         // Value*                           radius
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "Continue game",                        // std::string                      text
@@ -276,7 +300,39 @@ void MainView::init_page_game_settings() {
             this->win_page_manager->default_style,  // Style*                           style
             (Color){255, 255, 255},                 // Color                            cl
             nvpww(win_attr, 15),                    // Value*                           x
-            nvi(185),                               // Value*                           y
+            nvi(180),                               // Value*                           y
+            nvpww(win_attr, 100 - 2 * 15),          // Value*                           w
+            nvi(2),                                 // Value*                           h
+            new ValueInt(2)                         // Value*                           radius
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Create a new map",                     // std::string                      text
+            nvpww(win_attr, 20),                    // Value*                           x
+            nvi(200),                               // Value*                           y
+            nvpww(win_attr, 100 - 2 * 20),          // Value*                           w
+            nvi(60),                                // Value*                           h
+            on_bt_change_page_to_map_creator        // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        )
+
+    );
+
+    //
+    this->win_page_manager->pages["game_settings"]->elts.push_back(
+
+        //
+        new WindowEltRect(
+            this->win_page_manager->default_style,  // Style*                           style
+            (Color){255, 255, 255},                 // Color                            cl
+            nvpww(win_attr, 15),                    // Value*                           x
+            nvi(280),                               // Value*                           y
             nvpww(win_attr, 100 - 2 * 15),          // Value*                           w
             nvi(2),                                 // Value*                           h
             new ValueInt(2)                         // Value*                           radius
@@ -291,9 +347,9 @@ void MainView::init_page_game_settings() {
         //
         new WindowEltText(
             this->win_page_manager->default_style,  // Style*                           style
-            "Create a new game :",                  // std::string                      txt
+            "Play another game :",                  // std::string                      txt
             nvpww(win_attr, 15),                    // Value*                           x
-            nvi(200),                               // Value*                           y
+            nvi(300),                               // Value*                           y
             nvpww(win_attr, 100 - 2 * 15),          // Value*                           w
             nvi(50)                                 // Value*                           h
         )
@@ -654,6 +710,38 @@ void MainView::init_page_in_game() {
 
 
 
+//
+void MainView::init_page_map_creator() {
+
+    //
+    WindowAttributes* win_attr = this->get_win_attr();
+
+    //
+    this->win_page_manager->pages["map_creator"] = new WindowPage();
+
+    //
+    this->win_page_manager->pages["map_creator"]->elts.push_back( this->map_viewer );
+
+    //
+    this->win_page_manager->pages["map_creator"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "Back",                                 // std::string                      text
+            nvi(15),                                // Value*                           x
+            nvi(15),                                // Value*                           y
+            nvi(100),                               // Value*                           w
+            nvi(40),                                // Value*                           h
+            on_bt_change_page_to_game_settings      // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        )
+
+    );
+
+}
+
+
+
 // Init Pages
 void MainView::init_window_pages() {
 
@@ -670,6 +758,9 @@ void MainView::init_window_pages() {
     this->init_page_in_game();
 
     //
+    this->init_page_map_creator();
+
+    //
     this->win_page_manager->current_page = "main_menu";
 
 }
@@ -678,29 +769,26 @@ void MainView::init_window_pages() {
 
 
 // Draw Main Menu
-void MainView::display_menu_main(){
-
-}
+void MainView::display_menu_main(){}
 
 
 // Draw Game Settings Menu
-void MainView::display_menu_game_settings(){
-
-
-}
+void MainView::display_menu_game_settings(){}
 
 
 // Draw In Game
-void MainView::display_menu_in_game(){
+void MainView::display_menu_in_game(){}
 
-}
+
+// Draw In Game
+void MainView::display_menu_map_creator(){}
 
 
 // Update Game Settings Menu Before Displaying it
 void MainView::update_menu_game_settings(MainGame* main_game, bool update_all_maps){
 
     //
-    WindowEltButton* bt = dynamic_cast<WindowEltButton*>( this->win_page_manager->pages["game_settings"]->elts[2] );
+    WindowEltButton* bt = dynamic_cast<WindowEltButton*>( this->win_page_manager->pages["game_settings"]->elts[3] );
 
     //
     if( bt == nullptr ){ return; }
@@ -715,7 +803,7 @@ void MainView::update_menu_game_settings(MainGame* main_game, bool update_all_ma
     if( !update_all_maps ){ return; }
 
     //
-    v->erase(v->begin() + 5, v->end());
+    v->erase(v->begin() + 8, v->end());
 
     //
     int i = -1;
@@ -732,7 +820,7 @@ void MainView::update_menu_game_settings(MainGame* main_game, bool update_all_ma
                 bt->style,
                 map_file.substr(5, map_file.size() - 11),
                 bt->x,
-                nvi(280 + 75 * i),
+                nvi(380 + 75 * i),
                 bt->w,
                 bt->h,
                 on_bt_play_map,

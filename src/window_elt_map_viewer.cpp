@@ -839,6 +839,11 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
 void WindowEltMapViewer::clear(){
 
     //
+    this->cam_x = 0;
+    this->cam_y = 0;
+    this->zoom = 1.2;
+
+    //
     for ( std::pair<const Coord, WindowEltMapTile*> const it : this->tiles_layers ){
 
         //

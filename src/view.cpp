@@ -173,10 +173,17 @@ void MainView::update_display(int menu_state){
             break;
 
         //
+        case 3:     // Map creator
+
+            //
+            this->display_menu_map_creator();
+            break;
+
+        //
         default:
 
             //
-            std::cerr << "Error : Unkown Menu State - " << menu_state << "\n";
+            std::cerr << "Error : Unknown Menu State - " << menu_state << "\n";
 
     }
 
