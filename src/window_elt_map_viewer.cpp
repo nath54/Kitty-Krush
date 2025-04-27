@@ -453,6 +453,20 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START()
     );
 
+    this->sprite_map_creator_cursor = new WindowEltSprite(
+        this->style,
+        "res/ui/tile_for_color.png",
+        nvi(0), nvi(0), nvi(TILE_IMG_W / 2), nvi(TILE_IMG_H / 2),
+        nvi(0),
+        false,
+        false,
+        SPRITE_NO_CROP(),
+        SPRITE_RATIO_CUSTOM(1, 1),
+        SPRITE_RESIZE_COVER(),
+        SPRITE_POS_ALIGN_START(),
+        SPRITE_POS_ALIGN_START()
+    );
+
     //
     // this->can_go_here_tiles.insert( (Coord){4, 5} );  // TO TEST THE EFFECT
 
@@ -845,6 +859,20 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
 
         //
         this->draw_entity_sprite(this->entity_dragged, main_view, tile_transform, this->game_model->_current_player());
+
+    }
+    //
+    else if( this->map_creator_cursor != "" ){
+
+        //
+        dep_x->value = main_view->win_attr.mouse_x;
+        dep_y->value = main_view->win_attr.mouse_y;
+
+        //
+        this->sprite_map_creator_cursor->img_path = this->map_creator_cursor;
+
+        //
+        this->sprite_map_creator_cursor->draw_elt(main_view, tile_transform);
 
     }
 

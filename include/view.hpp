@@ -767,6 +767,11 @@ class WindowEltMapViewer: public WindowEltClickable {
         EntityData entity_dragged = (EntityData){4, true};
         Coord tile_entity_dragged = (Coord){0, 0};
         //
+        WindowEltSprite* sprite_map_creator_cursor;
+        std::string map_creator_cursor = "";
+        int map_creator_elt_category = 0;   // 0 = non, 1 = tiles, 2 = colors, 3 = entities
+        int map_creator_elt_id = -1;
+        //
         Province* selected_province = nullptr;
         //
         std::set<Coord> can_go_here_tiles;
