@@ -82,7 +82,7 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
         if ( allTileData[tile].nb_top_layer_imgs == 1 ){
 
             //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[0]);
+            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].top_layer_img[0]);
 
         }
 
@@ -1450,9 +1450,8 @@ bool WindowEltMapViewer::check_draw_palissade_bottom_left(Coord v){
 }
 
 
-
 //
-void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
+void on_map_viewer_click_map_creator(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
     WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
@@ -1460,6 +1459,48 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
     //
     if(map_viewer == nullptr){ return; }
     if(main_game == nullptr){ return; }
+
+    //
+    if ( map_viewer->map_creator_elt_category == 0 ){
+        return;
+    }
+
+    // TILES
+    else if ( map_viewer->map_creator_elt_category == 1 ){
+
+        //
+        map_viewer->add_tile_to_tile_layer( map_viewer->mouse_hover_tile.x, map_viewer->mouse_hover_tile.y, map_viewer->map_creator_elt_id );
+
+        //
+        map_viewer->complete_all_tile_layer_ground_base();
+
+        // TODO: check for colors & update if needed
+
+    }
+
+    // COLORS
+    else if ( map_viewer->map_creator_elt_category == 2 ){
+
+    }
+
+    // ENTITIES
+    else if ( map_viewer->map_creator_elt_category == 3 ){
+
+    }
+
+}
+
+
+//
+void on_map_viewer_click_in_game(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
+
+    //
+    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+
+    //
+    if(map_viewer == nullptr){ return; }
+    if(main_game == nullptr){ return; }
+
 
     //
     main_game->update_selected_province( map_viewer->mouse_hover_tile );
@@ -1512,4 +1553,19 @@ void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game
     //
     main_game->update_where_entity_can_move( map_viewer->tile_entity_dragged );
 
+}
+
+
+
+//
+void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
+
+    // IF MAP CREATOR
+    if ( main_game->menu_state == 3 ) {
+        on_map_viewer_click_map_creator(map_viewer_elt, main_game, additional_fn_args);
+    }
+    // ELSE
+    else if ( main_game->menu_state == 2 ) {
+        on_map_viewer_click_in_game(map_viewer_elt, main_game, additional_fn_args);
+    }
 }
