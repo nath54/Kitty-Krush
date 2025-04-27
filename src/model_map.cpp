@@ -202,6 +202,11 @@ void Map::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attri
         this->set_tile(c, tile);
     }
 
+    //
+    if (elt_level < 0){
+        tile->set_element(nullptr);
+    }
+
     if (is_unit) {
         Unit* u = new Unit(tile->_color(), elt_level);
         u->can_move = !(elt_attribute == 1);

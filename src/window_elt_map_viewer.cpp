@@ -1474,17 +1474,71 @@ void on_map_viewer_click_map_creator(WindowEltClickable* map_viewer_elt, MainGam
         //
         map_viewer->complete_all_tile_layer_ground_base();
 
-        // TODO: check for colors & update if needed
+        // check for colors & update if needed
+
+        //
+        if ( allTileData[map_viewer->map_creator_elt_id].global_type == 0 ){
+
+            // Compatible avec couleur dessus, couleur par défaut à 0
+
+            if( main_game->game_model->get_tile_color(map_viewer->mouse_hover_tile) < 0 ){
+                main_game->game_model->set_tile_color(map_viewer->mouse_hover_tile, 0);
+            }
+
+        }
+
+        //
+        else{
+
+            // Pas de couleurs dessus, couleur à -1
+
+            if( main_game->game_model->get_tile_color(map_viewer->mouse_hover_tile) >= 0 ){
+                main_game->game_model->set_tile_color(map_viewer->mouse_hover_tile, -1);
+            }
+
+            // Pas d'entités dessus aussi
+
+            if( main_game->game_model->get_tile_element(map_viewer->mouse_hover_tile) != nullptr ){
+                main_game->game_model->set_tile_element(map_viewer->mouse_hover_tile, -1, false);
+            }
+
+        }
+
 
     }
 
     // COLORS
     else if ( map_viewer->map_creator_elt_category == 2 ){
 
+        // Check if it is possible to set color (if the tile num global type == 0)
+
+        if ( map_viewer->tiles_layers.count( map_viewer->mouse_hover_tile ) == 0 ) { return; }
+
+        if ( allTileData[map_viewer->tiles_layers[map_viewer->mouse_hover_tile]->tile].global_type != 0 ) { return; }
+
+        //
+
+        main_game->game_model->set_tile_color(map_viewer->mouse_hover_tile, map_viewer->map_creator_elt_id);
+
     }
 
     // ENTITIES
     else if ( map_viewer->map_creator_elt_category == 3 ){
+
+        // Check if it is possible to set entity (if the tile num global type == 0)
+
+        if ( map_viewer->tiles_layers.count( map_viewer->mouse_hover_tile ) == 0 ) { return; }
+
+        if ( allTileData[map_viewer->tiles_layers[map_viewer->mouse_hover_tile]->tile].global_type != 0 ) { return; }
+
+        //
+
+        bool elt_type = map_viewer->map_creator_elt_id > 10;
+        int elt_defense = map_viewer->map_creator_elt_id - 10 * (int) elt_type;
+
+        //
+
+        main_game->game_model->set_tile_element(map_viewer->mouse_hover_tile, elt_defense, elt_type);
 
     }
 
