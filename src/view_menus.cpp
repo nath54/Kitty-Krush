@@ -1054,7 +1054,7 @@ void MainView::init_page_map_creator() {
         new WindowEltButton(
             this->win_page_manager->default_style,  // Style*                           style
             "clear",                                // std::string                      text
-            nvi(225),                               // Value*                           x
+            nvi(245),                               // Value*                           x
             nvi(70),                                // Value*                           y
             nvi(70),                                // Value*                           w
             nvi(25),                                // Value*                           h
