@@ -136,6 +136,12 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "in_game" ){
 
         //
+        this->main_view->map_viewer->clear();
+        this->game_model->reset_bandits_layer();
+        this->game_model->reset_provinces();
+        this->game_model->reset_tiles_layer();
+
+        //
         if( this->crt_map_file == "" ){
             //
             this->update_detected_all_map_files();
@@ -160,25 +166,23 @@ void MainGame::change_page(std::string new_page){
     else if( new_page == "map_creator" ){
 
         //
-        for(int i = 5; i < 5 + 69 + 10 + 8; i++){
+        for(int i = 6; i < 6 + 69 + 10 + 8; i++){
             //
             if(this->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
             //
             this->main_view->win_page_manager->pages["map_creator"]->elts[i]->visible = false;
         }
 
-
         //
         this->main_view->map_viewer->clear();
-
-        //
         this->game_model->reset_bandits_layer();
-
-        //
         this->game_model->reset_provinces();
+        this->game_model->reset_tiles_layer();
 
         //
-        this->game_model->reset_tiles_layer();
+        if( check_file_exists("maps/map_created.kkmap") ){
+            this->change_to_in_game_page_with_map_file( "maps/map_created.kkmap" );
+        }
 
         //
         this->menu_state = 3;

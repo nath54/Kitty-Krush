@@ -771,6 +771,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         std::string map_creator_cursor = "";
         int map_creator_elt_category = 0;   // 0 = non, 1 = tiles, 2 = colors, 3 = entities
         int map_creator_elt_id = -1;
+        Color map_creator_elt_color_mod = (Color){255, 255, 255};
         //
         Province* selected_province = nullptr;
         //

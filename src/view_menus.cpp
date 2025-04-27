@@ -144,6 +144,16 @@ void on_bt_play_map(WindowEltClickable* elt, MainGame* main_game, std::vector<st
 
 //
 void on_bt_map_creator_bt_category(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+
     //
     if( additional_fn_args.size() == 0 ){
         std::cerr << "Error : no map file given in arguments !\n";
@@ -153,7 +163,7 @@ void on_bt_map_creator_bt_category(WindowEltClickable* elt, MainGame* main_game,
     //
     // TILES
     //
-    for(int i = 5; i < 5 + 69; i++){
+    for(int i = 6; i < 6 + 69; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -163,7 +173,7 @@ void on_bt_map_creator_bt_category(WindowEltClickable* elt, MainGame* main_game,
     //
     // COLORS
     //
-    for(int i = 5 + 69; i < 5 + 69 + 10; i++){
+    for(int i = 6 + 69; i < 6 + 69 + 10; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -173,11 +183,138 @@ void on_bt_map_creator_bt_category(WindowEltClickable* elt, MainGame* main_game,
     //
     // ENTITIES
     //
-    for(int i = 5 + 69 + 10; i < 5 + 69 + 10 + 8; i++){
+    for(int i = 6 + 69 + 10; i < 6 + 69 + 10 + 8; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
         main_game->main_view->win_page_manager->pages["map_creator"]->elts[i]->visible = (additional_fn_args[0] == "entities");
+    }
+}
+
+
+//
+void on_bt_map_creator_clear(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+
+    //
+    main_game->main_view->map_viewer->clear();
+    main_game->game_model->reset_bandits_layer();
+    main_game->game_model->reset_provinces();
+    main_game->game_model->reset_tiles_layer();
+
+}
+
+
+//
+void on_bt_map_creator_tile(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    if( additional_fn_args.size() == 0 ){ return; }
+
+    //
+    int tile_num = std::stoi( additional_fn_args[0] );
+
+    //
+    map_viewer->map_creator_elt_category = 1;
+    map_viewer->map_creator_elt_id = tile_num;
+    map_viewer->map_creator_elt_color_mod = (Color){255, 255, 255};
+
+    //
+    if( allTileData[tile_num].nb_top_layer_imgs > 0 ){
+        map_viewer->map_creator_cursor = "res/sprites/map_w/" + std::string(allTileData[tile_num].top_layer_img[0]);
+    }
+    //
+    else if( allTileData[tile_num].nb_ground_layer_imgs > 0 ){
+        map_viewer->map_creator_cursor = "res/sprites/map_w/" + std::string(allTileData[tile_num].ground_layer_img[0]);
+    }
+
+}
+
+
+//
+void on_bt_map_creator_color(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    if( additional_fn_args.size() == 0 ){ return; }
+
+    //
+    int color_num = std::stoi( additional_fn_args[0] );
+
+    //
+    map_viewer->map_creator_elt_category = 2;
+    map_viewer->map_creator_elt_id = color_num;
+    map_viewer->map_creator_cursor = "res/ui/tile_for_color.png";
+
+    map_viewer->map_creator_elt_color_mod = allPlayerColors[color_num];
+    // map_viewer->map_creator_elt_color_mod = (Color){255, 25, 23};
+
+}
+
+
+//
+void on_bt_map_creator_entity(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    if( additional_fn_args.size() == 0 ){ return; }
+
+    //
+    int entity_num = std::stoi( additional_fn_args[0] );
+
+    //
+    map_viewer->map_creator_elt_category = 3;
+    map_viewer->map_creator_elt_id = entity_num;
+    map_viewer->map_creator_elt_color_mod = (Color){255, 255, 255};
+
+    //
+    if (entity_num == 00){ // Bandit camp
+        map_viewer->map_creator_cursor = "res/sprites/entities/bandit_camp2_p.png";
+    }
+    else if (entity_num == 01){ // Town
+        map_viewer->map_creator_cursor = "res/sprites/entities/village2_p.png";
+
+    } else if (entity_num == 02){ // tower
+        map_viewer->map_creator_cursor = "res/sprites/entities/tower2_p.png";
+
+    } else if (entity_num == 10){ // bandit
+        map_viewer->map_creator_cursor = "res/sprites/entities/bandit2_p.png";
+
+    } else if (entity_num == 11){ // cat lvl1
+        map_viewer->map_creator_cursor = "res/sprites/entities/cat_lvl1_p.png";
+
+    } else if (entity_num == 12){ // cat lvl2
+        map_viewer->map_creator_cursor = "res/sprites/entities/cat_lvl2_p.png";
+
+    } else if (entity_num == 13){ // cat lvl3
+        map_viewer->map_creator_cursor = "res/sprites/entities/cat_lvl3_p.png";
+
+    } else if (entity_num == 14){ // cat lvl4
+        map_viewer->map_creator_cursor = "res/sprites/entities/cat_lvl4_p.png";
     }
 }
 
@@ -831,6 +968,23 @@ void MainView::init_page_map_creator() {
 
     );
 
+
+    //
+    this->win_page_manager->pages["map_creator"]->elts.push_back(
+
+        //
+        new WindowEltButton(
+            this->win_page_manager->default_style,  // Style*                           style
+            "clear",                                // std::string                      text
+            nvi(225),                               // Value*                           x
+            nvi(70),                                // Value*                           y
+            nvi(70),                                // Value*                           w
+            nvi(25),                                // Value*                           h
+            on_bt_map_creator_clear                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        )
+
+    );
+
     //
     int t = 40;
 
@@ -865,7 +1019,8 @@ void MainView::init_page_map_creator() {
                 nvi(100 + (i % 10) * (t+5)),            // Value*                           y
                 nvi(t),                                 // Value*                           w
                 nvi(t),                                 // Value*                           h
-                nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+                on_bt_map_creator_tile,                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+                (std::vector<std::string>){ std::to_string(i) }
             )
 
         );
@@ -887,7 +1042,8 @@ void MainView::init_page_map_creator() {
                 nvi(100 + i * (t+5)),                   // Value*                           y
                 nvi(t),                                 // Value*                           w
                 nvi(t),                                 // Value*                           h
-                nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+                on_bt_map_creator_color,                // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+                (std::vector<std::string>){ std::to_string(i+1) }                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
             )
 
         );
@@ -907,7 +1063,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 0 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "10" }
         )
 
     );
@@ -922,7 +1079,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 1 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "11" }
         )
 
     );
@@ -937,7 +1095,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 2 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "12" }
         )
 
     );
@@ -952,7 +1111,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 3 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "13" }
         )
 
     );
@@ -967,7 +1127,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 4 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "14" }
         )
 
     );
@@ -982,7 +1143,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 0 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "00" }
         )
 
     );
@@ -997,7 +1159,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 1 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "01" }
         )
 
     );
@@ -1012,7 +1175,8 @@ void MainView::init_page_map_creator() {
             nvi(100 + 2 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            nullptr                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            (std::vector<std::string>){ "02" }
         )
 
     );

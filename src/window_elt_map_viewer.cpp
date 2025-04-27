@@ -871,8 +871,15 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
         //
         this->sprite_map_creator_cursor->img_path = this->map_creator_cursor;
 
+        // set the color filter
+        tile_transform->do_color_mod = true;
+        tile_transform->color_mod = this->map_creator_elt_color_mod;
+
         //
         this->sprite_map_creator_cursor->draw_elt(main_view, tile_transform);
+
+        // remove the color filter
+        tile_transform->do_color_mod = false;
 
     }
 
