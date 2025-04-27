@@ -22,21 +22,12 @@ void Tile::convert_color(usint new_color) { this->color = new_color; }
 
 void Tile::set_element(Element* e)
 {
-    this->delete_element();
+    if (this->element != nullptr) { delete this->element; }
     this->element = e;
 }
 
 void Tile::reset_element()
 { this->element = nullptr; }
-
-void Tile::delete_element()
-{
-    if (this->element == nullptr) { return; }
-
-    // TODO: manage the memory correctly ! Because some pointers can be lost lost !
-    delete this->element;
-    this->element = nullptr;
-}
 
 
 // ============================== [ Province ] ================================
@@ -497,7 +488,7 @@ void Map::split_province(Coord c, Province* p)
                 this->set_tile_color(cc, NEUTRAL);
                  // let colored tiles ?
 
-                this->remove_tile_of_all_provinces(cc);
+                this->remove_tile_from_all_prov(cc);
             }
         }
 
@@ -525,11 +516,10 @@ void Map::split_province(Coord c, Province* p)
 }
 
 
-void Map::remove_tile_of_all_provinces(Coord c)
+void Map::remove_tile_from_all_prov(Coord c)
 {
-    for (Province* p : this->provinces_layer) {
-        if (p->has_tile(c))
-            { p->_tiles()->erase(c) ; }
+    for (Province* pp : this->provinces_layer) {
+        if (pp->has_tile(c)) { pp->_tiles()->erase(c) ; }
     }
 }
 
@@ -551,7 +541,7 @@ bool Map::adjacent_to_province(Coord c, Province* p)
 void Map::create_bandit_element(Coord c, bool is_unit)
 {
     if (is_unit) {
-        Unit* u = new Unit(NEUTRAL);
+        Unit* u = new Unit(NEUTRAL, 0);
         this->get_tile(c)->set_element(u);
         this->bandits_layer[c] = u;
     }
@@ -568,7 +558,6 @@ void Map::move_bandit(Coord src, Coord dst)
     Element* bandit = this->bandits_layer[src];
     this->bandits_layer.erase(src);
     this->bandits_layer[dst] = bandit;
-
     this->get_tile(src)->reset_element();
     this->get_tile(dst)->set_element(bandit);
 }
@@ -576,6 +565,6 @@ void Map::move_bandit(Coord src, Coord dst)
 
 void Map::delete_bandit_element(Coord c)
 {
-    this->get_tile(c)->delete_element();
     this->bandits_layer.erase(c);
+    this->get_tile(c)->set_element();
 }

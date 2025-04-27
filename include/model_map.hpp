@@ -35,9 +35,8 @@ class Tile {
         // Other functions
         usint get_defense() const;
         void convert_color(usint new_color);
-        void set_element(Element* element);
+        void set_element(Element* element = nullptr);
         void reset_element();
-        void delete_element();
 };
 
 
@@ -143,7 +142,7 @@ class Map {
         void remove_province(Province* p);
         void fusion_provinces(Province* p1, Province* p2);
         void split_province(Coord c, Province* p);
-        void remove_tile_of_all_provinces(Coord c);
+        void remove_tile_from_all_prov(Coord c);
         bool adjacent_to_province(Coord c, Province* p);
 
         // Bandits managment

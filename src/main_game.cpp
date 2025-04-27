@@ -487,72 +487,47 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
 
 
 //
-void MainGame::action_move_entity(Coord src, Coord dst){
+void MainGame::action_move_entity(Coord src, Coord dst)
+{
+    if (src == dst) { return; }
 
-    //
-    if( src == dst ){
-        return;
-    }
+    if (this->game_model == nullptr
+        || this->main_view == nullptr
+        || this->main_view->map_viewer == nullptr)
+        { return; }
 
-    //
-    if( this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr ){ return; }
+    if (!this->game_model->check_action_move_unit(src, dst)) { return; }
 
-    //
-    if( !this->game_model->check_action_move_unit(src, dst) ){
-        return;
-    }
+    Province* old_prov_dst = this->game_model->get_province_at_coord(dst);
 
-    //
-    Province* prev_prov_dst = this->game_model->get_province_at_coord(dst);
-
-    //
     this->game_model->do_action_move_unit(src, dst);
 
-    //
     Province* new_prov_dst = this->game_model->get_province_at_coord(dst);
 
-    //
-    this->game_model->_map()->remove_tile_of_all_provinces( dst );
+    this->game_model->_map()->remove_tile_from_all_prov(dst);
 
-    //
-    Tile* t = this->game_model->_map()->get_tile(dst);
-    //
-    new_prov_dst->add_tile( t );
+    new_prov_dst->add_tile(this->game_model->_map()->get_tile(dst));
 
-    //
-    if( prev_prov_dst != nullptr && prev_prov_dst != new_prov_dst){
-
-        //
-        this->game_model->_map()->split_province( dst, prev_prov_dst );
-
-    }
-
+    if( old_prov_dst != nullptr && old_prov_dst != new_prov_dst)
+        { this->game_model->_map()->split_province(dst, old_prov_dst); }
 
     // Check for provinces to remove
 
-    //
     std::list<Province*>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
     //
-    while ( provinces_to_remove->size() > 0 ){
+    while (provinces_to_remove->size() > 0) {
 
-        //
         Province* province = provinces_to_remove->front();
-        //
         provinces_to_remove->pop_front();
 
-        //
-        if( this->main_view->map_viewer->selected_province == province ){
-            this->main_view->map_viewer->selected_province = nullptr;
-        }
+        if (this->main_view->map_viewer->selected_province == province)
+            { this->main_view->map_viewer->selected_province = nullptr; }
 
-        // TODO: manage the memory correctly ! Because some pointers are lost !
+        // ! TODO: manage the memory correctly ! Because some pointers are lost !
         // delete province;
-
     }
 
-    //
     this->update_selected_province(dst);
-
 }
 
 

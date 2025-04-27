@@ -109,7 +109,7 @@ void GameModel::at_player_turn_start()
             if (unit == nullptr) { continue; }
             unit->can_move = true;
             if (p->_treasury() < 0) {
-                it.second->delete_element();
+                it.second->set_element();
                 this->game_map->create_bandit_element(it.first, true);
             }
         }
@@ -287,7 +287,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 
         if (unit_to_fusion != nullptr && unit_to_fusion->_color() == unit_to_move->_color()) {
             unit_to_fusion->upgrade();
-            src_tile->delete_element();
+            src_tile->set_element();
         }
 
         else {
@@ -308,7 +308,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 
     dst_tile->set_element(unit_to_move);
     src_tile->reset_element();
-    this->game_map->remove_tile_of_all_provinces(dst_tile->_coord());
+    this->game_map->remove_tile_from_all_prov(dst);
     src_prov->add_tile(dst_tile);
     unit_to_move->can_move = false;
 
@@ -388,13 +388,10 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
     }
 
     // If the source unit is an hero, he can go anywhere
-    if (elt_level == MAX_UNIT_LEVEL) return true;
-
-    // Get the tile defense
-    int tile_def = this->get_tile_defense(c);
+    if (elt_level == MAX_UNIT_LEVEL) { return true; }
 
     // If the current unit to move has an higher defense than the destination tile, he can go there
-    return (elt_level > tile_def);
+    return (elt_level > this->get_tile_defense(c));
 }
 
 
@@ -463,9 +460,8 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
             { src_prov->add_treasury(dst_prov->_treasury()); }
     }
 
-    tile->delete_element();
     tile->set_element(new_elt);
-    this->game_map->remove_tile_of_all_provinces(tile->_coord());
+    this->game_map->remove_tile_from_all_prov(tile->_coord());
     src_prov->add_tile(tile);
     //
     Unit* unit_to_move_unit = dynamic_cast<Unit*>(new_elt);
