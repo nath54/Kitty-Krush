@@ -60,6 +60,7 @@ class Element {
         usint _defense() const;
 
         // Other functions
+        bool is_bandit() const; // Return true if bandit, false otherwise
         virtual int get_upkeep_cost() = 0; // Return the upkeep cost of the element
         virtual void convert_bandit() = 0; // Change the element into a bandit element
 };

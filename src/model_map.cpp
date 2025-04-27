@@ -298,7 +298,7 @@ void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
                 || tiles_layer[seed]->get_defense() != 0)
             { seed.x = rand() % size; seed.y = rand() % size; }
 
-        tiles_layer[seed]->set_element(new Unit(NEUTRAL));
+        tiles_layer[seed]->set_element(new Unit(NEUTRAL, 0));
         bandits_layer[seed] = tiles_layer[seed]->_element();
     }
 }
@@ -463,11 +463,11 @@ void Map::split_province(Coord c, Province* p)
 
             Tile* t = this->get_tile(cc);
 
-            if(t == nullptr || t->_element() == nullptr) { continue; }
+            if (t == nullptr || t->_element() == nullptr) { continue; }
 
             Building* b = dynamic_cast<Building*>(t->_element());
 
-            if( b == nullptr || b->_color() == NEUTRAL) { continue; }
+            if (b == nullptr || b->_color() == NEUTRAL) { continue; }
 
             if (b->_defense() == 1) {town = true; break;}
         }
@@ -480,13 +480,10 @@ void Map::split_province(Coord c, Province* p)
                 if (t == nullptr) { continue; }
 
                 Element* elt = t->_element();
-                if( elt != nullptr ) {
-                    elt->convert_bandit();
-                    this->bandits_layer[cc] = elt;
-                }
+                if (elt != nullptr)
+                    { this->bandits_layer[cc] = elt; }
 
-                this->set_tile_color(cc, NEUTRAL);
-                 // let colored tiles ?
+                // this->set_tile_color(cc, NEUTRAL); // let colored tiles
 
                 this->remove_tile_from_all_prov(cc);
             }
@@ -518,8 +515,8 @@ void Map::split_province(Coord c, Province* p)
 
 void Map::remove_tile_from_all_prov(Coord c)
 {
-    for (Province* pp : this->provinces_layer) {
-        if (pp->has_tile(c)) { pp->_tiles()->erase(c) ; }
+    for (Province* p : this->provinces_layer) {
+        if (p->has_tile(c)) { p->_tiles()->erase(c) ; }
     }
 }
 
@@ -530,7 +527,7 @@ bool Map::adjacent_to_province(Coord c, Province* p)
 
     std::vector<Coord> n = neighbours(c);
     for (auto& t : n)
-        if (this->get_province(t) == p) { return true; }
+        { if (this->get_province(t) == p) { return true; } }
 
     return false;
 }

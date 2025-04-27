@@ -32,9 +32,8 @@ usint GameModel::get_tile_defense(Coord c)
 
     usint def_max = tile->get_defense();
 
-    Province *prov = this->game_map->get_province(c);
-    if (prov == nullptr) { return def_max; } // No neighbours defense
-    if (prov->_color() == this->current_player) { return 0; } // Can move if same province
+    if (tile->_color() == NEUTRAL) { return def_max; } // No neighbours defense
+    if (tile->_color() == this->current_player) { return 0; } // Can move if same province
 
     std::vector<Coord> n = neighbours(c);
 
@@ -45,14 +44,14 @@ usint GameModel::get_tile_defense(Coord c)
         if (neib == nullptr) { continue; }
 
         Province* neib_prov = this->game_map->get_province(v);
-        if (neib_prov == nullptr) { continue; }
+        if (neib->_color() == NEUTRAL) { continue; }
 
         // Check if the destination tile and its neighbour tile have the same province
-        if (neib_prov == prov)
+        if (neib->_color() == tile->_color()) {
             // If there is an element on this tile that has an higher defense
             if (neib->_element() != nullptr && neib->_element()->_defense() > def_max)
                 { def_max = neib->_element()->_defense(); }
-
+        }
     }
 
     return def_max;
@@ -97,6 +96,9 @@ void GameModel::reset_provinces()
 
 void GameModel::at_player_turn_start()
 {
+    for (std::pair<Coord, Element*> it : *(this->game_map->_bandits_layer()))
+        { it.second->convert_bandit(); }
+
     std::vector<Province*>* provinces = this->game_map->_provinces_layer();
 
     for (Province* p : *provinces) {
@@ -108,10 +110,8 @@ void GameModel::at_player_turn_start()
             Unit* unit = dynamic_cast<Unit*>(it.second->_element());
             if (unit == nullptr) { continue; }
             unit->can_move = true;
-            if (p->_treasury() < 0) {
-                it.second->set_element();
-                this->game_map->create_bandit_element(it.first, true);
-            }
+            if (p->_treasury() < 0)
+                { this->game_map->create_bandit_element(it.first, true); }
         }
 
         if (p->_treasury() < 0) { p->set_treasury(0); }
@@ -131,10 +131,13 @@ void GameModel::bandit_turn()
         Tile* tile = this->game_map->get_tile(it.first);
         if (tile == nullptr) { continue; }
 
+        it.second->convert_bandit();
+
         Unit* unit = dynamic_cast<Unit*>(it.second);
 
         // building
         if (unit == nullptr) {
+            this->set_tile_color(it.first, NEUTRAL);
             bandit_camps.push_back(it.first);
             continue;
         }
@@ -166,24 +169,29 @@ void GameModel::bandit_turn()
         if (colored_dest.size() > 0) {
             usint id = rand() % colored_dest.size();
             this->game_map->move_bandit(it.first, colored_dest[id]);
-            if (new_camp == Coord(-1, -1)) { new_camp = it.first; }
+            if (new_camp == Coord(-1, -1) && this->game_map->get_province(it.first) == nullptr)
+                { new_camp = it.first; }
         }
 
         else if (tile->_color() == NEUTRAL) {
             usint id = rand() % dest.size();
             this->game_map->move_bandit(it.first, dest[id]);
-            if (new_camp == Coord(-1, -1)) { new_camp = it.first; }
+            if (new_camp == Coord(-1, -1) && this->game_map->get_province(it.first) == nullptr)
+                { new_camp = it.first; }
         }
     }
 
     // If there is no bandit camp, create a new one
-    if (bandits && bandit_camps.size() == 0) {
+    if (bandits && bandit_camps.size() == 0 && new_camp != Coord(-1, -1)) {
+        this->game_map->set_tile_color(new_camp, NEUTRAL);
+        this->game_map->remove_tile_from_all_prov(new_camp);
         this->game_map->create_bandit_element(new_camp, false);
         bandit_camps.push_back(new_camp);
     }
 
     // Manage camps treasury and bandits creation
     for (Coord c : bandit_camps) {
+
         Building* b = dynamic_cast<Building*>(this->game_map->get_tile(c)->_element());
 
         if (nb_coins != 0)
@@ -193,25 +201,27 @@ void GameModel::bandit_turn()
             std::vector<Coord> n = neighbours(c);
             std::vector<Coord> dest = {};
             std::vector<Coord> colored_dest = {};
+
             for (Coord v : n) {
                 Tile* t = this->game_map->get_tile(v);
                 if (t == nullptr) { continue; }
-                if (t->_element() == nullptr && t->get_defense() == 0) {
+                if (t->_element() == nullptr && this->get_tile_defense(v) == 0) {
                     dest.push_back(v);
                     if (t->_color() != NEUTRAL)
                         { colored_dest.push_back(v); }
                 }
             }
+
             if (colored_dest.size() > 0) {
                 usint id = rand() % colored_dest.size();
                 this->game_map->create_bandit_element(colored_dest[id], true);
-                b->update_treasury(-3);
             }
             else if (dest.size() > 0) {
                 usint id = rand() % dest.size();
                 this->game_map->create_bandit_element(dest[id], true);
-                b->update_treasury(-3);
             }
+
+            b->update_treasury(-3);
         }
     }
 
@@ -280,20 +290,29 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     Province* dst_prov = this->game_map->get_province(dst);
     Unit* unit_to_move = dynamic_cast<Unit*>(src_tile->_element());
 
-    if (dst_prov == src_prov && dst_tile->_element() != nullptr) {
-        // Same province, just move and may fusion if possible
+    if (dst_prov == src_prov) { // Same province, just move and may do fusion
 
-        Unit* unit_to_fusion = dynamic_cast<Unit*>(dst_tile->_element());
+        if (dst_tile->_element() != nullptr) {
 
-        if (unit_to_fusion != nullptr && unit_to_fusion->_color() == unit_to_move->_color()) {
-            unit_to_fusion->upgrade();
-            src_tile->set_element();
+            Unit* unit_at_dst = dynamic_cast<Unit*>(dst_tile->_element());
+
+            if (unit_at_dst != nullptr) {
+
+                if (unit_at_dst->is_bandit()) { // kill bandit
+                    this->game_map->delete_bandit_element(dst);
+                    dst_tile->set_element(unit_to_move);
+                }
+                //
+                else // fusion
+                    { unit_at_dst->upgrade(); }
+            }
+            //
+            else { dst_tile->set_element(unit_to_move); }
         }
+        //
+        else { dst_tile->set_element(unit_to_move); }
 
-        else {
-            dst_tile->set_element(unit_to_move);
-            src_tile->set_element(nullptr);
-        }
+        src_tile->reset_element();
 
         return;
     }
@@ -305,6 +324,12 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
         if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr)
             { src_prov->add_treasury(dst_prov->_treasury()); }
     }
+
+    // delete bandit element
+    if (dst_tile->_element() != nullptr
+        && dynamic_cast<Unit*>(dst_tile->_element()) != nullptr
+        && dynamic_cast<Unit*>(dst_tile->_element())->is_bandit())
+        { this->game_map->delete_bandit_element(dst); }
 
     dst_tile->set_element(unit_to_move);
     src_tile->reset_element();
@@ -418,55 +443,56 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
         }
 
     }
-    else src_prov = dst_prov;
+    //
+    else { src_prov = dst_prov; }
 
     if (src_prov == nullptr) { return; }
 
-    Element* new_elt;
-
-    if (is_unit)
-        { new_elt = new Unit(this->current_player, elt_level); }
-    else
-        { new_elt = new Building(this->current_player, elt_level); }
-
-    if (new_elt == nullptr) { return; }
-
     if (dst_prov != nullptr && dst_prov->_color() == this->current_player) { // Same province, just move and may fusion
-
-        Unit* fusion_with = nullptr;
 
         if (tile->_element() != nullptr) {
 
-            Unit* unit = dynamic_cast<Unit*>(tile->_element());
-
-            if (unit != nullptr && unit->_color() == new_elt->_color()) {
-                if( !is_unit || unit->_defense() != new_elt->_defense()) { return; }
-                fusion_with = unit;
+            if (tile->_element()->is_bandit()) { // kill bandit
+                this->game_map->delete_bandit_element(c);
+                tile->set_element(new Unit(this->current_player, elt_level));
             }
+            //
+            else { dynamic_cast<Unit*>(tile->_element())->upgrade(); }
         }
 
-        if (fusion_with != nullptr) { fusion_with->upgrade(); }
-        else { tile->set_element(new_elt); }
+        //
+        else if (is_unit)
+            { tile->set_element(new Unit(this->current_player, elt_level)); }
+        //
+        else
+            { tile->set_element(new Building(this->current_player, elt_level)); }
 
         src_prov->remove_treasury(unit_cost);
 
         return;
     }
 
-    // adverse province
-    if (dst_prov != nullptr) {
-        // this->game_map->split_province(dst_tile->_coord());
-        if (dynamic_cast<Building*>(tile->_element()) != nullptr)
+    // adverse/bandit town
+    if (dynamic_cast<Building*>(tile->_element()) != nullptr) {
+        if (tile->_element()->is_bandit())
+            { src_prov->add_treasury(dynamic_cast<Building*>(tile->_element())->treasury); }
+        else
             { src_prov->add_treasury(dst_prov->_treasury()); }
     }
 
-    tile->set_element(new_elt);
-    this->game_map->remove_tile_from_all_prov(tile->_coord());
-    src_prov->add_tile(tile);
-    //
-    Unit* unit_to_move_unit = dynamic_cast<Unit*>(new_elt);
-    if (unit_to_move_unit != nullptr) { unit_to_move_unit->can_move = false; }
+    // delete bandit element
+    if (tile->_element() != nullptr && tile->_element()->is_bandit())
+        { this->game_map->delete_bandit_element(c); }
 
+    if (is_unit) {
+        tile->set_element(new Unit(this->current_player, elt_level));
+        dynamic_cast<Unit*>(tile->_element())->can_move = false;
+    }
+    else
+        { tile->set_element(new Building(this->current_player, elt_level)); }
+
+    this->game_map->remove_tile_from_all_prov(c);
+    src_prov->add_tile(tile);
     src_prov->remove_treasury(unit_cost);
 
     // Look for same color tiles connexion

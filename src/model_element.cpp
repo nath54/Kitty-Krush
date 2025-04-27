@@ -3,6 +3,7 @@
 // >> Getters <<
 usint Element::_color() const { return this->color; }
 usint Element::_defense() const { return this->defense; }
+bool Element::is_bandit() const { return (this->color == 0); }
 
 // >> Unit <<
 void Unit::upgrade() { if (this->defense < MAX_UNIT_LEVEL) this->defense++; }

@@ -1,11 +1,10 @@
-//
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <iostream>
 #include <filesystem>
 #include <map>
-//
+
 #include "main_game.hpp"
 #include "view.hpp"
 #include "utils.hpp"
