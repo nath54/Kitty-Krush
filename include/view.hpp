@@ -771,6 +771,8 @@ class WindowEltMapViewer: public WindowEltClickable {
         //
         std::set<Coord> can_go_here_tiles;
         //
+        std::map<Coord, Color> debug_colors;
+        //
         GameModel* game_model = nullptr;
         //
         WindowEltRect* rect_current_player = nullptr;

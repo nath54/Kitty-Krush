@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include "model_game.hpp"
+#include "color.hpp"
 
 #define MAP_EXISTS this->game_map != nullptr
 
@@ -140,7 +141,7 @@ void GameModel::bandit_turn()
                 continue;
             }
         }
-        
+
         std::vector<Coord> dest = {};
         std::vector<Coord> colored_dest = {};
         std::vector<Coord> n = neighbours(it.first);
@@ -180,7 +181,7 @@ void GameModel::bandit_turn()
 
         if (nb_coins != 0)
             { b->update_treasury(1 + ((nb_coins - 1) / bandit_camps.size())); }
-        
+
         if (b->treasury >= 3) {
             std::vector<Coord> n = neighbours(c);
             std::vector<Coord> dest = {};
@@ -206,7 +207,7 @@ void GameModel::bandit_turn()
             }
         }
     }
-    
+
     return;
 }
 
@@ -506,10 +507,10 @@ void GameModel::do_action_end_turn()
 
 // >> Other functions <<
 
-void GameModel::calculate_all_provinces_after_map_initialisation()
+std::map<Coord, Color> GameModel::calculate_all_provinces_after_map_initialisation()
 {
 
-    if (this->game_map == nullptr) { return; }
+    if (this->game_map == nullptr) { return {}; }
 
     std::map< int, int > to_convert_num;
     std::map< Coord, int > visited;
@@ -524,7 +525,8 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
         Tile* t = it.second;
 
         Building* building = dynamic_cast<Building*>( t->_element() );
-        if (building == nullptr || building->_color() == NEUTRAL || t->_color()) { continue; }
+        if (building == nullptr || building->_color() <= 0 || t->_color() <= 0) { continue; }
+
 
         to_visit_coord.push_back(it.first);
         to_visit_num.push_back(nb_tot_nums);
@@ -577,6 +579,8 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
 
     int crt_idx = 0;
     std::map<int, int> num_idx;
+    std::map<int, Color> debug_colors;
+    std::map<Coord, Color> map_colors_debug;
     std::vector< std::list<Coord> > all_province_zones;
 
     for (std::pair<Coord, int> it : visited) {
@@ -585,15 +589,24 @@ void GameModel::calculate_all_provinces_after_map_initialisation()
 
         if (num_idx.count(num) == 0) {
             num_idx[num] = crt_idx;
+            debug_colors[num] = random_color();
             crt_idx++;
             all_province_zones.push_back((std::list<Coord>){});
+
         }
 
         all_province_zones[num_idx[num]].push_back(it.first);
+
+        //
+        map_colors_debug[it.first] = debug_colors[num];
+
     }
 
     this->reset_provinces();
 
     for (std::list<Coord> list_of_tiles : all_province_zones)
         { this->game_map->add_province_from_list_of_tiles(list_of_tiles); }
+
+    //
+    return map_colors_debug;
 }

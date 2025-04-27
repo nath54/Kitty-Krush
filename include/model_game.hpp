@@ -5,8 +5,10 @@
 #include <string_view>
 
 #include "model_map.hpp"
+#include "color.hpp"
 
 
+//
 class GameModel {
 
     private:
@@ -63,5 +65,5 @@ class GameModel {
         void do_action_end_turn();
 
         // Other functions
-        void calculate_all_provinces_after_map_initialisation();
+        std::map<Coord, Color> calculate_all_provinces_after_map_initialisation();
 };

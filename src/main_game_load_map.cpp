@@ -128,7 +128,7 @@ void MainGame::set_map_from_data(
     }
 
     //
-    game_model->calculate_all_provinces_after_map_initialisation();
+    this->main_view->map_viewer->debug_colors = game_model->calculate_all_provinces_after_map_initialisation();
 
     //
     Province* p = nullptr;

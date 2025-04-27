@@ -802,6 +802,22 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
             //
             this->draw_barricade(coord, main_view, tile_transform, color, dep_x, dep_y, zoomed_W, zoomed_H, A, B);
 
+
+            //
+            if( false && this->debug_colors.count( coord ) > 0 ){
+
+                // set the color filter
+                tile_transform->do_color_mod = true;
+                tile_transform->color_mod = this->debug_colors[coord];
+
+                //
+                this->color_tile->draw_elt(main_view, tile_transform);
+
+                // remove the color filter
+                tile_transform->do_color_mod = false;
+
+            }
+
             //
             if(coord == this->mouse_hover_tile){
 

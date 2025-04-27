@@ -20,6 +20,11 @@ class Color{
 };
 
 
+
+Color random_color();
+
+
+
 #define MAX_COLOR 10
 
 static const Color CL_BLACK = (Color){ 0, 0, 0};
