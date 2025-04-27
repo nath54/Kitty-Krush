@@ -438,6 +438,8 @@ void Map::split_province(Coord c, Province* p)
                     if (it.second == visited[vv])
                         { visited[it.first] = num; }
                 }
+
+                continue;
             }
 
             to_visit_coord.push_back(vv);
@@ -458,6 +460,9 @@ void Map::split_province(Coord c, Province* p)
     for (std::pair<Coord, int> it : visited) {
 
         int num = it.second;
+        if( to_convert_num.count(num) > 0){
+            num = to_convert_num[num];
+        }
 
         if (num_idx.count(num) == 0) {
             num_idx[num] = crt_idx;
