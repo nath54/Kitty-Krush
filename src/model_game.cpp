@@ -106,8 +106,15 @@ void GameModel::at_player_turn_start()
 
         for (std::pair<Coord, Tile*> it : *(p->_tiles())) {
             Unit* unit = dynamic_cast<Unit*>(it.second->_element());
-            if (unit != nullptr) unit->can_move = true;
+            if (unit == nullptr) { continue; }
+            unit->can_move = true;
+            if (p->_treasury() < 0) {
+                it.second->delete_element();
+                this->game_map->create_bandit_element(it.first, true);
+            }
         }
+
+        if (p->_treasury() < 0) { p->set_treasury(0); }
     }
 }
 
@@ -299,10 +306,9 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
             { src_prov->add_treasury(dst_prov->_treasury()); }
     }
 
-    dst_tile->delete_element();
     dst_tile->set_element(unit_to_move);
-    src_tile->delete_element();
-    this->game_map->remove_tile_of_all_provinces( dst_tile->_coord() );
+    src_tile->reset_element();
+    this->game_map->remove_tile_of_all_provinces(dst_tile->_coord());
     src_prov->add_tile(dst_tile);
     unit_to_move->can_move = false;
 

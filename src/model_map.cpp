@@ -34,7 +34,7 @@ void Tile::delete_element()
     if (this->element == nullptr) { return; }
 
     // TODO: manage the memory correctly ! Because some pointers can be lost lost !
-    // delete this->element;
+    delete this->element;
     this->element = nullptr;
 }
 
@@ -103,21 +103,7 @@ int Province::expected_income()
 }
 
 
-void Province::treasury_turn()
-{
-    // Income
-    this->treasury += this->expected_income();
-
-    // Units management
-    if (this->treasury >= 0) { return; } // units are paid
-
-    this->treasury = 0;
-    Unit* u = nullptr;
-    for (auto& t : tiles_layer) {
-        u = dynamic_cast<Unit*>(t.second->_element());
-        if (u != nullptr) u->convert_bandit();
-    }
-}
+void Province::treasury_turn() { this->treasury += this->expected_income(); }
 
 
 void Province::add_treasury(int amount) { this->treasury += amount; }
@@ -503,7 +489,10 @@ void Map::split_province(Coord c, Province* p)
                 if (t == nullptr) { continue; }
 
                 Element* elt = t->_element();
-                if( elt != nullptr ) elt->convert_bandit();
+                if( elt != nullptr ) {
+                    elt->convert_bandit();
+                    this->bandits_layer[cc] = elt;
+                }
 
                 this->set_tile_color(cc, NEUTRAL);
                  // let colored tiles ?
