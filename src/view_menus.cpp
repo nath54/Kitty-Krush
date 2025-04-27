@@ -36,6 +36,18 @@ void on_bt_change_page_to_main_menu(WindowEltClickable* elt, MainGame* main_game
 void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
+    map_viewer->dragging_entity = false;
+    map_viewer->can_go_here_tiles.clear();
+
+    //
     main_game->change_page("game_settings");
 }
 
@@ -44,12 +56,36 @@ void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_
 void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
+    map_viewer->dragging_entity = false;
+    map_viewer->can_go_here_tiles.clear();
+
+    //
     main_game->change_page("in_game");
 }
 
 
 //
 void on_bt_change_page_to_map_creator(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
+    map_viewer->dragging_entity = false;
+    map_viewer->can_go_here_tiles.clear();
 
     //
     main_game->change_page("map_creator");
@@ -114,6 +150,19 @@ void on_bt_new_tower(WindowEltClickable* elt, MainGame* main_game, std::vector<s
 
 //
 void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
+    map_viewer->dragging_entity = false;
+    map_viewer->can_go_here_tiles.clear();
+
     //
     main_game->action_end_turn();
 }
@@ -121,6 +170,19 @@ void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game, std::vector<st
 
 //
 void on_bt_continue_previous_game(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
+    map_viewer->dragging_entity = false;
+    map_viewer->can_go_here_tiles.clear();
+
     //
     main_game->crt_map_file = "maps/saved_data/saved_map.kkmap";
     //
@@ -130,6 +192,19 @@ void on_bt_continue_previous_game(WindowEltClickable* elt, MainGame* main_game, 
 
 //
 void on_bt_play_map(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+
+    //
+    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+
+    //
+    if(map_viewer == nullptr){ return; }
+
+    //
+    map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
+    map_viewer->dragging_entity = false;
+    map_viewer->can_go_here_tiles.clear();
+
     //
     if( additional_fn_args.size() == 0 ){
         std::cerr << "Error : no map file given in arguments !\n";
@@ -153,6 +228,7 @@ void on_bt_map_creator_bt_category(WindowEltClickable* elt, MainGame* main_game,
 
     //
     map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
 
     //
     if( additional_fn_args.size() == 0 ){
@@ -203,6 +279,8 @@ void on_bt_map_creator_clear(WindowEltClickable* elt, MainGame* main_game, std::
 
     //
     map_viewer->map_creator_cursor = "";
+    map_viewer->map_creator_elt_category = 0;
+
 
     //
     main_game->main_view->map_viewer->clear();
