@@ -343,8 +343,7 @@ void on_bt_map_creator_color(WindowEltClickable* elt, MainGame* main_game, std::
     map_viewer->map_creator_elt_id = color_num;
     map_viewer->map_creator_cursor = "res/ui/tile_for_color.png";
 
-    map_viewer->map_creator_elt_color_mod = allPlayerColors[color_num];
-    // map_viewer->map_creator_elt_color_mod = (Color){255, 25, 23};
+    map_viewer->map_creator_elt_color_mod = allPlayerColors[color_num - 1];
 
 }
 

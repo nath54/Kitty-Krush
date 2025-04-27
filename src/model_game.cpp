@@ -70,7 +70,7 @@ Province* GameModel::get_province_at_coord(Coord c)
 
 // >> Setters <<
 
-void GameModel::set_tile_color(Coord coord, usint color)
+void GameModel::set_tile_color(Coord coord, int color)
 { if (MAP_EXISTS) this->game_map->set_tile_color(coord, color); }
 
 void GameModel::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attribute)
@@ -79,6 +79,8 @@ void GameModel::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt
 void GameModel::set_current_player(int new_player)
 { this->current_player = new_player; }
 
+void GameModel::set_nb_players(int nb_players)
+{ this->nb_players = nb_players; }
 
 // >> Resetters <<
 
@@ -173,7 +175,7 @@ void GameModel::bandit_turn()
                 { new_camp = it.first; }
         }
 
-        else if (tile->_color() == NEUTRAL) {
+        else if (tile->_color() == NEUTRAL && dest.size() > 0) {
             usint id = rand() % dest.size();
             this->game_map->move_bandit(it.first, dest[id]);
             if (new_camp == Coord(-1, -1) && this->game_map->get_province(it.first) == nullptr)

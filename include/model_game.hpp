@@ -41,9 +41,10 @@ class GameModel {
         Province* get_province_at_coord(Coord c);
 
         // Setters
-        void set_tile_color(Coord coord, usint color);
+        void set_tile_color(Coord coord, int color);
         void set_tile_element(Coord c, usint elt_level, bool is_unit, int element_attribute=0);
         void set_current_player(int new_player);
+        void set_nb_players(int nb_players);
 
         // Resetters
         void reset_provinces();

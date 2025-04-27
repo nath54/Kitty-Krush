@@ -43,7 +43,7 @@ class Element {
 
     protected:
 
-        usint color;    // owner of the element
+        int color;    // owner of the element
         usint defense;  // level (= defense) of the element
 
     public:

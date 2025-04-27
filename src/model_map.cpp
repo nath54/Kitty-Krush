@@ -22,7 +22,9 @@ void Tile::convert_color(usint new_color) { this->color = new_color; }
 
 void Tile::set_element(Element* e)
 {
-    if (this->element != nullptr) { delete this->element; }
+    if (this->element != nullptr) {
+        // delete this->element;
+    }
     this->element = e;
 }
 
@@ -176,7 +178,9 @@ std::list<Building*> Map::get_all_buildings(bool with_bandit_buildings)
 void Map::set_tile(Coord c, Tile* new_tile)
 {
     Tile* tile = this->get_tile(c);
-    if (tile != nullptr) delete tile;
+    if (tile != nullptr) {
+        // delete tile;
+    }
     this->tiles_layer[c] = new_tile;
 }
 
@@ -230,7 +234,7 @@ void Map::reset_provinces_layer() { this->provinces_layer.clear(); }
 
 // >> Initialization <<
 
-void Map::recursive_fill(Coord c, unsigned int nb_cover, usint color_cover, Province* p)
+void Map::recursive_fill(Coord c, unsigned int nb_cover, int color_cover, Province* p)
 {
     if (color_cover == NEUTRAL) {
         if (tiles_layer.size() >= nb_cover) { return; } // inhaf NEUTRAL
@@ -353,7 +357,7 @@ void Map::fusion_provinces(Province* p1, Province* p2)
     for (auto& t : *(p2->_tiles())) p1->add_tile(t.second);
     p1->add_treasury(p2->_treasury());
     remove_province(p2);
-    delete p2;
+    // delete p2;
 }
 
 

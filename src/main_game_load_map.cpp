@@ -131,19 +131,38 @@ void MainGame::set_map_from_data(
     this->main_view->map_viewer->debug_colors = game_model->calculate_all_provinces_after_map_initialisation();
 
     //
+    game_model->set_nb_players(1);
+
+    //
+    std::map<Coord, Element*>* bandit_layer = game_model->_map()->_bandits_layer();
+    //
     Province* p = nullptr;
     //
     for( std::pair<Coord, Tile*> it : *(game_model->_map()->_tiles_layer()) ){
         //
         Tile* t = it.second;
-        if (t == nullptr) { continue; }
+        if ( t == nullptr ) { continue; }
+
+        //
+        if ( t->_color() > game_model->_nb_players() ) {
+            game_model->set_nb_players(t->_color());
+        }
+
+        if ( t->_element() == nullptr ) { continue; }
+
+        // Ajout au bandit layer
+        if ( t->_color() == 0 ) {
+            bandit_layer->insert( std::pair<Coord, Element*>(it.first, t->_element()) );
+        }
 
         //
         Building* b = dynamic_cast<Building*>(t->_element());
         //
-        if (b == nullptr) { continue; }
+        if ( b == nullptr ) { continue; }
+
         //
-        if (p != nullptr && b->treasury > 0 ) { p->set_treasury( b->treasury ); }
+        if ( p != nullptr && b->treasury > 0 ) { p->set_treasury( b->treasury ); }
+
     }
 
     //

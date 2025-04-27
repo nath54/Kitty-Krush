@@ -16,7 +16,7 @@ class Tile {
     private:
 
         Coord coord; // coordinates of the tile
-        usint color; // owner of the tile
+        int color; // owner of the tile
         Element* element; // element on the tile (unit or building)
 
     public:
@@ -46,7 +46,7 @@ class Province {
 
     private:
 
-        usint color; // owner of the province
+        int color; // owner of the province
         int treasury; // treasury of the province
         std::map<Coord, Tile*> tiles_layer; // tiles of the province
 
@@ -133,7 +133,7 @@ class Map {
         void reset_provinces_layer();
 
         // Initialization
-        void recursive_fill(Coord c, unsigned int nb_cover, usint color_cover, Province* p = nullptr);
+        void recursive_fill(Coord c, unsigned int nb_cover, int color_cover, Province* p = nullptr);
         void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
 
         // Provinces managment
