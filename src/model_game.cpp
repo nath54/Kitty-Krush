@@ -127,6 +127,8 @@ void GameModel::bandit_turn()
     Coord new_camp = {-1, -1};
     std::vector<Coord> bandit_camps;
 
+    std::cout << "Bandit turn" << std::endl;
+
     // Move existing bandits
     for (std::pair<Coord, Element*> it : *(this->game_map->_bandits_layer())) {
 
@@ -139,10 +141,13 @@ void GameModel::bandit_turn()
 
         // building
         if (unit == nullptr) {
+            std::cout << "Bandit camp at " << it.first.x << ", " << it.first.y << std::endl;
             this->set_tile_color(it.first, NEUTRAL);
             bandit_camps.push_back(it.first);
             continue;
         }
+
+        std::cout << "Bandit unit at " << it.first.x << ", " << it.first.y << std::endl;
 
         //unit
         bandits = true;
@@ -181,20 +186,27 @@ void GameModel::bandit_turn()
             if (new_camp == Coord(-1, -1) && this->game_map->get_province(it.first) == nullptr)
                 { new_camp = it.first; }
         }
+
+        std::cout << "New camp coordinates: " << new_camp.x << ", " << new_camp.y << std::endl;
     }
 
     // If there is no bandit camp, create a new one
     if (bandits && bandit_camps.size() == 0 && new_camp != Coord(-1, -1)) {
+        std::cout << "Creating a new bandit camp at " << new_camp.x << ", " << new_camp.y << std::endl;
         this->game_map->set_tile_color(new_camp, NEUTRAL);
         this->game_map->remove_tile_from_all_prov(new_camp);
         this->game_map->create_bandit_element(new_camp, false);
         bandit_camps.push_back(new_camp);
     }
 
+    std::cout << "Bandit camps: " << bandit_camps.size() << std::endl;
+
     // Manage camps treasury and bandits creation
     for (Coord c : bandit_camps) {
 
         Building* b = dynamic_cast<Building*>(this->game_map->get_tile(c)->_element());
+
+        std::cout << "Bandit camp at " << c.x << ", " << c.y << std::endl;
 
         if (nb_coins != 0)
             { b->update_treasury(1 + ((nb_coins - 1) / bandit_camps.size())); }
@@ -319,18 +331,16 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
         return;
     }
 
-    // adverse province
-    if (dst_prov != nullptr) {
-
-        // this->game_map->split_province(dst_tile->_coord());
-        if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr)
+    // adverse/bandit town
+    if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr) {
+        if (dst_tile->_element()->is_bandit())
+            { src_prov->add_treasury(dynamic_cast<Building*>(dst_tile->_element())->treasury); }
+        else
             { src_prov->add_treasury(dst_prov->_treasury()); }
     }
 
     // delete bandit element
-    if (dst_tile->_element() != nullptr
-        && dynamic_cast<Unit*>(dst_tile->_element()) != nullptr
-        && dynamic_cast<Unit*>(dst_tile->_element())->is_bandit())
+    if (dst_tile->_element() != nullptr && dst_tile->_element()->is_bandit())
         { this->game_map->delete_bandit_element(dst); }
 
     dst_tile->set_element(unit_to_move);

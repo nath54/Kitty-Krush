@@ -34,7 +34,7 @@ class Coord {
             { return (l.x == r.x) && (l.y == r.y); }
 
         bool operator!=(const Coord& v)
-            { return (this->x == v.x) || (this->y == v.y); }
+            { return (this->x != v.x) || (this->y != v.y); }
 
         friend bool operator!=(const Coord& l, const Coord& r)
             { return (l.x != r.x) || (l.y != r.y); }
