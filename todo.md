@@ -2,8 +2,6 @@
 
 ## Architecture
 
-- [ ] Utiliser delete_bandit_element pour supprimer un (camp de) bandit, sinon il reste dans le bandit_layer
-
 ## Règles de jeu
 
 - [ ] Implémenter le repoussement des troupes si elles étaient derrière une palissade
