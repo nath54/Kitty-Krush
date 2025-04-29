@@ -312,13 +312,7 @@ void on_bt_map_creator_tile(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std
     map_viewer->map_creator_elt_color_mod = (Color){255, 255, 255};
 
     //
-    if( allTileData[tile_num].nb_top_layer_imgs > 0 ){
-        map_viewer->map_creator_cursor = "res/sprites/map_w/" + std::string(allTileData[tile_num].top_layer_img[0]);
-    }
-    //
-    else if( allTileData[tile_num].nb_ground_layer_imgs > 0 ){
-        map_viewer->map_creator_cursor = "res/sprites/map_w/" + std::string(allTileData[tile_num].ground_layer_img[0]);
-    }
+    map_viewer->map_creator_cursor = "res/sprites/map_w/" + std::string(allTileData[tile_num].img_preview);
 
 }
 
@@ -1071,16 +1065,7 @@ void MainView::init_page_map_creator() {
     for(int i = 0; i < 69; i++){
 
         //
-        std::string tile_img = "";
-
-        //
-        if( allTileData[i].nb_top_layer_imgs > 0 ){
-            tile_img = "res/sprites/map_w/" + std::string(allTileData[i].top_layer_img[0]);
-        }
-        //
-        else if( allTileData[i].nb_ground_layer_imgs > 0 ){
-            tile_img = "res/sprites/map_w/" + std::string(allTileData[i].ground_layer_img[0]);
-        }
+        std::string tile_img = "res/sprites/map_w/" + std::string(allTileData[i].img_preview);
 
         //
         if( tile_img == ""){ continue; }

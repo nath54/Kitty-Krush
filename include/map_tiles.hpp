@@ -12,9 +12,15 @@
 // A structure holding all static information for a tile.
 // We use const char* (instead of std::string) to avoid any dynamic allocations.
 typedef struct TileData {
+
     int id;                           // valid values: 0 to 69
+
     int global_type;                  // -1: impassable; 0: neutral; [1-n]: owned by a player
+
     const char* tile_name;            // human-readable name
+
+    const char* img_preview;
+
     const int nb_ground_layer_imgs;
     const char* ground_layer_img[5];  // Maximum 5 sprites per tile, unused slots are set to nullptr
     const int nb_top_layer_imgs;
@@ -142,6 +148,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Deep Water Ocean",                             // terrain name
 
+        "deep_water/deep_water_01.png",
+
         // ground_layer_img
         5,
         {"deep_water/deep_water_01.png", "deep_water/deep_water_03.png", "deep_water/deep_water_05.png", "deep_water/deep_water_07.png", "deep_water/deep_water_10.png"},
@@ -160,6 +168,8 @@ static const TileData allTileData[] = {
         1,                                              // terrain id
         -1,                                             // global terrain type
         "Shallow Water",                                // terrain name
+
+        "shallow_water.png",
 
         // ground_layer_img
         1,
@@ -180,6 +190,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "River Water",                                  // terrain name
 
+        "river_water.png",
+
         // ground_layer_img
         1,
         {"river_water.png", nullptr, nullptr, nullptr, nullptr},
@@ -198,6 +210,8 @@ static const TileData allTileData[] = {
         3,                                              // terrain id
         -1,                                             // global terrain type
         "Swamp Water",                                  // terrain name
+
+        "swamp_water.png",
 
         // ground_layer_img
         1,
@@ -218,6 +232,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Reef",                                         // terrain name
 
+        "reef.png",
+
         // ground_layer_img
         1,
         {"reef.png", nullptr, nullptr, nullptr, nullptr},
@@ -237,6 +253,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Oasis",                                        // terrain name
 
+        "oasis.png",
+
         // ground_layer_img
         1,
         {"oasis.png", nullptr, nullptr, nullptr, nullptr},
@@ -255,6 +273,9 @@ static const TileData allTileData[] = {
         6,                                              // terrain id
         -1,                                             // global terrain type
         "Frozen Water",                                 // terrain name
+
+        "frozen_water.png",
+
         1,
         {
             "frozen_water.png",
@@ -271,6 +292,8 @@ static const TileData allTileData[] = {
         7,                                              // terrain id
         -1,                                             // global terrain type
         "Water Lilies",                                 // terrain name
+
+        "water_lilies.png",
 
         // ground_layer_img
         1,
@@ -291,6 +314,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Flowering Lilies",                             // terrain name
 
+        "flowering_water_lilies.png",
+
         // ground_layer_img
         1,
         {"shallow_water.png", nullptr, nullptr, nullptr, nullptr},
@@ -309,6 +334,8 @@ static const TileData allTileData[] = {
         9,                                              // terrain id
         0,                                              // global terrain type
         "Muddy",                                        // terrain name
+
+        "muddy.png",
 
         // ground_layer_img
         1,
@@ -329,6 +356,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Green Grass",                                  // terrain name
 
+        "green_grass/green_grass_01.png",
+
         // ground_layer_img
         5,
         {"green_grass/green_grass_01.png", "green_grass/green_grass_02.png", "green_grass/green_grass_03.png", "green_grass/green_grass_04.png", "green_grass/green_grass_05.png"},
@@ -347,6 +376,8 @@ static const TileData allTileData[] = {
         11,                                             // terrain id
         0,                                              // global terrain type
         "Semi-dry Grass",                               // terrain name
+
+        "semi_dry_grass.png",
 
         // ground_layer_img
         1,
@@ -367,6 +398,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Dry Grass",                                    // terrain name
 
+        "dry_grass.png",
+
         // ground_layer_img
         1,
         {"dry_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -385,6 +418,8 @@ static const TileData allTileData[] = {
         13,                                             // terrain id
         0,                                              // global terrain type
         "Dirt",                                         // terrain name
+
+        "dirt.png",
 
         // ground_layer_img
         1,
@@ -405,6 +440,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Dry Dirt",                                     // terrain name
 
+        "dry_dirt.png",
+
         // ground_layer_img
         1,
         {"dry_dirt.png", nullptr, nullptr, nullptr, nullptr},
@@ -423,6 +460,8 @@ static const TileData allTileData[] = {
         15,                                             // terrain id
         0,                                              // global terrain type
         "Cobbles",                                      // terrain name
+
+        "cobbles.png",
 
         // ground_layer_img
         1,
@@ -443,6 +482,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Snow",                                         // terrain name
 
+        "snow.png",
+
         // ground_layer_img
         1,
         {"snow.png", nullptr, nullptr, nullptr, nullptr},
@@ -461,6 +502,8 @@ static const TileData allTileData[] = {
         17,                                             // terrain id
         0,                                              // global terrain type
         "Snow Grass",                                   // terrain name
+
+        "snow_grass.png",
 
         // ground_layer_img
         1,
@@ -481,6 +524,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Desert Sand",                                  // terrain name
 
+        "desert_sand.png",
+
         // ground_layer_img
         1,
         {"desert_sand.png", nullptr, nullptr, nullptr, nullptr},
@@ -499,6 +544,8 @@ static const TileData allTileData[] = {
         19,                                             // terrain id
         0,                                              // global terrain type
         "Beach Sand",                                   // terrain name
+
+        "beach_sand.png",
 
         // ground_layer_img
         1,
@@ -519,6 +566,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Farmland",                                     // terrain name
 
+        "farmlands.png",
+
         // ground_layer_img
         1,
         {"farmlands.png", nullptr, nullptr, nullptr, nullptr},
@@ -537,6 +586,8 @@ static const TileData allTileData[] = {
         21,                                             // terrain id
         0,                                              // global terrain type
         "Dirt Path",                                    // terrain name
+
+        "dirt_path.png",
 
         // ground_layer_img
         1,
@@ -557,6 +608,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Rubble",                                       // terrain name
 
+        "rubble.png",
+
         // ground_layer_img
         1,
         {"dirt.png", nullptr, nullptr, nullptr, nullptr},
@@ -575,6 +628,8 @@ static const TileData allTileData[] = {
         23,                                             // terrain id
         0,                                              // global terrain type
         "Mixed flowers",                                // terrain name
+
+        "mixed_flowers.png",
 
         // ground_layer_img
         1,
@@ -595,6 +650,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Mixed Frozen flowers",                         // terrain name
 
+        "mixed_frozen_flowers.png",
+
         // ground_layer_img
         1,
         {"snow_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -613,6 +670,8 @@ static const TileData allTileData[] = {
         25,                                             // terrain id
         0,                                              // global terrain type
         "Cherry Flowers",                               // terrain name
+
+        "cherry_flowers.png",
 
         // ground_layer_img
         1,
@@ -633,6 +692,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Small Stones",                                 // terrain name
 
+        "small_stones.png",
+
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -651,6 +712,8 @@ static const TileData allTileData[] = {
         27,                                             // terrain id
         0,                                              // global terrain type
         "Small Snowy Stones",                           // terrain name
+
+        "small_snowy_stones.png",
 
         // ground_layer_img
         1,
@@ -671,6 +734,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Small Mushrooms",                              // terrain name
 
+        "small_mushrooms.png",
+
         // ground_layer_img
         1,
         {"dirt.png", nullptr, nullptr, nullptr, nullptr},
@@ -689,6 +754,8 @@ static const TileData allTileData[] = {
         29,                                             // terrain id
         -1,                                             // global terrain type
         "Brazier",                                      // terrain name
+
+        "brazier.png",
 
         // ground_layer_img
         1,
@@ -709,6 +776,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Lit Brazier",                                  // terrain name
 
+        "lit_brazier.png",
+
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -727,6 +796,8 @@ static const TileData allTileData[] = {
         31,                                             // terrain id
         -1,                                             // global terrain type
         "Great Tree",                                   // terrain name
+
+        "great_tree/great_tree_01.png",
 
         // ground_layer_img
         1,
@@ -747,13 +818,15 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Dead Great Tree",                              // terrain name
 
+        "great_tree/dead_great_tree_1.png",
+
         // ground_layer_img
         1,
         {"dirt.png", nullptr, nullptr, nullptr, nullptr},
 
         // top_layer_img
-        1,
-        {"dead_great_tree.png", nullptr, nullptr, nullptr, nullptr},
+        5,
+        {"great_tree/dead_great_tree_1.png", "great_tree/dead_great_tree_2.png", "great_tree/dead_great_tree_3.png", "great_tree/dead_great_tree_4.png", "great_tree/dead_great_tree_5.png"},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "grass", nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -765,6 +838,8 @@ static const TileData allTileData[] = {
         33,                                             // terrain id
         -1,                                             // global terrain type
         "Snow Great Tree",                              // terrain name
+
+        "snow_great_tree.png",
 
         // ground_layer_img
         1,
@@ -785,6 +860,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Tropical Forest",                              // terrain name
 
+        "tropical_forest.png",
+
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -803,6 +880,8 @@ static const TileData allTileData[] = {
         35,                                             // terrain id
         -1,                                             // global terrain type
         "Rainforest",                                   // terrain name
+
+        "rainforest.png",
 
         // ground_layer_img
         1,
@@ -823,6 +902,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Palm Forest",                                  // terrain name
 
+        "palm_forest.png",
+
         // ground_layer_img
         1,
         {"beach_sand.png", nullptr, nullptr, nullptr, nullptr},
@@ -841,6 +922,8 @@ static const TileData allTileData[] = {
         37,                                             // terrain id
         -1,                                             // global terrain type
         "Savanna",                                      // terrain name
+
+        "savanna.png",
 
         // ground_layer_img
         1,
@@ -861,6 +944,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Pine Forest",                                  // terrain name
 
+        "pine_forest.png",
+
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -879,6 +964,8 @@ static const TileData allTileData[] = {
         39,                                             // terrain id
         -1,                                             // global terrain type
         "Snowy Pine Forest",                            // terrain name
+
+        "snowy_pine_forest.png",
 
         // ground_layer_img
         1,
@@ -899,6 +986,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Summer Deciduous Forest",                      // terrain name
 
+        "summer_forest/summer_forest_01.png",
+
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -917,6 +1006,8 @@ static const TileData allTileData[] = {
         41,                                             // terrain id
         -1,                                             // global terrain type
         "Fall Deciduous Forest",                        // terrain name
+
+        "fall_forest.png",
 
         // ground_layer_img
         1,
@@ -937,6 +1028,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Cherry Forest",                                // terrain name
 
+        "cherry_forest.png",
+
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
@@ -955,6 +1048,8 @@ static const TileData allTileData[] = {
         43,                                             // terrain id
         0,                                              // global terrain type
         "Regular Hills",                                // terrain name
+
+        "regular_hills.png",
 
         // ground_layer_img
         1,
@@ -975,6 +1070,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Dry Hills",                                    // terrain name
 
+        "dry_hills.png",
+
         // ground_layer_img
         1,
         {"dry_hills.png", nullptr, nullptr, nullptr, nullptr},
@@ -993,6 +1090,8 @@ static const TileData allTileData[] = {
         45,                                             // terrain id
         0,                                              // global terrain type
         "Dunes",                                        // terrain name
+
+        "dunes.png",
 
         // ground_layer_img
         1,
@@ -1013,6 +1112,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Snowy Hills",                                  // terrain name
 
+        "snowy_hills.png",
+
         // ground_layer_img
         1,
         {"snowy_hills.png", nullptr, nullptr, nullptr, nullptr},
@@ -1031,6 +1132,8 @@ static const TileData allTileData[] = {
         47,                                                 // terrain id
         -1,                                                 // global terrain type
         "Regular Mountains",                                // terrain name
+
+        "regular_mountains.png",
 
         // ground_layer_img
         1,
@@ -1051,6 +1154,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Dry Mountains",                                // terrain name
 
+        "dry_mountains.png",
+
         // ground_layer_img
         1,
         {"dry_mountains.png", nullptr, nullptr, nullptr, nullptr},
@@ -1069,6 +1174,8 @@ static const TileData allTileData[] = {
         49,                                             // terrain id
         -1,                                             // global terrain type
         "Snow Mountains",                               // terrain name
+
+        "snow_mountains.png",
 
         // ground_layer_img
         1,
@@ -1089,9 +1196,11 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Desert Mountains",                             // terrain name
 
+        "desert_mountains.png",
+
         // ground_layer_img
         1,
-        {"desert_mountains.png", nullptr, nullptr, nullptr, nullptr},
+        {"desert_mountains.png", "mountain/desert2.png", "mountain/desert3.png", "mountain/desert4.png", "mountain/desert5.png"},
 
         // top_layer_img
         0,
@@ -1107,6 +1216,8 @@ static const TileData allTileData[] = {
         51,                                             // terrain id
         -1,                                             // global terrain type
         "Volcano",                                      // terrain name
+
+        "volcano.png",
 
         // ground_layer_img
         1,
@@ -1127,6 +1238,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Basic Stone floor",                            // terrain name
 
+        "basic_stone_floor.png",
+
         // ground_layer_img
         1,
         {"basic_stone_floor.png", nullptr, nullptr, nullptr, nullptr},
@@ -1145,6 +1258,8 @@ static const TileData allTileData[] = {
         53,                                             // terrain id
         0,                                              // global terrain type
         "Ancient Stone floor",                          // terrain name
+
+        "ancient_stone_floor.png",
 
         // ground_layer_img
         1,
@@ -1165,6 +1280,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Basic Wooden floor",                           // terrain name
 
+        "basic_wooden_floor.png",
+
         // ground_layer_img
         1,
         {"basic_wooden_floor.png", nullptr, nullptr, nullptr, nullptr},
@@ -1183,6 +1300,8 @@ static const TileData allTileData[] = {
         55,                                             // terrain id
         0,                                              // global terrain type
         "Old Wooden floor",                             // terrain name
+
+        "old_wooden_floor.png",
 
         // ground_layer_img
         1,
@@ -1203,6 +1322,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Beam of light",                                // terrain name
 
+        "beam_of_light.png",
+
         // ground_layer_img
         1,
         {"cave_floor.png", nullptr, nullptr, nullptr, nullptr},
@@ -1221,6 +1342,8 @@ static const TileData allTileData[] = {
         57,                                             // terrain id
         0,                                              // global terrain type
         "Cave Floor",                                   // terrain name
+
+        "cave_floor.png",
 
         // ground_layer_img
         1,
@@ -1241,6 +1364,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Earthy Cave Floor",                            // terrain name
 
+        "earthy_cave_floor.png",
+
         // ground_layer_img
         1,
         {"earthy_cave_floor.png", nullptr, nullptr, nullptr, nullptr},
@@ -1259,6 +1384,8 @@ static const TileData allTileData[] = {
         59,                                             // terrain id
         0,                                              // global terrain type
         "Cave Path",                                    // terrain name
+
+        "cave_path.png",
 
         // ground_layer_img
         1,
@@ -1279,6 +1406,8 @@ static const TileData allTileData[] = {
         0,                                              // global terrain type
         "Mushroom Grove",                               // terrain name
 
+        "mushroom_grove.png",
+
         // ground_layer_img
         1,
         {"cave_floor.png", nullptr, nullptr, nullptr, nullptr},
@@ -1297,6 +1426,8 @@ static const TileData allTileData[] = {
         61,                                             // terrain id
         -1,                                             // global terrain type
         "Rockbound Cave",                               // terrain name
+
+        "rockbound_cave.png",
 
         // ground_layer_img
         1,
@@ -1317,6 +1448,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Earthy Rockbound Cave",                        // terrain name
 
+        "earthy_rockbound_cave.png",
+
         // ground_layer_img
         1,
         {"earthy_rockbound_cave.png", nullptr, nullptr, nullptr, nullptr},
@@ -1335,6 +1468,8 @@ static const TileData allTileData[] = {
         63,                                             // terrain id
         -1,                                             // global terrain type
         "Regular Cave Wall",                            // terrain name
+
+        "regular_cave_wall.png",
 
         // ground_layer_img
         1,
@@ -1355,6 +1490,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Earthy Cave Wall",                             // terrain name
 
+        "earthy_cave_wall.png",
+
         // ground_layer_img
         1,
         {"earthy_cave_wall.png", nullptr, nullptr, nullptr, nullptr},
@@ -1373,6 +1510,8 @@ static const TileData allTileData[] = {
         65,                                             // terrain id
         -1,                                             // global terrain type
         "Regular Chasm",                                // terrain name
+
+        "regular_chasm.png",
 
         // ground_layer_img
         1,
@@ -1393,6 +1532,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Earthy Chasm",                                 // terrain name
 
+        "earthy_chasm.png",
+
         // ground_layer_img
         1,
         {"earthy_chasm.png", nullptr, nullptr, nullptr, nullptr},
@@ -1411,6 +1552,8 @@ static const TileData allTileData[] = {
         67,                                             // terrain id
         -1,                                             // global terrain type
         "Ethereal Chasm",                               // terrain name
+
+        "ethereal_chasm.png",
 
         // ground_layer_img
         1,
@@ -1431,6 +1574,8 @@ static const TileData allTileData[] = {
         -1,                                             // global terrain type
         "Lava Chasm",                                   // terrain name
 
+        "lava_chasm.png",
+
         // ground_layer_img
         1,
         {"lava_chasm.png", nullptr, nullptr, nullptr, nullptr},
@@ -1449,6 +1594,8 @@ static const TileData allTileData[] = {
         69,                                             // terrain id
         -1,                                             // global terrain type
         "Lava",                                         // terrain name
+
+        "lava.png",
 
         // ground_layer_img
         1,
