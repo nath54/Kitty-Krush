@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "geometry.hpp"
 
 typedef unsigned short int usint;
@@ -8,16 +10,16 @@ typedef unsigned short int usint;
 // =============================== [ Pointers ] ===============================
 
 
-#define ELEMENT_T Element*
-#define UNIT_T Unit*
-#define BUILDING_T Building*
+#define ELEMENT_T std::shared_ptr<Element>
+#define UNIT_T std::shared_ptr<Unit>
+#define BUILDING_T std::shared_ptr<Building>
 
-#define CREATE_ELEMENT_T(...) new Element(__VA_ARGS__)
-#define CREATE_UNIT_T(...) new Unit(__VA_ARGS__)
-#define CREATE_BUILDING_T(...) new Building(__VA_ARGS__)
+#define CREATE_ELEMENT_T(...) std::make_shared<Element>(__VA_ARGS__)
+#define CREATE_UNIT_T(...) std::make_shared<Unit>(__VA_ARGS__)
+#define CREATE_BUILDING_T(...) std::make_shared<Building>(__VA_ARGS__)
 
-#define DCAST_UNIT_T(...) dynamic_cast<UNIT_T>(__VA_ARGS__)
-#define DCAST_BUILDING_T(...) dynamic_cast<BUILDING_T>(__VA_ARGS__)
+#define DCAST_UNIT_T(...) std::dynamic_pointer_cast<Unit>(__VA_ARGS__)
+#define DCAST_BUILDING_T(...) std::dynamic_pointer_cast<Building>(__VA_ARGS__)
 
 
 // ============================== [ Constants ] ===============================

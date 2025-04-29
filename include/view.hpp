@@ -37,76 +37,76 @@ static const int frameDelay = 16;  // 60 FPS = 1000 miliseconds / 60 frame per s
 // =============================== [ Pointers ] ===============================
 
 
-#define WINDOW_ELT_T WindowElt*
-#define WINDOW_ELT_CLICKABLE_T WindowEltClickable*
-#define WINDOW_ELT_RECT_T WindowEltRect*
-#define WINDOW_ELT_SPRITE_T WindowEltSprite*
-#define WINDOW_ELT_ANIMATED_SPRITE_T WindowEltAnimatedSprite*
-#define WINDOW_ELT_BUTTON_T WindowEltButton*
-#define WINDOW_ELT_TEXT_T WindowEltText*
-#define WINDOW_ELT_MAP_TILE_T WindowEltMapTile*
-#define WINDOW_ELT_MAP_VIEWER_T WindowEltMapViewer*
+#define WINDOW_ELT_T std::shared_ptr<WindowElt>
+#define WINDOW_ELT_CLICKABLE_T std::shared_ptr<WindowEltClickable>
+#define WINDOW_ELT_RECT_T std::shared_ptr<WindowEltRect>
+#define WINDOW_ELT_SPRITE_T std::shared_ptr<WindowEltSprite>
+#define WINDOW_ELT_ANIMATED_SPRITE_T std::shared_ptr<WindowEltAnimatedSprite>
+#define WINDOW_ELT_BUTTON_T std::shared_ptr<WindowEltButton>
+#define WINDOW_ELT_TEXT_T std::shared_ptr<WindowEltText>
+#define WINDOW_ELT_MAP_TILE_T std::shared_ptr<WindowEltMapTile>
+#define WINDOW_ELT_MAP_VIEWER_T std::shared_ptr<WindowEltMapViewer>
 
-#define VALUE_T Value*
-#define VALUE_INT_T ValueInt*
-#define VALUE_PERCENT_T ValuePercent*
-#define VALUE_PERCENT_WIN_WIDTH_T ValuePercentWinWidth*
-#define VALUE_PERCENT_WIN_HEIGHT_T ValuePercentWinHeight*
+#define VALUE_T std::shared_ptr<Value>
+#define VALUE_INT_T std::shared_ptr<ValueInt>
+#define VALUE_PERCENT_T std::shared_ptr<ValuePercent>
+#define VALUE_PERCENT_WIN_WIDTH_T std::shared_ptr<ValuePercentWinWidth>
+#define VALUE_PERCENT_WIN_HEIGHT_T std::shared_ptr<ValuePercentWinHeight>
 
-#define DRAW_TRANSFORM_T DrawTransform*
+#define DRAW_TRANSFORM_T std::shared_ptr<DrawTransform>
 
-#define SPRITE_CROP_T SpriteCrop*
-#define SPRITE_CROP_INT_T SpriteCropInt*
-#define SPRITE_CROP_VALUE_PERCENT_T SpriteCropValuePercent*
-#define SPRITE_POSITION_T SpritePosition*
-#define SPRITE_RATIO_T SpriteRatio*
-#define SPRITE_RESIZE_T SpriteResize*
+#define SPRITE_CROP_T std::shared_ptr<SpriteCrop>
+#define SPRITE_CROP_INT_T std::shared_ptr<SpriteCropInt>
+#define SPRITE_CROP_VALUE_PERCENT_T std::shared_ptr<SpriteCropValuePercent>
+#define SPRITE_POSITION_T std::shared_ptr<SpritePosition>
+#define SPRITE_RATIO_T std::shared_ptr<SpriteRatio>
+#define SPRITE_RESIZE_T std::shared_ptr<SpriteResize>
 
-#define CREATE_WINDOW_ELT_T(...) new WindowElt(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_CLICKABLE_T(...) new WindowEltClickable(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_RECT_T(...) new WindowEltRect(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_SPRITE_T(...) new WindowEltSprite(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(...) new WindowEltAnimatedSprite(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_BUTTON_T(...) new WindowEltButton(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_TEXT_T(...) new WindowEltText(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_MAP_TILE_T(...) new WindowEltMapTile(__VA_ARGS__)
-#define CREATE_WINDOW_ELT_MAP_VIEWER_T(...) new WindowEltMapViewer(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_T(...) std::make_shared<WindowElt>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_CLICKABLE_T(...) std::make_shared<WindowEltClickable>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_RECT_T(...) std::make_shared<WindowEltRect>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_SPRITE_T(...) std::make_shared<WindowEltSprite>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(...) std::make_shared<WindowEltAnimatedSprite>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_BUTTON_T(...) std::make_shared<WindowEltButton>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_TEXT_T(...) std::make_shared<WindowEltText>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_MAP_TILE_T(...) std::make_shared<WindowEltMapTile>(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_MAP_VIEWER_T(...) std::make_shared<WindowEltMapViewer>(__VA_ARGS__)
 
-#define CREATE_VALUE_T(...) new Value(__VA_ARGS__)
-#define CREATE_VALUE_INT_T(...) new ValueInt(__VA_ARGS__)
-#define CREATE_VALUE_PERCENT_T(...) new ValuePercent(__VA_ARGS__)
-#define CREATE_VALUE_PERCENT_WIN_WIDTH_T(...) new ValuePercentWinWidth(__VA_ARGS__)
-#define CREATE_VALUE_PERCENT_WIN_HEIGHT_T(...) new ValuePercentWinHeight(__VA_ARGS__)
+#define CREATE_VALUE_T(...) std::make_shared<Value>(__VA_ARGS__)
+#define CREATE_VALUE_INT_T(...) std::make_shared<ValueInt>(__VA_ARGS__)
+#define CREATE_VALUE_PERCENT_T(...) std::make_shared<ValuePercent>(__VA_ARGS__)
+#define CREATE_VALUE_PERCENT_WIN_WIDTH_T(...) std::make_shared<ValuePercentWinWidth>(__VA_ARGS__)
+#define CREATE_VALUE_PERCENT_WIN_HEIGHT_T(...) std::make_shared<ValuePercentWinHeight>(__VA_ARGS__)
 
-#define CREATE_DRAW_TRANSFORM_T(...) new DrawTransform(__VA_ARGS__)
+#define CREATE_DRAW_TRANSFORM_T(...) std::make_shared<DrawTransform>(__VA_ARGS__)
 
-#define CREATE_SPRITE_CROP_T(...) new SpriteCrop(__VA_ARGS__)
-#define CREATE_SPRITE_CROP_INT_T(...) new SpriteCropInt(__VA_ARGS__)
-#define CREATE_SPRITE_CROP_VALUE_PERCENT_T(...) new SpriteCropValuePercent(__VA_ARGS__)
-#define CREATE_SPRITE_POSITION_T(...) new SpritePosition(__VA_ARGS__)
-#define CREATE_SPRITE_RATIO_T(...) new SpriteRatio(__VA_ARGS__)
-#define CREATE_SPRITE_RESIZE_T(...) new SpriteResize(__VA_ARGS__)
+#define CREATE_SPRITE_CROP_T(...) std::make_shared<SpriteCrop>(__VA_ARGS__)
+#define CREATE_SPRITE_CROP_INT_T(...) std::make_shared<SpriteCropInt>(__VA_ARGS__)
+#define CREATE_SPRITE_CROP_VALUE_PERCENT_T(...) std::make_shared<SpriteCropValuePercent>(__VA_ARGS__)
+#define CREATE_SPRITE_POSITION_T(...) std::make_shared<SpritePosition>(__VA_ARGS__)
+#define CREATE_SPRITE_RATIO_T(...) std::make_shared<SpriteRatio>(__VA_ARGS__)
+#define CREATE_SPRITE_RESIZE_T(...) std::make_shared<SpriteResize>(__VA_ARGS__)
 
-#define DCAST_WINDOW_ELT_CLICKABLE_T(...) dynamic_cast<WINDOW_ELT_CLICKABLE_T>(__VA_ARGS__)
-#define DCAST_WINDOW_ELT_RECT_T(...) dynamic_cast<WINDOW_ELT_RECT_T>(__VA_ARGS__)
-#define DCAST_WINDOW_ELT_SPRITE_T(...) dynamic_cast<WINDOW_ELT_SPRITE_T>(__VA_ARGS__)
-#define DCAST_WINDOW_ELT_ANIMATED_SPRITE_T(...) dynamic_cast<WINDOW_ELT_ANIMATED_SPRITE_T>(__VA_ARGS__)
-#define DCAST_WINDOW_ELT_BUTTON_T(...) dynamic_cast<WINDOW_ELT_BUTTON_T>(__VA_ARGS__)
-#define DCAST_WINDOW_ELT_TEXT_T(...) dynamic_cast<WINDOW_ELT_TEXT_T>(__VA_ARGS__)
-#define DCAST_WINDOW_ELT_MAP_TILE_T(...) dynamic_cast<WINDOW_ELT_MAP_TILE_T>(__VA_ARGS__)
-#define DCAST_WINDOW_ELT_MAP_VIEWER_T(...) dynamic_cast<WINDOW_ELT_MAP_VIEWER_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_CLICKABLE_T(...) std::dynamic_pointer_cast<WindowEltClickable>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_RECT_T(...) std::dynamic_pointer_cast<WindowEltRect>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_SPRITE_T(...) std::dynamic_pointer_cast<WindowEltSprite>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_ANIMATED_SPRITE_T(...) std::dynamic_pointer_cast<WindowEltAnimatedSprite>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_BUTTON_T(...) std::dynamic_pointer_cast<WindowEltButton>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_TEXT_T(...) std::dynamic_pointer_cast<WindowEltText>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_MAP_TILE_T(...) std::dynamic_pointer_cast<WindowEltMapTile>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_MAP_VIEWER_T(...) std::dynamic_pointer_cast<WindowEltMapViewer>(__VA_ARGS__)
 
-#define DCAST_VALUE_INT_T(...) dynamic_cast<VALUE_INT_T>(__VA_ARGS__)
-#define DCAST_VALUE_PERCENT_T(...) dynamic_cast<VALUE_PERCENT_T>(__VA_ARGS__)
-#define DCAST_VALUE_PERCENT_WIN_WIDTH_T(...) dynamic_cast<VALUE_PERCENT_WIN_WIDTH_T>(__VA_ARGS__)
-#define DCAST_VALUE_PERCENT_WIN_HEIGHT_T(...) dynamic_cast<VALUE_PERCENT_WIN_HEIGHT_T>(__VA_ARGS__)
+#define DCAST_VALUE_INT_T(...) std::dynamic_pointer_cast<ValueInt>(__VA_ARGS__)
+#define DCAST_VALUE_PERCENT_T(...) std::dynamic_pointer_cast<ValuePercent>(__VA_ARGS__)
+#define DCAST_VALUE_PERCENT_WIN_WIDTH_T(...) std::dynamic_pointer_cast<ValuePercentWinWidth>(__VA_ARGS__)
+#define DCAST_VALUE_PERCENT_WIN_HEIGHT_T(...) std::dynamic_pointer_cast<ValuePercentWinHeight>(__VA_ARGS__)
 
-#define DCAST_SPRITE_CROP_T(...) dynamic_cast<SPRITE_CROP_T>(__VA_ARGS__)
-#define DCAST_SPRITE_CROP_INT_T(...) dynamic_cast<SPRITE_CROP_INT_T>(__VA_ARGS__)
-#define DCAST_SPRITE_CROP_VALUE_PERCENT_T(...) dynamic_cast<SPRITE_CROP_VALUE_PERCENT_T>(__VA_ARGS__)
-#define DCAST_SPRITE_POSITION_T(...) dynamic_cast<SPRITE_POSITION_T>(__VA_ARGS__)
-#define DCAST_SPRITE_RATIO_T(...) dynamic_cast<SPRITE_RATIO_T>(__VA_ARGS__)
-#define DCAST_SPRITE_RESIZE_T(...) dynamic_cast<SPRITE_RESIZE_T>(__VA_ARGS__)
+#define DCAST_SPRITE_CROP_T(...) std::dynamic_pointer_cast<SpriteCrop>(__VA_ARGS__)
+#define DCAST_SPRITE_CROP_INT_T(...) std::dynamic_pointer_cast<SpriteCropInt>(__VA_ARGS__)
+#define DCAST_SPRITE_CROP_VALUE_PERCENT_T(...) std::dynamic_pointer_cast<SpriteCropValuePercent>(__VA_ARGS__)
+#define DCAST_SPRITE_POSITION_T(...) std::dynamic_pointer_cast<SpritePosition>(__VA_ARGS__)
+#define DCAST_SPRITE_RATIO_T(...) std::dynamic_pointer_cast<SpriteRatio>(__VA_ARGS__)
+#define DCAST_SPRITE_RESIZE_T(...) std::dynamic_pointer_cast<SpriteResize>(__VA_ARGS__)
 
 // =============================== [ Classes ] ===============================
 

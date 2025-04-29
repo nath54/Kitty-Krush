@@ -2,6 +2,7 @@
 //
 #include <string>
 #include <map>
+#include <memory>
 //
 #include "color.hpp"
 
@@ -14,9 +15,9 @@
 // =============================== [ Pointers ] ===============================
 
 
-#define STYLE_T Style*
+#define STYLE_T std::shared_ptr<Style>
 
-#define CREATE_STYLE_T(...) new Style(__VA_ARGS__)
+#define CREATE_STYLE_T(...) std::make_shared<Style>(__VA_ARGS__)
 
 
 // =============================== [ Classess ] ===============================

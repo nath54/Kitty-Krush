@@ -142,14 +142,6 @@ void WindowEltMapTile::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform)
 void WindowEltMapTile::set_ground_base(std::string ground_base_img){
 
     //
-    if (this->ground_base_layer != nullptr){
-
-        //
-        delete this->ground_base_layer;
-
-    }
-
-    //
     std::string img_path;
 
     //
@@ -902,9 +894,6 @@ void WindowEltMapViewer::clear(){
             continue;
         }
 
-        //
-        delete it.second;
-
     }
 
     //
@@ -921,11 +910,6 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
 
     //
     std::map< Coord, WINDOW_ELT_MAP_TILE_T>::iterator res_iter = this->tiles_layers.find( v );
-    if( res_iter != this->tiles_layers.end() ){
-
-        // res_iter->first is the key, res_iter->second is the value
-        delete res_iter->second;
-    }
 
     //
     this->tiles_layers[v] = CREATE_WINDOW_ELT_MAP_TILE_T(

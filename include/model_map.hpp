@@ -1,5 +1,8 @@
+#pragma once
+
 #include <map>
 #include <list>
+#include <memory>
 
 #include "model_element.hpp"
 
@@ -12,12 +15,12 @@ class Province;
 // =============================== [ Pointers ] ===============================
 
 
-#define TILE_T Tile*
-#define PROVINCE_T Province*
+#define TILE_T std::shared_ptr<Tile>
+#define PROVINCE_T std::shared_ptr<Province>
 
 
-#define CREATE_TILE_T(...) new Tile(__VA_ARGS__)
-#define CREATE_PROVINCE_T(...) new Province(__VA_ARGS__)
+#define CREATE_TILE_T(...) std::make_shared<Tile>(__VA_ARGS__)
+#define CREATE_PROVINCE_T(...) std::make_shared<Province>(__VA_ARGS__)
 
 // ================================= [ Tile ] =================================
 

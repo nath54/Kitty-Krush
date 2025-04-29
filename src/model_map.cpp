@@ -146,7 +146,7 @@ ELEMENT_T Map::get_tile_element(Coord c)
 
 PROVINCE_T Map::get_province(Coord c)
 {
-    Tile * tile = this->get_tile(c);
+    TILE_T tile = this->get_tile(c);
     if (tile == nullptr || tile->_color() == NEUTRAL) { return nullptr; }
 
     for (PROVINCE_T p : this->provinces_layer)
