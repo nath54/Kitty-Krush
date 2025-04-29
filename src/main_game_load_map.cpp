@@ -23,7 +23,7 @@ void MainGame::set_map_from_data(
 ){
 
     //
-    WindowEltMapViewer* map_viewer = this->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = this->main_view->map_viewer;
     GameModel* game_model = this->game_model;
 
     //
@@ -173,12 +173,12 @@ void MainGame::set_map_from_data(
 
     // Init data
 
-    WindowElt* player_rect_elt = this->main_view->win_page_manager->pages["in_game"]->elts[2];
-    WindowElt* player_text_elt = this->main_view->win_page_manager->pages["in_game"]->elts[3];
+    WINDOW_ELT_T player_rect_elt = this->main_view->win_page_manager->pages["in_game"]->elts[2];
+    WINDOW_ELT_T player_text_elt = this->main_view->win_page_manager->pages["in_game"]->elts[3];
 
     //
-    WindowEltRect* player_rect = dynamic_cast<WindowEltRect*>(player_rect_elt);
-    WindowEltText* player_text = dynamic_cast<WindowEltText*>(player_text_elt);
+    WINDOW_ELT_RECT_T player_rect = dynamic_cast<WINDOW_ELT_RECT_T>(player_rect_elt);
+    WINDOW_ELT_TEXT_T player_text = dynamic_cast<WINDOW_ELT_TEXT_T>(player_text_elt);
 
     //
     if ( player_rect != nullptr ){
@@ -464,7 +464,7 @@ void MainGame::save_map(std::string file_path) {
     for (auto it : this->main_view->map_viewer->tiles_layers) {
 
         Coord coord = it.first;
-        WindowEltMapTile* tile = it.second;
+        WINDOW_ELT_MAP_TILE_T tile = it.second;
 
         coords.push_back(coord);
 

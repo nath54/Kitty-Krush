@@ -24,6 +24,7 @@ file(GLOB_RECURSE HEADERS include/*.hpp)
 
 # Add the executable
 add_executable(KittyKrush ${SOURCES} ${HEADERS})
+target_compile_options(KittyKrush PRIVATE -O3)
 
 # Link SDL2
 target_link_libraries(KittyKrush PRIVATE SDL2 SDL2_ttf SDL2_gfx SDL2_image)

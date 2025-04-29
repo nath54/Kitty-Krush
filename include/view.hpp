@@ -33,6 +33,36 @@ static char SDL_ERROR_BUFFER[1000];
 static const int frameDelay = 16;  // 60 FPS = 1000 miliseconds / 60 frame per seconds = 16 miliseconds per frame
 
 
+
+// =============================== [ Pointers ] ===============================
+
+
+#define WINDOW_ELT_T WindowElt*
+#define WINDOW_ELT_CLICKABLE_T WindowEltClickable*
+#define WINDOW_ELT_RECT_T WindowEltRect*
+#define WINDOW_ELT_SPRITE_T WindowEltSprite*
+#define WINDOW_ELT_ANIMATED_SPRITE_T WindowEltAnimatedSprite*
+#define WINDOW_ELT_BUTTON_T WindowEltButton*
+#define WINDOW_ELT_TEXT_T WindowEltText*
+#define WINDOW_ELT_MAP_TILE_T WindowEltMapTile*
+#define WINDOW_ELT_MAP_VIEWER_T WindowEltMapViewer*
+
+#define CREATE_WINDOW_ELT_T(...) new WindowElt(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_CLICKABLE_T(...) new WindowEltClickable(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_RECT_T(...) new WindowEltRect(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_SPRITE_T(...) new WindowEltSprite(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(...) new WindowEltAnimatedSprite(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_BUTTON_T(...) new WindowEltButton(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_TEXT_T(...) new WindowEltText(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_MAP_TILE_T(...) new WindowEltMapTile(__VA_ARGS__)
+#define CREATE_WINDOW_ELT_MAP_VIEWER_T(...) new WindowEltMapViewer(__VA_ARGS__)
+
+
+// =============================== [ Classes ] ===============================
+
+
+
+
 // Forward declaration
 class WindowPagesManager;
 class WindowEltMapViewer;
@@ -76,7 +106,7 @@ class MainView{
         GameModel* game_model = nullptr;
 
         // Reference to map viewer
-        WindowEltMapViewer* map_viewer = nullptr;
+        WINDOW_ELT_MAP_VIEWER_T map_viewer = nullptr;
 
         // Constructor
         MainView(GameModel* game_model);
@@ -321,7 +351,7 @@ class WindowPage {
     public:
 
         // Attribute
-        std::vector< WindowElt* > elts;
+        std::vector< WINDOW_ELT_T > elts;
 
         // Constructeur par défaut
         WindowPage() {}
@@ -356,7 +386,7 @@ class WindowEltClickable : public WindowElt {
 
         // Attributes
         bool disabled = false;
-        std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr;
+        std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click = nullptr;
         std::vector<std::string> additional_fn_args;
 
         // Constructor
@@ -366,7 +396,7 @@ class WindowEltClickable : public WindowElt {
             Value* y,
             Value* w = new ValueInt(-1),
             Value* h = new ValueInt(-1),
-            std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr,
+            std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click = nullptr,
             std::vector<std::string> additional_fn_args = (std::vector<std::string>){}
          )
         : WindowElt(style, x, y, w, h), on_click(on_click), additional_fn_args(additional_fn_args) {};
@@ -618,7 +648,7 @@ class WindowEltAnimatedSprite : public WindowElt {
         //
         uint32_t start_time;
         //
-        WindowEltSprite* sprite;
+        WINDOW_ELT_SPRITE_T sprite;
         //
         SpriteCropInt* sprite_crop;
 
@@ -660,7 +690,7 @@ class WindowEltButton : public WindowEltClickable {
         //
         int fontSize;
         //
-        WindowEltSprite* bt_sprite = nullptr;
+        WINDOW_ELT_SPRITE_T bt_sprite = nullptr;
 
         // Constructor
         WindowEltButton( Style* style,
@@ -669,7 +699,7 @@ class WindowEltButton : public WindowEltClickable {
                          Value* y,
                          Value* w,
                          Value* h,
-                         std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr,
+                         std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click = nullptr,
                          std::vector<std::string> additional_fn_args = (std::vector<std::string>){}
                         );
 
@@ -685,8 +715,8 @@ class WindowEltMapTile: public WindowElt {
         // Attributes
         int tile;
         //
-        WindowEltSprite* ground_base_layer = nullptr;
-        WindowEltSprite* ground_top_layer = nullptr;
+        WINDOW_ELT_SPRITE_T ground_base_layer = nullptr;
+        WINDOW_ELT_SPRITE_T ground_top_layer = nullptr;
         //
         bool ground_base_to_complete = false;
 
@@ -725,34 +755,34 @@ class WindowEltMapViewer: public WindowEltClickable {
     public:
 
         // Attributes
-        std::map< Coord, WindowEltMapTile* > tiles_layers;
+        std::map< Coord, WINDOW_ELT_MAP_TILE_T > tiles_layers;
         //
-        // WindowEltSprite* default_empty_tile;
-        WindowEltAnimatedSprite* default_empty_tile;
-        WindowEltSprite* color_tile;
-        WindowEltAnimatedSprite* under_entity_effect;
-        WindowEltAnimatedSprite* can_go_here_effect;
+        // WINDOW_ELT_SPRITE_T default_empty_tile;
+        WINDOW_ELT_ANIMATED_SPRITE_T default_empty_tile;
+        WINDOW_ELT_SPRITE_T color_tile;
+        WINDOW_ELT_ANIMATED_SPRITE_T under_entity_effect;
+        WINDOW_ELT_ANIMATED_SPRITE_T can_go_here_effect;
 
 
         // ! TODO: sprites for all entities
 
         //
-        WindowEltAnimatedSprite* warrior_lvl_0;     // bandit
-        WindowEltAnimatedSprite* warrior_lvl_1;     // villager
-        WindowEltAnimatedSprite* warrior_lvl_2;     // spike
-        WindowEltAnimatedSprite* warrior_lvl_3;     // knight
-        WindowEltAnimatedSprite* warrior_lvl_4;     // heros
+        WINDOW_ELT_ANIMATED_SPRITE_T warrior_lvl_0;     // bandit
+        WINDOW_ELT_ANIMATED_SPRITE_T warrior_lvl_1;     // villager
+        WINDOW_ELT_ANIMATED_SPRITE_T warrior_lvl_2;     // spike
+        WINDOW_ELT_ANIMATED_SPRITE_T warrior_lvl_3;     // knight
+        WINDOW_ELT_ANIMATED_SPRITE_T warrior_lvl_4;     // heros
         //
-        WindowEltAnimatedSprite* building_lvl_1_no_color;    // bandit camp
-        WindowEltAnimatedSprite* building_lvl_1;    // town
-        WindowEltAnimatedSprite* building_lvl_2;    // tower
+        WINDOW_ELT_ANIMATED_SPRITE_T building_lvl_1_no_color;    // bandit camp
+        WINDOW_ELT_ANIMATED_SPRITE_T building_lvl_1;    // town
+        WINDOW_ELT_ANIMATED_SPRITE_T building_lvl_2;    // tower
         //
-        WindowEltSprite* barricade_top;
-        WindowEltSprite* barricade_top_right;
-        WindowEltSprite* barricade_top_left;
-        WindowEltSprite* barricade_bottom_right;
-        WindowEltSprite* barricade_bottom_left;
-        WindowEltSprite* barricade_bottom;
+        WINDOW_ELT_SPRITE_T barricade_top;
+        WINDOW_ELT_SPRITE_T barricade_top_right;
+        WINDOW_ELT_SPRITE_T barricade_top_left;
+        WINDOW_ELT_SPRITE_T barricade_bottom_right;
+        WINDOW_ELT_SPRITE_T barricade_bottom_left;
+        WINDOW_ELT_SPRITE_T barricade_bottom;
         //
         double cam_x = 0;
         double cam_y = 0;
@@ -767,7 +797,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         EntityData entity_dragged = (EntityData){4, true};
         Coord tile_entity_dragged = (Coord){0, 0};
         //
-        WindowEltSprite* sprite_map_creator_cursor;
+        WINDOW_ELT_SPRITE_T sprite_map_creator_cursor;
         std::string map_creator_cursor = "";
         int map_creator_elt_category = 0;   // 0 = non, 1 = tiles, 2 = colors, 3 = entities
         int map_creator_elt_id = -1;
@@ -781,24 +811,24 @@ class WindowEltMapViewer: public WindowEltClickable {
         //
         GameModel* game_model = nullptr;
         //
-        WindowEltRect* rect_current_player = nullptr;
-        WindowEltText* txt_current_player = nullptr;
+        WINDOW_ELT_RECT_T rect_current_player = nullptr;
+        WINDOW_ELT_TEXT_T txt_current_player = nullptr;
         //
-        WindowEltText* elt_province_1 = nullptr;
-        WindowEltSprite* elt_province_2 = nullptr;
-        WindowEltText* txt_province_treasury = nullptr;
-        WindowEltText* txt_province_expected_income = nullptr;
+        WINDOW_ELT_TEXT_T elt_province_1 = nullptr;
+        WINDOW_ELT_SPRITE_T elt_province_2 = nullptr;
+        WINDOW_ELT_TEXT_T txt_province_treasury = nullptr;
+        WINDOW_ELT_TEXT_T txt_province_expected_income = nullptr;
         //
-        WindowEltButton* bt_unit_lvl1 = nullptr;
-        WindowEltText* txt_unit_lvl1 = nullptr;
-        WindowEltButton* bt_unit_lvl2 = nullptr;
-        WindowEltText* txt_unit_lvl2 = nullptr;
-        WindowEltButton* bt_unit_lvl3 = nullptr;
-        WindowEltText* txt_unit_lvl3 = nullptr;
-        WindowEltButton* bt_unit_lvl4 = nullptr;
-        WindowEltText* txt_unit_lvl4 = nullptr;
-        WindowEltButton* bt_building_lvl2 = nullptr;
-        WindowEltText* txt_building_lvl2 = nullptr;
+        WINDOW_ELT_BUTTON_T bt_unit_lvl1 = nullptr;
+        WINDOW_ELT_TEXT_T txt_unit_lvl1 = nullptr;
+        WINDOW_ELT_BUTTON_T bt_unit_lvl2 = nullptr;
+        WINDOW_ELT_TEXT_T txt_unit_lvl2 = nullptr;
+        WINDOW_ELT_BUTTON_T bt_unit_lvl3 = nullptr;
+        WINDOW_ELT_TEXT_T txt_unit_lvl3 = nullptr;
+        WINDOW_ELT_BUTTON_T bt_unit_lvl4 = nullptr;
+        WINDOW_ELT_TEXT_T txt_unit_lvl4 = nullptr;
+        WINDOW_ELT_BUTTON_T bt_building_lvl2 = nullptr;
+        WINDOW_ELT_TEXT_T txt_building_lvl2 = nullptr;
 
         // Constructor
         WindowEltMapViewer( Style* style,
@@ -806,7 +836,7 @@ class WindowEltMapViewer: public WindowEltClickable {
             Value* y,
             Value* w,
             Value* h,
-            std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click = nullptr
+            std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click = nullptr
         );
 
         // Functions : darw
@@ -836,7 +866,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         // Getters
         std::vector< Coord > get_adjacents_tiles_coords_to_tile(int x, int y);
         std::vector< std::string > get_adjacents_tiles_base_ground_to_tile(int x, int y);
-        WindowEltMapTile* get_layer_tile_at_coord(Coord coord);
+        WINDOW_ELT_MAP_TILE_T get_layer_tile_at_coord(Coord coord);
         EntityData get_entity_data_at_coord(Coord coord);
         int get_color_at_coord(Coord coord);
 
@@ -860,5 +890,5 @@ class WindowEltMapViewer: public WindowEltClickable {
 };
 
 
-void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args);
+void on_map_viewer_click(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args);
 

@@ -16,7 +16,7 @@
 #include "map_tiles.hpp"
 
 
-void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_quit_click(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
     main_game->quit();
@@ -25,7 +25,7 @@ void on_bt_quit_click(WindowEltClickable* elt, MainGame* main_game, std::vector<
 
 
 //
-void on_bt_change_page_to_main_menu(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_change_page_to_main_menu(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
     main_game->change_page("main_menu");
@@ -33,10 +33,10 @@ void on_bt_change_page_to_main_menu(WindowEltClickable* elt, MainGame* main_game
 
 
 //
-void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_change_page_to_game_settings(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -53,10 +53,10 @@ void on_bt_change_page_to_game_settings(WindowEltClickable* elt, MainGame* main_
 
 
 //
-void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_change_page_to_in_game(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -73,10 +73,10 @@ void on_bt_change_page_to_in_game(WindowEltClickable* elt, MainGame* main_game, 
 
 
 //
-void on_bt_change_page_to_map_creator(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_change_page_to_map_creator(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -96,7 +96,7 @@ void on_bt_change_page_to_map_creator(WindowEltClickable* elt, MainGame* main_ga
 void set_new_entity_dragged(MainGame* main_game, int level, bool type){
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -114,45 +114,45 @@ void set_new_entity_dragged(MainGame* main_game, int level, bool type){
 
 
 //
-void on_bt_new_warrior_lvl1(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_new_warrior_lvl1(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 1, true);
 }
 
 
 //
-void on_bt_new_warrior_lvl2(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_new_warrior_lvl2(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 2, true);
 }
 
 
 //
-void on_bt_new_warrior_lvl3(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_new_warrior_lvl3(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 3, true);
 }
 
 
 //
-void on_bt_new_warrior_lvl4(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_new_warrior_lvl4(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 4, true);
 }
 
 
 //
-void on_bt_new_tower(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_new_tower(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
     //
     set_new_entity_dragged(main_game, 2, false);
 }
 
 
 //
-void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_end_turn(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -169,10 +169,10 @@ void on_bt_end_turn(WindowEltClickable* elt, MainGame* main_game, std::vector<st
 
 
 //
-void on_bt_continue_previous_game(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_continue_previous_game(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -191,10 +191,10 @@ void on_bt_continue_previous_game(WindowEltClickable* elt, MainGame* main_game, 
 
 
 //
-void on_bt_play_map(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_play_map(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -218,10 +218,10 @@ void on_bt_play_map(WindowEltClickable* elt, MainGame* main_game, std::vector<st
 
 
 //
-void on_bt_map_creator_bt_category(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_map_creator_bt_category(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -269,10 +269,10 @@ void on_bt_map_creator_bt_category(WindowEltClickable* elt, MainGame* main_game,
 
 
 //
-void on_bt_map_creator_clear(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_map_creator_clear(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -292,10 +292,10 @@ void on_bt_map_creator_clear(WindowEltClickable* elt, MainGame* main_game, std::
 
 
 //
-void on_bt_map_creator_tile(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_map_creator_tile(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -324,10 +324,10 @@ void on_bt_map_creator_tile(WindowEltClickable* elt, MainGame* main_game, std::v
 
 
 //
-void on_bt_map_creator_color(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_map_creator_color(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -349,10 +349,10 @@ void on_bt_map_creator_color(WindowEltClickable* elt, MainGame* main_game, std::
 
 
 //
-void on_bt_map_creator_entity(WindowEltClickable* elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
+void on_bt_map_creator_entity(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
     //
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     //
     if(map_viewer == nullptr){ return; }
@@ -409,7 +409,7 @@ void MainView::init_page_main_menu() {
     this->win_page_manager->pages["main_menu"]->elts.push_back(
 
         //
-        new WindowEltSprite(
+        CREATE_WINDOW_ELT_SPRITE_T(
             this->win_page_manager->default_style,  // Style*           style,
             "res/bgs/bg_main_menu_2.png",           // std::string      img_path,
             nvi(0),                                 // Value*           x,
@@ -434,14 +434,14 @@ void MainView::init_page_main_menu() {
     this->win_page_manager->pages["main_menu"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Play !",                               // std::string                      text
             nvpww(win_attr, 35),                    // Value*                           x
             nvpwh(win_attr, 45),                    // Value*                           y
             nvpww(win_attr, 30),                    // Value*                           w
             nvi(100),                               // Value*                           h
-            on_bt_change_page_to_game_settings      // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_change_page_to_game_settings      // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -450,14 +450,14 @@ void MainView::init_page_main_menu() {
     this->win_page_manager->pages["main_menu"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Quit...",                              // std::string                      text
             nvpww(win_attr, 40),                    // Value*                           x
             nvpwh(win_attr, 65),                    // Value*                           y
             nvpww(win_attr, 20),                    // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_quit_click                        // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_quit_click                        // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -479,7 +479,7 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltSprite(
+        CREATE_WINDOW_ELT_SPRITE_T(
             this->win_page_manager->default_style,  // Style*           style,
             "res/bgs/bg_game_settings_menu.png",    // std::string      img_path,
             nvi(0),                                 // Value*           x,
@@ -503,14 +503,14 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Back",                                 // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(15),                                // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_change_page_to_main_menu          // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_change_page_to_main_menu          // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -519,7 +519,7 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltRect(
+        CREATE_WINDOW_ELT_RECT_T(
             this->win_page_manager->default_style,  // Style*                           style
             (Color){255, 255, 255},                 // Color                            cl
             nvpww(win_attr, 15),                    // Value*                           x
@@ -535,14 +535,14 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Continue game",                        // std::string                      text
             nvpww(win_attr, 20),                    // Value*                           x
             nvi(100),                               // Value*                           y
             nvpww(win_attr, 100 - 2 * 20),          // Value*                           w
             nvi(60),                                // Value*                           h
-            on_bt_continue_previous_game            // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_continue_previous_game            // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -551,7 +551,7 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltRect(
+        CREATE_WINDOW_ELT_RECT_T(
             this->win_page_manager->default_style,  // Style*                           style
             (Color){255, 255, 255},                 // Color                            cl
             nvpww(win_attr, 15),                    // Value*                           x
@@ -567,14 +567,14 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Create a new map",                     // std::string                      text
             nvpww(win_attr, 20),                    // Value*                           x
             nvi(200),                               // Value*                           y
             nvpww(win_attr, 100 - 2 * 20),          // Value*                           w
             nvi(60),                                // Value*                           h
-            on_bt_change_page_to_map_creator        // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_change_page_to_map_creator        // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -583,7 +583,7 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltRect(
+        CREATE_WINDOW_ELT_RECT_T(
             this->win_page_manager->default_style,  // Style*                           style
             (Color){255, 255, 255},                 // Color                            cl
             nvpww(win_attr, 15),                    // Value*                           x
@@ -600,7 +600,7 @@ void MainView::init_page_game_settings() {
     this->win_page_manager->pages["game_settings"]->elts.push_back(
 
         //
-        new WindowEltText(
+        CREATE_WINDOW_ELT_TEXT_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Play another game :",                  // std::string                      txt
             nvpww(win_attr, 15),                    // Value*                           x
@@ -626,18 +626,18 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"] = new WindowPage();
 
     //
-    this->map_viewer = new WindowEltMapViewer(
+    this->map_viewer = CREATE_WINDOW_ELT_MAP_VIEWER_T(
         this->win_page_manager->default_style,  // Style*                           style
         nvi(0),                                 // Value*                           x
         nvi(0),                                 // Value*                           y
         nvpww(win_attr, 100),                   // Value*                           w
         nvpwh(win_attr, 100),                   // Value*                           h
-        on_map_viewer_click                     // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>  on_click
+        on_map_viewer_click                     // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>  on_click
     );
     this->map_viewer->game_model = this->game_model;
 
     //
-    this->map_viewer->rect_current_player = new WindowEltRect(
+    this->map_viewer->rect_current_player = CREATE_WINDOW_ELT_RECT_T(
         this->win_page_manager->default_style,  // Style*                           style
         (Color){150, 150, 150},                 // Color                            cl
         nvpww(win_attr, 40),                    // Value*                           x
@@ -648,7 +648,7 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->txt_current_player = new WindowEltText(
+    this->map_viewer->txt_current_player = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         "player 1",                             // std::string                      txt
         nvpww(win_attr, 40),                    // Value*                           x
@@ -658,7 +658,7 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->elt_province_1 = new WindowEltText(
+    this->map_viewer->elt_province_1 = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         "Selected province : ",                 // std::string                      txt
         nvpww(win_attr, 38, 0),                 // Value*                           x
@@ -668,7 +668,7 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->txt_province_treasury = new WindowEltText(
+    this->map_viewer->txt_province_treasury = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         "10",                                   // std::string                      txt
         nvpww(win_attr, 38, 160),               // Value*                           x
@@ -678,7 +678,7 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->elt_province_2 = new WindowEltSprite(
+    this->map_viewer->elt_province_2 = CREATE_WINDOW_ELT_SPRITE_T(
         this->win_page_manager->default_style,  // Style*                           style
         "res/ui/gold.png",                      // std::string                      txt
         nvpww(win_attr, 38, 200),               // Value*                           x
@@ -688,7 +688,7 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->txt_province_expected_income = new WindowEltText(
+    this->map_viewer->txt_province_expected_income = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         "(+10)",                                // std::string                      txt
         nvpww(win_attr, 38, 230),               // Value*                           x
@@ -698,18 +698,18 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->bt_unit_lvl1 = new WindowEltButton(
+    this->map_viewer->bt_unit_lvl1 = CREATE_WINDOW_ELT_BUTTON_T(
         this->win_page_manager->default_style,  // Style*                           style
         "res/sprites/entities/cat_lvl1_p.png",  // std::string                      text
         nvi(15),                                // Value*                           x
         nvi(100),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl1                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        on_bt_new_warrior_lvl1                  // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
-    this->map_viewer->txt_unit_lvl1 = new WindowEltText(
+    this->map_viewer->txt_unit_lvl1 = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         std::to_string(units_new_costs[1]),     // std::string                      txt
         nvi(15),                                // Value*                           x
@@ -719,18 +719,18 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->bt_unit_lvl2 = new WindowEltButton(
+    this->map_viewer->bt_unit_lvl2 = CREATE_WINDOW_ELT_BUTTON_T(
         this->win_page_manager->default_style,  // Style*                           style
         "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
         nvi(15),                                // Value*                           x
         nvi(200),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl2                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        on_bt_new_warrior_lvl2                  // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
-    this->map_viewer->txt_unit_lvl2 = new WindowEltText(
+    this->map_viewer->txt_unit_lvl2 = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         std::to_string(units_new_costs[2]),     // std::string                      txt
         nvi(15),                                // Value*                           x
@@ -740,18 +740,18 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->bt_unit_lvl3 = new WindowEltButton(
+    this->map_viewer->bt_unit_lvl3 = CREATE_WINDOW_ELT_BUTTON_T(
         this->win_page_manager->default_style,  // Style*                           style
         "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
         nvi(15),                                // Value*                           x
         nvi(300),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl3                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        on_bt_new_warrior_lvl3                  // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
-    this->map_viewer->txt_unit_lvl3 = new WindowEltText(
+    this->map_viewer->txt_unit_lvl3 = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         std::to_string(units_new_costs[3]),     // std::string                      txt
         nvi(15),                                // Value*                           x
@@ -761,18 +761,18 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->bt_unit_lvl4 = new WindowEltButton(
+    this->map_viewer->bt_unit_lvl4 = CREATE_WINDOW_ELT_BUTTON_T(
         this->win_page_manager->default_style,  // Style*                           style
         "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
         nvi(15),                                // Value*                           x
         nvi(400),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_warrior_lvl4                  // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        on_bt_new_warrior_lvl4                  // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
-    this->map_viewer->txt_unit_lvl4 = new WindowEltText(
+    this->map_viewer->txt_unit_lvl4 = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         std::to_string(units_new_costs[4]),     // std::string                      txt
         nvi(15),                                // Value*                           x
@@ -782,18 +782,18 @@ void MainView::init_page_in_game() {
     );
 
     //
-    this->map_viewer->bt_building_lvl2 = new WindowEltButton(
+    this->map_viewer->bt_building_lvl2 = CREATE_WINDOW_ELT_BUTTON_T(
         this->win_page_manager->default_style,  // Style*                           style
         "res/sprites/entities/tower2_p.png",    // std::string                      text
         nvi(15),                                // Value*                           x
         nvi(500),                               // Value*                           y
         nvi(60),                                // Value*                           w
         nvi(60),                                // Value*                           h
-        on_bt_new_tower                         // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+        on_bt_new_tower                         // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
     );
 
     //
-    this->map_viewer->txt_building_lvl2 = new WindowEltText(
+    this->map_viewer->txt_building_lvl2 = CREATE_WINDOW_ELT_TEXT_T(
         this->win_page_manager->default_style,  // Style*                           style
         std::to_string(buildings_new_costs[2]), // std::string                      txt
         nvi(15),                                // Value*                           x
@@ -809,14 +809,14 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Back",                                 // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(15),                                // Value*                           y
             nvi(100),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_change_page_to_game_settings      // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_change_page_to_game_settings      // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -850,7 +850,7 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
-        new WindowEltSprite(
+        CREATE_WINDOW_ELT_SPRITE_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // Value*                           x
@@ -871,7 +871,7 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
-        new WindowEltSprite(
+        CREATE_WINDOW_ELT_SPRITE_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // Value*                           x
@@ -892,7 +892,7 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
-        new WindowEltSprite(
+        CREATE_WINDOW_ELT_SPRITE_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // Value*                           x
@@ -913,7 +913,7 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
-        new WindowEltSprite(
+        CREATE_WINDOW_ELT_SPRITE_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // Value*                           x
@@ -934,7 +934,7 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
-        new WindowEltSprite(
+        CREATE_WINDOW_ELT_SPRITE_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // Value*                           x
@@ -949,14 +949,14 @@ void MainView::init_page_in_game() {
     this->win_page_manager->pages["in_game"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "end turn",                             // std::string                      text
             nvi(15),                                // Value*                           x
             nvpwh(win_attr, 100, -60),              // Value*                           y
             nvi(200),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_end_turn                          // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_end_turn                          // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -981,14 +981,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "Back",                                 // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(15),                                // Value*                           y
             nvi(100),                               // Value*                           w
             nvi(40),                                // Value*                           h
-            on_bt_change_page_to_game_settings      // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_change_page_to_game_settings      // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -998,14 +998,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "tiles",                                // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(70),                                // Value*                           y
             nvi(70),                                // Value*                           w
             nvi(25),                                // Value*                           h
-            on_bt_map_creator_bt_category,          // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_bt_category,          // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             std::vector<std::string>{"tiles"}
         )
 
@@ -1016,14 +1016,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "colors",                               // std::string                      text
             nvi(90),                                // Value*                           x
             nvi(70),                                // Value*                           y
             nvi(70),                                // Value*                           w
             nvi(25),                                // Value*                           h
-            on_bt_map_creator_bt_category,          // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_bt_category,          // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             std::vector<std::string>{"colors"}        )
 
     );
@@ -1033,14 +1033,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "entities",                             // std::string                      text
             nvi(165),                               // Value*                           x
             nvi(70),                                // Value*                           y
             nvi(70),                                // Value*                           w
             nvi(25),                                // Value*                           h
-            on_bt_map_creator_bt_category,          // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_bt_category,          // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             std::vector<std::string>{"entities"}        )
 
     );
@@ -1050,14 +1050,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "clear",                                // std::string                      text
             nvi(245),                               // Value*                           x
             nvi(70),                                // Value*                           y
             nvi(70),                                // Value*                           w
             nvi(25),                                // Value*                           h
-            on_bt_map_creator_clear                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_clear                 // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );
@@ -1089,14 +1089,14 @@ void MainView::init_page_map_creator() {
         this->win_page_manager->pages["map_creator"]->elts.push_back(
 
             //
-            new WindowEltButton(
+            CREATE_WINDOW_ELT_BUTTON_T(
                 this->win_page_manager->default_style,  // Style*                           style
                 tile_img,                               // std::string                      text
                 nvi(15 + (int)(i / 10) * (t + 5)),      // Value*                           x
                 nvi(100 + (i % 10) * (t+5)),            // Value*                           y
                 nvi(t),                                 // Value*                           w
                 nvi(t),                                 // Value*                           h
-                on_bt_map_creator_tile,                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+                on_bt_map_creator_tile,                 // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
                 (std::vector<std::string>){ std::to_string(i) }
             )
 
@@ -1112,15 +1112,15 @@ void MainView::init_page_map_creator() {
         this->win_page_manager->pages["map_creator"]->elts.push_back(
 
             //
-            new WindowEltButton(
+            CREATE_WINDOW_ELT_BUTTON_T(
                 this->win_page_manager->default_style,  // Style*                           style
                 std::to_string(i+1),                    // std::string                      text
                 nvi(15),                                // Value*                           x
                 nvi(100 + i * (t+5)),                   // Value*                           y
                 nvi(t),                                 // Value*                           w
                 nvi(t),                                 // Value*                           h
-                on_bt_map_creator_color,                // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
-                (std::vector<std::string>){ std::to_string(i+1) }                                 // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+                on_bt_map_creator_color,                // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
+                (std::vector<std::string>){ std::to_string(i+1) }                                 // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             )
 
         );
@@ -1133,14 +1133,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/bandit2_p.png",   // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(100 + 0 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "10" }
         )
 
@@ -1149,14 +1149,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl1_p.png",  // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(100 + 1 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "11" }
         )
 
@@ -1165,14 +1165,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(100 + 2 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "12" }
         )
 
@@ -1181,14 +1181,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(100 + 3 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "13" }
         )
 
@@ -1197,14 +1197,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
             nvi(15),                                // Value*                           x
             nvi(100 + 4 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "14" }
         )
 
@@ -1213,14 +1213,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/bandit_camp2_p.png",  // std::string                      text
             nvi(15 + 1 * (t+5)),                    // Value*                           x
             nvi(100 + 0 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "00" }
         )
 
@@ -1229,14 +1229,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/village2_p.png",  // std::string                      text
             nvi(15 + 1 * (t+5)),                    // Value*                           x
             nvi(100 + 1 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "01" }
         )
 
@@ -1245,14 +1245,14 @@ void MainView::init_page_map_creator() {
     this->win_page_manager->pages["map_creator"]->elts.push_back(
 
         //
-        new WindowEltButton(
+        CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // Style*                           style
             "res/sprites/entities/tower2_p.png",  // std::string                      text
             nvi(15 + 1 * (t+5)),                    // Value*                           x
             nvi(100 + 2 * (t+5)),                   // Value*                           y
             nvi(t),                                 // Value*                           w
             nvi(t),                                 // Value*                           h
-            on_bt_map_creator_entity,               // std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)>    on_click
+            on_bt_map_creator_entity,               // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
             (std::vector<std::string>){ "02" }
         )
 
@@ -1308,7 +1308,7 @@ void MainView::display_menu_map_creator(){}
 void MainView::update_menu_game_settings(MainGame* main_game, bool update_all_maps){
 
     //
-    WindowEltButton* bt = dynamic_cast<WindowEltButton*>( this->win_page_manager->pages["game_settings"]->elts[3] );
+    WINDOW_ELT_BUTTON_T bt = dynamic_cast<WINDOW_ELT_BUTTON_T>( this->win_page_manager->pages["game_settings"]->elts[3] );
 
     //
     if( bt == nullptr ){ return; }
@@ -1317,7 +1317,7 @@ void MainView::update_menu_game_settings(MainGame* main_game, bool update_all_ma
     bt->disabled = !check_file_exists("maps/saved_data/saved_map.kkmap");
 
     //
-    std::vector<WindowElt*>* v = &(this->win_page_manager->pages["game_settings"]->elts);
+    std::vector<WINDOW_ELT_T>* v = &(this->win_page_manager->pages["game_settings"]->elts);
 
     //
     if( !update_all_maps ){ return; }
@@ -1336,7 +1336,7 @@ void MainView::update_menu_game_settings(MainGame* main_game, bool update_all_ma
         //
         v->push_back(
 
-            new WindowEltButton(
+            CREATE_WINDOW_ELT_BUTTON_T(
                 bt->style,
                 map_file.substr(5, map_file.size() - 11),
                 bt->x,

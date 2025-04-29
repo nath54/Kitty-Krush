@@ -20,7 +20,7 @@
 void WindowPage::draw_page(MainView* main_view){
 
     // Draw each element
-    for ( WindowElt* elt : this->elts ) {
+    for ( WINDOW_ELT_T elt : this->elts ) {
         //
         elt->draw_elt(main_view, nullptr);
     }
@@ -336,7 +336,7 @@ WindowEltButton::WindowEltButton( Style* style,
     Value* y,
     Value* w,
     Value* h,
-    std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click,
+    std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click,
     std::vector<std::string> additional_fn_args
    )
 : WindowEltClickable(style, x, y, w, h, on_click, additional_fn_args), txt(txt) {
@@ -345,7 +345,7 @@ WindowEltButton::WindowEltButton( Style* style,
     if ( ( ends_with(txt, ".png") || ends_with(txt, ".jpg") || ends_with(txt, ".jpeg") ) && check_file_exists(txt) ){
 
         //
-        this->bt_sprite = new WindowEltSprite(
+        this->bt_sprite = CREATE_WINDOW_ELT_SPRITE_T(
             this->style,
             txt,
             this->x, this->y, this->w, this->h,
@@ -687,7 +687,7 @@ WindowEltAnimatedSprite::WindowEltAnimatedSprite(
     this->sprite_crop = new SpriteCropInt(0, 0, frame_w, frame_h);
 
     //
-    this->sprite = new WindowEltSprite(
+    this->sprite = CREATE_WINDOW_ELT_SPRITE_T(
         style,
         img_path,
         x, y, w, h,

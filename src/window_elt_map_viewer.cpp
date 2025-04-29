@@ -59,7 +59,7 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
         }
 
         //
-        this->ground_base_layer = new WindowEltSprite(
+        this->ground_base_layer = CREATE_WINDOW_ELT_SPRITE_T(
                 style,
                 img_path,
                 this->x, this->y, this->w, this->h,
@@ -98,7 +98,7 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
         }
 
         //
-        this->ground_top_layer = new WindowEltSprite(
+        this->ground_top_layer = CREATE_WINDOW_ELT_SPRITE_T(
                 style,
                 img_path,
                 this->x, this->y, this->w, this->h,
@@ -161,7 +161,7 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
     }
 
     //
-    this->ground_base_layer = new WindowEltSprite(
+    this->ground_base_layer = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         img_path,
         this->x, this->y, this->w, this->h,
@@ -189,12 +189,12 @@ WindowEltMapViewer::WindowEltMapViewer(
     Value* y,
     Value* w,
     Value* h,
-    std::function<void(WindowEltClickable*, MainGame*, std::vector<std::string>)> on_click
+    std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click
 )
 : WindowEltClickable(style, x, y, w, h, on_click) {
 
     //
-    this->default_empty_tile = new WindowEltAnimatedSprite(
+    this->default_empty_tile = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/map_w/deep_water/deep_water.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
@@ -209,7 +209,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->color_tile = new WindowEltSprite(
+    this->color_tile = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/ui/tile_for_color.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
@@ -224,7 +224,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->under_entity_effect = new WindowEltAnimatedSprite(
+    this->under_entity_effect = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/ui/under_entity.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
@@ -239,7 +239,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->can_go_here_effect = new WindowEltAnimatedSprite(
+    this->can_go_here_effect = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/ui/can_go_here.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
@@ -254,7 +254,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->warrior_lvl_0 = new WindowEltAnimatedSprite(
+    this->warrior_lvl_0 = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/bandit.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -269,7 +269,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->warrior_lvl_1 = new WindowEltAnimatedSprite(
+    this->warrior_lvl_1 = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/cat_lvl1.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -284,7 +284,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->warrior_lvl_2 = new WindowEltAnimatedSprite(
+    this->warrior_lvl_2 = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/cat_lvl2.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -299,7 +299,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->warrior_lvl_3 = new WindowEltAnimatedSprite(
+    this->warrior_lvl_3 = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/cat_lvl3.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -314,7 +314,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->warrior_lvl_4 = new WindowEltAnimatedSprite(
+    this->warrior_lvl_4 = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/cat_lvl4.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -329,7 +329,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->building_lvl_1_no_color = new WindowEltAnimatedSprite(
+    this->building_lvl_1_no_color = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/bandit_camp2.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -344,7 +344,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->building_lvl_1 = new WindowEltAnimatedSprite(
+    this->building_lvl_1 = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/village2.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -359,7 +359,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->building_lvl_2 = new WindowEltAnimatedSprite(
+    this->building_lvl_2 = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
         this->style,
         "res/sprites/entities/tower2.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W - ENTITY_MARGIN), nvi(TILE_IMG_H - ENTITY_MARGIN),
@@ -374,7 +374,7 @@ WindowEltMapViewer::WindowEltMapViewer(
     );
 
     //
-    this->barricade_top = new WindowEltSprite(
+    this->barricade_top = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/sprites/barricade/barricade_top.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
@@ -387,7 +387,7 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START(),
         SPRITE_POS_ALIGN_START()
     );
-    this->barricade_top_right = new WindowEltSprite(
+    this->barricade_top_right = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/sprites/barricade/barricade_top_right.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
@@ -400,7 +400,7 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START(),
         SPRITE_POS_ALIGN_START()
     );
-    this->barricade_top_left = new WindowEltSprite(
+    this->barricade_top_left = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/sprites/barricade/barricade_top_left.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
@@ -413,7 +413,7 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START(),
         SPRITE_POS_ALIGN_START()
     );
-    this->barricade_bottom_right = new WindowEltSprite(
+    this->barricade_bottom_right = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/sprites/barricade/barricade_bottom_right.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
@@ -426,7 +426,7 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START(),
         SPRITE_POS_ALIGN_START()
     );
-    this->barricade_bottom_left = new WindowEltSprite(
+    this->barricade_bottom_left = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/sprites/barricade/barricade_bottom_left.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
@@ -439,7 +439,7 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START(),
         SPRITE_POS_ALIGN_START()
     );
-    this->barricade_bottom = new WindowEltSprite(
+    this->barricade_bottom = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/sprites/barricade/barricade_bottom.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W * 2), nvi(TILE_IMG_H * 2),
@@ -453,7 +453,7 @@ WindowEltMapViewer::WindowEltMapViewer(
         SPRITE_POS_ALIGN_START()
     );
 
-    this->sprite_map_creator_cursor = new WindowEltSprite(
+    this->sprite_map_creator_cursor = CREATE_WINDOW_ELT_SPRITE_T(
         this->style,
         "res/ui/tile_for_color.png",
         nvi(0), nvi(0), nvi(TILE_IMG_W / 2), nvi(TILE_IMG_H / 2),
@@ -479,7 +479,7 @@ void WindowEltMapViewer::draw_ground_tile(Coord coord, MainView* main_view, Draw
     // GROUND LAYER TILE
 
     //
-    WindowEltMapTile* tile = this->get_layer_tile_at_coord( coord );
+    WINDOW_ELT_MAP_TILE_T tile = this->get_layer_tile_at_coord( coord );
 
     //
     if (tile == nullptr && this->default_empty_tile != nullptr){
@@ -895,7 +895,7 @@ void WindowEltMapViewer::clear(){
     this->zoom = 1.2;
 
     //
-    for ( std::pair<const Coord, WindowEltMapTile*> const it : this->tiles_layers ){
+    for ( std::pair<const Coord, WINDOW_ELT_MAP_TILE_T> const it : this->tiles_layers ){
 
         //
         if ( it.second == nullptr ){
@@ -920,7 +920,7 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
     Coord v = (Coord){tile_x, tile_y};
 
     //
-    std::map< Coord, WindowEltMapTile*>::iterator res_iter = this->tiles_layers.find( v );
+    std::map< Coord, WINDOW_ELT_MAP_TILE_T>::iterator res_iter = this->tiles_layers.find( v );
     if( res_iter != this->tiles_layers.end() ){
 
         // res_iter->first is the key, res_iter->second is the value
@@ -928,7 +928,7 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
     }
 
     //
-    this->tiles_layers[v] = new WindowEltMapTile(
+    this->tiles_layers[v] = CREATE_WINDOW_ELT_MAP_TILE_T(
         tile_num,
         this->style,
         nvi(0),
@@ -954,11 +954,11 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
     // FIRST SEARCH
 
     //
-    for ( std::pair<Coord, WindowEltMapTile*> it_pair : this->tiles_layers ){
+    for ( std::pair<Coord, WINDOW_ELT_MAP_TILE_T> it_pair : this->tiles_layers ){
 
         //
         Coord pos = it_pair.first;
-        WindowEltMapTile* tile = it_pair.second;
+        WINDOW_ELT_MAP_TILE_T tile = it_pair.second;
 
         //
         if ( tile == nullptr ){ continue; }
@@ -1025,7 +1025,7 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
         }
 
         //
-        WindowEltMapTile* w_tile = get_layer_tile_at_coord( case_with_max );
+        WINDOW_ELT_MAP_TILE_T w_tile = get_layer_tile_at_coord( case_with_max );
 
         //
         if ( w_tile != nullptr ){
@@ -1114,7 +1114,7 @@ std::vector< std::string > WindowEltMapViewer::get_adjacents_tiles_base_ground_t
     for( Coord coord : adj_coords ){
 
         //
-        WindowEltMapTile* mt = this->get_layer_tile_at_coord(coord);
+        WINDOW_ELT_MAP_TILE_T mt = this->get_layer_tile_at_coord(coord);
 
         //
         if( mt == nullptr ){
@@ -1142,7 +1142,7 @@ std::vector< std::string > WindowEltMapViewer::get_adjacents_tiles_base_ground_t
 
 
 //
-WindowEltMapTile* WindowEltMapViewer::get_layer_tile_at_coord(Coord coord){
+WINDOW_ELT_MAP_TILE_T WindowEltMapViewer::get_layer_tile_at_coord(Coord coord){
 
     //
     if ( this->tiles_layers.count( coord ) <= 0 ){
@@ -1451,10 +1451,10 @@ bool WindowEltMapViewer::check_draw_palissade_bottom_left(Coord v){
 
 
 //
-void on_map_viewer_click_map_creator(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
+void on_map_viewer_click_map_creator(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
-    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = dynamic_cast<WINDOW_ELT_MAP_VIEWER_T>(map_viewer_elt);
 
     //
     if(map_viewer == nullptr){ return; }
@@ -1546,10 +1546,10 @@ void on_map_viewer_click_map_creator(WindowEltClickable* map_viewer_elt, MainGam
 
 
 //
-void on_map_viewer_click_in_game(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
+void on_map_viewer_click_in_game(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
-    WindowEltMapViewer* map_viewer = dynamic_cast<WindowEltMapViewer*>(map_viewer_elt);
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = dynamic_cast<WINDOW_ELT_MAP_VIEWER_T>(map_viewer_elt);
 
     //
     if(map_viewer == nullptr){ return; }
@@ -1612,7 +1612,7 @@ void on_map_viewer_click_in_game(WindowEltClickable* map_viewer_elt, MainGame* m
 
 
 //
-void on_map_viewer_click(WindowEltClickable* map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
+void on_map_viewer_click(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     // IF MAP CREATOR
     if ( main_game->menu_state == 3 ) {

@@ -40,8 +40,8 @@ void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event
 
     for (int i = crt_page->elts.size() - 1; i >= 0; i--) {
 
-        WindowElt* elt = crt_page->elts[i];
-        WindowEltClickable* elt_c = dynamic_cast<WindowEltClickable*>(elt);
+        WINDOW_ELT_T elt = crt_page->elts[i];
+        WINDOW_ELT_CLICKABLE_T elt_c = dynamic_cast<WINDOW_ELT_CLICKABLE_T>(elt);
 
         if (elt_c == nullptr) { continue; }
         if (!(elt_c->visible) ) { continue; }
@@ -62,7 +62,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event)
 {
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     if (map_viewer == nullptr) {
         std::cout << "Error : no map viewer !\n";
@@ -103,7 +103,7 @@ void on_scroll(MainGame* main_game, EventMouseScroll* event)
 {
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     if (map_viewer == nullptr) {
         std::cout << "Error : no map viewer !\n";
@@ -129,7 +129,7 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event)
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3)
         { return; }
 
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     if (map_viewer == nullptr) {
         std::cout << "Error : no map_viewer !\n";
@@ -152,7 +152,7 @@ void on_mouse_motion(MainGame* main_game, EventMouseMotion* event)
 {
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
-    WindowEltMapViewer* map_viewer = main_game->main_view->map_viewer;
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
 
     if (map_viewer == nullptr) {
         std::cout << "Error : no map viewer !\n";
