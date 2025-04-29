@@ -11,7 +11,7 @@
 
 // >> Getters <<
 Coord Tile::_coord() const { return this->coord; }
-usint Tile::_color() const { return this->color; }
+int Tile::_color() const { return this->color; }
 ELEMENT_T Tile::_element() const { return this->element; }
 
 
@@ -206,22 +206,20 @@ void Map::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attri
         this->set_tile(c, tile);
     }
 
-    //
-    if (elt_level < 0){
-        tile->set_element(nullptr);
-    }
+    if (elt_level < 0)
+        { tile->set_element(nullptr); }
 
     if (is_unit) {
         UNIT_T u = CREATE_UNIT_T(tile->_color(), elt_level);
         u->can_move = !(elt_attribute == 1);
         tile->set_element(u);
     }
+    //
     else {
         BUILDING_T b = CREATE_BUILDING_T(tile->_color(), elt_level);
         b->treasury = elt_attribute;
         tile->set_element(b);
     }
-
 }
 
 
@@ -241,7 +239,7 @@ void Map::recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVIN
         if (tiles_layer.count(c) != 0) { return; } // already exists
         tiles_layer.insert({c, CREATE_TILE_T(c, color_cover)});
     }
-
+    //
     else {
         TILE_T tile = get_tile(c);
         if (tile == nullptr) { return; }
@@ -330,7 +328,7 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
 
     for (Coord c : tiles_list) {
         TILE_T tile = this->get_tile(c);
-        if (tile != nullptr) p->add_tile(tile);
+        if (tile != nullptr) { p->add_tile(tile); }
     }
 
     this->add_province(p);
@@ -354,7 +352,7 @@ void Map::fusion_provinces(PROVINCE_T p1, PROVINCE_T p2)
     if (p1 == p2) { return; }
     if (p1->_color() != p2->_color()) { return; }
 
-    for (auto& t : *(p2->_tiles())) p1->add_tile(t.second);
+    for (auto& t : *(p2->_tiles())) { p1->add_tile(t.second); }
     p1->add_treasury(p2->_treasury());
     remove_province(p2);
     // delete p2;
@@ -446,14 +444,13 @@ void Map::split_province(Coord c, PROVINCE_T p)
     for (std::pair<Coord, int> it : visited) {
 
         int num = it.second;
-        if( to_convert_num.count(num) > 0){
-            num = to_convert_num[num];
-        }
+
+        if( to_convert_num.count(num) > 0)
+            { num = to_convert_num[num]; }
 
         if (num_idx.count(num) == 0) {
             num_idx[num] = crt_idx;
             crt_idx++;
-
             areas.push_back((std::list<Coord>){});
         }
 
@@ -478,7 +475,7 @@ void Map::split_province(Coord c, PROVINCE_T p)
 
             if (b == nullptr || b->_color() == NEUTRAL) { continue; }
 
-            if (b->_defense() == 1) {town = true; break;}
+            if (b->_defense() == 1) { town = true; break; }
         }
 
         if (!town) {
@@ -551,6 +548,7 @@ void Map::create_bandit_element(Coord c, bool is_unit)
         this->get_tile(c)->set_element(u);
         this->bandits_layer[c] = u;
     }
+    //
     else {
         BUILDING_T b = CREATE_BUILDING_T(NEUTRAL);
         this->get_tile(c)->set_element(b);

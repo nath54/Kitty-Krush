@@ -42,7 +42,7 @@ class Tile {
 
         // Getters
         Coord _coord() const;
-        usint _color() const;
+        int _color() const;
         ELEMENT_T _element() const;
 
         // Other functions
