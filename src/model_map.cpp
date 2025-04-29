@@ -49,7 +49,7 @@ std::list<BUILDING_T> Province::get_buildings()
 
     for (std::pair<Coord, TILE_T> it : this->tiles_layer) {
 
-        BUILDING_T b = dynamic_cast<BUILDING_T>(it.second->_element());
+        BUILDING_T b = DCAST_BUILDING_T(it.second->_element());
         if (b != nullptr) buildings.push_back(b);
     }
 
@@ -165,7 +165,7 @@ std::list<BUILDING_T> Map::get_all_buildings(bool with_bandit_buildings)
     if (!with_bandit_buildings) return buildings;
 
     for (std::pair<Coord, ELEMENT_T> it : this->bandits_layer) {
-        BUILDING_T b = dynamic_cast<BUILDING_T>(it.second);
+        BUILDING_T b = DCAST_BUILDING_T(it.second);
         if (b != nullptr) buildings.push_back(b);
     }
 
@@ -300,7 +300,7 @@ void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
             { seed.x = rand() % size; seed.y = rand() % size; }
 
         tiles_layer[seed]->set_element(CREATE_BUILDING_T(NEUTRAL));
-        dynamic_cast<BUILDING_T>(tiles_layer[seed]->_element())->update_treasury(3);
+        DCAST_BUILDING_T(tiles_layer[seed]->_element())->update_treasury(3);
         bandits_layer[seed] = tiles_layer[seed]->_element();
 
         while (tiles_layer.count(seed) == 0
@@ -474,7 +474,7 @@ void Map::split_province(Coord c, PROVINCE_T p)
 
             if (t == nullptr || t->_element() == nullptr) { continue; }
 
-            BUILDING_T b = dynamic_cast<BUILDING_T>(t->_element());
+            BUILDING_T b = DCAST_BUILDING_T(t->_element());
 
             if (b == nullptr || b->_color() == NEUTRAL) { continue; }
 

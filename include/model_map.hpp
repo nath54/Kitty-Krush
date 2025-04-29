@@ -12,19 +12,12 @@ class Province;
 // =============================== [ Pointers ] ===============================
 
 
-#define ELEMENT_T Element*
 #define TILE_T Tile*
-#define UNIT_T Unit*
-#define BUILDING_T Building*
 #define PROVINCE_T Province*
 
 
-#define CREATE_ELEMENT_T(...) new Element(__VA_ARGS__)
 #define CREATE_TILE_T(...) new Tile(__VA_ARGS__)
-#define CREATE_UNIT_T(...) new Unit(__VA_ARGS__)
-#define CREATE_BUILDING_T(...) new Building(__VA_ARGS__)
 #define CREATE_PROVINCE_T(...) new Province(__VA_ARGS__)
-
 
 // ================================= [ Tile ] =================================
 

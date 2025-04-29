@@ -12,7 +12,7 @@
 
 ## Mettre en smart_pointer: (on le fera quand on aura a un jeu qui fonctionne bien, parce que le code risque de devenir un peu plus illisible après)
 
-- [ ] `Value*`
+- [ ] `VALUE_T`
 - [ ] `PROVINCE_T`
 - [ ] `TILE_T`
 - [ ] `ELEMENT_T`

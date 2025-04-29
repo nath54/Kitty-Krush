@@ -52,7 +52,7 @@ class MainGame{
         void mainloop();
         void mainloop_execute_all_events();
 
-        void execute_event(Event* event);
+        void execute_event(EVENT_T event);
 
         void change_page(std::string new_page);
 

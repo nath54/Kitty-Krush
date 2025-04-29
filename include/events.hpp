@@ -3,6 +3,53 @@
 #include <deque>
 
 
+
+
+// ============================ [ Pointers ] ============================
+
+#define EVENT_T Event*
+#define EVENT_QUIT_T EventQuit*
+#define EVENT_MOUSE_T EventMouse*
+#define EVENT_MOUSE_SCROLL_T EventMouseScroll*
+#define EVENT_MOUSE_MOTION_T EventMouseMotion*
+#define EVENT_MOUSE_CLICK_T EventMouseClick*
+#define EVENT_MOUSE_DRAG_T EventMouseDrag*
+#define EVENT_MOUSE_DRAGGING_T EventMouseDragging*
+#define EVENT_MOUSE_DRAG_END_T EventMouseDragEnd*
+#define EVENT_KEY_T EventKey*
+#define EVENT_KEY_UP_T EventKeyUp*
+#define EVENT_KEY_DOWN_T EventKeyDown*
+
+#define CREATE_EVENT_T(...) new Event(__VA_ARGS__)
+#define CREATE_EVENT_QUIT_T(...) new EventQuit(__VA_ARGS__)
+#define CREATE_EVENT_MOUSE_T(...) new EventMouse(__VA_ARGS__)
+#define CREATE_EVENT_MOUSE_SCROLL_T(...) new EventMouseScroll(__VA_ARGS__)
+#define CREATE_EVENT_MOUSE_MOTION_T(...) new EventMouseMotion(__VA_ARGS__)
+#define CREATE_EVENT_MOUSE_CLICK_T(...) new EventMouseClick(__VA_ARGS__)
+#define CREATE_EVENT_MOUSE_DRAG_T(...) new EventMouseDrag(__VA_ARGS__)
+#define CREATE_EVENT_MOUSE_DRAGGING_T(...) new EventMouseDragging(__VA_ARGS__)
+#define CREATE_EVENT_MOUSE_DRAG_END_T(...) new EventMouseDragEnd(__VA_ARGS__)
+#define CREATE_EVENT_KEY_T(...) new EventKey(__VA_ARGS__)
+#define CREATE_EVENT_KEY_UP_T(...) new EventKeyUp(__VA_ARGS__)
+#define CREATE_EVENT_KEY_DOWN_T(...) new EventKeyDown(__VA_ARGS__)
+
+#define DCAST_EVENT_QUIT_T(...) dynamic_cast<EVENT_QUIT_T>(__VA_ARGS__)
+#define DCAST_EVENT_MOUSE_T(...) dynamic_cast<EVENT_MOUSE_T>(__VA_ARGS__)
+#define DCAST_EVENT_MOUSE_SCROLL_T(...) dynamic_cast<EVENT_MOUSE_SCROLL_T>(__VA_ARGS__)
+#define DCAST_EVENT_MOUSE_MOTION_T(...) dynamic_cast<EVENT_MOUSE_MOTION_T>(__VA_ARGS__)
+#define DCAST_EVENT_MOUSE_CLICK_T(...) dynamic_cast<EVENT_MOUSE_CLICK_T>(__VA_ARGS__)
+#define DCAST_EVENT_MOUSE_DRAG_T(...) dynamic_cast<EVENT_MOUSE_DRAG_T>(__VA_ARGS__)
+#define DCAST_EVENT_MOUSE_DRAGGING_T(...) dynamic_cast<EVENT_MOUSE_DRAGGING_T>(__VA_ARGS__)
+#define DCAST_EVENT_MOUSE_DRAG_END_T(...) dynamic_cast<EVENT_MOUSE_DRAG_END_T>(__VA_ARGS__)
+#define DCAST_EVENT_KEY_T(...) dynamic_cast<EVENT_KEY_T>(__VA_ARGS__)
+#define DCAST_EVENT_KEY_UP_T(...) dynamic_cast<EVENT_KEY_UP_T>(__VA_ARGS__)
+#define DCAST_EVENT_KEY_DOWN_T(...) dynamic_cast<EVENT_KEY_DOWN_T>(__VA_ARGS__)
+
+
+// ============================ [ EventType ] ============================
+
+
+
 enum EventType {
     EVT_NULL,
     EVT_QUIT,
@@ -202,13 +249,13 @@ class EventsManager {
     public:
 
         // Attributes
-        std::deque<Event*> list_of_events;
+        std::deque<EVENT_T> list_of_events;
         int nb_events_waiting = 0;
 
         // Constructor
         EventsManager() {}
 
         // Functions
-        void new_event(Event* event);
-        Event* poll_next_event();
+        void new_event(EVENT_T event);
+        EVENT_T poll_next_event();
 };

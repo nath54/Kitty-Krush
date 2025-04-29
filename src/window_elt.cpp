@@ -103,98 +103,98 @@ int ValuePercentWinHeight::get_value(){
 
 
 //
-ValueInt* nvi(int value){
-    return new ValueInt(value);
+VALUE_INT_T nvi(int value){
+    return CREATE_VALUE_INT_T(value);
 }
 
 
 //
-ValuePercent* nvp(float percent){
-    return new ValuePercent(percent);
+VALUE_PERCENT_T nvp(float percent){
+    return CREATE_VALUE_PERCENT_T(percent);
 }
 
 //
-ValuePercentWinWidth* nvpww(WindowAttributes* win_attr, float prc, int shift){
-    return new ValuePercentWinWidth(win_attr, prc, shift);
+VALUE_PERCENT_WIN_WIDTH_T nvpww(WindowAttributes* win_attr, float prc, int shift){
+    return CREATE_VALUE_PERCENT_WIN_WIDTH_T(win_attr, prc, shift);
 }
 
 //
-ValuePercentWinHeight* nvpwh(WindowAttributes* win_attr, float prc, int shift){
-    return new ValuePercentWinHeight(win_attr, prc, shift);
+VALUE_PERCENT_WIN_HEIGHT_T nvpwh(WindowAttributes* win_attr, float prc, int shift){
+    return CREATE_VALUE_PERCENT_WIN_HEIGHT_T(win_attr, prc, shift);
 }
 
 
 //
-SpriteCropValuePercent* SPRITE_NO_CROP(){
+SPRITE_CROP_VALUE_PERCENT_T SPRITE_NO_CROP(){
     //
-    return new SpriteCropValuePercent( nvp(0), nvp(0), nvp(1), nvp(1) );
+    return CREATE_SPRITE_CROP_VALUE_PERCENT_T( nvp(0), nvp(0), nvp(1), nvp(1) );
 }
 
 //
-SpriteCropValuePercent* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h){
+SPRITE_CROP_VALUE_PERCENT_T SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h){
     //
-    return new SpriteCropValuePercent( nvp(src_x), nvp(src_y), nvp(src_w), nvp(src_h) );
+    return CREATE_SPRITE_CROP_VALUE_PERCENT_T( nvp(src_x), nvp(src_y), nvp(src_w), nvp(src_h) );
 }
 
 
 //
-SpriteRatio* SPRITE_RATIO_ORIGINAL(){
+SPRITE_RATIO_T SPRITE_RATIO_ORIGINAL(){
     //
-    return new SpriteRatio(true, nullptr, nullptr);
+    return CREATE_SPRITE_RATIO_T(true, nullptr, nullptr);
 }
 
 //
-SpriteRatio* SPRITE_RATIO_CUSTOM(float prc_dest_w, float prc_dest_h){
+SPRITE_RATIO_T SPRITE_RATIO_CUSTOM(float prc_dest_w, float prc_dest_h){
     //
-    return new SpriteRatio(false, nvp(prc_dest_w), nvp(prc_dest_h));
+    return CREATE_SPRITE_RATIO_T(false, nvp(prc_dest_w), nvp(prc_dest_h));
 }
 
 
 //
-SpriteResize* SPRITE_RESIZE_KEEP_ORIGINAL(float resize_factor){
+SPRITE_RESIZE_T SPRITE_RESIZE_KEEP_ORIGINAL(float resize_factor){
     //
-    return new SpriteResize(SPRITE_ENUM_RESIZE_KEEP_ORIGINAL, resize_factor);
+    return CREATE_SPRITE_RESIZE_T(SPRITE_ENUM_RESIZE_KEEP_ORIGINAL, resize_factor);
 }
 
 //
-SpriteResize* SPRITE_RESIZE_FIT(float resize_factor){
+SPRITE_RESIZE_T SPRITE_RESIZE_FIT(float resize_factor){
     //
-    return new SpriteResize(SPRITE_ENUM_RESIZE_FIT, resize_factor);
+    return CREATE_SPRITE_RESIZE_T(SPRITE_ENUM_RESIZE_FIT, resize_factor);
 }
 
 //
-SpriteResize* SPRITE_RESIZE_COVER(float resize_factor){
+SPRITE_RESIZE_T SPRITE_RESIZE_COVER(float resize_factor){
     //
-    return new SpriteResize(SPRITE_ENUM_RESIZE_COVER, resize_factor);
+    return CREATE_SPRITE_RESIZE_T(SPRITE_ENUM_RESIZE_COVER, resize_factor);
 }
 
 //
-SpritePosition* SPRITE_POS_ALIGN_START(){
+SPRITE_POSITION_T SPRITE_POS_ALIGN_START(){
     //
-    return new SpritePosition(0, 0);
+    return CREATE_SPRITE_POSITION_T(0, 0);
 }
 
 //
-SpritePosition* SPRITE_POS_ALIGN_CENTER(){
+SPRITE_POSITION_T SPRITE_POS_ALIGN_CENTER(){
     //
-    return new SpritePosition(0.5, 0);
+    return CREATE_SPRITE_POSITION_T(0.5, 0);
 }
 
 //
-SpritePosition* SPRITE_POS_ALIGN_END(){
+SPRITE_POSITION_T SPRITE_POS_ALIGN_END(){
     //
-    return new SpritePosition(1, 0);
+    return CREATE_SPRITE_POSITION_T(1, 0);
 }
 
 //
-SpritePosition* SPRITE_POS_CUSTOM(float percent, int delta){
+SPRITE_POSITION_T SPRITE_POS_CUSTOM(float percent, int delta){
     //
-    return new SpritePosition(percent, delta);
+    return CREATE_SPRITE_POSITION_T(percent, delta);
 }
 
 
 //
-int WindowElt::get_elt_state(WindowAttributes* win_attr, DrawTransform* transform){
+int WindowElt::get_elt_state(WindowAttributes* win_attr, DRAW_TRANSFORM_T transform){
 
     //
     int rx = this->get_x(transform);
@@ -224,7 +224,7 @@ int WindowElt::get_elt_state(WindowAttributes* win_attr, DrawTransform* transfor
 }
 
 //
-int WindowElt::get_x(DrawTransform* transform){
+int WindowElt::get_x(DRAW_TRANSFORM_T transform){
     //
     int res = this->x->get_value();
     //
@@ -236,7 +236,7 @@ int WindowElt::get_x(DrawTransform* transform){
 }
 
 //
-int WindowElt::get_y(DrawTransform* transform){
+int WindowElt::get_y(DRAW_TRANSFORM_T transform){
     //
     int res = this->y->get_value();
     //
@@ -248,7 +248,7 @@ int WindowElt::get_y(DrawTransform* transform){
 }
 
 //
-int WindowElt::get_w(DrawTransform* transform){
+int WindowElt::get_w(DRAW_TRANSFORM_T transform){
     //
     int res = this->w->get_value();
     //
@@ -260,7 +260,7 @@ int WindowElt::get_w(DrawTransform* transform){
 }
 
 //
-int WindowElt::get_h(DrawTransform* transform){
+int WindowElt::get_h(DRAW_TRANSFORM_T transform){
     //
     int res = this->h->get_value();
     //
@@ -273,7 +273,7 @@ int WindowElt::get_h(DrawTransform* transform){
 
 
 //
-void WindowElt::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowElt::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }
@@ -284,7 +284,7 @@ void WindowElt::draw_elt(MainView* main_view, DrawTransform* transform){
 
 
 //
-void WindowEltRect::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowEltRect::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }
@@ -304,7 +304,7 @@ void WindowEltRect::draw_elt(MainView* main_view, DrawTransform* transform){
 
 
 //
-void WindowEltText::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowEltText::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }
@@ -332,10 +332,10 @@ void WindowEltText::draw_elt(MainView* main_view, DrawTransform* transform){
 //
 WindowEltButton::WindowEltButton( Style* style,
     std::string txt,
-    Value* x,
-    Value* y,
-    Value* w,
-    Value* h,
+    VALUE_T x,
+    VALUE_T y,
+    VALUE_T w,
+    VALUE_T h,
     std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click,
     std::vector<std::string> additional_fn_args
    )
@@ -365,7 +365,7 @@ WindowEltButton::WindowEltButton( Style* style,
 
 
 //
-void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowEltButton::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }
@@ -419,7 +419,7 @@ void WindowEltButton::draw_elt(MainView* main_view, DrawTransform* transform){
 
 
 //
-void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowEltSprite::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }
@@ -459,8 +459,8 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
     if( this->sprite_crop != nullptr ){
 
         //
-        SpriteCropInt* sprite_crop_int = dynamic_cast<SpriteCropInt*>(this->sprite_crop);
-        SpriteCropValuePercent* sprite_crop_vp = dynamic_cast<SpriteCropValuePercent*>(this->sprite_crop);
+        SPRITE_CROP_INT_T sprite_crop_int = DCAST_SPRITE_CROP_INT_T(this->sprite_crop);
+        SPRITE_CROP_VALUE_PERCENT_T sprite_crop_vp = DCAST_SPRITE_CROP_VALUE_PERCENT_T(this->sprite_crop);
 
         //
         if (sprite_crop_int != nullptr){
@@ -656,23 +656,23 @@ void WindowEltSprite::draw_elt(MainView* main_view, DrawTransform* transform){
 WindowEltAnimatedSprite::WindowEltAnimatedSprite(
     Style* style,
     std::string img_path,
-    Value* x,
-    Value* y,
-    Value* w,
-    Value* h,
+    VALUE_T x,
+    VALUE_T y,
+    VALUE_T w,
+    VALUE_T h,
     int first_frame_x,
     int first_frame_y,
     int frame_w,
     int frame_h,
     int nb_frames,
     uint32_t frame_delay,
-    Value* angle,
+    VALUE_T angle,
     bool flip_h,
     bool flip_v,
-    SpriteRatio* sprite_ratio,
-    SpriteResize* sprite_resize,
-    SpritePosition* sprite_h_position,
-    SpritePosition* sprite_v_position
+    SPRITE_RATIO_T sprite_ratio,
+    SPRITE_RESIZE_T sprite_resize,
+    SPRITE_POSITION_T sprite_h_position,
+    SPRITE_POSITION_T sprite_v_position
 )
     : WindowElt(style, x, y, w, h),
       first_frame_x(first_frame_x),
@@ -684,7 +684,7 @@ WindowEltAnimatedSprite::WindowEltAnimatedSprite(
 {
 
     //
-    this->sprite_crop = new SpriteCropInt(0, 0, frame_w, frame_h);
+    this->sprite_crop = CREATE_SPRITE_CROP_INT_T(0, 0, frame_w, frame_h);
 
     //
     this->sprite = CREATE_WINDOW_ELT_SPRITE_T(
@@ -707,7 +707,7 @@ WindowEltAnimatedSprite::WindowEltAnimatedSprite(
 
 
 //
-void WindowEltAnimatedSprite::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowEltAnimatedSprite::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }

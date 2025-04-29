@@ -156,7 +156,7 @@ void MainGame::set_map_from_data(
         }
 
         //
-        BUILDING_T b = dynamic_cast<BUILDING_T>(t->_element());
+        BUILDING_T b = DCAST_BUILDING_T(t->_element());
         //
         if ( b == nullptr ) { continue; }
 
@@ -177,8 +177,8 @@ void MainGame::set_map_from_data(
     WINDOW_ELT_T player_text_elt = this->main_view->win_page_manager->pages["in_game"]->elts[3];
 
     //
-    WINDOW_ELT_RECT_T player_rect = dynamic_cast<WINDOW_ELT_RECT_T>(player_rect_elt);
-    WINDOW_ELT_TEXT_T player_text = dynamic_cast<WINDOW_ELT_TEXT_T>(player_text_elt);
+    WINDOW_ELT_RECT_T player_rect = DCAST_WINDOW_ELT_RECT_T(player_rect_elt);
+    WINDOW_ELT_TEXT_T player_text = DCAST_WINDOW_ELT_TEXT_T(player_text_elt);
 
     //
     if ( player_rect != nullptr ){
@@ -494,8 +494,8 @@ void MainGame::save_map(std::string file_path) {
 
         if (!e) continue;
 
-        BUILDING_T b = dynamic_cast<BUILDING_T>(e);
-        UNIT_T u = dynamic_cast<UNIT_T>(e);
+        BUILDING_T b = DCAST_BUILDING_T(e);
+        UNIT_T u = DCAST_UNIT_T(e);
 
         PROVINCE_T p = this->game_model->get_province_at_coord(c);
 

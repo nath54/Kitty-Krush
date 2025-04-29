@@ -47,6 +47,21 @@ static const int frameDelay = 16;  // 60 FPS = 1000 miliseconds / 60 frame per s
 #define WINDOW_ELT_MAP_TILE_T WindowEltMapTile*
 #define WINDOW_ELT_MAP_VIEWER_T WindowEltMapViewer*
 
+#define VALUE_T Value*
+#define VALUE_INT_T ValueInt*
+#define VALUE_PERCENT_T ValuePercent*
+#define VALUE_PERCENT_WIN_WIDTH_T ValuePercentWinWidth*
+#define VALUE_PERCENT_WIN_HEIGHT_T ValuePercentWinHeight*
+
+#define DRAW_TRANSFORM_T DrawTransform*
+
+#define SPRITE_CROP_T SpriteCrop*
+#define SPRITE_CROP_INT_T SpriteCropInt*
+#define SPRITE_CROP_VALUE_PERCENT_T SpriteCropValuePercent*
+#define SPRITE_POSITION_T SpritePosition*
+#define SPRITE_RATIO_T SpriteRatio*
+#define SPRITE_RESIZE_T SpriteResize*
+
 #define CREATE_WINDOW_ELT_T(...) new WindowElt(__VA_ARGS__)
 #define CREATE_WINDOW_ELT_CLICKABLE_T(...) new WindowEltClickable(__VA_ARGS__)
 #define CREATE_WINDOW_ELT_RECT_T(...) new WindowEltRect(__VA_ARGS__)
@@ -57,6 +72,41 @@ static const int frameDelay = 16;  // 60 FPS = 1000 miliseconds / 60 frame per s
 #define CREATE_WINDOW_ELT_MAP_TILE_T(...) new WindowEltMapTile(__VA_ARGS__)
 #define CREATE_WINDOW_ELT_MAP_VIEWER_T(...) new WindowEltMapViewer(__VA_ARGS__)
 
+#define CREATE_VALUE_T(...) new Value(__VA_ARGS__)
+#define CREATE_VALUE_INT_T(...) new ValueInt(__VA_ARGS__)
+#define CREATE_VALUE_PERCENT_T(...) new ValuePercent(__VA_ARGS__)
+#define CREATE_VALUE_PERCENT_WIN_WIDTH_T(...) new ValuePercentWinWidth(__VA_ARGS__)
+#define CREATE_VALUE_PERCENT_WIN_HEIGHT_T(...) new ValuePercentWinHeight(__VA_ARGS__)
+
+#define CREATE_DRAW_TRANSFORM_T(...) new DrawTransform(__VA_ARGS__)
+
+#define CREATE_SPRITE_CROP_T(...) new SpriteCrop(__VA_ARGS__)
+#define CREATE_SPRITE_CROP_INT_T(...) new SpriteCropInt(__VA_ARGS__)
+#define CREATE_SPRITE_CROP_VALUE_PERCENT_T(...) new SpriteCropValuePercent(__VA_ARGS__)
+#define CREATE_SPRITE_POSITION_T(...) new SpritePosition(__VA_ARGS__)
+#define CREATE_SPRITE_RATIO_T(...) new SpriteRatio(__VA_ARGS__)
+#define CREATE_SPRITE_RESIZE_T(...) new SpriteResize(__VA_ARGS__)
+
+#define DCAST_WINDOW_ELT_CLICKABLE_T(...) dynamic_cast<WINDOW_ELT_CLICKABLE_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_RECT_T(...) dynamic_cast<WINDOW_ELT_RECT_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_SPRITE_T(...) dynamic_cast<WINDOW_ELT_SPRITE_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_ANIMATED_SPRITE_T(...) dynamic_cast<WINDOW_ELT_ANIMATED_SPRITE_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_BUTTON_T(...) dynamic_cast<WINDOW_ELT_BUTTON_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_TEXT_T(...) dynamic_cast<WINDOW_ELT_TEXT_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_MAP_TILE_T(...) dynamic_cast<WINDOW_ELT_MAP_TILE_T>(__VA_ARGS__)
+#define DCAST_WINDOW_ELT_MAP_VIEWER_T(...) dynamic_cast<WINDOW_ELT_MAP_VIEWER_T>(__VA_ARGS__)
+
+#define DCAST_VALUE_INT_T(...) dynamic_cast<VALUE_INT_T>(__VA_ARGS__)
+#define DCAST_VALUE_PERCENT_T(...) dynamic_cast<VALUE_PERCENT_T>(__VA_ARGS__)
+#define DCAST_VALUE_PERCENT_WIN_WIDTH_T(...) dynamic_cast<VALUE_PERCENT_WIN_WIDTH_T>(__VA_ARGS__)
+#define DCAST_VALUE_PERCENT_WIN_HEIGHT_T(...) dynamic_cast<VALUE_PERCENT_WIN_HEIGHT_T>(__VA_ARGS__)
+
+#define DCAST_SPRITE_CROP_T(...) dynamic_cast<SPRITE_CROP_T>(__VA_ARGS__)
+#define DCAST_SPRITE_CROP_INT_T(...) dynamic_cast<SPRITE_CROP_INT_T>(__VA_ARGS__)
+#define DCAST_SPRITE_CROP_VALUE_PERCENT_T(...) dynamic_cast<SPRITE_CROP_VALUE_PERCENT_T>(__VA_ARGS__)
+#define DCAST_SPRITE_POSITION_T(...) dynamic_cast<SPRITE_POSITION_T>(__VA_ARGS__)
+#define DCAST_SPRITE_RATIO_T(...) dynamic_cast<SPRITE_RATIO_T>(__VA_ARGS__)
+#define DCAST_SPRITE_RESIZE_T(...) dynamic_cast<SPRITE_RESIZE_T>(__VA_ARGS__)
 
 // =============================== [ Classes ] ===============================
 
@@ -265,13 +315,13 @@ class ValuePercentWinHeight: public Value {
 };
 
 
-ValueInt* nvi(int value);
+VALUE_INT_T nvi(int value);
 
-ValuePercent* nvp(float percent);
+VALUE_PERCENT_T nvp(float percent);
 
-ValuePercentWinWidth* nvpww(WindowAttributes* win_attr, float prc, int shift=0);
+VALUE_PERCENT_WIN_WIDTH_T nvpww(WindowAttributes* win_attr, float prc, int shift=0);
 
-ValuePercentWinHeight* nvpwh(WindowAttributes* win_attr, float prc, int shift=0);
+VALUE_PERCENT_WIN_HEIGHT_T nvpwh(WindowAttributes* win_attr, float prc, int shift=0);
 
 
 class DrawTransform {
@@ -279,8 +329,8 @@ class DrawTransform {
     public:
 
         // Attributes
-        Value* translation_x = nullptr;
-        Value* translation_y = nullptr;
+        VALUE_T translation_x = nullptr;
+        VALUE_T translation_y = nullptr;
         //
         float scale_w = 1.0;
         float scale_h = 1.0;
@@ -292,8 +342,8 @@ class DrawTransform {
 
         // Constructor
         DrawTransform(
-            Value* translation_x = nullptr,
-            Value* translation_y = nullptr,
+            VALUE_T translation_x = nullptr,
+            VALUE_T translation_y = nullptr,
             float scale_w = 1.0,
             float scale_h = 1.0,
             uint32_t time_shift = 0,
@@ -316,10 +366,10 @@ class WindowElt {
     public:
 
         // Attributes
-        Value* x;
-        Value* y;
-        Value* w;
-        Value* h;
+        VALUE_T x;
+        VALUE_T y;
+        VALUE_T w;
+        VALUE_T h;
         //
         bool visible = true;
         //
@@ -327,22 +377,22 @@ class WindowElt {
 
         // Constructor
         WindowElt( Style* style,
-                   Value* x,
-                   Value* y,
-                   Value* w = new ValueInt(1),
-                   Value* h = new ValueInt(1)
+                   VALUE_T x,
+                   VALUE_T y,
+                   VALUE_T w = CREATE_VALUE_INT_T(1),
+                   VALUE_T h = CREATE_VALUE_INT_T(1)
                 )
             : style(style), x(x), y(y), w(w), h(h) {};
 
         // Getters
-        int get_elt_state(WindowAttributes* win_attr, DrawTransform* transform=nullptr);
-        int get_x(DrawTransform* transform=nullptr);
-        int get_y(DrawTransform* transform=nullptr);
-        int get_w(DrawTransform* transform=nullptr);
-        int get_h(DrawTransform* transform=nullptr);
+        int get_elt_state(WindowAttributes* win_attr, DRAW_TRANSFORM_T transform=nullptr);
+        int get_x(DRAW_TRANSFORM_T transform=nullptr);
+        int get_y(DRAW_TRANSFORM_T transform=nullptr);
+        int get_w(DRAW_TRANSFORM_T transform=nullptr);
+        int get_h(DRAW_TRANSFORM_T transform=nullptr);
 
         // Function
-        virtual void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        virtual void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
 };
 
 
@@ -392,10 +442,10 @@ class WindowEltClickable : public WindowElt {
         // Constructor
         WindowEltClickable(
             Style* style,
-            Value* x,
-            Value* y,
-            Value* w = new ValueInt(-1),
-            Value* h = new ValueInt(-1),
+            VALUE_T x,
+            VALUE_T y,
+            VALUE_T w = CREATE_VALUE_INT_T(-1),
+            VALUE_T h = CREATE_VALUE_INT_T(-1),
             std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click = nullptr,
             std::vector<std::string> additional_fn_args = (std::vector<std::string>){}
          )
@@ -409,21 +459,21 @@ class WindowEltRect : public WindowElt {
 
         // Attributes
         Color cl;
-        Value* radius;
+        VALUE_T radius;
 
         // Constructor
         WindowEltRect( Style* style,
                        Color cl,
-                       Value* x,
-                       Value* y,
-                       Value* w = new ValueInt(-1),
-                       Value* h = new ValueInt(-1),
-                       Value* radius = new ValueInt(0)
+                       VALUE_T x,
+                       VALUE_T y,
+                       VALUE_T w = CREATE_VALUE_INT_T(-1),
+                       VALUE_T h = CREATE_VALUE_INT_T(-1),
+                       VALUE_T radius = CREATE_VALUE_INT_T(0)
                     )
             : WindowElt(style, x, y, w, h), cl(cl), radius(radius) {};
 
         // Function
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
 
 };
 
@@ -438,15 +488,15 @@ class WindowEltText : public WindowElt {
         // Constructor
         WindowEltText( Style* style,
                        std::string txt,
-                       Value* x,
-                       Value* y,
-                       Value* w = new ValueInt(-1),
-                       Value* h = new ValueInt(-1)
+                       VALUE_T x,
+                       VALUE_T y,
+                       VALUE_T w = CREATE_VALUE_INT_T(-1),
+                       VALUE_T h = CREATE_VALUE_INT_T(-1)
                     )
             : WindowElt(style, x, y, w, h), txt(txt) {};
 
         // Function
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
 };
 
 
@@ -468,17 +518,17 @@ class SpriteCropValuePercent : public SpriteCrop {
     public:
 
         // Attributes
-        ValuePercent* src_x;
-        ValuePercent* src_y;
-        ValuePercent* src_w;
-        ValuePercent* src_h ;
+        VALUE_PERCENT_T src_x;
+        VALUE_PERCENT_T src_y;
+        VALUE_PERCENT_T src_w;
+        VALUE_PERCENT_T src_h ;
 
         // Constructor
         SpriteCropValuePercent(
-            ValuePercent* src_x,
-            ValuePercent* src_y,
-            ValuePercent* src_w,
-            ValuePercent* src_h
+            VALUE_PERCENT_T src_x,
+            VALUE_PERCENT_T src_y,
+            VALUE_PERCENT_T src_w,
+            VALUE_PERCENT_T src_h
         )
             : SpriteCrop(), src_x(src_x), src_y(src_y), src_w(src_w), src_h(src_h) {}
 };
@@ -505,9 +555,9 @@ class SpriteCropInt : public SpriteCrop {
 };
 
 
-SpriteCropValuePercent* SPRITE_NO_CROP();
+SPRITE_CROP_VALUE_PERCENT_T SPRITE_NO_CROP();
 
-SpriteCropValuePercent* SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h);
+SPRITE_CROP_VALUE_PERCENT_T SPRITE_CUSTOM_CROP(float src_x, float src_y, float src_w, float src_h);
 
 
 class SpriteRatio {
@@ -516,23 +566,23 @@ class SpriteRatio {
 
         // Attributes
         bool keep_original;
-        ValuePercent* prc_dest_w;
-        ValuePercent* prc_dest_h;
+        VALUE_PERCENT_T prc_dest_w;
+        VALUE_PERCENT_T prc_dest_h;
 
         // Constructor
         SpriteRatio(
             bool keep_original,
-            ValuePercent* prc_dest_w,
-            ValuePercent* prc_dest_h
+            VALUE_PERCENT_T prc_dest_w,
+            VALUE_PERCENT_T prc_dest_h
         )
             : keep_original(keep_original), prc_dest_w(prc_dest_w), prc_dest_h(prc_dest_h) {}
 
 };
 
 
-SpriteRatio* SPRITE_RATIO_ORIGINAL();
+SPRITE_RATIO_T SPRITE_RATIO_ORIGINAL();
 
-SpriteRatio* SPRITE_RATIO_CUSTOM(float prc_dest_w, float prc_dest_h);
+SPRITE_RATIO_T SPRITE_RATIO_CUSTOM(float prc_dest_w, float prc_dest_h);
 
 
 #define SPRITE_ENUM_RESIZE_KEEP_ORIGINAL 0
@@ -554,11 +604,11 @@ class SpriteResize {
 };
 
 
-SpriteResize* SPRITE_RESIZE_KEEP_ORIGINAL(float resize_factor = 1.0);
+SPRITE_RESIZE_T SPRITE_RESIZE_KEEP_ORIGINAL(float resize_factor = 1.0);
 
-SpriteResize* SPRITE_RESIZE_FIT(float resize_factor = 1.0);
+SPRITE_RESIZE_T SPRITE_RESIZE_FIT(float resize_factor = 1.0);
 
-SpriteResize* SPRITE_RESIZE_COVER(float resize_factor = 1.0);
+SPRITE_RESIZE_T SPRITE_RESIZE_COVER(float resize_factor = 1.0);
 
 
 class SpritePosition {
@@ -574,13 +624,13 @@ class SpritePosition {
 };
 
 
-SpritePosition* SPRITE_POS_ALIGN_START();
+SPRITE_POSITION_T SPRITE_POS_ALIGN_START();
 
-SpritePosition* SPRITE_POS_ALIGN_CENTER();
+SPRITE_POSITION_T SPRITE_POS_ALIGN_CENTER();
 
-SpritePosition* SPRITE_POS_ALIGN_END();
+SPRITE_POSITION_T SPRITE_POS_ALIGN_END();
 
-SpritePosition* SPRITE_POS_CUSTOM(float percent, int delta);
+SPRITE_POSITION_T SPRITE_POS_CUSTOM(float percent, int delta);
 
 
 class WindowEltSprite : public WindowElt {
@@ -590,31 +640,31 @@ class WindowEltSprite : public WindowElt {
         // Attributes
         std::string img_path;
         //
-        Value* angle = 0;
+        VALUE_T angle = 0;
         bool flip_h = false;
         bool flip_v = false;
         //
-        SpriteCrop* sprite_crop;
-        SpriteRatio* sprite_ratio;
-        SpriteResize* sprite_resize;
-        SpritePosition* sprite_h_position;
-        SpritePosition* sprite_v_position;
+        SPRITE_CROP_T sprite_crop;
+        SPRITE_RATIO_T sprite_ratio;
+        SPRITE_RESIZE_T sprite_resize;
+        SPRITE_POSITION_T sprite_h_position;
+        SPRITE_POSITION_T sprite_v_position;
 
         // Constructor
         WindowEltSprite( Style* style,
                          std::string img_path,
-                         Value* x,
-                         Value* y,
-                         Value* w,
-                         Value* h,
-                         Value* angle = new ValueInt(0),
+                         VALUE_T x,
+                         VALUE_T y,
+                         VALUE_T w,
+                         VALUE_T h,
+                         VALUE_T angle = CREATE_VALUE_INT_T(0),
                          bool flip_h = false,
                          bool flip_v = false,
-                         SpriteCrop* sprite_crop = SPRITE_NO_CROP(),
-                         SpriteRatio* sprite_ratio = SPRITE_RATIO_ORIGINAL(),
-                         SpriteResize* sprite_resize = SPRITE_RESIZE_KEEP_ORIGINAL(),
-                         SpritePosition* sprite_h_position = SPRITE_POS_ALIGN_START(),
-                         SpritePosition* sprite_v_position = SPRITE_POS_ALIGN_START()
+                         SPRITE_CROP_T sprite_crop = SPRITE_NO_CROP(),
+                         SPRITE_RATIO_T sprite_ratio = SPRITE_RATIO_ORIGINAL(),
+                         SPRITE_RESIZE_T sprite_resize = SPRITE_RESIZE_KEEP_ORIGINAL(),
+                         SPRITE_POSITION_T sprite_h_position = SPRITE_POS_ALIGN_START(),
+                         SPRITE_POSITION_T sprite_v_position = SPRITE_POS_ALIGN_START()
                         )
         :
             WindowElt(style, x, y, w, h),
@@ -630,7 +680,7 @@ class WindowEltSprite : public WindowElt {
         {};
 
         // Function
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
 };
 
 
@@ -650,32 +700,32 @@ class WindowEltAnimatedSprite : public WindowElt {
         //
         WINDOW_ELT_SPRITE_T sprite;
         //
-        SpriteCropInt* sprite_crop;
+        SPRITE_CROP_INT_T sprite_crop;
 
         // Constructor
         WindowEltAnimatedSprite( Style* style,
                                  std::string img_path,
-                                 Value* x,
-                                 Value* y,
-                                 Value* w,
-                                 Value* h,
+                                 VALUE_T x,
+                                 VALUE_T y,
+                                 VALUE_T w,
+                                 VALUE_T h,
                                  int first_frame_x,
                                  int first_frame_y,
                                  int frame_w,
                                  int frame_h,
                                  int nb_frames,
                                  uint32_t frame_delay,
-                                 Value* angle = new ValueInt(0),
+                                 VALUE_T angle = CREATE_VALUE_INT_T(0),
                                  bool flip_h = false,
                                  bool flip_v = false,
-                                 SpriteRatio* sprite_ratio = SPRITE_RATIO_ORIGINAL(),
-                                 SpriteResize* sprite_resize = SPRITE_RESIZE_KEEP_ORIGINAL(),
-                                 SpritePosition* sprite_h_position = SPRITE_POS_ALIGN_START(),
-                                 SpritePosition* sprite_v_position = SPRITE_POS_ALIGN_START()
+                                 SPRITE_RATIO_T sprite_ratio = SPRITE_RATIO_ORIGINAL(),
+                                 SPRITE_RESIZE_T sprite_resize = SPRITE_RESIZE_KEEP_ORIGINAL(),
+                                 SPRITE_POSITION_T sprite_h_position = SPRITE_POS_ALIGN_START(),
+                                 SPRITE_POSITION_T sprite_v_position = SPRITE_POS_ALIGN_START()
                                 );
 
         // Function
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
 };
 
 
@@ -695,16 +745,16 @@ class WindowEltButton : public WindowEltClickable {
         // Constructor
         WindowEltButton( Style* style,
                          std::string txt,
-                         Value* x,
-                         Value* y,
-                         Value* w,
-                         Value* h,
+                         VALUE_T x,
+                         VALUE_T y,
+                         VALUE_T w,
+                         VALUE_T h,
                          std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click = nullptr,
                          std::vector<std::string> additional_fn_args = (std::vector<std::string>){}
                         );
 
         // Function
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
 };
 
 
@@ -724,14 +774,14 @@ class WindowEltMapTile: public WindowElt {
         WindowEltMapTile(
             int tile,
             Style* style,
-            Value* x,
-            Value* y,
-            Value* w,
-            Value* h
+            VALUE_T x,
+            VALUE_T y,
+            VALUE_T w,
+            VALUE_T h
         );
 
         // Functions
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
         void set_ground_base(std::string ground_base_img);
 };
 
@@ -832,29 +882,29 @@ class WindowEltMapViewer: public WindowEltClickable {
 
         // Constructor
         WindowEltMapViewer( Style* style,
-            Value* x,
-            Value* y,
-            Value* w,
-            Value* h,
+            VALUE_T x,
+            VALUE_T y,
+            VALUE_T w,
+            VALUE_T h,
             std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click = nullptr
         );
 
         // Functions : darw
-        void draw_ground_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color,
-                              ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
+        void draw_ground_tile(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color,
+                              VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B);
 
-        void draw_color_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color,
-                             ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
+        void draw_color_tile(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color,
+                             VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B);
 
-        void draw_entity_sprite(EntityData edata, MainView* main_view, DrawTransform* transform, int color);
+        void draw_entity_sprite(EntityData edata, MainView* main_view, DRAW_TRANSFORM_T transform, int color);
 
-        void draw_entity(Coord coord, MainView* main_view, DrawTransform* transform, int color,
-                         ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
+        void draw_entity(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color,
+                         VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B);
 
-        void draw_barricade(Coord coord, MainView* main_view, DrawTransform* transform, int color,
-                            ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B);
+        void draw_barricade(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color,
+                            VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B);
 
-        void draw_elt(MainView* main_view, DrawTransform* transform=nullptr);
+        void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
 
         // Other functions
         void clear();

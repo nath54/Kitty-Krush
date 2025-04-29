@@ -26,10 +26,10 @@ uint64_t timeSinceEpochMillisec() {
 
 
 //
-Event* WindowAttributes::update_mouse_button_state(int button, int pressed){
+EVENT_T WindowAttributes::update_mouse_button_state(int button, int pressed){
 
     //
-    Event* evt = nullptr;
+    EVENT_T evt = nullptr;
 
     //
     if(pressed == -1){
@@ -65,7 +65,7 @@ Event* WindowAttributes::update_mouse_button_state(int button, int pressed){
                     this->mouse_y
                  ) > MIN_DIST_DRAG
         ){
-            evt = new EventMouseDragging(
+            evt = CREATE_EVENT_MOUSE_DRAGGING_T(
                 this->mouse_x,
                 this->mouse_y,
                 this->mouse_x - this->mouse_last_drag_x,
@@ -98,7 +98,7 @@ Event* WindowAttributes::update_mouse_button_state(int button, int pressed){
         ){
 
             //
-            evt = new EventMouseClick(
+            evt = CREATE_EVENT_MOUSE_CLICK_T(
                 this->mouse_x,
                 this->mouse_y,
                 button
@@ -129,10 +129,10 @@ Event* WindowAttributes::update_mouse_button_state(int button, int pressed){
 }
 
 
-Event* WindowAttributes::update_keyboard_state(std::string key, bool pressed){
+EVENT_T WindowAttributes::update_keyboard_state(std::string key, bool pressed){
 
     //
-    Event* evt = nullptr;
+    EVENT_T evt = nullptr;
 
     //
     if(pressed){
@@ -142,7 +142,7 @@ Event* WindowAttributes::update_keyboard_state(std::string key, bool pressed){
             this->keys_pressed[key] = timeSinceEpochMillisec();
 
             //
-            evt = new EventKeyDown( key );
+            evt = CREATE_EVENT_KEY_DOWN_T( key );
         }
     }
     //
@@ -151,7 +151,7 @@ Event* WindowAttributes::update_keyboard_state(std::string key, bool pressed){
         this->keys_pressed.erase(key);
 
         //
-        evt = new EventKeyUp( key );
+        evt = CREATE_EVENT_KEY_UP_T( key );
     }
 
     //

@@ -5,7 +5,7 @@
 
 
 //
-void EventsManager::new_event(Event* event) {
+void EventsManager::new_event(EVENT_T event) {
 
     //
     if( event == nullptr ){
@@ -22,7 +22,7 @@ void EventsManager::new_event(Event* event) {
 
 
 //
-Event* EventsManager::poll_next_event() {
+EVENT_T EventsManager::poll_next_event() {
 
     //
     if( this->nb_events_waiting == 0 ){
@@ -30,7 +30,7 @@ Event* EventsManager::poll_next_event() {
     }
 
     //
-    Event* evt = this->list_of_events.front();
+    EVENT_T evt = this->list_of_events.front();
     //
     this->list_of_events.pop_front();
     //

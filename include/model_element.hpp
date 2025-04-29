@@ -4,6 +4,22 @@
 
 typedef unsigned short int usint;
 
+
+// =============================== [ Pointers ] ===============================
+
+
+#define ELEMENT_T Element*
+#define UNIT_T Unit*
+#define BUILDING_T Building*
+
+#define CREATE_ELEMENT_T(...) new Element(__VA_ARGS__)
+#define CREATE_UNIT_T(...) new Unit(__VA_ARGS__)
+#define CREATE_BUILDING_T(...) new Building(__VA_ARGS__)
+
+#define DCAST_UNIT_T(...) dynamic_cast<UNIT_T>(__VA_ARGS__)
+#define DCAST_BUILDING_T(...) dynamic_cast<BUILDING_T>(__VA_ARGS__)
+
+
 // ============================== [ Constants ] ===============================
 
 static const int MAX_UNIT_LEVEL = 4;

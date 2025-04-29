@@ -17,7 +17,7 @@ void MainGame::mainloop_execute_all_events()
 {
     int nb_events = 0;
 
-    Event* event = this->events_manager->poll_next_event();
+    EVENT_T event = this->events_manager->poll_next_event();
 
     while (event != nullptr && nb_events < MAINLOOP_MAX_EVENTS_PER_LOOP) {
 
@@ -28,7 +28,7 @@ void MainGame::mainloop_execute_all_events()
 }
 
 //
-void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event)
+void test_all_window_elts_for_clicks(MainGame* main_game, EVENT_MOUSE_CLICK_T event)
 {
     if (event == nullptr || main_game->main_view == nullptr
         || main_game->main_view->win_page_manager == nullptr)
@@ -41,7 +41,7 @@ void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event
     for (int i = crt_page->elts.size() - 1; i >= 0; i--) {
 
         WINDOW_ELT_T elt = crt_page->elts[i];
-        WINDOW_ELT_CLICKABLE_T elt_c = dynamic_cast<WINDOW_ELT_CLICKABLE_T>(elt);
+        WINDOW_ELT_CLICKABLE_T elt_c = DCAST_WINDOW_ELT_CLICKABLE_T(elt);
 
         if (elt_c == nullptr) { continue; }
         if (!(elt_c->visible) ) { continue; }
@@ -58,7 +58,7 @@ void test_all_window_elts_for_clicks(MainGame* main_game, EventMouseClick* event
 }
 
 //
-void on_key_up(MainGame* main_game, EventKeyUp* event)
+void on_key_up(MainGame* main_game, EVENT_KEY_UP_T event)
 {
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
@@ -99,7 +99,7 @@ void on_key_up(MainGame* main_game, EventKeyUp* event)
 }
 
 //
-void on_scroll(MainGame* main_game, EventMouseScroll* event)
+void on_scroll(MainGame* main_game, EVENT_MOUSE_SCROLL_T event)
 {
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
@@ -124,7 +124,7 @@ void on_scroll(MainGame* main_game, EventMouseScroll* event)
 }
 
 //
-void on_dragging(MainGame* main_game, EventMouseDragging* event)
+void on_dragging(MainGame* main_game, EVENT_MOUSE_DRAGGING_T event)
 {
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3)
         { return; }
@@ -148,7 +148,7 @@ void on_dragging(MainGame* main_game, EventMouseDragging* event)
 }
 
 //
-void on_mouse_motion(MainGame* main_game, EventMouseMotion* event)
+void on_mouse_motion(MainGame* main_game, EVENT_MOUSE_MOTION_T event)
 {
     if (event == nullptr || main_game->menu_state < 2 || main_game->menu_state > 3) { return; }
 
@@ -165,33 +165,33 @@ void on_mouse_motion(MainGame* main_game, EventMouseMotion* event)
 }
 
 //
-void MainGame::execute_event(Event* event)
+void MainGame::execute_event(EVENT_T event)
 {
     switch (event->get_event_type()) {
 
         case EVT_MOUSE_CLICK:
 
-            test_all_window_elts_for_clicks(this, dynamic_cast<EventMouseClick*>(event));
+            test_all_window_elts_for_clicks(this, DCAST_EVENT_MOUSE_CLICK_T(event));
             break;
 
         case EVT_KEY_UP:
 
-            on_key_up(this, dynamic_cast<EventKeyUp*>(event));
+            on_key_up(this, DCAST_EVENT_KEY_UP_T(event));
             break;
 
         case EVT_MOUSE_MOTION:
 
-            on_mouse_motion(this, dynamic_cast<EventMouseMotion*>(event));
+            on_mouse_motion(this, DCAST_EVENT_MOUSE_MOTION_T(event));
             break;
 
         case EVT_MOUSE_SCROLL:
 
-            on_scroll(this, dynamic_cast<EventMouseScroll*>(event));
+            on_scroll(this, DCAST_EVENT_MOUSE_SCROLL_T(event));
             break;
 
         case EVT_MOUSE_DRAGGING:
 
-            on_dragging(this, dynamic_cast<EventMouseDragging*>(event));
+            on_dragging(this, DCAST_EVENT_MOUSE_DRAGGING_T(event));
             break;
 
         case EVT_QUIT:

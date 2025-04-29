@@ -82,7 +82,7 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
     {
         this->polled_events++;
 
-        Event* evt = nullptr;
+        EVENT_T evt = nullptr;
 
         switch (event.type) {
 
@@ -115,7 +115,7 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
                 );
 
                 events_manager->new_event(
-                    new EventMouseMotion(event.motion.x, event.motion.y)
+                    CREATE_EVENT_MOUSE_MOTION_T(event.motion.x, event.motion.y)
                 );
 
                 break;
@@ -123,7 +123,7 @@ void GameController::manage_events(WindowAttributes* win_attr, EventsManager* ev
             case SDL_MOUSEWHEEL:
 
                 events_manager->new_event(
-                    new EventMouseScroll(event.wheel.mouseX, event.wheel.mouseY, event.wheel.x, event.wheel.y)
+                    CREATE_EVENT_MOUSE_SCROLL_T(event.wheel.mouseX, event.wheel.mouseY, event.wheel.x, event.wheel.y)
                 );
 
                 break;

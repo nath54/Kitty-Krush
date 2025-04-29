@@ -18,7 +18,7 @@
 
 
 //
-WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, Value* w, Value* h)
+WindowEltMapTile::WindowEltMapTile(int tile, Style* style, VALUE_T x, VALUE_T y, VALUE_T w, VALUE_T h)
 : WindowElt(style, x, y, w, h), tile(tile)
 {
     //
@@ -63,7 +63,7 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
                 style,
                 img_path,
                 this->x, this->y, this->w, this->h,
-                new ValueInt(0),
+                CREATE_VALUE_INT_T(0),
                 false,
                 false,
                 SPRITE_NO_CROP(),
@@ -102,7 +102,7 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
                 style,
                 img_path,
                 this->x, this->y, this->w, this->h,
-                new ValueInt(0),
+                CREATE_VALUE_INT_T(0),
                 false,
                 false,
                 SPRITE_NO_CROP(),
@@ -118,7 +118,7 @@ WindowEltMapTile::WindowEltMapTile(int tile, Style* style, Value* x, Value* y, V
 
 
 //
-void WindowEltMapTile::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowEltMapTile::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }
@@ -165,7 +165,7 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
         this->style,
         img_path,
         this->x, this->y, this->w, this->h,
-        new ValueInt(0),
+        CREATE_VALUE_INT_T(0),
         false,
         false,
         SPRITE_NO_CROP(),
@@ -185,10 +185,10 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
 //
 WindowEltMapViewer::WindowEltMapViewer(
     Style* style,
-    Value* x,
-    Value* y,
-    Value* w,
-    Value* h,
+    VALUE_T x,
+    VALUE_T y,
+    VALUE_T w,
+    VALUE_T h,
     std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)> on_click
 )
 : WindowEltClickable(style, x, y, w, h, on_click) {
@@ -474,7 +474,7 @@ WindowEltMapViewer::WindowEltMapViewer(
 
 
 //
-void WindowEltMapViewer::draw_ground_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
+void WindowEltMapViewer::draw_ground_tile(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color, VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B){
 
     // GROUND LAYER TILE
 
@@ -499,7 +499,7 @@ void WindowEltMapViewer::draw_ground_tile(Coord coord, MainView* main_view, Draw
 
 
 //
-void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
+void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color, VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B){
 
     // COLOR LAYER TILE
 
@@ -538,7 +538,7 @@ void WindowEltMapViewer::draw_color_tile(Coord coord, MainView* main_view, DrawT
 
 
 //
-void WindowEltMapViewer::draw_entity_sprite(EntityData edata, MainView* main_view, DrawTransform* transform, int color){
+void WindowEltMapViewer::draw_entity_sprite(EntityData edata, MainView* main_view, DRAW_TRANSFORM_T transform, int color){
 
     //
     if (edata.type){ // Warrior
@@ -607,7 +607,7 @@ void WindowEltMapViewer::draw_entity_sprite(EntityData edata, MainView* main_vie
 
 
 //
-void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
+void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color, VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B){
 
     // ENTITY LAYER TILE
 
@@ -659,7 +659,7 @@ void WindowEltMapViewer::draw_entity(Coord coord, MainView* main_view, DrawTrans
 
 
 //
-void WindowEltMapViewer::draw_barricade(Coord coord, MainView* main_view, DrawTransform* transform, int color, ValueInt* dep_x, ValueInt* dep_y, int zoomed_W, int zoomed_H, int A, int B){
+void WindowEltMapViewer::draw_barricade(Coord coord, MainView* main_view, DRAW_TRANSFORM_T transform, int color, VALUE_INT_T dep_x, VALUE_INT_T dep_y, int zoomed_W, int zoomed_H, int A, int B){
 
     // BARRICADES / WALLS
 
@@ -697,7 +697,7 @@ void WindowEltMapViewer::draw_barricade(Coord coord, MainView* main_view, DrawTr
 
 
 //
-void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform){
+void WindowEltMapViewer::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
     //
     if (!this->visible){ return; }
@@ -719,7 +719,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     int nb_rows_to_display = (int) (this->get_h() / B) + margin;
 
     //
-    DrawTransform* tile_transform = nullptr;
+    DRAW_TRANSFORM_T tile_transform = nullptr;
 
     //
     int base_dec_x;
@@ -728,8 +728,8 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     float base_zoom_h = this->zoom;
 
     //
-    ValueInt* dep_x = nvi(0);
-    ValueInt* dep_y = nvi(0);
+    VALUE_INT_T dep_x = nvi(0);
+    VALUE_INT_T dep_y = nvi(0);
 
     //
     if ( transform == nullptr ){
@@ -750,7 +750,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DrawTransform* transform)
     }
 
     //
-    tile_transform = new DrawTransform( dep_x, dep_y, base_zoom_w, base_zoom_h);
+    tile_transform = CREATE_DRAW_TRANSFORM_T( dep_x, dep_y, base_zoom_w, base_zoom_h);
 
     //
     for( int tile_x = start_tile_x ; tile_x <= start_tile_x + nb_cols_to_display; tile_x ++ ){
@@ -1175,8 +1175,8 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
     //
     entity.level = elt->_defense();
     //
-    BUILDING_T building = dynamic_cast<BUILDING_T>( elt );
-    UNIT_T unit = dynamic_cast<UNIT_T>( elt );
+    BUILDING_T building = DCAST_BUILDING_T( elt );
+    UNIT_T unit = DCAST_UNIT_T( elt );
     //
     entity.type = (building == nullptr);
 
@@ -1337,7 +1337,7 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
 bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord c, int color){
 
     //
-    BUILDING_T b = dynamic_cast<BUILDING_T>( game_model->get_tile_element(c) );
+    BUILDING_T b = DCAST_BUILDING_T( game_model->get_tile_element(c) );
 
     //
     if( b != nullptr && b->_color() == color ) { return true; }
@@ -1346,7 +1346,7 @@ bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord 
     for(Coord v : neighbours(c)){
 
         //
-        b = dynamic_cast<BUILDING_T>( game_model->get_tile_element(v) );
+        b = DCAST_BUILDING_T( game_model->get_tile_element(v) );
 
         //
         if( b == nullptr ){ continue; }
@@ -1454,7 +1454,7 @@ bool WindowEltMapViewer::check_draw_palissade_bottom_left(Coord v){
 void on_map_viewer_click_map_creator(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
-    WINDOW_ELT_MAP_VIEWER_T map_viewer = dynamic_cast<WINDOW_ELT_MAP_VIEWER_T>(map_viewer_elt);
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = DCAST_WINDOW_ELT_MAP_VIEWER_T(map_viewer_elt);
 
     //
     if(map_viewer == nullptr){ return; }
@@ -1549,7 +1549,7 @@ void on_map_viewer_click_map_creator(WINDOW_ELT_CLICKABLE_T map_viewer_elt, Main
 void on_map_viewer_click_in_game(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
-    WINDOW_ELT_MAP_VIEWER_T map_viewer = dynamic_cast<WINDOW_ELT_MAP_VIEWER_T>(map_viewer_elt);
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = DCAST_WINDOW_ELT_MAP_VIEWER_T(map_viewer_elt);
 
     //
     if(map_viewer == nullptr){ return; }
