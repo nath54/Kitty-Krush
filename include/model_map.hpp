@@ -5,8 +5,25 @@
 
 #define NEUTRAL 0
 
+
 // Forward declaration
 class Province;
+
+// =============================== [ Pointers ] ===============================
+
+
+#define ELEMENT_T Element*
+#define TILE_T Tile*
+#define UNIT_T Unit*
+#define BUILDING_T Building*
+#define PROVINCE_T Province*
+
+
+#define CREATE_ELEMENT_T(...) new Element(__VA_ARGS__)
+#define CREATE_TILE_T(...) new Tile(__VA_ARGS__)
+#define CREATE_UNIT_T(...) new Unit(__VA_ARGS__)
+#define CREATE_BUILDING_T(...) new Building(__VA_ARGS__)
+#define CREATE_PROVINCE_T(...) new Province(__VA_ARGS__)
 
 
 // ================================= [ Tile ] =================================
@@ -17,12 +34,12 @@ class Tile {
 
         Coord coord; // coordinates of the tile
         int color; // owner of the tile
-        Element* element; // element on the tile (unit or building)
+        ELEMENT_T element; // element on the tile (unit or building)
 
     public:
 
         // Constructor
-        Tile(Coord tile_coord, usint tile_color=NEUTRAL, Element* tile_element=nullptr)
+        Tile(Coord tile_coord, usint tile_color=NEUTRAL, ELEMENT_T tile_element=nullptr)
             : coord(tile_coord), color(tile_color), element(tile_element) {};
         // Destructor
         ~Tile() {}; // Default destructor
@@ -30,12 +47,12 @@ class Tile {
         // Getters
         Coord _coord() const;
         usint _color() const;
-        Element* _element() const;
+        ELEMENT_T _element() const;
 
         // Other functions
         usint get_defense() const;
         void convert_color(usint new_color);
-        void set_element(Element* element = nullptr);
+        void set_element(ELEMENT_T element = nullptr);
         void reset_element();
 };
 
@@ -48,13 +65,13 @@ class Province {
 
         int color; // owner of the province
         int treasury; // treasury of the province
-        std::map<Coord, Tile*> tiles_layer; // tiles of the province
+        std::map<Coord, TILE_T> tiles_layer; // tiles of the province
 
     public:
 
     // Constructor
     Province() {}; // Default constructor
-    Province(usint c, int t=0, std::map<Coord, Tile*> tiles=(std::map<Coord, Tile*>){})
+    Province(usint c, int t=0, std::map<Coord, TILE_T> tiles=(std::map<Coord, TILE_T>){})
             : color(c), treasury(t), tiles_layer(tiles) {};
     // Destructor
     ~Province() {}; // Default destructor
@@ -63,10 +80,10 @@ class Province {
     // Getters
     usint _color() const;
     int _treasury() const;
-    std::map<Coord, Tile*>* _tiles();
+    std::map<Coord, TILE_T>* _tiles();
 
     // Getters (undirects)
-    std::list<Building*> get_buildings();
+    std::list<BUILDING_T> get_buildings();
 
     // Setters
     void set_color(usint new_color);
@@ -74,8 +91,8 @@ class Province {
 
     // Functions: tiles
     bool has_tile(Coord c);
-    void add_tile(Tile* tile);
-    void remove_tile(Tile* tile);
+    void add_tile(TILE_T tile);
+    void remove_tile(TILE_T tile);
 
     // Functions: treasury
     int expected_income();
@@ -95,10 +112,10 @@ class Map {
     private:
 
         usint size = 100;
-        std::map<Coord, Tile*> tiles_layer;
-        std::map<Coord, Element*> bandits_layer;
-        std::vector<Province*> provinces_layer;
-        std::list<Province*> provinces_to_remove;
+        std::map<Coord, TILE_T> tiles_layer;
+        std::map<Coord, ELEMENT_T> bandits_layer;
+        std::vector<PROVINCE_T> provinces_layer;
+        std::list<PROVINCE_T> provinces_to_remove;
 
     public:
 
@@ -110,20 +127,20 @@ class Map {
 
         // Getters
         usint _size() const;
-        std::map<Coord, Tile*>* _tiles_layer();
-        std::map<Coord, Element*>* _bandits_layer();
-        std::vector<Province*>* _provinces_layer();
-        std::list<Province*>* _provinces_to_remove();
+        std::map<Coord, TILE_T>* _tiles_layer();
+        std::map<Coord, ELEMENT_T>* _bandits_layer();
+        std::vector<PROVINCE_T>* _provinces_layer();
+        std::list<PROVINCE_T>* _provinces_to_remove();
 
         // Getters (undirects)
-        Tile* get_tile(Coord c);
+        TILE_T get_tile(Coord c);
         int get_tile_color(Coord c);
-        Element* get_tile_element(Coord c);
-        Province* get_province(Coord c);
-        std::list<Building*> get_all_buildings(bool with_bandit_buildings=false);
+        ELEMENT_T get_tile_element(Coord c);
+        PROVINCE_T get_province(Coord c);
+        std::list<BUILDING_T> get_all_buildings(bool with_bandit_buildings=false);
 
         // Setters
-        void set_tile(Coord c, Tile* new_tile);
+        void set_tile(Coord c, TILE_T new_tile);
         void set_tile_color(Coord c, int color);
         void set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attribute = 0);
 
@@ -133,17 +150,17 @@ class Map {
         void reset_provinces_layer();
 
         // Initialization
-        void recursive_fill(Coord c, unsigned int nb_cover, int color_cover, Province* p = nullptr);
+        void recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVINCE_T p = nullptr);
         void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
 
         // Provinces managment
-        void add_province(Province* p);
+        void add_province(PROVINCE_T p);
         void add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color = -1, bool with_treasury = false, int treasury = 0);
-        void remove_province(Province* p);
-        void fusion_provinces(Province* p1, Province* p2);
-        void split_province(Coord c, Province* p);
+        void remove_province(PROVINCE_T p);
+        void fusion_provinces(PROVINCE_T p1, PROVINCE_T p2);
+        void split_province(Coord c, PROVINCE_T p);
         void remove_tile_from_all_prov(Coord c);
-        bool adjacent_to_province(Coord c, Province* p);
+        bool adjacent_to_province(Coord c, PROVINCE_T p);
 
         // Bandits managment
         void create_bandit_element(Coord c, bool is_unit);

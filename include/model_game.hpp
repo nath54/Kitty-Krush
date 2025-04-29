@@ -36,9 +36,9 @@ class GameModel {
         // Getters (undirect)
         int get_tile_color(Coord c);
         usint get_tile_defense(Coord c);
-        Element* get_tile_element(Coord c);
-        Province* get_tile_province(Coord c);
-        Province* get_province_at_coord(Coord c);
+        ELEMENT_T get_tile_element(Coord c);
+        PROVINCE_T get_tile_province(Coord c);
+        PROVINCE_T get_province_at_coord(Coord c);
 
         // Setters
         void set_tile_color(Coord coord, int color);

@@ -134,13 +134,13 @@ void MainGame::set_map_from_data(
     game_model->set_nb_players(1);
 
     //
-    std::map<Coord, Element*>* bandit_layer = game_model->_map()->_bandits_layer();
+    std::map<Coord, ELEMENT_T>* bandit_layer = game_model->_map()->_bandits_layer();
     //
-    Province* p = nullptr;
+    PROVINCE_T p = nullptr;
     //
-    for( std::pair<Coord, Tile*> it : *(game_model->_map()->_tiles_layer()) ){
+    for( std::pair<Coord, TILE_T> it : *(game_model->_map()->_tiles_layer()) ){
         //
-        Tile* t = it.second;
+        TILE_T t = it.second;
         if ( t == nullptr ) { continue; }
 
         //
@@ -152,11 +152,11 @@ void MainGame::set_map_from_data(
 
         // Ajout au bandit layer
         if ( t->_color() == 0 ) {
-            bandit_layer->insert( std::pair<Coord, Element*>(it.first, t->_element()) );
+            bandit_layer->insert( std::pair<Coord, ELEMENT_T>(it.first, t->_element()) );
         }
 
         //
-        Building* b = dynamic_cast<Building*>(t->_element());
+        BUILDING_T b = dynamic_cast<BUILDING_T>(t->_element());
         //
         if ( b == nullptr ) { continue; }
 
@@ -490,14 +490,14 @@ void MainGame::save_map(std::string file_path) {
 
     for (Coord c : coords) {
 
-        Element* e = this->game_model->get_tile_element(c);
+        ELEMENT_T e = this->game_model->get_tile_element(c);
 
         if (!e) continue;
 
-        Building* b = dynamic_cast<Building*>(e);
-        Unit* u = dynamic_cast<Unit*>(e);
+        BUILDING_T b = dynamic_cast<BUILDING_T>(e);
+        UNIT_T u = dynamic_cast<UNIT_T>(e);
 
-        Province* p = this->game_model->get_province_at_coord(c);
+        PROVINCE_T p = this->game_model->get_province_at_coord(c);
 
         if (b != nullptr) {
 

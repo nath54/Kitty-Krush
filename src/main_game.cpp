@@ -193,7 +193,7 @@ void MainGame::update_current_player_display()
 }
 
 
-void MainGame::set_selected_province(Province* p)
+void MainGame::set_selected_province(PROVINCE_T p)
 {
     if (GAME_DOES_NOT_EXIST) { return; }
 
@@ -245,7 +245,7 @@ void MainGame::update_selected_province(Coord src)
 {
     if(GAME_DOES_NOT_EXIST) { return; }
 
-    Province* new_province = this->game_model->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
+    PROVINCE_T new_province = this->game_model->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
 
     if( new_province == nullptr ){ return; }
 
@@ -263,11 +263,11 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
 
     if (new_entity) {
 
-        for (Province* p : *( this->game_model->_map()->_provinces_layer())) {
+        for (PROVINCE_T p : *( this->game_model->_map()->_provinces_layer())) {
 
             if (p->_color() != this->game_model->_current_player()) { continue; }
 
-            for (std::pair<const Coord, Tile*> it : *(p->_tiles())) {
+            for (std::pair<const Coord, TILE_T> it : *(p->_tiles())) {
 
                 Coord c = it.first;
 
@@ -294,11 +294,11 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
     //
     else {
 
-        Province* p = this->game_model->get_province_at_coord( src );
+        PROVINCE_T p = this->game_model->get_province_at_coord( src );
 
         if (p == nullptr) { return; }
 
-        for (std::pair<const Coord, Tile*> it : *(p->_tiles())) {
+        for (std::pair<const Coord, TILE_T> it : *(p->_tiles())) {
 
             Coord c = it.first;
 
@@ -332,11 +332,11 @@ void MainGame::action_move_entity(Coord src, Coord dst)
 
     if (!this->game_model->check_action_move_unit(src, dst)) { return; }
 
-    Province* old_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T old_prov_dst = this->game_model->get_province_at_coord(dst);
 
     this->game_model->do_action_move_unit(src, dst);
 
-    Province* new_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T new_prov_dst = this->game_model->get_province_at_coord(dst);
 
     this->game_model->_map()->remove_tile_from_all_prov(dst);
 
@@ -347,11 +347,11 @@ void MainGame::action_move_entity(Coord src, Coord dst)
 
     // Check for provinces to remove
 
-    std::list<Province*>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
+    std::list<PROVINCE_T>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
     //
     while (provinces_to_remove->size() > 0) {
 
-        Province* province = provinces_to_remove->front();
+        PROVINCE_T province = provinces_to_remove->front();
         provinces_to_remove->pop_front();
 
         if (this->main_view->map_viewer->selected_province == province)
@@ -371,20 +371,20 @@ void MainGame::action_new_entity(Coord dst, int level, bool type)
 
     if (!this->game_model->check_action_new_element(dst, level, type)) { return; }
 
-    Province* prev_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T prev_prov_dst = this->game_model->get_province_at_coord(dst);
 
     this->game_model->do_action_new_element(dst, level, type);
 
-    Province* new_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T new_prov_dst = this->game_model->get_province_at_coord(dst);
 
     if( prev_prov_dst != nullptr && prev_prov_dst != new_prov_dst)
         { this->game_model->_map()->split_province( dst, prev_prov_dst ); }
 
-    std::list<Province*>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
+    std::list<PROVINCE_T>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
 
     while (provinces_to_remove->size() > 0) {
 
-        Province* province = provinces_to_remove->front();
+        PROVINCE_T province = provinces_to_remove->front();
         provinces_to_remove->pop_front();
 
         if (this->main_view->map_viewer->selected_province == province)
@@ -410,7 +410,7 @@ void MainGame::action_end_turn()
 
     this->game_model->do_action_end_turn();
 
-    if (this->game_model->_current_player() < crt_color) { this->bandit_turn(); }
+    if (this->game_model->_current_player() <= crt_color) { this->bandit_turn(); }
 
     this->at_player_turn_start();
 }

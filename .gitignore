@@ -40,4 +40,6 @@
 vgcore*
 *.xcf
 
-saved_data
+**/saved_data
+**/*created_map*
+**/*map_created*

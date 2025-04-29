@@ -13,8 +13,8 @@
 ## Mettre en smart_pointer: (on le fera quand on aura a un jeu qui fonctionne bien, parce que le code risque de devenir un peu plus illisible après)
 
 - [ ] `Value*`
-- [ ] `Province*`
-- [ ] `Tile*`
-- [ ] `Element*`
+- [ ] `PROVINCE_T`
+- [ ] `TILE_T`
+- [ ] `ELEMENT_T`
 
 On pourra utiliser des `#define` pour raccourcir tous les noms de fonctions liés au smartpointers

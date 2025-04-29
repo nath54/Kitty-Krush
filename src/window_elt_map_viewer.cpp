@@ -1168,15 +1168,15 @@ EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
     //
     if( this->game_model == nullptr){ return entity; }
     //
-    Element* elt = this->game_model->get_tile_element( coord );
+    ELEMENT_T elt = this->game_model->get_tile_element( coord );
     //
     if( elt == nullptr){ return entity; }
 
     //
     entity.level = elt->_defense();
     //
-    Building* building = dynamic_cast<Building*>( elt );
-    Unit* unit = dynamic_cast<Unit*>( elt );
+    BUILDING_T building = dynamic_cast<BUILDING_T>( elt );
+    UNIT_T unit = dynamic_cast<UNIT_T>( elt );
     //
     entity.type = (building == nullptr);
 
@@ -1337,7 +1337,7 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
 bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord c, int color){
 
     //
-    Building* b = dynamic_cast<Building*>( game_model->get_tile_element(c) );
+    BUILDING_T b = dynamic_cast<BUILDING_T>( game_model->get_tile_element(c) );
 
     //
     if( b != nullptr && b->_color() == color ) { return true; }
@@ -1346,7 +1346,7 @@ bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord 
     for(Coord v : neighbours(c)){
 
         //
-        b = dynamic_cast<Building*>( game_model->get_tile_element(v) );
+        b = dynamic_cast<BUILDING_T>( game_model->get_tile_element(v) );
 
         //
         if( b == nullptr ){ continue; }

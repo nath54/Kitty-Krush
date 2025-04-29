@@ -12,7 +12,7 @@
 // >> Getters <<
 Coord Tile::_coord() const { return this->coord; }
 usint Tile::_color() const { return this->color; }
-Element* Tile::_element() const { return this->element; }
+ELEMENT_T Tile::_element() const { return this->element; }
 
 
 // >> Other functions <<
@@ -20,7 +20,7 @@ usint Tile::get_defense() const { return (this->element != nullptr) ? this->elem
 
 void Tile::convert_color(usint new_color) { this->color = new_color; }
 
-void Tile::set_element(Element* e)
+void Tile::set_element(ELEMENT_T e)
 {
     if (this->element != nullptr) {
         // delete this->element;
@@ -38,18 +38,18 @@ void Tile::reset_element()
 
 usint Province::_color() const { return this->color; }
 int Province::_treasury() const { return this->treasury; }
-std::map<Coord, Tile*>* Province::_tiles() { return &(this->tiles_layer); }
+std::map<Coord, TILE_T>* Province::_tiles() { return &(this->tiles_layer); }
 
 
 // >> Getters (undirect) <<
 
-std::list<Building*> Province::get_buildings()
+std::list<BUILDING_T> Province::get_buildings()
 {
-    std::list<Building*> buildings;
+    std::list<BUILDING_T> buildings;
 
-    for (std::pair<Coord, Tile*> it : this->tiles_layer) {
+    for (std::pair<Coord, TILE_T> it : this->tiles_layer) {
 
-        Building* b = dynamic_cast<Building*>(it.second->_element());
+        BUILDING_T b = dynamic_cast<BUILDING_T>(it.second->_element());
         if (b != nullptr) buildings.push_back(b);
     }
 
@@ -67,14 +67,14 @@ void Province::set_treasury(int new_treasury) { this->treasury = new_treasury; }
 
 bool Province::has_tile(Coord c) { return (this->tiles_layer.count(c) > 0); }
 
-void Province::add_tile(Tile* tile)
+void Province::add_tile(TILE_T tile)
 {
     if (tile == nullptr) { return; }
     tile->convert_color(this->color);
     tiles_layer[tile->_coord()] = tile;
 }
 
-void Province::remove_tile(Tile* tile) { tiles_layer.erase(tile->_coord()); }
+void Province::remove_tile(TILE_T tile) { tiles_layer.erase(tile->_coord()); }
 
 
 // >> Functions: treasury <<
@@ -110,7 +110,7 @@ bool Province::is_adjacent_to_coord(Coord c)
 {
     if (this->has_tile(c)) { return true; }
 
-    for (std::pair<Coord, Tile*> it : this->tiles_layer)
+    for (std::pair<Coord, TILE_T> it : this->tiles_layer)
         { if (is_adjacent(it.first, c)) { return true; } }
 
     return false;
@@ -122,50 +122,50 @@ bool Province::is_adjacent_to_coord(Coord c)
 // >> Getters <<
 
 usint Map::_size() const { return size; }
-std::map<Coord, Tile*>* Map::_tiles_layer() { return &(this->tiles_layer); }
-std::map<Coord, Element*>* Map::_bandits_layer() { return &(this->bandits_layer); }
-std::vector<Province*>* Map::_provinces_layer() { return &(this->provinces_layer); }
-std::list<Province*>* Map::_provinces_to_remove() { return &(this->provinces_to_remove); }
+std::map<Coord, TILE_T>* Map::_tiles_layer() { return &(this->tiles_layer); }
+std::map<Coord, ELEMENT_T>* Map::_bandits_layer() { return &(this->bandits_layer); }
+std::vector<PROVINCE_T>* Map::_provinces_layer() { return &(this->provinces_layer); }
+std::list<PROVINCE_T>* Map::_provinces_to_remove() { return &(this->provinces_to_remove); }
 
 
 // >> Getters (undirect) <<
 
-Tile* Map::get_tile(Coord c) { return (this->tiles_layer.count(c) == 0) ? nullptr : this->tiles_layer[c]; }
+TILE_T Map::get_tile(Coord c) { return (this->tiles_layer.count(c) == 0) ? nullptr : this->tiles_layer[c]; }
 
 int Map::get_tile_color(Coord c)
 {
-    Tile* tile = this->get_tile(c);
+    TILE_T tile = this->get_tile(c);
     return (tile != nullptr) ? (int)tile->_color() : -1;
 }
 
-Element* Map::get_tile_element(Coord c)
+ELEMENT_T Map::get_tile_element(Coord c)
 {
-    Tile* tile = this->get_tile(c);
+    TILE_T tile = this->get_tile(c);
     return (tile != nullptr) ? tile->_element() : nullptr;
 }
 
-Province* Map::get_province(Coord c)
+PROVINCE_T Map::get_province(Coord c)
 {
     Tile * tile = this->get_tile(c);
     if (tile == nullptr || tile->_color() == NEUTRAL) { return nullptr; }
 
-    for (Province* p : this->provinces_layer)
+    for (PROVINCE_T p : this->provinces_layer)
         { if (p->has_tile(c)) { return p; } }
 
     return nullptr;
 }
 
-std::list<Building*> Map::get_all_buildings(bool with_bandit_buildings)
+std::list<BUILDING_T> Map::get_all_buildings(bool with_bandit_buildings)
 {
-    std::list<Building*> buildings;
+    std::list<BUILDING_T> buildings;
 
-    for (Province* p : this->provinces_layer)
+    for (PROVINCE_T p : this->provinces_layer)
         buildings.splice(buildings.end(), p->get_buildings());
 
     if (!with_bandit_buildings) return buildings;
 
-    for (std::pair<Coord, Element*> it : this->bandits_layer) {
-        Building* b = dynamic_cast<Building*>(it.second);
+    for (std::pair<Coord, ELEMENT_T> it : this->bandits_layer) {
+        BUILDING_T b = dynamic_cast<BUILDING_T>(it.second);
         if (b != nullptr) buildings.push_back(b);
     }
 
@@ -175,9 +175,9 @@ std::list<Building*> Map::get_all_buildings(bool with_bandit_buildings)
 
 // >> Setters <<
 
-void Map::set_tile(Coord c, Tile* new_tile)
+void Map::set_tile(Coord c, TILE_T new_tile)
 {
-    Tile* tile = this->get_tile(c);
+    TILE_T tile = this->get_tile(c);
     if (tile != nullptr) {
         // delete tile;
     }
@@ -186,10 +186,10 @@ void Map::set_tile(Coord c, Tile* new_tile)
 
 void Map::set_tile_color(Coord c, int color)
 {
-    Tile* tile = this->get_tile(c);
+    TILE_T tile = this->get_tile(c);
 
     if (tile == nullptr) {
-        tile = new Tile(c);
+        tile = CREATE_TILE_T(c);
         this->set_tile(c, tile);
     }
 
@@ -199,10 +199,10 @@ void Map::set_tile_color(Coord c, int color)
 
 void Map::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attribute)
 {
-    Tile* tile = this->get_tile(c);
+    TILE_T tile = this->get_tile(c);
 
     if (tile == nullptr) {
-        tile = new Tile(c);
+        tile = CREATE_TILE_T(c);
         this->set_tile(c, tile);
     }
 
@@ -212,12 +212,12 @@ void Map::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attri
     }
 
     if (is_unit) {
-        Unit* u = new Unit(tile->_color(), elt_level);
+        UNIT_T u = CREATE_UNIT_T(tile->_color(), elt_level);
         u->can_move = !(elt_attribute == 1);
         tile->set_element(u);
     }
     else {
-        Building* b = new Building(tile->_color(), elt_level);
+        BUILDING_T b = CREATE_BUILDING_T(tile->_color(), elt_level);
         b->treasury = elt_attribute;
         tile->set_element(b);
     }
@@ -234,24 +234,24 @@ void Map::reset_provinces_layer() { this->provinces_layer.clear(); }
 
 // >> Initialization <<
 
-void Map::recursive_fill(Coord c, unsigned int nb_cover, int color_cover, Province* p)
+void Map::recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVINCE_T p)
 {
     if (color_cover == NEUTRAL) {
         if (tiles_layer.size() >= nb_cover) { return; } // inhaf NEUTRAL
         if (tiles_layer.count(c) != 0) { return; } // already exists
-        tiles_layer.insert({c, new Tile(c, color_cover)});
+        tiles_layer.insert({c, CREATE_TILE_T(c, color_cover)});
     }
 
     else {
-        Tile* tile = get_tile(c);
+        TILE_T tile = get_tile(c);
         if (tile == nullptr) { return; }
         if (tile->_color() != NEUTRAL) { return; }
 
         if (p == nullptr) {
-            p = new Province(color_cover);
+            p = CREATE_PROVINCE_T(color_cover);
             p->add_treasury(7);
             add_province(p);
-            tile->set_element(new Building(color_cover));
+            tile->set_element(CREATE_BUILDING_T(color_cover));
         }
 
         if (p->_tiles()->size() >= nb_cover) { return; } // inhaf cover
@@ -299,15 +299,15 @@ void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
                 || tiles_layer[seed]->_color() != NEUTRAL)
             { seed.x = rand() % size; seed.y = rand() % size; }
 
-        tiles_layer[seed]->set_element(new Building(NEUTRAL));
-        dynamic_cast<Building*>(tiles_layer[seed]->_element())->update_treasury(3);
+        tiles_layer[seed]->set_element(CREATE_BUILDING_T(NEUTRAL));
+        dynamic_cast<BUILDING_T>(tiles_layer[seed]->_element())->update_treasury(3);
         bandits_layer[seed] = tiles_layer[seed]->_element();
 
         while (tiles_layer.count(seed) == 0
                 || tiles_layer[seed]->get_defense() != 0)
             { seed.x = rand() % size; seed.y = rand() % size; }
 
-        tiles_layer[seed]->set_element(new Unit(NEUTRAL, 0));
+        tiles_layer[seed]->set_element(CREATE_UNIT_T(NEUTRAL, 0));
         bandits_layer[seed] = tiles_layer[seed]->_element();
     }
 }
@@ -315,12 +315,12 @@ void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
 
 // >> Provinces managment <<
 
-void Map::add_province(Province* p) { this->provinces_layer.push_back(p); }
+void Map::add_province(PROVINCE_T p) { this->provinces_layer.push_back(p); }
 
 
 void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color, bool with_treasury, int treasury)
 {
-    Province* p = new Province();
+    PROVINCE_T p = CREATE_PROVINCE_T();
 
     if (color == -1)
         color = this->get_tile_color(tiles_list.front());
@@ -329,7 +329,7 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
     p->set_treasury(with_treasury ? treasury : tiles_list.size());
 
     for (Coord c : tiles_list) {
-        Tile* tile = this->get_tile(c);
+        TILE_T tile = this->get_tile(c);
         if (tile != nullptr) p->add_tile(tile);
     }
 
@@ -337,7 +337,7 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
 }
 
 
-void Map::remove_province(Province* p)
+void Map::remove_province(PROVINCE_T p)
 {
     this->provinces_layer.erase(
         std::remove(this->provinces_layer.begin(), this->provinces_layer.end(), p),
@@ -348,7 +348,7 @@ void Map::remove_province(Province* p)
 }
 
 
-void Map::fusion_provinces(Province* p1, Province* p2)
+void Map::fusion_provinces(PROVINCE_T p1, PROVINCE_T p2)
 {
     if (p1 == nullptr || p2 == nullptr) { return; }
     if (p1 == p2) { return; }
@@ -361,7 +361,7 @@ void Map::fusion_provinces(Province* p1, Province* p2)
 }
 
 
-void Map::split_province(Coord c, Province* p)
+void Map::split_province(Coord c, PROVINCE_T p)
 {
     int color = p->_color();
 
@@ -379,7 +379,7 @@ void Map::split_province(Coord c, Province* p)
 
     for (Coord i : nbs) {
 
-        Tile* tile_nb = this->get_tile(i);
+        TILE_T tile_nb = this->get_tile(i);
         if (tile_nb == nullptr) { continue; }
         if (tile_nb->_color() != color) { continue; }
 
@@ -460,7 +460,7 @@ void Map::split_province(Coord c, Province* p)
         areas[num_idx[num]].push_back(it.first);
     }
 
-    std::list<Province*> new_provinces;
+    std::list<PROVINCE_T> new_provinces;
     int nb_tiles_of_split_prov = 0;
 
     for (int i = 0; i < areas.size(); i++) {
@@ -470,11 +470,11 @@ void Map::split_province(Coord c, Province* p)
 
         for (Coord cc : areas[i]) {
 
-            Tile* t = this->get_tile(cc);
+            TILE_T t = this->get_tile(cc);
 
             if (t == nullptr || t->_element() == nullptr) { continue; }
 
-            Building* b = dynamic_cast<Building*>(t->_element());
+            BUILDING_T b = dynamic_cast<BUILDING_T>(t->_element());
 
             if (b == nullptr || b->_color() == NEUTRAL) { continue; }
 
@@ -485,10 +485,10 @@ void Map::split_province(Coord c, Province* p)
             // Remove the tiles which no longer belong to the province
             for (Coord cc : areas[i]) {
 
-                Tile* t = this->get_tile(cc);
+                TILE_T t = this->get_tile(cc);
                 if (t == nullptr) { continue; }
 
-                Element* elt = t->_element();
+                ELEMENT_T elt = t->_element();
                 if (elt != nullptr)
                     { this->bandits_layer[cc] = elt; }
 
@@ -499,8 +499,8 @@ void Map::split_province(Coord c, Province* p)
         }
 
         else {
-            // Create a new province and add it all the tiles
-            Province* pp = new Province(p->_color());
+            // Create a CREATE_PROVINCE_T and add it all the tiles
+            PROVINCE_T pp = CREATE_PROVINCE_T(p->_color());
 
             for (Coord cc : areas[i]) {
                 pp->add_tile(this->get_tile(cc));
@@ -511,7 +511,7 @@ void Map::split_province(Coord c, Province* p)
         }
     }
 
-    for (Province* pp : new_provinces) {
+    for (PROVINCE_T pp : new_provinces) {
         pp->set_treasury((int) ((float)(p->_treasury()) * ((float)(pp->_tiles()->size()) / (float)(nb_tiles_of_split_prov))));
         this->add_province(pp);
 
@@ -524,13 +524,13 @@ void Map::split_province(Coord c, Province* p)
 
 void Map::remove_tile_from_all_prov(Coord c)
 {
-    for (Province* p : this->provinces_layer) {
+    for (PROVINCE_T p : this->provinces_layer) {
         if (p->has_tile(c)) { p->_tiles()->erase(c) ; }
     }
 }
 
 
-bool Map::adjacent_to_province(Coord c, Province* p)
+bool Map::adjacent_to_province(Coord c, PROVINCE_T p)
 {
     if (this->get_province(c) == p) { return true; }
 
@@ -547,12 +547,12 @@ bool Map::adjacent_to_province(Coord c, Province* p)
 void Map::create_bandit_element(Coord c, bool is_unit)
 {
     if (is_unit) {
-        Unit* u = new Unit(NEUTRAL, 0);
+        UNIT_T u = CREATE_UNIT_T(NEUTRAL, 0);
         this->get_tile(c)->set_element(u);
         this->bandits_layer[c] = u;
     }
     else {
-        Building* b = new Building(NEUTRAL);
+        BUILDING_T b = CREATE_BUILDING_T(NEUTRAL);
         this->get_tile(c)->set_element(b);
         this->bandits_layer[c] = b;
     }
@@ -561,7 +561,7 @@ void Map::create_bandit_element(Coord c, bool is_unit)
 
 void Map::move_bandit(Coord src, Coord dst)
 {
-    Element* bandit = this->bandits_layer[src];
+    ELEMENT_T bandit = this->bandits_layer[src];
     this->bandits_layer.erase(src);
     this->bandits_layer[dst] = bandit;
     this->get_tile(src)->reset_element();

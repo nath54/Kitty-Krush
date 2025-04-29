@@ -773,7 +773,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         int map_creator_elt_id = -1;
         Color map_creator_elt_color_mod = (Color){255, 255, 255};
         //
-        Province* selected_province = nullptr;
+        PROVINCE_T selected_province = nullptr;
         //
         std::set<Coord> can_go_here_tiles;
         //

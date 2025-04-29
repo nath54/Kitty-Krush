@@ -27,7 +27,7 @@ int GameModel::get_tile_color(Coord c)
 
 usint GameModel::get_tile_defense(Coord c)
 {
-    Tile* tile = this->game_map->get_tile(c);
+    TILE_T tile = this->game_map->get_tile(c);
     if (tile == nullptr) { return 0; }
 
     usint def_max = tile->get_defense();
@@ -40,10 +40,10 @@ usint GameModel::get_tile_defense(Coord c)
     // Checking if there is an higher defense in the neighbours of the destination tile
     for (Coord v : n) {
 
-        Tile* neib = this->game_map->get_tile(v);
+        TILE_T neib = this->game_map->get_tile(v);
         if (neib == nullptr) { continue; }
 
-        Province* neib_prov = this->game_map->get_province(v);
+        PROVINCE_T neib_prov = this->game_map->get_province(v);
         if (neib->_color() == NEUTRAL) { continue; }
 
         // Check if the destination tile and its neighbour tile have the same province
@@ -58,13 +58,13 @@ usint GameModel::get_tile_defense(Coord c)
 }
 
 
-Element* GameModel::get_tile_element(Coord c)
+ELEMENT_T GameModel::get_tile_element(Coord c)
 { return (MAP_EXISTS) ? this->game_map->get_tile_element(c) : nullptr; }
 
-Province* GameModel::get_tile_province(Coord c)
+PROVINCE_T GameModel::get_tile_province(Coord c)
 { return (MAP_EXISTS) ? this->game_map->get_province(c) : nullptr; }
 
-Province* GameModel::get_province_at_coord(Coord c)
+PROVINCE_T GameModel::get_province_at_coord(Coord c)
 { return (MAP_EXISTS) ? this->game_map->get_province(c) : nullptr; }
 
 
@@ -98,18 +98,18 @@ void GameModel::reset_provinces()
 
 void GameModel::at_player_turn_start()
 {
-    for (std::pair<Coord, Element*> it : *(this->game_map->_bandits_layer()))
+    for (std::pair<Coord, ELEMENT_T> it : *(this->game_map->_bandits_layer()))
         { it.second->convert_bandit(); }
 
-    std::vector<Province*>* provinces = this->game_map->_provinces_layer();
+    std::vector<PROVINCE_T>* provinces = this->game_map->_provinces_layer();
 
-    for (Province* p : *provinces) {
+    for (PROVINCE_T p : *provinces) {
 
         if (p->_color() != this->current_player) { continue; }
         p->treasury_turn();
 
-        for (std::pair<Coord, Tile*> it : *(p->_tiles())) {
-            Unit* unit = dynamic_cast<Unit*>(it.second->_element());
+        for (std::pair<Coord, TILE_T> it : *(p->_tiles())) {
+            UNIT_T unit = dynamic_cast<UNIT_T>(it.second->_element());
             if (unit == nullptr) { continue; }
             unit->can_move = true;
             if (p->_treasury() < 0)
@@ -128,14 +128,14 @@ void GameModel::bandit_turn()
     std::vector<Coord> bandit_camps;
 
     // Move existing bandits
-    for (std::pair<Coord, Element*> it : *(this->game_map->_bandits_layer())) {
+    for (std::pair<Coord, ELEMENT_T> it : *(this->game_map->_bandits_layer())) {
 
-        Tile* tile = this->game_map->get_tile(it.first);
+        TILE_T tile = this->game_map->get_tile(it.first);
         if (tile == nullptr) { continue; }
 
         it.second->convert_bandit();
 
-        Unit* unit = dynamic_cast<Unit*>(it.second);
+        UNIT_T unit = dynamic_cast<UNIT_T>(it.second);
 
         // building
         if (unit == nullptr) {
@@ -159,7 +159,7 @@ void GameModel::bandit_turn()
         std::vector<Coord> n = neighbours(it.first);
 
         for (Coord v : n) {
-            Tile* t = this->game_map->get_tile(v);
+            TILE_T t = this->game_map->get_tile(v);
             if (t == nullptr) { continue; }
             if (t->_element() == nullptr && t->get_defense() == 0) {
                 dest.push_back(v);
@@ -194,7 +194,7 @@ void GameModel::bandit_turn()
     // Manage camps treasury and bandits creation
     for (Coord c : bandit_camps) {
 
-        Building* b = dynamic_cast<Building*>(this->game_map->get_tile(c)->_element());
+        BUILDING_T b = dynamic_cast<BUILDING_T>(this->game_map->get_tile(c)->_element());
 
         if (nb_coins != 0)
             { b->update_treasury(1 + ((nb_coins - 1) / bandit_camps.size())); }
@@ -205,7 +205,7 @@ void GameModel::bandit_turn()
             std::vector<Coord> colored_dest = {};
 
             for (Coord v : n) {
-                Tile* t = this->game_map->get_tile(v);
+                TILE_T t = this->game_map->get_tile(v);
                 if (t == nullptr) { continue; }
                 if (t->_element() == nullptr && this->get_tile_defense(v) == 0) {
                     dest.push_back(v);
@@ -239,21 +239,21 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
 {
     if (this->game_map == nullptr) { return false; }
 
-    Tile* src_tile = this->game_map->get_tile(src);
-    Tile* dst_tile = this->game_map->get_tile(dst);
+    TILE_T src_tile = this->game_map->get_tile(src);
+    TILE_T dst_tile = this->game_map->get_tile(dst);
     if (src_tile == nullptr || dst_tile == nullptr) { return false; }
 
     // Check if we move current player entity
     if (src_tile->_color() != this->current_player) { return false; }
 
     // Get the unit to move
-    Unit* unit_to_move = dynamic_cast<Unit*>(src_tile->_element());
+    UNIT_T unit_to_move = dynamic_cast<UNIT_T>(src_tile->_element());
     if (unit_to_move == nullptr) { return false; } // building or nullptr
     if (!(unit_to_move->can_move)) { return false; } // already moved this turn
     if (unit_to_move->_defense() == 0) { return false; } // bandit
 
-    Province* src_prov = this->game_map->get_province(src);
-    Province* dst_prov = this->game_map->get_province(dst);
+    PROVINCE_T src_prov = this->game_map->get_province(src);
+    PROVINCE_T dst_prov = this->game_map->get_province(dst);
 
     // To avoid system errors, src_prov should always be different than nullptr
     if (src_prov == nullptr) { return false; }
@@ -266,7 +266,7 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
         if (dst_tile->_element() == nullptr) { return true; }
 
         // Get the unit at destination tile
-        Unit* dst_unit = dynamic_cast<Unit*>(dst_tile->_element());
+        UNIT_T dst_unit = dynamic_cast<UNIT_T>(dst_tile->_element());
         if (dst_unit == nullptr) { return false; } // building, can't move
         if (dst_unit->_color() != dst_prov->_color()) { return true; } // bandit, can move
 
@@ -286,17 +286,17 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
 void GameModel::do_action_move_unit(Coord src, Coord dst)
 {
 
-    Tile* src_tile = this->game_map->get_tile(src);
-    Tile* dst_tile = this->game_map->get_tile(dst);
-    Province* src_prov = this->game_map->get_province(src);
-    Province* dst_prov = this->game_map->get_province(dst);
-    Unit* unit_to_move = dynamic_cast<Unit*>(src_tile->_element());
+    TILE_T src_tile = this->game_map->get_tile(src);
+    TILE_T dst_tile = this->game_map->get_tile(dst);
+    PROVINCE_T src_prov = this->game_map->get_province(src);
+    PROVINCE_T dst_prov = this->game_map->get_province(dst);
+    UNIT_T unit_to_move = dynamic_cast<UNIT_T>(src_tile->_element());
 
     if (dst_prov == src_prov) { // Same province, just move and may do fusion
 
         if (dst_tile->_element() != nullptr) {
 
-            Unit* unit_at_dst = dynamic_cast<Unit*>(dst_tile->_element());
+            UNIT_T unit_at_dst = dynamic_cast<UNIT_T>(dst_tile->_element());
 
             if (unit_at_dst != nullptr) {
 
@@ -320,9 +320,9 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     }
 
     // adverse/bandit town
-    if (dynamic_cast<Building*>(dst_tile->_element()) != nullptr) {
+    if (dynamic_cast<BUILDING_T>(dst_tile->_element()) != nullptr) {
         if (dst_tile->_element()->is_bandit())
-            { src_prov->add_treasury(dynamic_cast<Building*>(dst_tile->_element())->treasury); }
+            { src_prov->add_treasury(dynamic_cast<BUILDING_T>(dst_tile->_element())->treasury); }
         else
             { src_prov->add_treasury(dst_prov->_treasury()); }
     }
@@ -342,10 +342,10 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 
     for (Coord v : n) {
 
-        Tile* tile = this->game_map->get_tile(v);
+        TILE_T tile = this->game_map->get_tile(v);
         if (tile == nullptr) { continue; }
         if (tile->_color() != src_prov->_color()) { continue; }
-        Province* prov = this->game_map->get_province(v);
+        PROVINCE_T prov = this->game_map->get_province(v);
 
         if (prov == nullptr) {
             src_prov->add_tile(tile);
@@ -368,7 +368,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
 {
     // Check if the destination tile exists
-    Tile* tile = this->game_map->get_tile(c);
+    TILE_T tile = this->game_map->get_tile(c);
     if (tile == nullptr) { return false; }
 
     // Verify the entity_level is correct
@@ -384,9 +384,9 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
     int unit_cost = (is_unit ? units_new_costs[elt_level] : buildings_new_costs[elt_level]);
 
     // Check if there is a province of the current player color adjacent to this tile that has the money to pay the unit
-    Province* dst_prov = nullptr;
+    PROVINCE_T dst_prov = nullptr;
 
-    for (Province* prov : *(this->game_map->_provinces_layer())) {
+    for (PROVINCE_T prov : *(this->game_map->_provinces_layer())) {
 
         if (prov->is_adjacent_to_coord(c)) {
             if (prov->_color() != this->current_player) { continue; }
@@ -401,7 +401,7 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
     // Check if there is an unit in the tile destination
     if (tile->_element() != nullptr) {
 
-        Unit* dst_unit = dynamic_cast<Unit*>(tile->_element());
+        UNIT_T dst_unit = dynamic_cast<UNIT_T>(tile->_element());
         if (dst_unit == nullptr) { return false; } // building
 
         // If it is an unit of the same color
@@ -424,15 +424,15 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 {
     int unit_cost = (is_unit ? units_new_costs[elt_level] : buildings_new_costs[elt_level]);
 
-    Tile* tile = this->game_map->get_tile(c);
-    Province* dst_prov = this->game_map->get_province(c);
-    Province* src_prov = nullptr;
+    TILE_T tile = this->game_map->get_tile(c);
+    PROVINCE_T dst_prov = this->game_map->get_province(c);
+    PROVINCE_T src_prov = nullptr;
 
     if (tile == nullptr) { return; }
 
     if (dst_prov == nullptr || dst_prov->_color() != this->current_player) {
 
-        for (Province* prov : *(this->game_map->_provinces_layer())) {
+        for (PROVINCE_T prov : *(this->game_map->_provinces_layer())) {
 
             if (prov->is_adjacent_to_coord(c)) {
                 if (prov->_color() != this->current_player) { continue; }
@@ -454,18 +454,18 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
             if (tile->_element()->is_bandit()) { // kill bandit
                 this->game_map->delete_bandit_element(c);
-                tile->set_element(new Unit(this->current_player, elt_level));
+                tile->set_element(CREATE_UNIT_T(this->current_player, elt_level));
             }
             //
-            else { dynamic_cast<Unit*>(tile->_element())->upgrade(); }
+            else { dynamic_cast<UNIT_T>(tile->_element())->upgrade(); }
         }
 
         //
         else if (is_unit)
-            { tile->set_element(new Unit(this->current_player, elt_level)); }
+            { tile->set_element(CREATE_UNIT_T(this->current_player, elt_level)); }
         //
         else
-            { tile->set_element(new Building(this->current_player, elt_level)); }
+            { tile->set_element(CREATE_BUILDING_T(this->current_player, elt_level)); }
 
         src_prov->remove_treasury(unit_cost);
 
@@ -473,9 +473,9 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     }
 
     // adverse/bandit town
-    if (dynamic_cast<Building*>(tile->_element()) != nullptr) {
+    if (dynamic_cast<BUILDING_T>(tile->_element()) != nullptr) {
         if (tile->_element()->is_bandit())
-            { src_prov->add_treasury(dynamic_cast<Building*>(tile->_element())->treasury); }
+            { src_prov->add_treasury(dynamic_cast<BUILDING_T>(tile->_element())->treasury); }
         else
             { src_prov->add_treasury(dst_prov->_treasury()); }
     }
@@ -485,11 +485,11 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
         { this->game_map->delete_bandit_element(c); }
 
     if (is_unit) {
-        tile->set_element(new Unit(this->current_player, elt_level));
-        dynamic_cast<Unit*>(tile->_element())->can_move = false;
+        tile->set_element(CREATE_UNIT_T(this->current_player, elt_level));
+        dynamic_cast<UNIT_T>(tile->_element())->can_move = false;
     }
     else
-        { tile->set_element(new Building(this->current_player, elt_level)); }
+        { tile->set_element(CREATE_BUILDING_T(this->current_player, elt_level)); }
 
     this->game_map->remove_tile_from_all_prov(c);
     src_prov->add_tile(tile);
@@ -500,10 +500,10 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
     for (Coord v : n) {
 
-        Tile* tile = this->game_map->get_tile(v);
+        TILE_T tile = this->game_map->get_tile(v);
         if (tile == nullptr) { continue; }
         if (tile->_color() != src_prov->_color()) { continue; }
-        Province* prov = this->game_map->get_province(v);
+        PROVINCE_T prov = this->game_map->get_province(v);
 
         if (prov == nullptr) {
             src_prov->add_tile(tile);
@@ -548,11 +548,11 @@ std::map<Coord, Color> GameModel::calculate_all_provinces_after_map_initialisati
 
     int nb_tot_nums = 0;
 
-    for (std::pair<Coord, Tile*> it : *(this->game_map->_tiles_layer())) {
+    for (std::pair<Coord, TILE_T> it : *(this->game_map->_tiles_layer())) {
 
-        Tile* t = it.second;
+        TILE_T t = it.second;
 
-        Building* building = dynamic_cast<Building*>( t->_element() );
+        BUILDING_T building = dynamic_cast<BUILDING_T>( t->_element() );
         if (building == nullptr || building->_color() <= 0 || t->_color() <= 0) { continue; }
 
         to_visit_coord.push_back(it.first);
