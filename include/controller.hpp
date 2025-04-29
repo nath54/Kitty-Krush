@@ -5,15 +5,6 @@
 #include "window_attributes.hpp"
 
 
-class PlayerController {
-
-        // Player name, it is in the name   ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧
-        const std::string player_name;
-
-        // Constructor
-        PlayerController(const std::string player_name)
-            : player_name(player_name) {};  // Automatic variable initialisation
-};
 
 
 class GameController {
@@ -22,9 +13,6 @@ class GameController {
 
         // Reference to game_model
         GameModel* game_model = nullptr;
-
-        // list of players controllers
-        PlayerController** player_controllers = nullptr;
 
         const int max_events_to_poll_at_each_frame = 100;
 
