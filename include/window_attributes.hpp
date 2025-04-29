@@ -11,6 +11,15 @@
 #define MOUSE_BUTTON_LEFT 1
 #define MOUSE_BUTTON_RIGHT 3
 
+// ============================ [ Pointers ] ============================
+
+#define WINDOW_ATTRIBUTE_T WindowAttributes*
+
+#define CREATE_WINDOW_ATTRIBUTE_T(...) new WindowAttributes(__VA_ARGS__)
+
+
+// ============================ [ Classes ] ============================
+
 
 //
 uint64_t timeSinceEpochMillisec();

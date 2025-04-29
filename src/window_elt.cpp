@@ -114,12 +114,12 @@ VALUE_PERCENT_T nvp(float percent){
 }
 
 //
-VALUE_PERCENT_WIN_WIDTH_T nvpww(WindowAttributes* win_attr, float prc, int shift){
+VALUE_PERCENT_WIN_WIDTH_T nvpww(WINDOW_ATTRIBUTE_T win_attr, float prc, int shift){
     return CREATE_VALUE_PERCENT_WIN_WIDTH_T(win_attr, prc, shift);
 }
 
 //
-VALUE_PERCENT_WIN_HEIGHT_T nvpwh(WindowAttributes* win_attr, float prc, int shift){
+VALUE_PERCENT_WIN_HEIGHT_T nvpwh(WINDOW_ATTRIBUTE_T win_attr, float prc, int shift){
     return CREATE_VALUE_PERCENT_WIN_HEIGHT_T(win_attr, prc, shift);
 }
 
@@ -194,7 +194,7 @@ SPRITE_POSITION_T SPRITE_POS_CUSTOM(float percent, int delta){
 
 
 //
-int WindowElt::get_elt_state(WindowAttributes* win_attr, DRAW_TRANSFORM_T transform){
+int WindowElt::get_elt_state(WINDOW_ATTRIBUTE_T win_attr, DRAW_TRANSFORM_T transform){
 
     //
     int rx = this->get_x(transform);
@@ -330,7 +330,7 @@ void WindowEltText::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
 
 //
-WindowEltButton::WindowEltButton( Style* style,
+WindowEltButton::WindowEltButton( STYLE_T style,
     std::string txt,
     VALUE_T x,
     VALUE_T y,
@@ -654,7 +654,7 @@ void WindowEltSprite::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform){
 
 //
 WindowEltAnimatedSprite::WindowEltAnimatedSprite(
-    Style* style,
+    STYLE_T style,
     std::string img_path,
     VALUE_T x,
     VALUE_T y,

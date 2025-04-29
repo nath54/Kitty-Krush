@@ -196,7 +196,7 @@ class MainView{
         void update_mouse_state();
 
         //
-        WindowAttributes* get_win_attr();
+        WINDOW_ATTRIBUTE_T get_win_attr();
 
         // Draw Main Menu
         void display_menu_main();
@@ -284,10 +284,10 @@ class ValuePercentWinWidth: public Value {
         //
         int shift = 0;
         //
-        WindowAttributes* win_attr;
+        WINDOW_ATTRIBUTE_T win_attr;
 
         // Constructor
-        ValuePercentWinWidth(WindowAttributes* win_attr, float percent, int shift = 0)
+        ValuePercentWinWidth(WINDOW_ATTRIBUTE_T win_attr, float percent, int shift = 0)
             : win_attr(win_attr), percent(percent), shift(shift) {}
 
         // Getter
@@ -304,10 +304,10 @@ class ValuePercentWinHeight: public Value {
         //
         int shift = 0;
         //
-        WindowAttributes* win_attr;
+        WINDOW_ATTRIBUTE_T win_attr;
 
         // Constructor
-        ValuePercentWinHeight(WindowAttributes* win_attr, float percent, int shift = 0)
+        ValuePercentWinHeight(WINDOW_ATTRIBUTE_T win_attr, float percent, int shift = 0)
             : win_attr(win_attr), percent(percent), shift(shift) {}
 
         // Getter
@@ -319,9 +319,9 @@ VALUE_INT_T nvi(int value);
 
 VALUE_PERCENT_T nvp(float percent);
 
-VALUE_PERCENT_WIN_WIDTH_T nvpww(WindowAttributes* win_attr, float prc, int shift=0);
+VALUE_PERCENT_WIN_WIDTH_T nvpww(WINDOW_ATTRIBUTE_T win_attr, float prc, int shift=0);
 
-VALUE_PERCENT_WIN_HEIGHT_T nvpwh(WindowAttributes* win_attr, float prc, int shift=0);
+VALUE_PERCENT_WIN_HEIGHT_T nvpwh(WINDOW_ATTRIBUTE_T win_attr, float prc, int shift=0);
 
 
 class DrawTransform {
@@ -373,10 +373,10 @@ class WindowElt {
         //
         bool visible = true;
         //
-        Style* style;
+        STYLE_T style;
 
         // Constructor
-        WindowElt( Style* style,
+        WindowElt( STYLE_T style,
                    VALUE_T x,
                    VALUE_T y,
                    VALUE_T w = CREATE_VALUE_INT_T(1),
@@ -385,7 +385,7 @@ class WindowElt {
             : style(style), x(x), y(y), w(w), h(h) {};
 
         // Getters
-        int get_elt_state(WindowAttributes* win_attr, DRAW_TRANSFORM_T transform=nullptr);
+        int get_elt_state(WINDOW_ATTRIBUTE_T win_attr, DRAW_TRANSFORM_T transform=nullptr);
         int get_x(DRAW_TRANSFORM_T transform=nullptr);
         int get_y(DRAW_TRANSFORM_T transform=nullptr);
         int get_w(DRAW_TRANSFORM_T transform=nullptr);
@@ -418,10 +418,10 @@ class WindowPagesManager {
         // Attributes
         std::map< std::string, WindowPage* > pages;
         std::string current_page;
-        Style* default_style;
+        STYLE_T default_style;
 
         // Constructor
-        WindowPagesManager() { this->default_style = new Style(); }
+        WindowPagesManager() { this->default_style = CREATE_STYLE_T(); }
 
         // Functions
         WindowPage* get_current_page();
@@ -441,7 +441,7 @@ class WindowEltClickable : public WindowElt {
 
         // Constructor
         WindowEltClickable(
-            Style* style,
+            STYLE_T style,
             VALUE_T x,
             VALUE_T y,
             VALUE_T w = CREATE_VALUE_INT_T(-1),
@@ -462,7 +462,7 @@ class WindowEltRect : public WindowElt {
         VALUE_T radius;
 
         // Constructor
-        WindowEltRect( Style* style,
+        WindowEltRect( STYLE_T style,
                        Color cl,
                        VALUE_T x,
                        VALUE_T y,
@@ -486,7 +486,7 @@ class WindowEltText : public WindowElt {
         std::string txt;
 
         // Constructor
-        WindowEltText( Style* style,
+        WindowEltText( STYLE_T style,
                        std::string txt,
                        VALUE_T x,
                        VALUE_T y,
@@ -651,7 +651,7 @@ class WindowEltSprite : public WindowElt {
         SPRITE_POSITION_T sprite_v_position;
 
         // Constructor
-        WindowEltSprite( Style* style,
+        WindowEltSprite( STYLE_T style,
                          std::string img_path,
                          VALUE_T x,
                          VALUE_T y,
@@ -703,7 +703,7 @@ class WindowEltAnimatedSprite : public WindowElt {
         SPRITE_CROP_INT_T sprite_crop;
 
         // Constructor
-        WindowEltAnimatedSprite( Style* style,
+        WindowEltAnimatedSprite( STYLE_T style,
                                  std::string img_path,
                                  VALUE_T x,
                                  VALUE_T y,
@@ -743,7 +743,7 @@ class WindowEltButton : public WindowEltClickable {
         WINDOW_ELT_SPRITE_T bt_sprite = nullptr;
 
         // Constructor
-        WindowEltButton( Style* style,
+        WindowEltButton( STYLE_T style,
                          std::string txt,
                          VALUE_T x,
                          VALUE_T y,
@@ -773,7 +773,7 @@ class WindowEltMapTile: public WindowElt {
         // Constructor
         WindowEltMapTile(
             int tile,
-            Style* style,
+            STYLE_T style,
             VALUE_T x,
             VALUE_T y,
             VALUE_T w,
@@ -881,7 +881,7 @@ class WindowEltMapViewer: public WindowEltClickable {
         WINDOW_ELT_TEXT_T txt_building_lvl2 = nullptr;
 
         // Constructor
-        WindowEltMapViewer( Style* style,
+        WindowEltMapViewer( STYLE_T style,
             VALUE_T x,
             VALUE_T y,
             VALUE_T w,

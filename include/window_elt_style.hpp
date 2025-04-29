@@ -11,6 +11,18 @@
 #define STYLE_ELT_CLICKED 2
 
 
+// =============================== [ Pointers ] ===============================
+
+
+#define STYLE_T Style*
+
+#define CREATE_STYLE_T(...) new Style(__VA_ARGS__)
+
+
+// =============================== [ Classess ] ===============================
+
+
+
 //
 class Style{
 
@@ -60,14 +72,14 @@ class AllYourStyles{
     public:
 
         //
-        std::map<std::string, Style*> styles;
+        std::map<std::string, STYLE_T> styles;
 
         //
         AllYourStyles();
 
 
         //
-        Style* get_style(std::string style_name);
+        STYLE_T get_style(std::string style_name);
 
 };
 

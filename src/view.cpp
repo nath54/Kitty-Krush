@@ -198,7 +198,7 @@ void MainView::update_display(int menu_state){
 
 
 
-WindowAttributes* MainView::get_win_attr(){
+WINDOW_ATTRIBUTE_T MainView::get_win_attr(){
     return &(this->win_attr);
 }
 

@@ -159,14 +159,14 @@ int Style::get_radius(int win_state, bool disabled){
 AllYourStyles::AllYourStyles(){
 
     //
-    this->styles["default"] = new Style();
+    this->styles["default"] = CREATE_STYLE_T();
 
 }
 
 
 
 //
-Style* AllYourStyles::get_style(std::string style_name){
+STYLE_T AllYourStyles::get_style(std::string style_name){
 
     //
     if(this->styles.find(style_name) == this->styles.end()){

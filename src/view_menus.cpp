@@ -400,7 +400,7 @@ void on_bt_map_creator_entity(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, s
 void MainView::init_page_main_menu() {
 
     //
-    WindowAttributes* win_attr = this->get_win_attr();
+    WINDOW_ATTRIBUTE_T win_attr = this->get_win_attr();
 
     // Create Main Menu
     this->win_page_manager->pages["main_menu"] = new WindowPage();
@@ -410,7 +410,7 @@ void MainView::init_page_main_menu() {
 
         //
         CREATE_WINDOW_ELT_SPRITE_T(
-            this->win_page_manager->default_style,  // Style*           style,
+            this->win_page_manager->default_style,  // STYLE_T           style,
             "res/bgs/bg_main_menu_2.png",           // std::string      img_path,
             nvi(0),                                 // VALUE_T           x,
             CREATE_VALUE_INT_T(0),                        // VALUE_T           y,
@@ -435,7 +435,7 @@ void MainView::init_page_main_menu() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Play !",                               // std::string                      text
             nvpww(win_attr, 35),                    // VALUE_T                           x
             nvpwh(win_attr, 45),                    // VALUE_T                           y
@@ -451,7 +451,7 @@ void MainView::init_page_main_menu() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Quit...",                              // std::string                      text
             nvpww(win_attr, 40),                    // VALUE_T                           x
             nvpwh(win_attr, 65),                    // VALUE_T                           y
@@ -470,7 +470,7 @@ void MainView::init_page_main_menu() {
 void MainView::init_page_game_settings() {
 
     //
-    WindowAttributes* win_attr = this->get_win_attr();
+    WINDOW_ATTRIBUTE_T win_attr = this->get_win_attr();
 
     //
     this->win_page_manager->pages["game_settings"] = new WindowPage();
@@ -480,7 +480,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_SPRITE_T(
-            this->win_page_manager->default_style,  // Style*           style,
+            this->win_page_manager->default_style,  // STYLE_T           style,
             "res/bgs/bg_game_settings_menu.png",    // std::string      img_path,
             nvi(0),                                 // VALUE_T           x,
             CREATE_VALUE_INT_T(0),                        // VALUE_T           y,
@@ -504,7 +504,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Back",                                 // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(15),                                // VALUE_T                           y
@@ -520,7 +520,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_RECT_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             (Color){255, 255, 255},                 // Color                            cl
             nvpww(win_attr, 15),                    // VALUE_T                           x
             nvi(80),                               // VALUE_T                           y
@@ -536,7 +536,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Continue game",                        // std::string                      text
             nvpww(win_attr, 20),                    // VALUE_T                           x
             nvi(100),                               // VALUE_T                           y
@@ -552,7 +552,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_RECT_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             (Color){255, 255, 255},                 // Color                            cl
             nvpww(win_attr, 15),                    // VALUE_T                           x
             nvi(180),                               // VALUE_T                           y
@@ -568,7 +568,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Create a new map",                     // std::string                      text
             nvpww(win_attr, 20),                    // VALUE_T                           x
             nvi(200),                               // VALUE_T                           y
@@ -584,7 +584,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_RECT_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             (Color){255, 255, 255},                 // Color                            cl
             nvpww(win_attr, 15),                    // VALUE_T                           x
             nvi(280),                               // VALUE_T                           y
@@ -601,7 +601,7 @@ void MainView::init_page_game_settings() {
 
         //
         CREATE_WINDOW_ELT_TEXT_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Play another game :",                  // std::string                      txt
             nvpww(win_attr, 15),                    // VALUE_T                           x
             nvi(300),                               // VALUE_T                           y
@@ -620,14 +620,14 @@ void MainView::init_page_game_settings() {
 void MainView::init_page_in_game() {
 
     //
-    WindowAttributes* win_attr = this->get_win_attr();
+    WINDOW_ATTRIBUTE_T win_attr = this->get_win_attr();
 
     //
     this->win_page_manager->pages["in_game"] = new WindowPage();
 
     //
     this->map_viewer = CREATE_WINDOW_ELT_MAP_VIEWER_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         nvi(0),                                 // VALUE_T                           x
         nvi(0),                                 // VALUE_T                           y
         nvpww(win_attr, 100),                   // VALUE_T                           w
@@ -638,7 +638,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->rect_current_player = CREATE_WINDOW_ELT_RECT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         (Color){150, 150, 150},                 // Color                            cl
         nvpww(win_attr, 40),                    // VALUE_T                           x
         nvi(15),                                // VALUE_T                           y
@@ -649,7 +649,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_current_player = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "player 1",                             // std::string                      txt
         nvpww(win_attr, 40),                    // VALUE_T                           x
         nvi(15),                                // VALUE_T                           y
@@ -659,7 +659,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->elt_province_1 = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "Selected province : ",                 // std::string                      txt
         nvpww(win_attr, 38, 0),                 // VALUE_T                           x
         nvi(70),                                // VALUE_T                           y
@@ -669,7 +669,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_province_treasury = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "10",                                   // std::string                      txt
         nvpww(win_attr, 38, 160),               // VALUE_T                           x
         nvi(70),                                // VALUE_T                           y
@@ -679,7 +679,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->elt_province_2 = CREATE_WINDOW_ELT_SPRITE_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "res/ui/gold.png",                      // std::string                      txt
         nvpww(win_attr, 38, 200),               // VALUE_T                           x
         nvi(80),                                // VALUE_T                           y
@@ -689,7 +689,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_province_expected_income = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "(+10)",                                // std::string                      txt
         nvpww(win_attr, 38, 230),               // VALUE_T                           x
         nvi(70),                                // VALUE_T                           y
@@ -699,7 +699,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->bt_unit_lvl1 = CREATE_WINDOW_ELT_BUTTON_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "res/sprites/entities/cat_lvl1_p.png",  // std::string                      text
         nvi(15),                                // VALUE_T                           x
         nvi(100),                               // VALUE_T                           y
@@ -710,7 +710,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_unit_lvl1 = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         std::to_string(units_new_costs[1]),     // std::string                      txt
         nvi(15),                                // VALUE_T                           x
         nvi(165),                               // VALUE_T                           y
@@ -720,7 +720,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->bt_unit_lvl2 = CREATE_WINDOW_ELT_BUTTON_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
         nvi(15),                                // VALUE_T                           x
         nvi(200),                               // VALUE_T                           y
@@ -731,7 +731,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_unit_lvl2 = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         std::to_string(units_new_costs[2]),     // std::string                      txt
         nvi(15),                                // VALUE_T                           x
         nvi(265),                               // VALUE_T                           y
@@ -741,7 +741,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->bt_unit_lvl3 = CREATE_WINDOW_ELT_BUTTON_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
         nvi(15),                                // VALUE_T                           x
         nvi(300),                               // VALUE_T                           y
@@ -752,7 +752,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_unit_lvl3 = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         std::to_string(units_new_costs[3]),     // std::string                      txt
         nvi(15),                                // VALUE_T                           x
         nvi(365),                               // VALUE_T                           y
@@ -762,7 +762,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->bt_unit_lvl4 = CREATE_WINDOW_ELT_BUTTON_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
         nvi(15),                                // VALUE_T                           x
         nvi(400),                               // VALUE_T                           y
@@ -773,7 +773,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_unit_lvl4 = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         std::to_string(units_new_costs[4]),     // std::string                      txt
         nvi(15),                                // VALUE_T                           x
         nvi(465),                               // VALUE_T                           y
@@ -783,7 +783,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->bt_building_lvl2 = CREATE_WINDOW_ELT_BUTTON_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         "res/sprites/entities/tower2_p.png",    // std::string                      text
         nvi(15),                                // VALUE_T                           x
         nvi(500),                               // VALUE_T                           y
@@ -794,7 +794,7 @@ void MainView::init_page_in_game() {
 
     //
     this->map_viewer->txt_building_lvl2 = CREATE_WINDOW_ELT_TEXT_T(
-        this->win_page_manager->default_style,  // Style*                           style
+        this->win_page_manager->default_style,  // STYLE_T                           style
         std::to_string(buildings_new_costs[2]), // std::string                      txt
         nvi(15),                                // VALUE_T                           x
         nvi(565),                               // VALUE_T                           y
@@ -810,7 +810,7 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Back",                                 // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(15),                                // VALUE_T                           y
@@ -851,7 +851,7 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_SPRITE_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // VALUE_T                           x
             nvi(168),                               // VALUE_T                           y
@@ -872,7 +872,7 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_SPRITE_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // VALUE_T                           x
             nvi(268),                               // VALUE_T                           y
@@ -893,7 +893,7 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_SPRITE_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // VALUE_T                           x
             nvi(368),                               // VALUE_T                           y
@@ -914,7 +914,7 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_SPRITE_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // VALUE_T                           x
             nvi(468),                               // VALUE_T                           y
@@ -935,7 +935,7 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_SPRITE_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/ui/gold.png",                      // std::string                      txt
             nvi(57),                                // VALUE_T                           x
             nvi(568),                               // VALUE_T                           y
@@ -950,7 +950,7 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "end turn",                             // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvpwh(win_attr, 100, -60),              // VALUE_T                           y
@@ -969,7 +969,7 @@ void MainView::init_page_in_game() {
 void MainView::init_page_map_creator() {
 
     //
-    WindowAttributes* win_attr = this->get_win_attr();
+    WINDOW_ATTRIBUTE_T win_attr = this->get_win_attr();
 
     //
     this->win_page_manager->pages["map_creator"] = new WindowPage();
@@ -982,7 +982,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "Back",                                 // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(15),                                // VALUE_T                           y
@@ -999,7 +999,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "tiles",                                // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(70),                                // VALUE_T                           y
@@ -1017,7 +1017,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "colors",                               // std::string                      text
             nvi(90),                                // VALUE_T                           x
             nvi(70),                                // VALUE_T                           y
@@ -1034,7 +1034,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "entities",                             // std::string                      text
             nvi(165),                               // VALUE_T                           x
             nvi(70),                                // VALUE_T                           y
@@ -1051,7 +1051,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "clear",                                // std::string                      text
             nvi(245),                               // VALUE_T                           x
             nvi(70),                                // VALUE_T                           y
@@ -1090,7 +1090,7 @@ void MainView::init_page_map_creator() {
 
             //
             CREATE_WINDOW_ELT_BUTTON_T(
-                this->win_page_manager->default_style,  // Style*                           style
+                this->win_page_manager->default_style,  // STYLE_T                           style
                 tile_img,                               // std::string                      text
                 nvi(15 + (int)(i / 10) * (t + 5)),      // VALUE_T                           x
                 nvi(100 + (i % 10) * (t+5)),            // VALUE_T                           y
@@ -1113,7 +1113,7 @@ void MainView::init_page_map_creator() {
 
             //
             CREATE_WINDOW_ELT_BUTTON_T(
-                this->win_page_manager->default_style,  // Style*                           style
+                this->win_page_manager->default_style,  // STYLE_T                           style
                 std::to_string(i+1),                    // std::string                      text
                 nvi(15),                                // VALUE_T                           x
                 nvi(100 + i * (t+5)),                   // VALUE_T                           y
@@ -1134,7 +1134,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/bandit2_p.png",   // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(100 + 0 * (t+5)),                   // VALUE_T                           y
@@ -1150,7 +1150,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/cat_lvl1_p.png",  // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(100 + 1 * (t+5)),                   // VALUE_T                           y
@@ -1166,7 +1166,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/cat_lvl2_p.png",  // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(100 + 2 * (t+5)),                   // VALUE_T                           y
@@ -1182,7 +1182,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/cat_lvl3_p.png",  // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(100 + 3 * (t+5)),                   // VALUE_T                           y
@@ -1198,7 +1198,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/cat_lvl4_p.png",  // std::string                      text
             nvi(15),                                // VALUE_T                           x
             nvi(100 + 4 * (t+5)),                   // VALUE_T                           y
@@ -1214,7 +1214,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/bandit_camp2_p.png",  // std::string                      text
             nvi(15 + 1 * (t+5)),                    // VALUE_T                           x
             nvi(100 + 0 * (t+5)),                   // VALUE_T                           y
@@ -1230,7 +1230,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/village2_p.png",  // std::string                      text
             nvi(15 + 1 * (t+5)),                    // VALUE_T                           x
             nvi(100 + 1 * (t+5)),                   // VALUE_T                           y
@@ -1246,7 +1246,7 @@ void MainView::init_page_map_creator() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // Style*                           style
+            this->win_page_manager->default_style,  // STYLE_T                           style
             "res/sprites/entities/tower2_p.png",  // std::string                      text
             nvi(15 + 1 * (t+5)),                    // VALUE_T                           x
             nvi(100 + 2 * (t+5)),                   // VALUE_T                           y

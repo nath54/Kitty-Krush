@@ -71,7 +71,7 @@ std::string getKeyNameFromEvent(SDL_Event& event)
 }
 
 //
-void GameController::manage_events(WindowAttributes* win_attr, EventsManager* events_manager)
+void GameController::manage_events(WINDOW_ATTRIBUTE_T win_attr, EventsManager* events_manager)
 {
     this->polled_events = 0;
 

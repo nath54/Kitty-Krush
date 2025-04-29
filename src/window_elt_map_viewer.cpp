@@ -18,7 +18,7 @@
 
 
 //
-WindowEltMapTile::WindowEltMapTile(int tile, Style* style, VALUE_T x, VALUE_T y, VALUE_T w, VALUE_T h)
+WindowEltMapTile::WindowEltMapTile(int tile, STYLE_T style, VALUE_T x, VALUE_T y, VALUE_T w, VALUE_T h)
 : WindowElt(style, x, y, w, h), tile(tile)
 {
     //
@@ -184,7 +184,7 @@ void WindowEltMapTile::set_ground_base(std::string ground_base_img){
 
 //
 WindowEltMapViewer::WindowEltMapViewer(
-    Style* style,
+    STYLE_T style,
     VALUE_T x,
     VALUE_T y,
     VALUE_T w,
