@@ -527,9 +527,22 @@ bool GameModel::check_action_end_turn() { return true; }
 
 void GameModel::do_action_end_turn()
 {
+
+    //
+    int player_limit = this->current_player;
+
+    //
     this->current_player++;
-    if (this->current_player > this->nb_players)
-        this->current_player = 1;
+
+    //
+    while( this->current_player != player_limit && !(this->check_map_has_provinces_of_color(this->current_player)) ){
+        this->current_player++;
+
+        //
+        if (this->current_player > this->nb_players){
+            this->current_player = 1;
+        }
+    }
 }
 
 
@@ -642,3 +655,50 @@ std::map<Coord, Color> GameModel::calculate_all_provinces_after_map_initialisati
     //
     return map_colors_debug;
 }
+
+
+
+
+bool GameModel::check_map_has_provinces_of_color(int color){
+
+    //
+    return this->game_map->has_province_of_color(color);
+
+}
+
+
+int GameModel::check_game_finished(){
+
+    /*
+        returns :
+            * -1 : Game not finished
+            * 0 : Game finished, but no winning player
+            * n > 0 : Game finished, and player n is victorious
+
+    */
+
+    //
+    std::vector<int> colors_left;
+
+    //
+    for(int color = 1; color < this->nb_players; color++){
+        if( this->check_map_has_provinces_of_color(color) ){
+            colors_left.push_back( color );
+        }
+    }
+
+    //
+    if ( colors_left.size() == 0 ) {
+        return 0;
+    }
+
+    //
+    if ( colors_left.size() > 1 ) {
+        return -1;
+    }
+
+    //
+    return colors_left[0];
+
+}
+

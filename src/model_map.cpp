@@ -572,3 +572,21 @@ void Map::delete_bandit_element(Coord c)
     this->bandits_layer.erase(c);
     this->get_tile(c)->set_element();
 }
+
+
+
+
+
+bool Map::has_province_of_color(int color){
+
+    //
+    for( PROVINCE_T p : this->provinces_layer ){
+
+        //
+        if( p->_color() == color ){ return true; }
+
+    }
+
+    return false;
+}
+

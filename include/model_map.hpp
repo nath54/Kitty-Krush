@@ -162,4 +162,6 @@ class Map {
         void create_bandit_element(Coord c, bool is_unit);
         void move_bandit(Coord src, Coord dst);
         void delete_bandit_element(Coord c);
+
+        bool has_province_of_color(int color);
 };

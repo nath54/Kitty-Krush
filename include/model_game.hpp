@@ -67,4 +67,7 @@ class GameModel {
 
         // Other functions
         std::map<Coord, Color> calculate_all_provinces_after_map_initialisation();
+
+        bool check_map_has_provinces_of_color(int color);
+        int check_game_finished();
 };
