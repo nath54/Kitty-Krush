@@ -39,78 +39,14 @@ WindowEltMapTile::WindowEltMapTile(int tile, STYLE_T style, VALUE_T x, VALUE_T y
     //
     if ( allTileData[tile].tags[0] != nullptr  && allTileData[tile].nb_ground_layer_imgs > 0 ){
 
-        //
-        if ( allTileData[tile].nb_ground_layer_imgs == 1 ){
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[0]);
-
-        }
-
-        //
-        else{
-
-            //
-            int selected_img = ( std::rand() % ( allTileData[tile].nb_ground_layer_imgs ) );
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].ground_layer_img[selected_img]);
-
-        }
-
-        //
-        this->ground_base_layer = CREATE_WINDOW_ELT_SPRITE_T(
-                style,
-                img_path,
-                this->x, this->y, this->w, this->h,
-                CREATE_VALUE_INT_T(0),
-                false,
-                false,
-                SPRITE_NO_CROP(),
-                SPRITE_RATIO_CUSTOM(1, 1),
-                SPRITE_RESIZE_COVER(),
-                SPRITE_POS_ALIGN_START(),
-                SPRITE_POS_ALIGN_START()
-        );
+        this->set_own_ground_base();
 
     }
 
     //
     if ( allTileData[tile].nb_top_layer_imgs > 0 ){
 
-        //
-        if ( allTileData[tile].nb_top_layer_imgs == 1 ){
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].top_layer_img[0]);
-
-        }
-
-        //
-        else{
-
-            //
-            int selected_img = ( std::rand() % ( allTileData[tile].nb_top_layer_imgs ) );
-
-            //
-            img_path = "res/sprites/map_w/" + std::string(allTileData[tile].top_layer_img[selected_img]);
-
-        }
-
-        //
-        this->ground_top_layer = CREATE_WINDOW_ELT_SPRITE_T(
-                style,
-                img_path,
-                this->x, this->y, this->w, this->h,
-                CREATE_VALUE_INT_T(0),
-                false,
-                false,
-                SPRITE_NO_CROP(),
-                SPRITE_RATIO_CUSTOM(1, 1),
-                SPRITE_RESIZE_COVER(),
-                SPRITE_POS_ALIGN_START(),
-                SPRITE_POS_ALIGN_START()
-        );
+        this->set_own_ground_top();
 
     }
 
@@ -139,34 +75,129 @@ void WindowEltMapTile::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform)
 
 
 //
-void WindowEltMapTile::set_ground_base(std::string ground_base_img){
+void WindowEltMapTile::set_ground_base(WINDOW_ELT_T ground_sprite_elt){
 
     //
-    std::string img_path;
+    this->ground_base_layer = ground_sprite_elt;
+
+}
+
+
+//
+void WindowEltMapTile::set_own_ground_base(){
 
     //
-    if (ground_base_img.rfind("res/sprites/map_w/", 0) == 0) {
-        img_path = ground_base_img;
+    if ( allTileData[this->tile].nb_ground_layer_imgs == 0 ){
+        return;
+    }
+
+    //
+    int img_chosen = 0;
+
+    //
+    if ( allTileData[this->tile].nb_ground_layer_imgs > 1 ){
+        //
+        img_chosen = ( std::rand() % ( allTileData[this->tile].nb_ground_layer_imgs ) );
+    }
+
+    std::string img_path = "res/sprites/map_w/" + std::string(allTileData[this->tile].ground_layer_img[img_chosen]);
+    int nb_frames = allTileData[this->tile].nb_frames_ground_layer_img[img_chosen];
+
+    //
+    if( nb_frames == 1 ){
+
+        //
+        this->ground_base_layer = CREATE_WINDOW_ELT_SPRITE_T(
+            style,
+            img_path,
+            this->x, this->y, this->w, this->h,
+            CREATE_VALUE_INT_T(0),
+            false,
+            false,
+            SPRITE_NO_CROP(),
+            SPRITE_RATIO_CUSTOM(1, 1),
+            SPRITE_RESIZE_COVER(),
+            SPRITE_POS_ALIGN_START(),
+            SPRITE_POS_ALIGN_START()
+        );
+
     }
     else{
-        img_path = "res/sprites/map_w/" + ground_base_img;
+
+        this->ground_base_layer = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
+            style,
+            img_path,
+            nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+            0, 0, 72, 72, nb_frames, 150,
+            nvi(0),
+            false,
+            false,
+            SPRITE_RATIO_CUSTOM(1, 1),
+            SPRITE_RESIZE_COVER(),
+            SPRITE_POS_ALIGN_START(),
+            SPRITE_POS_ALIGN_START()
+        );
+
+    }
+}
+
+
+//
+void WindowEltMapTile::set_own_ground_top(){
+
+    //
+    if ( allTileData[this->tile].nb_top_layer_imgs == 0 ){
+        return;
     }
 
     //
-    this->ground_base_layer = CREATE_WINDOW_ELT_SPRITE_T(
-        this->style,
-        img_path,
-        this->x, this->y, this->w, this->h,
-        CREATE_VALUE_INT_T(0),
-        false,
-        false,
-        SPRITE_NO_CROP(),
-        SPRITE_RATIO_CUSTOM(1, 1),
-        SPRITE_RESIZE_COVER(),
-        SPRITE_POS_ALIGN_START(),
-        SPRITE_POS_ALIGN_START()
-    );
+    int img_chosen = 0;
 
+    //
+    if ( allTileData[this->tile].nb_top_layer_imgs > 1 ){
+        //
+        img_chosen = ( std::rand() % ( allTileData[this->tile].nb_top_layer_imgs ) );
+    }
+
+    std::string img_path = "res/sprites/map_w/" + std::string(allTileData[this->tile].top_layer_img[img_chosen]);
+    int nb_frames = allTileData[this->tile].nb_frames_top_layer_img[img_chosen];
+
+    //
+    if( nb_frames == 1 ){
+
+        //
+        this->ground_top_layer = CREATE_WINDOW_ELT_SPRITE_T(
+            style,
+            img_path,
+            this->x, this->y, this->w, this->h,
+            CREATE_VALUE_INT_T(0),
+            false,
+            false,
+            SPRITE_NO_CROP(),
+            SPRITE_RATIO_CUSTOM(1, 1),
+            SPRITE_RESIZE_COVER(),
+            SPRITE_POS_ALIGN_START(),
+            SPRITE_POS_ALIGN_START()
+        );
+
+    }
+    else{
+
+        this->ground_top_layer = CREATE_WINDOW_ELT_ANIMATED_SPRITE_T(
+            style,
+            img_path,
+            nvi(0), nvi(0), nvi(TILE_IMG_W), nvi(TILE_IMG_H),
+            0, 0, 72, 72, nb_frames, 150,
+            nvi(0),
+            false,
+            false,
+            SPRITE_RATIO_CUSTOM(1, 1),
+            SPRITE_RESIZE_COVER(),
+            SPRITE_POS_ALIGN_START(),
+            SPRITE_POS_ALIGN_START()
+        );
+
+    }
 }
 
 
@@ -923,14 +954,13 @@ void WindowEltMapViewer::add_tile_to_tile_layer( int tile_x, int tile_y, int til
 
 }
 
-
 //
 void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
 
     //
     Coord case_with_max(0, 0);
     int max_non_null_adj = -1;
-    std::vector< std::string > max_adj_ground_base;
+    std::vector< WINDOW_ELT_MAP_TILE_T > max_adj_ground_base;
 
     //
     std::list< Coord > cases_with_null;
@@ -954,7 +984,7 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
         cases_with_null.push_back( pos );
 
         //
-        std::vector< std::string > adj_ground_base = this->get_adjacents_tiles_base_ground_to_tile( pos.x, pos.y );
+        std::vector< WINDOW_ELT_MAP_TILE_T > adj_ground_base = this->get_adjacents_tiles_base_ground_to_tile( pos.x, pos.y );
 
         //
         if( max_non_null_adj == -1 || max_non_null_adj < adj_ground_base.size() ){
@@ -977,55 +1007,56 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
         cases_with_null.remove(case_with_max);
 
         //
-        std::map< std::string, int > counts;
-
-        //
-        for( std::string ground_base : max_adj_ground_base ){
-
-            //
-            if( counts.count(ground_base) == 0 ){
-                counts[ground_base] = 1;
-            }
-            else{
-                counts[ground_base] += 1;
-            }
-        }
-
-        //
-        std::string maxi_ground_base;
-        int maxi_count = -1;
-
-        //
-        for ( std::pair<std::string, int> it_pair : counts ){
-
-            //
-            if ( maxi_count == -1 || it_pair.second > maxi_count ){
-
-                maxi_ground_base = it_pair.first;
-                maxi_count = it_pair.second;
-
-            }
-
-        }
-
-        //
         WINDOW_ELT_MAP_TILE_T w_tile = get_layer_tile_at_coord( case_with_max );
 
         //
         if ( w_tile != nullptr ){
 
             //
-            if ( maxi_count == -1 ){
+            std::map< int, int > counts;
+            std::map< int, WINDOW_ELT_MAP_TILE_T > represents;
+
+            //
+            for( WINDOW_ELT_MAP_TILE_T mt : max_adj_ground_base ){
 
                 //
-                w_tile->set_ground_base( allTileData[w_tile->tile].ground_layer_img[0] );
+                if( counts.count(mt->tile) == 0 ){
+                    counts[mt->tile] = 1;
+                    represents[mt->tile] = mt;
+                }
+                else{
+                    counts[mt->tile] += 1;
+                }
+            }
+
+            //
+            int maxi_ground_base;
+            int maxi_count = -1;
+
+            //
+            for ( std::pair<int, int> it_pair : counts ){
+
+                //
+                if ( maxi_count == -1 || it_pair.second > maxi_count ){
+
+                    maxi_ground_base = it_pair.first;
+                    maxi_count = it_pair.second;
+
+                }
+
+            }
+
+            //
+            if ( maxi_count == -1 ){
+
+                w_tile->set_own_ground_base();
 
             }
             //
             else {
 
                 //
-                w_tile->set_ground_base( maxi_ground_base );
+                w_tile->ground_base_layer = represents[maxi_ground_base]->ground_base_layer;
 
             }
 
@@ -1038,7 +1069,7 @@ void WindowEltMapViewer::complete_all_tile_layer_ground_base(){
         for ( Coord coord : cases_with_null ){
 
             //
-            std::vector< std::string > adj_ground_base = this->get_adjacents_tiles_base_ground_to_tile( coord.x, coord.y );
+            std::vector< WINDOW_ELT_MAP_TILE_T > adj_ground_base = this->get_adjacents_tiles_base_ground_to_tile( coord.x, coord.y );
 
             //
             if( max_non_null_adj == -1 || max_non_null_adj < adj_ground_base.size() ){
@@ -1086,13 +1117,13 @@ std::vector< Coord > WindowEltMapViewer::get_adjacents_tiles_coords_to_tile(int 
 
 
 //
-std::vector< std::string > WindowEltMapViewer::get_adjacents_tiles_base_ground_to_tile(int x, int y){
+std::vector< WINDOW_ELT_MAP_TILE_T > WindowEltMapViewer::get_adjacents_tiles_base_ground_to_tile(int x, int y){
 
     //
     std::vector< Coord > adj_coords = this->get_adjacents_tiles_coords_to_tile(x, y);
 
     //
-    std::vector< std::string > res;
+    std::vector< WINDOW_ELT_MAP_TILE_T > res;
 
     //
     for( Coord coord : adj_coords ){
@@ -1115,7 +1146,7 @@ std::vector< std::string > WindowEltMapViewer::get_adjacents_tiles_base_ground_t
         }
 
         //
-        res.push_back( mt->ground_base_layer->img_path );
+        res.push_back( mt );
 
     }
 

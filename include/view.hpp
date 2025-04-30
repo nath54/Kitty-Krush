@@ -765,8 +765,8 @@ class WindowEltMapTile: public WindowElt {
         // Attributes
         int tile;
         //
-        WINDOW_ELT_SPRITE_T ground_base_layer = nullptr;
-        WINDOW_ELT_SPRITE_T ground_top_layer = nullptr;
+        WINDOW_ELT_T ground_base_layer = nullptr;
+        WINDOW_ELT_T ground_top_layer = nullptr;
         //
         bool ground_base_to_complete = false;
 
@@ -782,7 +782,9 @@ class WindowEltMapTile: public WindowElt {
 
         // Functions
         void draw_elt(MainView* main_view, DRAW_TRANSFORM_T transform=nullptr);
-        void set_ground_base(std::string ground_base_img);
+        void set_ground_base(WINDOW_ELT_T elt);
+        void set_own_ground_base();
+        void set_own_ground_top();
 };
 
 
@@ -915,7 +917,7 @@ class WindowEltMapViewer: public WindowEltClickable {
 
         // Getters
         std::vector< Coord > get_adjacents_tiles_coords_to_tile(int x, int y);
-        std::vector< std::string > get_adjacents_tiles_base_ground_to_tile(int x, int y);
+        std::vector< WINDOW_ELT_MAP_TILE_T > get_adjacents_tiles_base_ground_to_tile(int x, int y);
         WINDOW_ELT_MAP_TILE_T get_layer_tile_at_coord(Coord coord);
         EntityData get_entity_data_at_coord(Coord coord);
         int get_color_at_coord(Coord coord);

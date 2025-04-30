@@ -23,8 +23,13 @@ typedef struct TileData {
 
     const int nb_ground_layer_imgs;
     const char* ground_layer_img[5];  // Maximum 5 sprites per tile, unused slots are set to nullptr
+
+    const int nb_frames_ground_layer_img[5];
+
     const int nb_top_layer_imgs;
     const char* top_layer_img[5];     // Maximum 5 sprites per tile, unused slots are set to nullptr
+
+    const int nb_frames_top_layer_img[5];
 
     // Maximum 5 tags per tile; unused slots are set to nullptr.
     const char* tags[5];
@@ -151,12 +156,14 @@ static const TileData allTileData[] = {
         "deep_water/deep_water_01.png",
 
         // ground_layer_img
-        5,
-        {"deep_water/deep_water_01.png", "deep_water/deep_water_03.png", "deep_water/deep_water_05.png", "deep_water/deep_water_07.png", "deep_water/deep_water_10.png"},
+        1,
+        {"deep_water/deep_water.png", nullptr, nullptr, nullptr, nullptr},
+        {15, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -174,10 +181,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"shallow_water.png", nullptr, nullptr, nullptr,nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -195,10 +204,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"river_water.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -214,12 +225,14 @@ static const TileData allTileData[] = {
         "swamp_water.png",
 
         // ground_layer_img
-        1,
-        {"swamp_water.png",nullptr, nullptr, nullptr, nullptr},
+        5,
+        {"swamp/reed1.png","swamp/reed2.png", "swamp/reed3.png", "swamp/reed4.png", "swamp/reed5.png"},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -237,10 +250,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"reef.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -258,10 +273,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"oasis.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -276,12 +293,16 @@ static const TileData allTileData[] = {
 
         "frozen_water.png",
 
+        // ground_layer_img
         1,
-        {
-            "frozen_water.png",
-            nullptr, nullptr, nullptr, nullptr},        // ground_layer_img
+        {"frozen_water.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
+
+        // top_layer_img
         0,
-        {nullptr, nullptr, nullptr, nullptr, nullptr},  // top_layer_img
+        {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
+
         {"base", "water", "snow", nullptr, nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr}   // negative tags (for tiles that don't have a ground_layer_img)
@@ -298,10 +319,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"shallow_water.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"water_lilies.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"water", nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -319,10 +342,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"shallow_water.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"flowering_water_lilies.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"water", nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -338,12 +363,14 @@ static const TileData allTileData[] = {
         "muddy.png",
 
         // ground_layer_img
-        1,
-        {"muddy.png", nullptr, nullptr, nullptr, nullptr},
+        3,
+        {"swamp/mud1.png", "swamp/mud2.png", "swamp/mud3.png", nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -361,10 +388,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         5,
         {"green_grass/green_grass_01.png", "green_grass/green_grass_02.png", "green_grass/green_grass_03.png", "green_grass/green_grass_04.png", "green_grass/green_grass_05.png"},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "grass", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -382,10 +411,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"semi_dry_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "grass", "dry", nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -403,10 +434,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dry_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "grass", "dry", nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -424,10 +457,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dirt.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -445,10 +480,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dry_dirt.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "dry", nullptr, nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -466,10 +503,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"cobbles.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -487,10 +526,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"snow.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "snow", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -508,10 +549,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"snow_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "grass", "snow", nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -529,10 +572,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         5,
         {"sand/desert1.png", "sand/desert2.png", "sand/desert3.png", "sand/desert4.png", "sand/desert5.png"},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "sand", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -550,10 +595,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         5,
         {"sand/beach1.png", "sand/beach2.png", "sand/beach3.png", "sand/beach4.png", "sand/beach5.png"},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "sand", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -571,10 +618,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"farmlands.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -592,10 +641,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dirt_path.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "path", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -613,10 +664,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dirt.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"rubble.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -634,10 +687,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"mixed_flowers.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"grass", nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -655,10 +710,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"snow_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"mixed_frozen_flowers.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"grass", "snow", nullptr, nullptr, nullptr},   // positive tags (for tiles that don't have a ground_layer_img)
@@ -676,10 +733,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"cherry_flowers.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -697,10 +756,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"small_stones.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -718,10 +779,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"snow.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"small_snowy_stones.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "snow", nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -739,10 +802,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dirt.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"small_mushrooms.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -760,10 +825,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"brazier.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -781,10 +848,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
-        {"lit_brazier.png", nullptr, nullptr, nullptr, nullptr},
+        {"brazier/brazier.png", nullptr, nullptr, nullptr, nullptr},
+        {8, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -802,10 +871,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         3,
         {"great_tree/great_tree_01.png", "great_tree/great_tree_02.png", "great_tree/great_tree_03.png", nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "grass", nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -823,10 +894,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dirt.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         5,
         {"great_tree/dead_great_tree_1.png", "great_tree/dead_great_tree_2.png", "great_tree/dead_great_tree_3.png", "great_tree/dead_great_tree_4.png", "great_tree/dead_great_tree_5.png"},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "grass", nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -844,10 +917,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"snow_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"snow_great_tree.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "grass", "snow", nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -865,10 +940,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"tropical_forest.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -886,10 +963,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"rainforest.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -907,10 +986,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"beach_sand.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"palm_forest.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "sand", nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -928,10 +1009,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"semi_dry_dirt.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"savanna.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "dry", nullptr, nullptr, nullptr},   // positive tags (for tiles that don't have a ground_layer_img)
@@ -949,10 +1032,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"pine_forest.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -970,10 +1055,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"snow_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"snowy_pine_forest.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", "snow", nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -991,10 +1078,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         5,
         {"summer_forest/summer_forest_01.png", "summer_forest/summer_forest_02.png", "summer_forest/summer_forest_03.png", "summer_forest/summer_forest_06.png", "summer_forest/summer_forest_08.png"},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -1012,10 +1101,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"semi_dry_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"fall_forest.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -1033,10 +1124,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"green_grass.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"cherry_forest.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"ground", nullptr, nullptr, nullptr, nullptr}, // positive tags (for tiles that don't have a ground_layer_img)
@@ -1054,10 +1147,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         3,
         {"hills/regular1.png", "hills/regular2.png", "hills/regular3.png", nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "hill", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1075,10 +1170,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         3,
         {"hills/dry1.png", "hills/dry2.png", "hills/dry3.png", nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "hill", "dry", nullptr},     // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1096,10 +1193,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         3,
         {"hills/desert1.png", "hills/desert2.png", "hills/desert3.png", nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "hill", "sand", nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1117,10 +1216,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         3,
         {"hills/snow1.png", "hills/snow2.png", "hills/snow3.png", nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "hill", "snow", nullptr},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1138,10 +1239,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"regular_mountains.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "mountain", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},      // positive tags (for tiles that don't have a ground_layer_img)
@@ -1159,10 +1262,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"dry_mountains.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "mountain", "dry", nullptr}, // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1180,10 +1285,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"snow_mountains.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "mountain", "snow", nullptr},// tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1201,10 +1308,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"desert_mountains.png", "mountain/desert2.png", "mountain/desert3.png", "mountain/desert4.png", "mountain/desert5.png"},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "mountain", "sand", nullptr},// tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1222,10 +1331,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"volcano.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "mountain", "lava", nullptr},// tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1243,10 +1354,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"basic_stone_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1264,10 +1377,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"ancient_stone_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1285,10 +1400,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"basic_wooden_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1306,10 +1423,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"old_wooden_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "floor", nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1327,10 +1446,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"cave_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"beam_of_light.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1348,10 +1469,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"cave_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "floor", "cave", nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1369,10 +1492,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"earthy_cave_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "floor", "cave", nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1390,10 +1515,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"cave_path.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "floor", "cave", "path"},    // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1411,10 +1538,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"cave_floor.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         1,
         {"mushroom_grove.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // tags (for tiles that have a ground_layer_img)
         {"cave", nullptr, nullptr, nullptr, nullptr},   // positive tags (for tiles that don't have a ground_layer_img)
@@ -1432,10 +1561,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"rockbound_cave.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "cave", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1453,10 +1584,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"earthy_rockbound_cave.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "ground", "cave", nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1474,10 +1607,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"regular_cave_wall.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "cave", "wall", nullptr, nullptr},     // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1495,10 +1630,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"earthy_cave_wall.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "cave", "wall", nullptr, nullptr},     // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1516,10 +1653,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"regular_chasm.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1537,10 +1676,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"earthy_chasm.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1558,10 +1699,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"ethereal_chasm.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1579,10 +1722,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"lava_chasm.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "chasm", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
@@ -1600,10 +1745,12 @@ static const TileData allTileData[] = {
         // ground_layer_img
         1,
         {"lava.png", nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         // top_layer_img
         0,
         {nullptr, nullptr, nullptr, nullptr, nullptr},
+        {1, 1, 1, 1, 1},
 
         {"base", "water", nullptr, nullptr, nullptr},   // tags (for tiles that have a ground_layer_img)
         {nullptr, nullptr, nullptr, nullptr, nullptr},  // positive tags (for tiles that don't have a ground_layer_img)
