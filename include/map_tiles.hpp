@@ -1652,7 +1652,7 @@ static const TileData allTileData[] = {
 
         // ground_layer_img
         1,
-        {"regular_chasm.png", nullptr, nullptr, nullptr, nullptr},
+        {"chasm/depths.png", nullptr, nullptr, nullptr, nullptr},
         {1, 1, 1, 1, 1},
 
         // top_layer_img
@@ -1675,7 +1675,7 @@ static const TileData allTileData[] = {
 
         // ground_layer_img
         1,
-        {"earthy_chasm.png", nullptr, nullptr, nullptr, nullptr},
+        {"chasm/depths.png", nullptr, nullptr, nullptr, nullptr},
         {1, 1, 1, 1, 1},
 
         // top_layer_img
@@ -1697,8 +1697,8 @@ static const TileData allTileData[] = {
         "ethereal_chasm.png",
 
         // ground_layer_img
-        1,
-        {"ethereal_chasm.png", nullptr, nullptr, nullptr, nullptr},
+        5,
+        {"chasm/abyss1.png", "chasm/abyss2.png", "chasm/abyss3.png", "chasm/abyss4.png", "chasm/abyss5.png"},
         {1, 1, 1, 1, 1},
 
         // top_layer_img
@@ -1721,8 +1721,8 @@ static const TileData allTileData[] = {
 
         // ground_layer_img
         1,
-        {"lava_chasm.png", nullptr, nullptr, nullptr, nullptr},
-        {1, 1, 1, 1, 1},
+        {"lava/lava.png", nullptr, nullptr, nullptr, nullptr},
+        {4, 1, 1, 1, 1},
 
         // top_layer_img
         0,
