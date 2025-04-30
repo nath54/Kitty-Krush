@@ -1744,8 +1744,8 @@ static const TileData allTileData[] = {
 
         // ground_layer_img
         1,
-        {"lava.png", nullptr, nullptr, nullptr, nullptr},
-        {1, 1, 1, 1, 1},
+        {"lava/lava.png", nullptr, nullptr, nullptr, nullptr},
+        {4, 1, 1, 1, 1},
 
         // top_layer_img
         0,
