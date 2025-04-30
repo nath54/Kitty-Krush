@@ -33,7 +33,6 @@ usint GameModel::get_tile_defense(Coord c)
     usint def_max = tile->get_defense();
 
     if (tile->_color() == NEUTRAL) { return def_max; } // No neighbours defense
-    if (tile->_color() == this->current_player) { return 0; } // Can move if same province
 
     std::vector<Coord> n = neighbours(c);
 
@@ -124,7 +123,6 @@ void GameModel::bandit_turn()
 {
     usint nb_coins = 0;
     bool bandits = false;
-    Coord new_camp = {-1, -1};
     std::vector<Coord> bandit_camps;
 
     // Move existing bandits
@@ -161,7 +159,7 @@ void GameModel::bandit_turn()
         for (Coord v : n) {
             TILE_T t = this->game_map->get_tile(v);
             if (t == nullptr) { continue; }
-            if (t->_element() == nullptr && t->get_defense() == 0) {
+            if (t->_element() == nullptr && this->get_tile_defense(v) == 0) {
                 dest.push_back(v);
                 if (t->_color() != NEUTRAL)
                     { colored_dest.push_back(v); }
@@ -171,24 +169,30 @@ void GameModel::bandit_turn()
         if (colored_dest.size() > 0) {
             usint id = rand() % colored_dest.size();
             this->game_map->move_bandit(it.first, colored_dest[id]);
-            if (new_camp == Coord(-1, -1) && this->game_map->get_province(it.first) == nullptr)
-                { new_camp = it.first; }
         }
 
         else if (tile->_color() == NEUTRAL && dest.size() > 0) {
             usint id = rand() % dest.size();
             this->game_map->move_bandit(it.first, dest[id]);
-            if (new_camp == Coord(-1, -1) && this->game_map->get_province(it.first) == nullptr)
-                { new_camp = it.first; }
         }
     }
 
     // If there is no bandit camp, create a new one
-    if (bandits && bandit_camps.size() == 0 && new_camp != Coord(-1, -1)) {
-        this->game_map->set_tile_color(new_camp, NEUTRAL);
-        this->game_map->remove_tile_from_all_prov(new_camp);
-        this->game_map->create_bandit_element(new_camp, false);
-        bandit_camps.push_back(new_camp);
+    if (bandits && bandit_camps.size() == 0) {
+
+        std::vector<Coord> n = {};
+        for (const auto& it : *(this->game_map->_tiles_layer())) {
+            TILE_T t = it.second;
+            if (t == nullptr) { continue; }
+            if (t->_color() == NEUTRAL)
+                { n.push_back(t->_coord()); }
+        }
+
+        if (n.size() > 0) {
+            usint id = rand() % n.size();
+            this->game_map->create_bandit_element(n[id], false);
+            bandit_camps.push_back(n[id]);
+        }
     }
 
     // Manage camps treasury and bandits creation
@@ -268,11 +272,11 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
         // Get the unit at destination tile
         UNIT_T dst_unit = DCAST_UNIT_T(dst_tile->_element());
         if (dst_unit == nullptr) { return false; } // building, can't move
-        if (dst_unit->_color() != dst_prov->_color()) { return true; } // bandit, can move
+        if (dst_unit->is_bandit()) { return true; } // bandit, can move
 
         // If the destination unit hasn't the same level than the unit to move (no fusion of units to unit of higher level)
         if (dst_unit->_defense() == MAX_UNIT_LEVEL) { return false; }
-        if (unit_to_move->_defense() != dst_unit->_defense()) { return false; }
+        return (unit_to_move->_defense() == dst_unit->_defense());
     }
 
     // If the source unit is an hero, he can go anywhere
@@ -411,6 +415,9 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
         }
         else if (dst_unit->_defense() >= elt_level) { return false; }
     }
+
+    if (dst_prov->_color() == this->current_player)
+        { return true; } // Same province no defense
 
     // If the source unit is an hero, he can go anywhere
     if (elt_level == MAX_UNIT_LEVEL) { return true; }
