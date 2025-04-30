@@ -122,31 +122,34 @@ void GameModel::at_player_turn_start()
 void GameModel::bandit_turn()
 {
     usint nb_coins = 0;
-    bool bandits = false;
-    std::vector<Coord> bandit_camps;
+    bool some_bandits = false;
+    std::vector<Coord> bandits = {};
+    std::vector<Coord> bandit_camps = {};
 
-    // Move existing bandits
     for (std::pair<Coord, ELEMENT_T> it : *(this->game_map->_bandits_layer())) {
-
-        TILE_T tile = this->game_map->get_tile(it.first);
-        if (tile == nullptr) { continue; }
 
         it.second->convert_bandit();
 
         UNIT_T unit = DCAST_UNIT_T(it.second);
 
-        // building
-        if (unit == nullptr) {
+        if (unit == nullptr) { // building
             this->set_tile_color(it.first, NEUTRAL);
             bandit_camps.push_back(it.first);
             continue;
         }
 
-        //unit
-        bandits = true;
+        some_bandits = true;
+        unit->can_move = true;
+        bandits.push_back(it.first);
+    }
+
+    // Move existing bandits
+    for (Coord c : bandits) {
+        TILE_T tile = this->game_map->get_tile(c);
+
         if (tile->_color() != NEUTRAL) {
             nb_coins++;
-            if (this->game_map->get_province(it.first) == nullptr) {
+            if (this->game_map->get_province(c) == nullptr) {
                 tile->convert_color(NEUTRAL);
                 continue;
             }
@@ -154,7 +157,7 @@ void GameModel::bandit_turn()
 
         std::vector<Coord> dest = {};
         std::vector<Coord> colored_dest = {};
-        std::vector<Coord> n = neighbours(it.first);
+        std::vector<Coord> n = neighbours(c);
 
         for (Coord v : n) {
             TILE_T t = this->game_map->get_tile(v);
@@ -168,24 +171,23 @@ void GameModel::bandit_turn()
 
         if (colored_dest.size() > 0) {
             usint id = rand() % colored_dest.size();
-            this->game_map->move_bandit(it.first, colored_dest[id]);
+            this->game_map->move_bandit(c, colored_dest[id]);
         }
 
         else if (tile->_color() == NEUTRAL && dest.size() > 0) {
             usint id = rand() % dest.size();
-            this->game_map->move_bandit(it.first, dest[id]);
+            this->game_map->move_bandit(c, dest[id]);
         }
     }
 
     // If there is no bandit camp, create a new one
-    if (bandits && bandit_camps.size() == 0) {
+    if (some_bandits && bandit_camps.size() == 0) {
 
         std::vector<Coord> n = {};
-        for (const auto& it : *(this->game_map->_tiles_layer())) {
-            TILE_T t = it.second;
-            if (t == nullptr) { continue; }
-            if (t->_color() == NEUTRAL)
-                { n.push_back(t->_coord()); }
+        for (std::pair<Coord, TILE_T> t : *(this->game_map->_tiles_layer())) {
+            if (t.second == nullptr) { continue; }
+            if (t.second->_color() == NEUTRAL && t.second->_element() == nullptr)
+                { n.push_back(t.second->_coord()); }
         }
 
         if (n.size() > 0) {
