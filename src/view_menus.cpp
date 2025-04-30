@@ -239,7 +239,7 @@ void on_bt_map_creator_bt_category(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_ga
     //
     // TILES
     //
-    for(int i = 6; i < 6 + 69; i++){
+    for(int i = 6; i < 6 + 70; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -249,7 +249,7 @@ void on_bt_map_creator_bt_category(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_ga
     //
     // COLORS
     //
-    for(int i = 6 + 69; i < 6 + 69 + 10; i++){
+    for(int i = 6 + 70; i < 6 + 70 + 10; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -259,7 +259,7 @@ void on_bt_map_creator_bt_category(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_ga
     //
     // ENTITIES
     //
-    for(int i = 6 + 69 + 10; i < 6 + 69 + 10 + 8; i++){
+    for(int i = 6 + 70 + 10; i < 6 + 70 + 10 + 8; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -1062,7 +1062,7 @@ void MainView::init_page_map_creator() {
     //
     // TILES
     //
-    for(int i = 0; i < 69; i++){
+    for(int i = 0; i < 70; i++){
 
         //
         std::string tile_img = "res/sprites/map_w/" + std::string(allTileData[i].img_preview);

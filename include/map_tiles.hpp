@@ -527,8 +527,8 @@ static const TileData allTileData[] = {
         "desert_sand.png",
 
         // ground_layer_img
-        1,
-        {"desert_sand.png", nullptr, nullptr, nullptr, nullptr},
+        5,
+        {"sand/desert1.png", "sand/desert2.png", "sand/desert3.png", "sand/desert4.png", "sand/desert5.png"},
 
         // top_layer_img
         0,
@@ -548,8 +548,8 @@ static const TileData allTileData[] = {
         "beach_sand.png",
 
         // ground_layer_img
-        1,
-        {"beach_sand.png", nullptr, nullptr, nullptr, nullptr},
+        5,
+        {"sand/beach1.png", "sand/beach2.png", "sand/beach3.png", "sand/beach4.png", "sand/beach5.png"},
 
         // top_layer_img
         0,
@@ -1052,8 +1052,8 @@ static const TileData allTileData[] = {
         "regular_hills.png",
 
         // ground_layer_img
-        1,
-        {"regular_hills.png", nullptr, nullptr, nullptr, nullptr},
+        3,
+        {"hills/regular1.png", "hills/regular2.png", "hills/regular3.png", nullptr, nullptr},
 
         // top_layer_img
         0,
@@ -1073,8 +1073,8 @@ static const TileData allTileData[] = {
         "dry_hills.png",
 
         // ground_layer_img
-        1,
-        {"dry_hills.png", nullptr, nullptr, nullptr, nullptr},
+        3,
+        {"hills/dry1.png", "hills/dry2.png", "hills/dry3.png", nullptr, nullptr},
 
         // top_layer_img
         0,
@@ -1094,8 +1094,8 @@ static const TileData allTileData[] = {
         "dunes.png",
 
         // ground_layer_img
-        1,
-        {"dunes.png", nullptr, nullptr, nullptr, nullptr},
+        3,
+        {"hills/desert1.png", "hills/desert2.png", "hills/desert3.png", nullptr, nullptr},
 
         // top_layer_img
         0,
@@ -1115,8 +1115,8 @@ static const TileData allTileData[] = {
         "snowy_hills.png",
 
         // ground_layer_img
-        1,
-        {"snowy_hills.png", nullptr, nullptr, nullptr, nullptr},
+        3,
+        {"hills/snow1.png", "hills/snow2.png", "hills/snow3.png", nullptr, nullptr},
 
         // top_layer_img
         0,
