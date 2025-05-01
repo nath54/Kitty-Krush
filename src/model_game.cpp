@@ -455,34 +455,31 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
     if (dst_prov == nullptr || dst_prov->_color() != this->current_player) {
 
-        for (PROVINCE_T prov : *(this->game_map->_provinces_layer())) {
+        for (PROVINCE_T p : *(this->game_map->_provinces_layer())) {
 
-            if (prov->is_adjacent_to_coord(c)) {
-                if (prov->_color() != this->current_player) { continue; }
-                if (prov->_treasury() < unit_cost) { continue; }
-                src_prov = prov;
-                break;
-            }
+            if (p->_color() != this->current_player) { continue; }
+            if (p->_treasury() < unit_cost) { continue; }
+            if (!p->is_adjacent_to_coord(c)) { continue; }
+            src_prov = p;
+            break;
         }
-
     }
     //
     else { src_prov = dst_prov; }
 
     if (src_prov == nullptr) { return; }
 
-    if (dst_prov != nullptr && dst_prov->_color() == this->current_player) { // Same province, just move and may fusion
+    if (dst_prov == src_prov) { // Same province
 
-        if (tile->_element() != nullptr) {
+        if (tile->_element() != nullptr) { // bandit or fusion
 
             if (tile->_element()->is_bandit()) { // kill bandit
                 this->game_map->delete_bandit_element(c);
                 tile->set_element(CREATE_UNIT_T(this->current_player, elt_level));
             }
             //
-            else { DCAST_UNIT_T(tile->_element())->upgrade(); }
+            else { DCAST_UNIT_T(tile->_element())->upgrade(); } // fusion units
         }
-
         //
         else if (is_unit)
             { tile->set_element(CREATE_UNIT_T(this->current_player, elt_level)); }
@@ -501,6 +498,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
             { src_prov->add_treasury(DCAST_BUILDING_T(tile->_element())->treasury); }
         else
             { src_prov->add_treasury(dst_prov->_treasury()); }
+            // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse
     }
 
     // delete bandit element
@@ -511,6 +509,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
         tile->set_element(CREATE_UNIT_T(this->current_player, elt_level));
         DCAST_UNIT_T(tile->_element())->can_move = false;
     }
+    //
     else
         { tile->set_element(CREATE_BUILDING_T(this->current_player, elt_level)); }
 
@@ -550,21 +549,15 @@ bool GameModel::check_action_end_turn() { return true; }
 
 void GameModel::do_action_end_turn()
 {
-
-    //
     int player_limit = this->current_player;
 
-    //
     this->current_player++;
 
-    //
-    while( this->current_player != player_limit && !(this->check_map_has_provinces_of_color(this->current_player)) ){
+    while (this->current_player != player_limit && !(this->check_map_has_provinces_of_color(this->current_player))) {
         this->current_player++;
 
-        //
-        if (this->current_player > this->nb_players){
-            this->current_player = 1;
-        }
+        if (this->current_player > this->nb_players)
+            { this->current_player = 1; }
     }
 }
 
@@ -651,9 +644,8 @@ std::map<Coord, Color> GameModel::calculate_all_provinces_after_map_initialisati
     for (std::pair<Coord, int> it : visited) {
 
         int num = it.second;
-        if( to_convert_num.count(num) > 0){
-            num = to_convert_num[num];
-        }
+        if(to_convert_num.count(num) > 0)
+            { num = to_convert_num[num]; }
 
         if (num_idx.count(num) == 0) {
             num_idx[num] = crt_idx;
@@ -665,7 +657,6 @@ std::map<Coord, Color> GameModel::calculate_all_provinces_after_map_initialisati
 
         all_province_zones[num_idx[num]].push_back(it.first);
 
-        //
         map_colors_debug[it.first] = debug_colors[num];
 
     }
@@ -675,23 +666,16 @@ std::map<Coord, Color> GameModel::calculate_all_provinces_after_map_initialisati
     for (std::list<Coord> list_of_tiles : all_province_zones)
         { this->game_map->add_province_from_list_of_tiles(list_of_tiles); }
 
-    //
     return map_colors_debug;
 }
 
 
+bool GameModel::check_map_has_provinces_of_color(int color)
+    { return this->game_map->has_province_of_color(color); }
 
 
-bool GameModel::check_map_has_provinces_of_color(int color){
-
-    //
-    return this->game_map->has_province_of_color(color);
-
-}
-
-
-int GameModel::check_game_finished(){
-
+int GameModel::check_game_finished()
+{
     /*
         returns :
             * -1 : Game not finished
@@ -700,28 +684,17 @@ int GameModel::check_game_finished(){
 
     */
 
-    //
     std::vector<int> colors_left;
 
-    //
-    for(int color = 1; color < this->nb_players; color++){
-        if( this->check_map_has_provinces_of_color(color) ){
-            colors_left.push_back( color );
-        }
+    for (int color = 1; color < this->nb_players; color++) {
+        if (this->check_map_has_provinces_of_color(color))
+            { colors_left.push_back(color); }
     }
 
-    //
-    if ( colors_left.size() == 0 ) {
-        return 0;
-    }
+    if (colors_left.size() == 0) { return 0; }
 
-    //
-    if ( colors_left.size() > 1 ) {
-        return -1;
-    }
+    if (colors_left.size() > 1 ) { return -1; }
 
-    //
     return colors_left[0];
-
 }
 
