@@ -71,7 +71,7 @@ void Province::add_tile(TILE_T tile)
 {
     if (tile == nullptr) { return; }
     tile->convert_color(this->color);
-    tiles_layer[tile->_coord()] = tile;
+    this->tiles_layer[tile->_coord()] = tile;
 }
 
 void Province::remove_tile(TILE_T tile) { tiles_layer.erase(tile->_coord()); }
@@ -538,6 +538,16 @@ bool Map::adjacent_to_province(Coord c, PROVINCE_T p)
     return false;
 }
 
+
+bool Map::has_province_of_color(int color)
+{
+    for( PROVINCE_T p : this->provinces_layer )
+        { if (p->_color() == color) { return true; } }
+
+    return false;
+}
+
+
 // >> Bandits managment <<
 // Checks are done in bandit_turn function
 
@@ -573,20 +583,4 @@ void Map::delete_bandit_element(Coord c)
     this->get_tile(c)->set_element();
 }
 
-
-
-
-
-bool Map::has_province_of_color(int color){
-
-    //
-    for( PROVINCE_T p : this->provinces_layer ){
-
-        //
-        if( p->_color() == color ){ return true; }
-
-    }
-
-    return false;
-}
 

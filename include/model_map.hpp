@@ -157,11 +157,10 @@ class Map {
         void split_province(Coord c, PROVINCE_T p);
         void remove_tile_from_all_prov(Coord c);
         bool adjacent_to_province(Coord c, PROVINCE_T p);
+        bool has_province_of_color(int color);
 
         // Bandits managment
         void create_bandit_element(Coord c, bool is_unit);
         void move_bandit(Coord src, Coord dst);
         void delete_bandit_element(Coord c);
-
-        bool has_province_of_color(int color);
 };
