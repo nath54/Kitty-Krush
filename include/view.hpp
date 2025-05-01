@@ -806,6 +806,9 @@ class WindowEltMapViewer: public WindowEltClickable {
 
     public:
 
+        //
+        bool game_end = false;
+
         // Attributes
         std::map< Coord, WINDOW_ELT_MAP_TILE_T > tiles_layers;
         //
@@ -881,6 +884,8 @@ class WindowEltMapViewer: public WindowEltClickable {
         WINDOW_ELT_TEXT_T txt_unit_lvl4 = nullptr;
         WINDOW_ELT_BUTTON_T bt_building_lvl2 = nullptr;
         WINDOW_ELT_TEXT_T txt_building_lvl2 = nullptr;
+
+        std::vector< WINDOW_ELT_T > elts_end_game;
 
         // Constructor
         WindowEltMapViewer( STYLE_T style,

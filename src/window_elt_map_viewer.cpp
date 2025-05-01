@@ -1326,6 +1326,10 @@ void WindowEltMapViewer::stop_dragging_entity(){
 
 //
 void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoom_factor) {
+
+    //
+    if (this->game_end){ return; }
+
     // Current world point under mouse
     double world_x = (mouse_x + cam_x) / zoom;  // Simplified, adjust based on your system
     double world_y = (mouse_y + cam_y) / zoom;
@@ -1466,10 +1470,7 @@ bool WindowEltMapViewer::check_draw_palissade_bottom_left(Coord v){
 
 
 //
-void on_map_viewer_click_map_creator(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
-
-    //
-    WINDOW_ELT_MAP_VIEWER_T map_viewer = DCAST_WINDOW_ELT_MAP_VIEWER_T(map_viewer_elt);
+void on_map_viewer_click_map_creator(WINDOW_ELT_MAP_VIEWER_T map_viewer, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
     if(map_viewer == nullptr){ return; }
@@ -1566,10 +1567,7 @@ void on_map_viewer_click_map_creator(WINDOW_ELT_CLICKABLE_T map_viewer_elt, Main
 
 
 //
-void on_map_viewer_click_in_game(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
-
-    //
-    WINDOW_ELT_MAP_VIEWER_T map_viewer = DCAST_WINDOW_ELT_MAP_VIEWER_T(map_viewer_elt);
+void on_map_viewer_click_in_game(WINDOW_ELT_MAP_VIEWER_T map_viewer, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
     //
     if(map_viewer == nullptr){ return; }
@@ -1634,12 +1632,17 @@ void on_map_viewer_click_in_game(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame
 //
 void on_map_viewer_click(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
 
+    //
+    WINDOW_ELT_MAP_VIEWER_T map_viewer = DCAST_WINDOW_ELT_MAP_VIEWER_T(map_viewer_elt);
+    //
+    if (map_viewer->game_end){ return; }
+
     // IF MAP CREATOR
     if ( main_game->menu_state == 3 ) {
-        on_map_viewer_click_map_creator(map_viewer_elt, main_game, additional_fn_args);
+        on_map_viewer_click_map_creator(map_viewer, main_game, additional_fn_args);
     }
     // ELSE
     else if ( main_game->menu_state == 2 ) {
-        on_map_viewer_click_in_game(map_viewer_elt, main_game, additional_fn_args);
+        on_map_viewer_click_in_game(map_viewer, main_game, additional_fn_args);
     }
 }

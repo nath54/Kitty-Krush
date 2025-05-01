@@ -69,6 +69,8 @@ void on_key_up(MainGame* main_game, EVENT_KEY_UP_T event)
         main_game->quit();
     }
 
+    if (map_viewer->game_end){ return; }
+
     int dec_cam = BASE_DEC_CAM * map_viewer->zoom;
 
     if (event->key == "Up" || event->key == "z")
@@ -110,6 +112,8 @@ void on_scroll(MainGame* main_game, EVENT_MOUSE_SCROLL_T event)
         main_game->quit();
     }
 
+    if (map_viewer->game_end){ return; }
+
     if (event->scroll_y == 0) { return; }
 
     if (event->scroll_y > 0)
@@ -136,6 +140,8 @@ void on_dragging(MainGame* main_game, EVENT_MOUSE_DRAGGING_T event)
         main_game->quit();
     }
 
+    if (map_viewer->game_end){ return; }
+
     // int dec_cam = BASE_DEC_CAM * map_viewer->zoom;
 
     map_viewer->cam_x -= event->dx; // * 2; // / map_viewer->zoom;
@@ -158,6 +164,8 @@ void on_mouse_motion(MainGame* main_game, EVENT_MOUSE_MOTION_T event)
         std::cout << "Error : no map viewer !\n";
         main_game->quit();
     }
+
+    if (map_viewer->game_end){ return; }
 
     Coord mouse_pos = (Coord){event->x, event->y};
 
