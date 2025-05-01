@@ -686,15 +686,15 @@ int GameModel::check_game_finished()
 
     std::vector<int> colors_left;
 
-    for (int color = 1; color < this->nb_players; color++) {
+    for (int color = 1; color <= this->nb_players; color++) {
         if (this->check_map_has_provinces_of_color(color))
             { colors_left.push_back(color); }
     }
 
+    //
     if (colors_left.size() == 0) { return 0; }
-
     if (colors_left.size() > 1 ) { return -1; }
-
+    //
     return colors_left[0];
 }
 

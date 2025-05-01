@@ -227,7 +227,7 @@ class MainView {
 
         // Draw
         void draw_rounded_rect(int x, int y, int w, int h, int r, Color color);
-        void draw_button_1(int x, int y, int w, int h, std::string text, Color fg_cl, Color bg_cl, int fontSize, int r);
+        void draw_button_1(int x, int y, int w, int h, std::string text, Color fg_cl, Color bg_cl, int fontSize, int r, int border=1);
 
 };
 

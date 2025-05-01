@@ -169,6 +169,10 @@ void MainGame::at_player_turn_start()
 {
     if (GAME_DOES_NOT_EXIST) { return; }
 
+    //
+    this->test_end_game();
+
+    //
     this->update_current_player_display();
 
     // TODO: maybe update here with the first province of the current player
@@ -181,7 +185,7 @@ void MainGame::at_player_turn_start()
 }
 
 
-void MainGame::at_player_turn_end() { if(GAME_DOES_NOT_EXIST) { return; } }
+void MainGame::at_player_turn_end() {  }
 
 
 void MainGame::update_current_player_display()
@@ -414,6 +418,9 @@ void MainGame::action_end_turn()
     if (MODEL->_current_player() <= crt_color) { this->bandit_turn(); }
 
     this->at_player_turn_start();
+
+    //
+    this->test_end_game();
 }
 
 
@@ -512,3 +519,58 @@ void MainGame::generate_random_map(){
     this->main_view->map_viewer->complete_all_tile_layer_ground_base();
 
 }
+
+
+//
+void MainGame::test_end_game(){
+
+    //
+    int game_end = this->game_model->check_game_finished();
+
+    //
+    if( game_end == -1 ){
+
+        // Game not finished
+        this->main_view->map_viewer->game_end = false;
+
+        //
+        for( WINDOW_ELT_T welt : this->main_view->map_viewer->elts_end_game ){
+
+            //
+            welt->visible = false;
+
+        }
+
+    }
+    else{
+
+        // Game finished
+        this->main_view->map_viewer->game_end = true;
+
+        //
+        for( WINDOW_ELT_T welt : this->main_view->map_viewer->elts_end_game ){
+
+            //
+            welt->visible = true;
+
+        }
+
+        // update
+
+        WINDOW_ELT_SPRITE_T sprite = DCAST_WINDOW_ELT_SPRITE_T( this->main_view->map_viewer->elts_end_game[4] );
+        WINDOW_ELT_TEXT_T text = DCAST_WINDOW_ELT_TEXT_T( this->main_view->map_viewer->elts_end_game[2] );
+
+        //
+        if( game_end == 0){
+            sprite->img_path = "res/bgs/loss.png";
+            text->txt = "Game End : defeat for everyone !";
+        }
+        else{
+            sprite->img_path = "res/bgs/victory.png";
+            text->txt = "Game End : player " + std::to_string(game_end) + " win !";
+        }
+
+    }
+
+}
+

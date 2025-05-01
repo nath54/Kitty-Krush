@@ -432,10 +432,10 @@ void MainView::init_page_main_menu() {
             this->win_page_manager->default_style,  // STYLE_T           style,
             "res/bgs/bg_main_menu_2.png",           // std::string      img_path,
             nvi(0),                                 // VALUE_T           x,
-            CREATE_VALUE_INT_T(0),                        // VALUE_T           y,
+            nvi(0),                        // VALUE_T           y,
             nvpww(win_attr, 100),                   // VALUE_T           w,
             nvpwh(win_attr, 100),                   // VALUE_T           h,
-            nvi(0),                                 // VALUE_T           angle               = CREATE_VALUE_INT_T(0),
+            nvi(0),                                 // VALUE_T           angle               = nvi(0),
             false,                                  // bool             flip_h              = false,
             false,                                  // bool             flip_v              = false,
             SPRITE_NO_CROP(),                       // SPRITE_CROP_T      sprite_crop         = SPRITE_NO_CROP(),
@@ -502,10 +502,10 @@ void MainView::init_page_game_settings() {
             this->win_page_manager->default_style,  // STYLE_T           style,
             "res/bgs/bg_game_settings_menu.png",    // std::string      img_path,
             nvi(0),                                 // VALUE_T           x,
-            CREATE_VALUE_INT_T(0),                        // VALUE_T           y,
+            nvi(0),                        // VALUE_T           y,
             nvpww(win_attr, 100),                   // VALUE_T           w,
             nvpwh(win_attr, 100),                   // VALUE_T           h,
-            nvi(0),                                 // VALUE_T           angle               = CREATE_VALUE_INT_T(0),
+            nvi(0),                                 // VALUE_T           angle               = nvi(0),
             false,                                  // bool             flip_h              = false,
             false,                                  // bool             flip_v              = false,
             SPRITE_NO_CROP(),                       // SPRITE_CROP_T      sprite_crop         = SPRITE_NO_CROP(),
@@ -545,7 +545,7 @@ void MainView::init_page_game_settings() {
             nvi(80),                               // VALUE_T                           y
             nvpww(win_attr, 100 - 2 * 15),          // VALUE_T                           w
             nvi(2),                                 // VALUE_T                           h
-            CREATE_VALUE_INT_T(2)                         // VALUE_T                           radius
+            nvi(2)                         // VALUE_T                           radius
         )
 
     );
@@ -577,7 +577,7 @@ void MainView::init_page_game_settings() {
             nvi(180),                               // VALUE_T                           y
             nvpww(win_attr, 100 - 2 * 15),          // VALUE_T                           w
             nvi(2),                                 // VALUE_T                           h
-            CREATE_VALUE_INT_T(2)                         // VALUE_T                           radius
+            nvi(2)                         // VALUE_T                           radius
         )
 
     );
@@ -609,7 +609,7 @@ void MainView::init_page_game_settings() {
             nvi(280),                               // VALUE_T                           y
             nvpww(win_attr, 100 - 2 * 15),          // VALUE_T                           w
             nvi(2),                                 // VALUE_T                           h
-            CREATE_VALUE_INT_T(2)                         // VALUE_T                           radius
+            nvi(2)                         // VALUE_T                           radius
         )
 
     );
@@ -821,6 +821,93 @@ void MainView::init_page_in_game() {
         nvi(20)                                 // VALUE_T                           h
     );
 
+
+    //
+    this->map_viewer->elts_end_game.push_back(
+
+        //
+        CREATE_WINDOW_ELT_RECT_T(
+            this->win_page_manager->default_style,                  // STYLE_T                           style
+            this->win_page_manager->default_style->base_fg_color,   // Color                             cl
+            nvpww(win_attr, 20),                                    // VALUE_T                           x
+            nvpwh(win_attr, 20),                                    // VALUE_T                           y
+            nvpww(win_attr, 60),                                    // VALUE_T                           w
+            nvpwh(win_attr, 60),                                    // VALUE_T                           h
+            nvi(15)                                                 // VALUE_T                           radius
+        )
+
+    );
+
+    //
+    this->map_viewer->elts_end_game.push_back(
+
+        //
+        CREATE_WINDOW_ELT_RECT_T(
+            this->win_page_manager->default_style,                  // STYLE_T                           style
+            this->win_page_manager->default_style->base_bg_color,   // Color                             cl
+            nvpww(win_attr, 20, 2),                                 // VALUE_T                           x
+            nvpwh(win_attr, 20, 2),                                 // VALUE_T                           y
+            nvpww(win_attr, 60, -4),                               // VALUE_T                           w
+            nvpwh(win_attr, 60, -4),                               // VALUE_T                           h
+            nvi(15)                                                 // VALUE_T                           radius
+        )
+
+    );
+
+    //
+    this->map_viewer->elts_end_game.push_back(
+
+        //
+        CREATE_WINDOW_ELT_TEXT_T(
+            this->win_page_manager->default_style,  // STYLE_T                          style
+            "Player 1 win !",                       // std::string                      txt
+            nvpww(win_attr, 33),                    // VALUE_T                          x
+            nvpwh(win_attr, 80, -120),              // VALUE_T                          y
+            nvpww(win_attr, 33),                    // VALUE_T                          w
+            nvi(50)                                 // VALUE_T                          h
+        )
+
+    );
+
+    //
+    this->map_viewer->elts_end_game.push_back(
+
+        //
+        CREATE_WINDOW_ELT_BUTTON_T(
+            this->win_page_manager->default_style,  // STYLE_T                          style
+            "Go Back to menu",                      // std::string                      text
+            nvpww(win_attr, 33),                    // VALUE_T                          x
+            nvpwh(win_attr, 80, -60),               // VALUE_T                          y
+            nvpww(win_attr, 33),                    // VALUE_T                          w
+            nvi(50),                                // VALUE_T                          h
+            on_bt_change_page_to_game_settings      // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
+        )
+
+    );
+
+    //
+    this->map_viewer->elts_end_game.push_back(
+
+        //
+        CREATE_WINDOW_ELT_SPRITE_T(
+            this->win_page_manager->default_style,  // STYLE_T           style,
+            "res/bgs/victory2.png",                 // std::string      img_path,
+            nvpww(win_attr, 25),                    // VALUE_T                          x
+            nvpwh(win_attr, 20, +15),               // VALUE_T                          y
+            nvpww(win_attr, 50),                    // VALUE_T                          w
+            nvpwh(win_attr, 45, -30),               // VALUE_T                          h
+            nvi(0),                                 // VALUE_T           angle               = nvi(0),
+            false,                                  // bool             flip_h              = false,
+            false,                                  // bool             flip_v              = false,
+            SPRITE_NO_CROP(),                       // SPRITE_CROP_T      sprite_crop         = SPRITE_NO_CROP(),
+            SPRITE_RATIO_ORIGINAL(),                // SPRITE_RATIO_T     sprite_ratio        = SPRITE_RATIO_ORIGINAL(),
+            SPRITE_RESIZE_FIT(),                    // SPRITE_RESIZE_T    sprite_resize       = SPRITE_RESIZE_KEEP_ORIGINAL(),
+            SPRITE_POS_ALIGN_CENTER(),              // SPRITE_POSITION_T  sprite_h_position   = SPRITE_POS_ALIGN_START(),
+            SPRITE_POS_ALIGN_CENTER()               // SPRITE_POSITION_T  sprite_v_position   = SPRITE_POS_ALIGN_START()
+        )
+
+    );
+
     //
     this->win_page_manager->pages["in_game"]->elts.push_back( this->map_viewer );
 
@@ -829,12 +916,12 @@ void MainView::init_page_in_game() {
 
         //
         CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // STYLE_T                           style
+            this->win_page_manager->default_style,  // STYLE_T                          style
             "Back",                                 // std::string                      text
-            nvi(15),                                // VALUE_T                           x
-            nvi(15),                                // VALUE_T                           y
-            nvi(100),                               // VALUE_T                           w
-            nvi(40),                                // VALUE_T                           h
+            nvi(15),                                // VALUE_T                          x
+            nvi(15),                                // VALUE_T                          y
+            nvi(100),                               // VALUE_T                          w
+            nvi(40),                                // VALUE_T                          h
             on_bt_change_page_to_game_settings      // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
@@ -979,6 +1066,15 @@ void MainView::init_page_in_game() {
         )
 
     );
+
+
+    //
+    for( WINDOW_ELT_T welt : this->map_viewer->elts_end_game ){
+
+        //
+        this->win_page_manager->pages["in_game"]->elts.push_back( welt );
+
+    }
 
 }
 

@@ -98,7 +98,10 @@ class MainGame{
 
         void reset_map();
 
-
         //
         void generate_random_map();
+
+        //
+        void test_end_game();
+
 };

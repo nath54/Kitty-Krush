@@ -204,6 +204,11 @@ void MainView::draw_rounded_rect(int x, int y, int w, int h, int r, Color color)
     //
     uint32_t hex_cl = color.to_hex();
 
+    //
+    if( 2 * r > h ){
+        r = h / 2;
+    }
+
     // Rounded corners
     filledCircleColor(this->sdl_renderer, x + r, y + r, r, hex_cl);
     filledCircleColor(this->sdl_renderer, x + w - r, y + r, r, hex_cl);
@@ -219,10 +224,13 @@ void MainView::draw_rounded_rect(int x, int y, int w, int h, int r, Color color)
 
 
 //
-void MainView::draw_button_1(int x, int y, int w, int h, std::string text, Color fg_cl, Color bg_cl, int fontSize, int r){
+void MainView::draw_button_1(int x, int y, int w, int h, std::string text, Color fg_cl, Color bg_cl, int fontSize, int r, int border){
 
     //
-    this->draw_rounded_rect(x, y, w, h, r, bg_cl);
+    this->draw_rounded_rect(x, y, w, h, r, fg_cl);
+
+    //
+    this->draw_rounded_rect(x+border, y+border, w-2*border, h-2*border, r, bg_cl);
 
     //
     if(text.size() > 0){
