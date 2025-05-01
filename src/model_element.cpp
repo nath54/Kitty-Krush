@@ -1,8 +1,8 @@
 # include "model_element.hpp"
 
 // >> Getters <<
-usint Element::_color() const { return this->color; }
-usint Element::_defense() const { return this->defense; }
+int Element::_color() const { return this->color; }
+int Element::_defense() const { return this->defense; }
 bool Element::is_bandit() const { return (this->color == 0); }
 
 // >> Unit <<

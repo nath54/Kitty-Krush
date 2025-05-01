@@ -14,8 +14,8 @@ class GameModel {
     private:
 
         Map* game_map = nullptr; // Map of the game
-        usint nb_players = 2; // Number of players
-        usint current_player = 1; // Current player color
+        int nb_players = 2; // Number of players
+        int current_player = 1; // Current player color
 
     public:
 
@@ -30,19 +30,19 @@ class GameModel {
 
         // Getters
         Map* _map();
-        usint _nb_players();
-        usint _current_player();
+        int _nb_players();
+        int _current_player();
 
         // Getters (undirect)
         int get_tile_color(Coord c);
-        usint get_tile_defense(Coord c);
+        int get_tile_defense(Coord c);
         ELEMENT_T get_tile_element(Coord c);
         PROVINCE_T get_tile_province(Coord c);
         PROVINCE_T get_province_at_coord(Coord c);
 
         // Setters
         void set_tile_color(Coord coord, int color);
-        void set_tile_element(Coord c, usint elt_level, bool is_unit, int element_attribute=0);
+        void set_tile_element(Coord c, int elt_level, bool is_unit, int element_attribute=0);
         void set_current_player(int new_player);
         void set_nb_players(int nb_players);
 

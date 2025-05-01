@@ -16,9 +16,9 @@ ELEMENT_T Tile::_element() const { return this->element; }
 
 
 // >> Other functions <<
-usint Tile::get_defense() const { return (this->element != nullptr) ? this->element->_defense() : 0; }
+int Tile::get_defense() const { return (this->element != nullptr) ? this->element->_defense() : 0; }
 
-void Tile::convert_color(usint new_color) { this->color = new_color; }
+void Tile::convert_color(int new_color) { this->color = new_color; }
 
 void Tile::set_element(ELEMENT_T e)
 {
@@ -36,7 +36,7 @@ void Tile::reset_element()
 
 // >> Getters <<
 
-usint Province::_color() const { return this->color; }
+int Province::_color() const { return this->color; }
 int Province::_treasury() const { return this->treasury; }
 std::map<Coord, TILE_T>* Province::_tiles() { return &(this->tiles_layer); }
 
@@ -59,7 +59,7 @@ std::list<BUILDING_T> Province::get_buildings()
 
 // >> Setters <<
 
-void Province::set_color(usint new_color) { this->color = new_color; }
+void Province::set_color(int new_color) { this->color = new_color; }
 void Province::set_treasury(int new_treasury) { this->treasury = new_treasury; };
 
 
@@ -121,7 +121,7 @@ bool Province::is_adjacent_to_coord(Coord c)
 
 // >> Getters <<
 
-usint Map::_size() const { return size; }
+int Map::_size() const { return size; }
 std::map<Coord, TILE_T>* Map::_tiles_layer() { return &(this->tiles_layer); }
 std::map<Coord, ELEMENT_T>* Map::_bandits_layer() { return &(this->bandits_layer); }
 std::vector<PROVINCE_T>* Map::_provinces_layer() { return &(this->provinces_layer); }
@@ -197,7 +197,7 @@ void Map::set_tile_color(Coord c, int color)
 }
 
 
-void Map::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attribute)
+void Map::set_tile_element(Coord c, int elt_level, bool is_unit, int elt_attribute)
 {
     TILE_T tile = this->get_tile(c);
 
@@ -261,13 +261,13 @@ void Map::recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVIN
 }
 
 
-void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
+void Map::init_map(int nb_players, int nb_prov, int size_prov, bool bandits)
 {
 
     // Initialize the random seed
     srand(static_cast<unsigned int>(time(0)));
-    usint seed_x = rand() % size;
-    usint seed_y = rand() % size;
+    int seed_x = rand() % size;
+    int seed_y = rand() % size;
     Coord seed(seed_x, seed_y);
 
     // Create the map NEUTRAL
@@ -275,8 +275,8 @@ void Map::init_map(usint nb_players, int nb_prov, int size_prov, bool bandits)
     recursive_fill(seed, (this->size*this->size/3), NEUTRAL, nullptr);
 
     // Add players' provinces
-    for (usint p=1; p<=nb_players; p++) {
-        for (usint n=0; n<=nb_prov; n++) {
+    for (int p=1; p<=nb_players; p++) {
+        for (int n=0; n<=nb_prov; n++) {
             // Get a random tile
             seed.x = rand() % size;
             seed.y = rand() % size;

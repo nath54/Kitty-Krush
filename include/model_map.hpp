@@ -35,7 +35,7 @@ class Tile {
     public:
 
         // Constructor
-        Tile(Coord tile_coord, usint tile_color=NEUTRAL, ELEMENT_T tile_element=nullptr)
+        Tile(Coord tile_coord, int tile_color=NEUTRAL, ELEMENT_T tile_element=nullptr)
             : coord(tile_coord), color(tile_color), element(tile_element) {};
         // Destructor
         ~Tile() {}; // Default destructor
@@ -46,8 +46,8 @@ class Tile {
         ELEMENT_T _element() const;
 
         // Other functions
-        usint get_defense() const;
-        void convert_color(usint new_color);
+        int get_defense() const;
+        void convert_color(int new_color);
         void set_element(ELEMENT_T element = nullptr);
         void reset_element();
 };
@@ -67,14 +67,14 @@ class Province {
 
     // Constructor
     Province() {}; // Default constructor
-    Province(usint c, int t=0, std::map<Coord, TILE_T> tiles=(std::map<Coord, TILE_T>){})
+    Province(int c, int t=0, std::map<Coord, TILE_T> tiles=(std::map<Coord, TILE_T>){})
             : color(c), treasury(t), tiles_layer(tiles) {};
     // Destructor
     ~Province() {}; // Default destructor
     // delete vectors but NOT their content
 
     // Getters
-    usint _color() const;
+    int _color() const;
     int _treasury() const;
     std::map<Coord, TILE_T>* _tiles();
 
@@ -82,7 +82,7 @@ class Province {
     std::list<BUILDING_T> get_buildings();
 
     // Setters
-    void set_color(usint new_color);
+    void set_color(int new_color);
     void set_treasury(int new_treasury);
 
     // Functions: tiles
@@ -107,7 +107,7 @@ class Map {
 
     private:
 
-        usint size = 100;
+        int size = 100;
         std::map<Coord, TILE_T> tiles_layer;
         std::map<Coord, ELEMENT_T> bandits_layer;
         std::vector<PROVINCE_T> provinces_layer;
@@ -117,12 +117,12 @@ class Map {
 
         // Constructor
         Map() {}; // Default constructor
-        Map(usint map_size) : size(map_size) {}
+        Map(int map_size) : size(map_size) {}
         // Destructor
         ~Map() {}; // Default destructor
 
         // Getters
-        usint _size() const;
+        int _size() const;
         std::map<Coord, TILE_T>* _tiles_layer();
         std::map<Coord, ELEMENT_T>* _bandits_layer();
         std::vector<PROVINCE_T>* _provinces_layer();
@@ -138,7 +138,7 @@ class Map {
         // Setters
         void set_tile(Coord c, TILE_T new_tile);
         void set_tile_color(Coord c, int color);
-        void set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attribute = 0);
+        void set_tile_element(Coord c, int elt_level, bool is_unit, int elt_attribute = 0);
 
         // Resetters
         void reset_tiles_layer();
@@ -147,7 +147,7 @@ class Map {
 
         // Initialization
         void recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVINCE_T p = nullptr);
-        void init_map(usint nb_players, int nb_provinces, int size_provinces, bool bandits);
+        void init_map(int nb_players, int nb_provinces, int size_provinces, bool bandits);
 
         // Provinces managment
         void add_province(PROVINCE_T p);

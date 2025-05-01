@@ -15,8 +15,8 @@
 // >> Getters <<
 
 Map* GameModel::_map() { return this->game_map; }
-usint GameModel::_nb_players() { return this->nb_players; }
-usint GameModel::_current_player() { return this->current_player; }
+int GameModel::_nb_players() { return this->nb_players; }
+int GameModel::_current_player() { return this->current_player; }
 
 
 // >> Getters (undirect) <<
@@ -25,12 +25,12 @@ int GameModel::get_tile_color(Coord c)
 { return (MAP_EXISTS) ? this->game_map->get_tile_color(c) : -1; }
 
 
-usint GameModel::get_tile_defense(Coord c)
+int GameModel::get_tile_defense(Coord c)
 {
     TILE_T tile = this->game_map->get_tile(c);
     if (tile == nullptr) { return 0; }
 
-    usint def_max = tile->get_defense();
+    int def_max = tile->get_defense();
 
     if (tile->_color() == NEUTRAL) { return def_max; } // No neighbours defense
 
@@ -72,7 +72,7 @@ PROVINCE_T GameModel::get_province_at_coord(Coord c)
 void GameModel::set_tile_color(Coord coord, int color)
 { if (MAP_EXISTS) this->game_map->set_tile_color(coord, color); }
 
-void GameModel::set_tile_element(Coord c, usint elt_level, bool is_unit, int elt_attribute)
+void GameModel::set_tile_element(Coord c, int elt_level, bool is_unit, int elt_attribute)
 { if (MAP_EXISTS) this->game_map->set_tile_element(c, elt_level, is_unit, elt_attribute); }
 
 void GameModel::set_current_player(int new_player)
@@ -121,7 +121,7 @@ void GameModel::at_player_turn_start()
 
 void GameModel::bandit_turn()
 {
-    usint nb_coins = 0;
+    int nb_coins = 0;
     bool some_bandits = false;
     std::vector<Coord> bandits = {};
     std::vector<Coord> bandit_camps = {};
@@ -170,12 +170,12 @@ void GameModel::bandit_turn()
         }
 
         if (colored_dest.size() > 0) {
-            usint id = rand() % colored_dest.size();
+            int id = rand() % colored_dest.size();
             this->game_map->move_bandit(c, colored_dest[id]);
         }
 
         else if (tile->_color() == NEUTRAL && dest.size() > 0) {
-            usint id = rand() % dest.size();
+            int id = rand() % dest.size();
             this->game_map->move_bandit(c, dest[id]);
         }
     }
@@ -191,7 +191,7 @@ void GameModel::bandit_turn()
         }
 
         if (n.size() > 0) {
-            usint id = rand() % n.size();
+            int id = rand() % n.size();
             this->game_map->create_bandit_element(n[id], false);
             bandit_camps.push_back(n[id]);
         }
@@ -221,11 +221,11 @@ void GameModel::bandit_turn()
             }
 
             if (colored_dest.size() > 0) {
-                usint id = rand() % colored_dest.size();
+                int id = rand() % colored_dest.size();
                 this->game_map->create_bandit_element(colored_dest[id], true);
             }
             else if (dest.size() > 0) {
-                usint id = rand() % dest.size();
+                int id = rand() % dest.size();
                 this->game_map->create_bandit_element(dest[id], true);
             }
 

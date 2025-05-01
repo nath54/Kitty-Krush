@@ -4,8 +4,6 @@
 
 #include "geometry.hpp"
 
-typedef unsigned short int usint;
-
 
 // =============================== [ Pointers ] ===============================
 
@@ -62,20 +60,20 @@ class Element {
     protected:
 
         int color;    // owner of the element
-        usint defense;  // level (= defense) of the element
+        int defense;  // level (= defense) of the element
 
     public:
 
         // Constructor
         Element () {}; // Default constructor
-        Element(usint element_color, usint element_defense = 0)
+        Element(int element_color, int element_defense = 0)
             : color(element_color), defense(element_defense) {};
         // Destructor
         virtual ~Element() {}; // Virtual destructor
 
         // Getters
-        usint _color() const;
-        usint _defense() const;
+        int _color() const;
+        int _defense() const;
 
         // Other functions
         bool is_bandit() const; // Return true if bandit, false otherwise
@@ -92,7 +90,7 @@ class Unit : public Element {
         bool can_move = true;
 
         // Constructor
-        Unit(usint unit_color, usint unit_defense = 1)
+        Unit(int unit_color, int unit_defense = 1)
             : Element(unit_color, unit_defense) {};
         // Destructor
         ~Unit() {}; // Default destructor
@@ -112,7 +110,7 @@ class Building : public Element {
         int treasury = 0;
 
         // Constructor
-        Building(usint building_color, usint building_defense = 1)
+        Building(int building_color, int building_defense = 1)
                 : Element(building_color, building_defense) {}
         // Destructor
         ~Building() {}; // Default destructor
