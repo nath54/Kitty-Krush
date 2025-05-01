@@ -43,6 +43,8 @@ class Coord {
 
 // === Utility functions ===
 
+int pos_mod_2(int x);
+
 bool is_point_in_rect(int px, int py, int rx, int ry, int rw, int rh);
 
 Coord get_tile_top_to(Coord v);

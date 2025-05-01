@@ -790,7 +790,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transfor
             //
             dep_x->value = - base_dec_x + tile_x * B;
             //
-            if (tile_x % 2 != 0){
+            if ( pos_mod_2(tile_x) != 0){
                 //
                 dep_y->value = - base_dec_y + A + tile_y * zoomed_H;
             }
@@ -827,7 +827,7 @@ void WindowEltMapViewer::draw_elt(MainView* main_view, DRAW_TRANSFORM_T transfor
             //
             dep_x->value = - base_dec_x + tile_x * B;
             //
-            if (tile_x % 2 != 0){
+            if ( pos_mod_2(tile_x) != 0){
                 //
                 dep_y->value = - base_dec_y + A + tile_y * zoomed_H;
             }
@@ -1248,7 +1248,7 @@ void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos){
     }
 
     //
-    if ( lx % 2 == 1){
+    if ( pos_mod_2(lx) == 1){
         ly += 1;
     }
 
@@ -1265,22 +1265,22 @@ void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos){
     Coord c1 = (Coord){lx, ly};
     coords.push_back( c1 );
     center_x.push_back( c1.x * B + half_W );
-    center_y.push_back( c1.y * zoomed_H + half_H + (c1.x % 2) * A );
+    center_y.push_back( c1.y * zoomed_H + half_H + pos_mod_2(c1.x) * A );
     //
     Coord c2 = (Coord){lx - 1, ly};
     coords.push_back( c2 );
     center_x.push_back( c2.x * B + half_W );
-    center_y.push_back( c2.y * zoomed_H + half_H + (c2.x % 2) * A );
+    center_y.push_back( c2.y * zoomed_H + half_H + pos_mod_2(c2.x) * A );
     //
     Coord c3 = (Coord){lx - 1, ly - 1};
     coords.push_back( c3 );
     center_x.push_back( c3.x * B + half_W );
-    center_y.push_back( c3.y * zoomed_H + half_H + (c3.x % 2) * A );
+    center_y.push_back( c3.y * zoomed_H + half_H + pos_mod_2(c3.x) * A );
     //
     Coord c4 = (Coord){lx, ly - 1};
     coords.push_back( c4 );
     center_x.push_back( c4.x * B + half_W );
-    center_y.push_back( c4.y * zoomed_H + half_H + (c4.x % 2) * A );
+    center_y.push_back( c4.y * zoomed_H + half_H + pos_mod_2(c4.x) * A );
 
     //
     for (int i = 0; i < 3; i++){
@@ -1550,6 +1550,11 @@ void on_map_viewer_click_map_creator(WINDOW_ELT_CLICKABLE_T map_viewer_elt, Main
 
         bool elt_type = map_viewer->map_creator_elt_id > 10;
         int elt_defense = map_viewer->map_creator_elt_id - 10 * (int) elt_type;
+
+        if( map_viewer->map_creator_elt_id == 00 ){
+            elt_type = false;
+            elt_defense = 1;
+        }
 
         //
 
