@@ -119,9 +119,8 @@ class WindowEltMapViewer;
 
 
 // Class MainView, manages the SDL environment & SDL Window
-class MainView{
+class MainView {
 
-    // Private attributes & functions
     public:
 
         //
@@ -237,10 +236,7 @@ class Value {
 
     public:
 
-        //
         virtual int get_value() = 0;
-
-
 };
 
 
