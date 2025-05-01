@@ -115,7 +115,7 @@ void MainGame::change_page(std::string new_page)
     //
     else if (new_page == "map_creator") {
 
-        for (int i = 6; i < 6 + 70 + 10 + 8; i++) {
+        for (int i = 7; i < 7 + 70 + 10 + 8; i++) {
 
             if (this->main_view->win_page_manager->pages["map_creator"]->elts.size() > i)
                 { this->main_view->win_page_manager->pages["map_creator"]->elts[i]->visible = false; }
@@ -430,4 +430,84 @@ void MainGame::reset_map()
     this->game_model->_map()->reset_tiles_layer();
     this->game_model->_map()->reset_provinces_layer();
     this->game_model->_map()->reset_bandits_layer();
+}
+
+
+void MainGame::generate_random_map(){
+
+    if(GAME_DOES_NOT_EXIST) { return; }
+
+    this->main_view->map_viewer->clear();
+    this->game_model->_map()->reset_tiles_layer();
+    this->game_model->_map()->reset_provinces_layer();
+    this->game_model->_map()->reset_bandits_layer();
+
+    /*
+        THEMES:
+            - 0:  green_grass && summer forest
+            - 1:  sand && deep_water
+            - 2:  snow && mountains
+    */
+    //
+    static const std::vector<std::vector<int>> neutral_tile = (std::vector<std::vector<int>>){
+        (std::vector<int>){ 10, 23, 26 },
+        (std::vector<int>){ 19, 28 },
+        (std::vector<int>){ 17, 24, 27 }
+    };
+    static const std::vector<std::vector<int>> negativ_tile = (std::vector<std::vector<int>>){
+        (std::vector<int>){ 40, 31 },
+        (std::vector<int>){ 0 },
+        (std::vector<int>){ 49 }
+    };
+    //
+    int theme = rand() % neutral_tile.size();
+
+    //
+    int nb_players = 1 + (rand() % 4);
+    //
+    int nb_provinces = nb_players * (1 + (rand() % 2));
+    //
+    int size_provinces = 2 + (rand() % 7);
+    //
+    bool bandits = (rand() % 2) == 0;
+
+    //
+    this->game_model->_map()->init_map(nb_players, nb_provinces, size_provinces, bandits);
+
+    //
+    for( std::pair<Coord, TILE_T> it : *(this->game_model->_map()->_tiles_layer()) ){
+
+        //
+        int tile_num = 10;
+
+        //
+        if( it.second->_color() >= 0 ){
+
+            if( rand() % 4 == 0 ){
+                tile_num = neutral_tile[theme][ (rand() % neutral_tile[theme].size() ) ];
+            }
+            else{
+                tile_num = neutral_tile[theme][0];
+            }
+
+
+        }
+        else{
+
+            if( rand() % 4 == 0 ){
+                tile_num = negativ_tile[theme][ (rand() % negativ_tile[theme].size() ) ];
+            }
+            else{
+                tile_num = negativ_tile[theme][0];
+            }
+
+        }
+
+        this->main_view->map_viewer->add_tile_to_tile_layer( it.first.x, it.first.y, tile_num );
+
+    }
+
+    //
+    this->main_view->map_viewer->complete_all_tile_layer_ground_base();
+
 }
