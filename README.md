@@ -8,7 +8,7 @@
 KItty Krush is a game inspired from **[konkr.io](https://www.konkr.io/)** (scholar project).
 You play your cat unities to conquer territories and defeat your opponents. Make your army stronger and improve your economy to achieve victory!
 
-**To run the game, use** `./build_and_run.sh`.
+**To run the game, use** `./build_and_run.sh`.  
 If you want to only build it, use `./build.sh`.
 
 ## Organization
