@@ -10,6 +10,7 @@
 #include "utils.hpp"
 
 #define GAME_DOES_NOT_EXIST (this->game_model == nullptr || this->main_view == nullptr || this->main_view->map_viewer == nullptr)
+#define MODEL this->game_model
 
 
 // Constructor of the MainGame class, initializes all the components
@@ -35,9 +36,9 @@ MainGame::~MainGame()
 // Mainloop
 void MainGame::mainloop()
 {
-    this->game_model->is_running = true;
+    MODEL->is_running = true;
 
-    while (this->game_model->is_running) {
+    while (MODEL->is_running) {
 
         this->main_view->at_frame_start();
 
@@ -92,9 +93,9 @@ void MainGame::change_page(std::string new_page)
     else if (new_page == "in_game") {
 
         this->main_view->map_viewer->clear();
-        this->game_model->reset_bandits_layer();
-        this->game_model->reset_provinces();
-        this->game_model->reset_tiles_layer();
+        MODEL->reset_bandits_layer();
+        MODEL->reset_provinces();
+        MODEL->reset_tiles_layer();
 
         if (this->crt_map_file == "") {
 
@@ -122,9 +123,9 @@ void MainGame::change_page(std::string new_page)
         }
 
         this->main_view->map_viewer->clear();
-        this->game_model->reset_bandits_layer();
-        this->game_model->reset_provinces();
-        this->game_model->reset_tiles_layer();
+        MODEL->reset_bandits_layer();
+        MODEL->reset_provinces();
+        MODEL->reset_tiles_layer();
 
         if (check_file_exists("maps/map_created.kkmap"))
             { this->change_to_in_game_page_with_map_file( "maps/map_created.kkmap" ); }
@@ -141,7 +142,7 @@ void MainGame::change_page(std::string new_page)
 }
 
 
-void MainGame::quit(){ this->game_model->is_running = false; }
+void MainGame::quit(){ MODEL->is_running = false; }
 
 
 void MainGame::update_detected_all_map_files()
@@ -166,17 +167,17 @@ void MainGame::update_detected_all_map_files()
 
 void MainGame::at_player_turn_start()
 {
-    if(GAME_DOES_NOT_EXIST) { return; }
+    if (GAME_DOES_NOT_EXIST) { return; }
 
     this->update_current_player_display();
 
     // TODO: maybe update here with the first province of the current player
     this->set_selected_province( nullptr );
 
-    if (!this->game_model->do_turn_start_map_loading)
-        { this->game_model->do_turn_start_map_loading = true; }
+    if (!MODEL->do_turn_start_map_loading)
+        { MODEL->do_turn_start_map_loading = true; }
     else
-        { this->game_model->at_player_turn_start(); }
+        { MODEL->at_player_turn_start(); }
 }
 
 
@@ -187,9 +188,9 @@ void MainGame::update_current_player_display()
 {
     if (GAME_DOES_NOT_EXIST) { return; }
 
-    this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[this->game_model->_current_player() - 1];
+    this->main_view->map_viewer->rect_current_player->cl = allPlayerColors[MODEL->_current_player() - 1];
 
-    this->main_view->map_viewer->txt_current_player->txt = "Player " + std::to_string( this->game_model->_current_player() );
+    this->main_view->map_viewer->txt_current_player->txt = "Player " + std::to_string(MODEL->_current_player());
 }
 
 
@@ -245,7 +246,7 @@ void MainGame::update_selected_province(Coord src)
 {
     if(GAME_DOES_NOT_EXIST) { return; }
 
-    PROVINCE_T new_province = this->game_model->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
+    PROVINCE_T new_province = MODEL->get_province_at_coord( this->main_view->map_viewer->mouse_hover_tile );
 
     if( new_province == nullptr ){ return; }
 
@@ -263,9 +264,9 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
 
     if (new_entity) {
 
-        for (PROVINCE_T p : *( this->game_model->_map()->_provinces_layer())) {
+        for (PROVINCE_T p : *( MODEL->_map()->_provinces_layer())) {
 
-            if (p->_color() != this->game_model->_current_player()) { continue; }
+            if (p->_color() != MODEL->_current_player()) { continue; }
 
             for (std::pair<const Coord, TILE_T> it : *(p->_tiles())) {
 
@@ -283,7 +284,7 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
 
             Coord current_dst = *it; // Dereference the iterator to get the current element
 
-            if (!(this->game_model->check_action_new_element(current_dst, new_entity_level, new_entity_type)))
+            if (!(MODEL->check_action_new_element(current_dst, new_entity_level, new_entity_type)))
                 // Erase the current element and get a valid iterator to the next element
                 { it = this->main_view->map_viewer->can_go_here_tiles.erase(it); }
 
@@ -294,7 +295,7 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
     //
     else {
 
-        PROVINCE_T p = this->game_model->get_province_at_coord( src );
+        PROVINCE_T p = MODEL->get_province_at_coord( src );
 
         if (p == nullptr) { return; }
 
@@ -313,7 +314,7 @@ void MainGame::update_where_entity_can_move(Coord src, bool new_entity, bool res
 
             Coord current_dst = *it; // Dereference the iterator to get the current element
 
-            if (!(this->game_model->check_action_move_unit(src, current_dst)))
+            if (!(MODEL->check_action_move_unit(src, current_dst)))
                 // Erase the current element and get a valid iterator to the next element
                 { it = this->main_view->map_viewer->can_go_here_tiles.erase(it); }
             //
@@ -330,24 +331,24 @@ void MainGame::action_move_entity(Coord src, Coord dst)
 
     if (GAME_DOES_NOT_EXIST) { return; }
 
-    if (!this->game_model->check_action_move_unit(src, dst)) { return; }
+    if (!MODEL->check_action_move_unit(src, dst)) { return; }
 
-    PROVINCE_T old_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T old_prov_dst = MODEL->get_province_at_coord(dst);
 
-    this->game_model->do_action_move_unit(src, dst);
+    MODEL->do_action_move_unit(src, dst);
 
-    PROVINCE_T new_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T new_prov_dst = MODEL->get_province_at_coord(dst);
 
-    this->game_model->_map()->remove_tile_from_all_prov(dst);
+    MODEL->_map()->remove_tile_from_all_prov(dst);
 
-    new_prov_dst->add_tile(this->game_model->_map()->get_tile(dst));
+    new_prov_dst->add_tile(MODEL->_map()->get_tile(dst));
 
     if( old_prov_dst != nullptr && old_prov_dst != new_prov_dst)
-        { this->game_model->_map()->split_province(dst, old_prov_dst); }
+        { MODEL->_map()->split_province(dst, old_prov_dst); }
 
     // Check for provinces to remove
 
-    std::list<PROVINCE_T>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
+    std::list<PROVINCE_T>* provinces_to_remove = MODEL->_map()->_provinces_to_remove();
     //
     while (provinces_to_remove->size() > 0) {
 
@@ -369,18 +370,18 @@ void MainGame::action_new_entity(Coord dst, int level, bool type)
 {
     if (GAME_DOES_NOT_EXIST) { return; }
 
-    if (!this->game_model->check_action_new_element(dst, level, type)) { return; }
+    if (!MODEL->check_action_new_element(dst, level, type)) { return; }
 
-    PROVINCE_T prev_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T prev_prov_dst = MODEL->get_province_at_coord(dst);
 
-    this->game_model->do_action_new_element(dst, level, type);
+    MODEL->do_action_new_element(dst, level, type);
 
-    PROVINCE_T new_prov_dst = this->game_model->get_province_at_coord(dst);
+    PROVINCE_T new_prov_dst = MODEL->get_province_at_coord(dst);
 
     if( prev_prov_dst != nullptr && prev_prov_dst != new_prov_dst)
-        { this->game_model->_map()->split_province( dst, prev_prov_dst ); }
+        { MODEL->_map()->split_province( dst, prev_prov_dst ); }
 
-    std::list<PROVINCE_T>* provinces_to_remove = this->game_model->_map()->_provinces_to_remove();
+    std::list<PROVINCE_T>* provinces_to_remove = MODEL->_map()->_provinces_to_remove();
 
     while (provinces_to_remove->size() > 0) {
 
@@ -402,15 +403,15 @@ void MainGame::action_end_turn()
 {
     if (GAME_DOES_NOT_EXIST) { return; }
 
-    if (!this->game_model->check_action_end_turn()) { return; }
+    if (!MODEL->check_action_end_turn()) { return; }
 
-    int crt_color = this->game_model->_current_player();
+    int crt_color = MODEL->_current_player();
 
     this->at_player_turn_end();
 
-    this->game_model->do_action_end_turn();
+    MODEL->do_action_end_turn();
 
-    if (this->game_model->_current_player() <= crt_color) { this->bandit_turn(); }
+    if (MODEL->_current_player() <= crt_color) { this->bandit_turn(); }
 
     this->at_player_turn_start();
 }
@@ -419,7 +420,7 @@ void MainGame::action_end_turn()
 void MainGame::bandit_turn()
 {
     if(GAME_DOES_NOT_EXIST) { return; }
-    this->game_model->bandit_turn();
+    MODEL->bandit_turn();
 }
 
 
@@ -427,9 +428,9 @@ void MainGame::reset_map()
 {
     if(GAME_DOES_NOT_EXIST) { return; }
 
-    this->game_model->_map()->reset_tiles_layer();
-    this->game_model->_map()->reset_provinces_layer();
-    this->game_model->_map()->reset_bandits_layer();
+    MODEL->_map()->reset_tiles_layer();
+    MODEL->_map()->reset_provinces_layer();
+    MODEL->_map()->reset_bandits_layer();
 }
 
 
@@ -438,9 +439,9 @@ void MainGame::generate_random_map(){
     if(GAME_DOES_NOT_EXIST) { return; }
 
     this->main_view->map_viewer->clear();
-    this->game_model->_map()->reset_tiles_layer();
-    this->game_model->_map()->reset_provinces_layer();
-    this->game_model->_map()->reset_bandits_layer();
+    MODEL->_map()->reset_tiles_layer();
+    MODEL->_map()->reset_provinces_layer();
+    MODEL->_map()->reset_bandits_layer();
 
     /*
         THEMES:
@@ -472,10 +473,10 @@ void MainGame::generate_random_map(){
     bool bandits = (rand() % 2) == 0;
 
     //
-    this->game_model->_map()->init_map(nb_players, nb_provinces, size_provinces, bandits);
+    MODEL->_map()->init_map(nb_players, nb_provinces, size_provinces, bandits);
 
     //
-    for( std::pair<Coord, TILE_T> it : *(this->game_model->_map()->_tiles_layer()) ){
+    for( std::pair<Coord, TILE_T> it : *(MODEL->_map()->_tiles_layer()) ){
 
         //
         int tile_num = 10;
