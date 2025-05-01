@@ -408,14 +408,26 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
     if (tile->_element() != nullptr) {
 
         UNIT_T dst_unit = DCAST_UNIT_T(tile->_element());
-        if (dst_unit == nullptr) { return false; } // building
 
-        // If it is an unit of the same color
-        if (dst_unit->_color() == this->current_player) {
-            if (dst_unit->_defense() == MAX_UNIT_LEVEL) { return false; }
-            return (dst_unit->_defense() == elt_level);
+        if( dst_unit != nullptr ){
+
+            // If it is an unit of the same color
+            if (dst_unit->_color() == this->current_player) {
+
+                //
+                if (dst_unit->_defense() == MAX_UNIT_LEVEL) { return false; }
+                return (dst_unit->_defense() == elt_level);
+            }
+            else if (dst_unit->_defense() >= elt_level) { return false; }
+
         }
-        else if (dst_unit->_defense() >= elt_level) { return false; }
+
+        BUILDING_T dst_building = DCAST_BUILDING_T(tile->_element());
+
+        if( dst_building != nullptr && dst_building->_color() == this->current_player ){
+            return false;
+        }
+
     }
 
     if (dst_prov->_color() == this->current_player)
@@ -426,6 +438,8 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
 
     // If the current unit to move has an higher defense than the destination tile, he can go there
     return (elt_level > this->get_tile_defense(c));
+
+
 }
 
 
