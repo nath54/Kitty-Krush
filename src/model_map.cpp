@@ -266,8 +266,8 @@ void Map::init_map(int nb_players, int nb_prov, int size_prov, bool bandits)
 
     // Initialize the random seed
     srand(static_cast<unsigned int>(time(0)));
-    int seed_x = rand() % size;
-    int seed_y = rand() % size;
+    int seed_x = rand() % this->size;
+    int seed_y = rand() % this->size;
     Coord seed(seed_x, seed_y);
 
     // Create the map NEUTRAL
@@ -278,24 +278,24 @@ void Map::init_map(int nb_players, int nb_prov, int size_prov, bool bandits)
     for (int p=1; p<=nb_players; p++) {
         for (int n=0; n<=nb_prov; n++) {
             // Get a random tile
-            seed.x = rand() % size;
-            seed.y = rand() % size;
+            seed.x = rand() % this->size;
+            seed.y = rand() % this->size;
 
             while (tiles_layer.count(seed) == 0
                     || tiles_layer[seed]->_color() != NEUTRAL)
-                { seed.x = rand() % size; seed.y = rand() % size; }
+                { seed.x = rand() % this->size; seed.y = rand() % this->size; }
 
             recursive_fill(seed, size_prov, p, nullptr);
         }
     }
 
     if (bandits) {
-        seed.x = rand() % size;
-        seed.y = rand() % size;
+        seed.x = rand() % this->size;
+        seed.y = rand() % this->size;
 
         while (tiles_layer.count(seed) == 0
                 || tiles_layer[seed]->_color() != NEUTRAL)
-            { seed.x = rand() % size; seed.y = rand() % size; }
+            { seed.x = rand() % this->size; seed.y = rand() % this->size; }
 
         tiles_layer[seed]->set_element(CREATE_BUILDING_T(NEUTRAL));
         DCAST_BUILDING_T(tiles_layer[seed]->_element())->update_treasury(3);
@@ -303,7 +303,7 @@ void Map::init_map(int nb_players, int nb_prov, int size_prov, bool bandits)
 
         while (tiles_layer.count(seed) == 0
                 || tiles_layer[seed]->get_defense() != 0)
-            { seed.x = rand() % size; seed.y = rand() % size; }
+            { seed.x = rand() % this->size; seed.y = rand() % this->size; }
 
         tiles_layer[seed]->set_element(CREATE_UNIT_T(NEUTRAL, 0));
         bandits_layer[seed] = tiles_layer[seed]->_element();
