@@ -255,8 +255,8 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
     // Get the unit to move
     UNIT_T unit_to_move = DCAST_UNIT_T(src_tile->_element());
     if (unit_to_move == nullptr) { return false; } // building or nullptr
+    if (unit_to_move->is_bandit()) { return false; } // bandit
     if (!(unit_to_move->can_move)) { return false; } // already moved this turn
-    if (unit_to_move->_defense() == 0) { return false; } // bandit
     if (unit_to_move->_color() != this->current_player) { return false; } // bandit
 
 
@@ -379,6 +379,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
         TILE_T tile = this->game_map->get_tile(v);
         if (tile == nullptr) { continue; }
         if (tile->_color() != src_prov->_color()) { continue; }
+
         PROVINCE_T prov = this->game_map->get_province(v);
 
         if (prov == nullptr) {
@@ -386,10 +387,10 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
             std::vector<Coord> n2 = neighbours(tile->_coord());
             n.insert(n.end(), n2.begin(), n2.end());
         }
-
+        //
         else if (prov != src_prov)
             { this->game_map->fusion_provinces(src_prov, prov); }
-
+        //
         else { continue; }
     }
 
