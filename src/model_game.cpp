@@ -360,6 +360,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
         { this->game_map->delete_bandit_element(dst); }
 
     if (unit_at_dst != nullptr && !unit_at_dst->is_bandit()) {
+        
         bool is_protected = false;
         std::vector<Coord> possible_tiles;
         std::vector<Coord> defended_tiles;
@@ -369,10 +370,10 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
             TILE_T tile1 = this->game_map->get_tile(n);
 
             if (tile1 == nullptr) { continue; }
-            if (tile1->_color() != tile1->_color()) { continue; }
+            if (tile1->_color() != unit_at_dst->_color()) { continue; }
             if (tile1->_element() != nullptr) {
                 BUILDING_T b = DCAST_BUILDING_T(tile1->_element());
-                if (b != nullptr && b->_color() == this->current_player)
+                if (b != nullptr && b->_color() == unit_at_dst->_color())
                 { is_protected = true; }
                 continue;
             }
@@ -384,13 +385,14 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
                 TILE_T tile2 = this->game_map->get_tile(v);
 
                 if (tile2 == nullptr) { continue; }
-                if (tile2->_color() != dst_tile->_color()) { continue; }
+                if (tile2->_color() != unit_at_dst->_color()) { continue; }
                 if (tile2->_element() == nullptr) { continue; }
 
                 ELEMENT_T b = DCAST_BUILDING_T(tile2->_element());
                 if (b == nullptr) { continue; }
 
                 defended_tiles.push_back(n);
+                break;
             }
         }
 
@@ -592,10 +594,10 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
             TILE_T tile1 = this->game_map->get_tile(n);
 
             if (tile1 == nullptr) { continue; }
-            if (tile1->_color() != tile1->_color()) { continue; }
+            if (tile1->_color() != unit_at_coord->_color()) { continue; }
             if (tile1->_element() != nullptr) {
                 BUILDING_T b = DCAST_BUILDING_T(tile1->_element());
-                if (b != nullptr && b->_color() == this->current_player)
+                if (b != nullptr && b->_color() == unit_at_coord->_color())
                 { is_protected = true; }
                 continue;
             }
@@ -607,13 +609,14 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
                 TILE_T tile2 = this->game_map->get_tile(v);
 
                 if (tile2 == nullptr) { continue; }
-                if (tile2->_color() != tile->_color()) { continue; }
+                if (tile2->_color() != unit_at_coord->_color()) { continue; }
                 if (tile2->_element() == nullptr) { continue; }
 
                 ELEMENT_T b = DCAST_BUILDING_T(tile2->_element());
                 if (b == nullptr) { continue; }
 
                 defended_tiles.push_back(n);
+                break;
             }
         }
 
