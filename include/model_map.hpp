@@ -49,7 +49,6 @@ class Tile {
         int get_defense() const;
         void convert_color(int new_color);
         void set_element(ELEMENT_T element = nullptr);
-        void reset_element();
 };
 
 
