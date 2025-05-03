@@ -390,16 +390,17 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
 
 void Map::remove_province(PROVINCE_T p)
 {
-    // Add lost units/buildings to bandits layer
-    for (std::pair<Coord, TILE_T> it : *(p->_tiles())) {
-        if (it.second->_element() != nullptr && it.second->_color() == p->_color())
-            { this->_bandits_layer()->insert( {it.first, it.second->_element()} ); }
-    }
 
     this->provinces_layer.erase(
         std::remove(this->provinces_layer.begin(), this->provinces_layer.end(), p),
         this->provinces_layer.end()
     );
+
+    // Add lost units/buildings to bandits layer
+    for (std::pair<Coord, TILE_T> it : *(p->_tiles())) {
+        if (it.second->_element() != nullptr && it.second->_color() == p->_color() && this->get_province(it.first) == nullptr)
+            { this->_bandits_layer()->insert( {it.first, it.second->_element()} ); }
+    }
 
     this->_provinces_to_remove()->push_back(p);
 }
