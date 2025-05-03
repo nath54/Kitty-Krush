@@ -92,8 +92,7 @@ class Province {
     // Functions: treasury
     int expected_income();
     void treasury_turn();
-    void add_treasury(int amount);
-    void remove_treasury(int amount);
+    void update_treasury(int amount);
 
     // Other functions
     bool is_adjacent_to_coord(Coord c);

@@ -344,10 +344,15 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 
     // adverse/bandit town
     if (DCAST_BUILDING_T(dst_tile->_element()) != nullptr) {
+
         if (dst_tile->_element()->is_bandit())
-            { src_prov->add_treasury(DCAST_BUILDING_T(dst_tile->_element())->treasury); }
-        else
-            { src_prov->add_treasury(dst_prov->_treasury()); }
+            { src_prov->update_treasury(DCAST_BUILDING_T(dst_tile->_element())->treasury); }
+        //
+        else {
+            int towns = count_towns_in_province(dst_prov);
+            src_prov->update_treasury((int) ((float)dst_prov->_treasury() / (float)towns));
+            dst_prov->update_treasury(- (int) ((float)dst_prov->_treasury() / (float)towns));
+        }
             // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse + copier dans new_unit
     }
 
@@ -545,7 +550,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
         else
             { tile->set_element(CREATE_BUILDING_T(this->current_player, elt_level)); }
 
-        src_prov->remove_treasury(unit_cost);
+        src_prov->update_treasury(-unit_cost);
 
         return;
     }
@@ -553,9 +558,9 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     // adverse/bandit town
     if (DCAST_BUILDING_T(tile->_element()) != nullptr) {
         if (tile->_element()->is_bandit())
-            { src_prov->add_treasury(DCAST_BUILDING_T(tile->_element())->treasury); }
+            { src_prov->update_treasury(DCAST_BUILDING_T(tile->_element())->treasury); }
         else
-            { src_prov->add_treasury(dst_prov->_treasury()); }
+            { src_prov->update_treasury(dst_prov->_treasury()); }
             // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse + copier dans move_unit
     }
 
@@ -615,7 +620,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
     this->game_map->remove_tile_from_all_prov(c);
     src_prov->add_tile(tile);
-    src_prov->remove_treasury(unit_cost);
+    src_prov->update_treasury(-unit_cost);
 
     // Look for same color tiles connexion
     std::vector<Coord> n = neighbours(c);

@@ -91,9 +91,7 @@ int Province::expected_income()
 void Province::treasury_turn() { this->treasury += this->expected_income(); }
 
 
-void Province::add_treasury(int amount) { this->treasury += amount; }
-
-void Province::remove_treasury(int amount) { this->treasury -= amount; }
+void Province::update_treasury(int amount) { this->treasury += amount; }
 
 
 // >> Other functions <<
@@ -413,7 +411,7 @@ void Map::fusion_provinces(PROVINCE_T p1, PROVINCE_T p2)
     if (p1->_color() != p2->_color()) { return; }
 
     for (auto& t : *(p2->_tiles())) { p1->add_tile(t.second); }
-    p1->add_treasury(p2->_treasury());
+    p1->update_treasury(p2->_treasury());
     remove_province(p2);
     // delete p2;
 }
