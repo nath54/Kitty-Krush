@@ -303,8 +303,10 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
 
     }
 
-    if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
-        { return true; } // Same province no defense
+    // if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
+    //    { return true; } // Same province no defense
+    //
+    if (dst_tile->_color() == this->current_player) { return true; }
 
     // If the source unit is an hero, he can go anywhere
     if (unit_to_move->_defense() == MAX_UNIT_LEVEL) { return true; }
@@ -459,7 +461,7 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
         }
     }
 
-    // Same province no defense
+    //
     if (tile->_color() == this->current_player) { return true; }
 
     // If the source unit is an hero, he can go anywhere
