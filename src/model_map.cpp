@@ -390,6 +390,9 @@ void Map::add_province_from_list_of_tiles(std::list<Coord> tiles_list, int color
 
 void Map::remove_province(PROVINCE_T p)
 {
+
+    // TODO: aaaaaaaa
+
     this->provinces_layer.erase(
         std::remove(this->provinces_layer.begin(), this->provinces_layer.end(), p),
         this->provinces_layer.end()
@@ -637,3 +640,25 @@ void Map::delete_bandit_element(Coord c)
 }
 
 
+bool count_towns_in_province(PROVINCE_T p){
+
+    //
+    int nb_towns = 0;
+
+    //
+    for( std::pair<Coord, TILE_T> it : *(p->_tiles()) ){
+
+        //
+        BUILDING_T b = DCAST_BUILDING_T(it.second->_element());
+
+        //
+        if( b != nullptr && b->is_town() ){
+            nb_towns++;
+        }
+
+    }
+
+    //
+    return nb_towns;
+
+}

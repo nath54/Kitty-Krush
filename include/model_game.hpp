@@ -64,6 +64,8 @@ class GameModel {
         //
         bool check_action_end_turn();
         void do_action_end_turn();
+        //
+        void remove_all_empty_provinces();
 
         // Other functions
         std::map<Coord, Color> calculate_all_provinces_after_map_initialisation();

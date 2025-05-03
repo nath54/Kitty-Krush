@@ -163,3 +163,8 @@ class Map {
         void move_bandit(Coord src, Coord dst);
         void delete_bandit_element(Coord c);
 };
+
+
+//
+bool count_towns_in_province(PROVINCE_T p);
+

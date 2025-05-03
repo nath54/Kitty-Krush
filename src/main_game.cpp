@@ -362,6 +362,9 @@ void MainGame::action_move_entity(Coord src, Coord dst)
             { this->main_view->map_viewer->selected_province = nullptr; }
     }
 
+    //
+    MODEL->remove_all_empty_provinces();
+
     this->update_selected_province(dst);
 }
 
@@ -391,6 +394,9 @@ void MainGame::action_new_entity(Coord dst, int level, bool type)
         if (this->main_view->map_viewer->selected_province == province)
             { this->main_view->map_viewer->selected_province = nullptr; }
     }
+
+    //
+    MODEL->remove_all_empty_provinces();
 
     this->update_selected_province(dst);
 }
