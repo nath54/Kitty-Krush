@@ -316,7 +316,6 @@ void on_bt_map_creator_generate(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game,
 
 }
 
-
 //
 void on_bt_map_creator_tile(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
 
