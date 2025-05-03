@@ -329,7 +329,6 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
     // Okay, so now, the map is filled with 0
     // It is time to add provinces & units (no developed yet)
 
-    /*
     for(int num_prov = 0; num_prov < nb_prov; num_prov++){
 
         //
@@ -353,10 +352,84 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         // Remove from the container
         available_tiles_without_province.erase(it);
 
-        // ... No developed
+        //
+        std::set<Coord> crt_province_tiles;
+
+        // Create the province and create the town
+        this->set_tile_color(c, color_prov);
+        this->set_tile_element(c, 1, false);
+        crt_province_tiles.insert( c );
+
+        //
+        // -- Fill the province with tiles --
+        //
+        for(int num_tile_prov = 0; num_tile_prov < size_prov; num_tile_prov++){
+
+            tiles_to_pick.clear();
+            //
+            int tot_weights = 0;
+
+            // Getting all the neighbours of tiles of current_province
+            for(Coord crt_tile : crt_province_tiles){
+
+                //
+                for(Coord v : neighbours(crt_tile) ){
+
+                    //
+                    if( crt_province_tiles.count(v) ){ continue; }
+
+                    //
+                    tot_weights += 1;
+                    if( tiles_to_pick.count(v) ){
+                        tiles_to_pick[v] += 1;
+                    }
+                    else{
+                        tiles_to_pick[v] = 1;
+                    }
+
+                }
+
+            }
+
+            //
+            Coord coord_to_select = (Coord){-1000, -1000};
+
+            // Picking one of the neighbours, with weight on the number of neighbours
+            if (tot_weights > 0) {
+                choice = randi(0, tot_weights);
+            } else {
+                // Handle the case where there are no available neighbours to pick
+                // This might mean the map generation is stuck or complete for this phase
+                break;
+            }
+            //
+            int crt_choice = 0;
+            //
+            for(std::pair<Coord, int> it : tiles_to_pick ){
+                //
+                if( coord_to_select.x == -1000 ){
+                    coord_to_select = it.first;
+                }
+                //
+                crt_choice += it.second;
+                //
+                if( choice <= crt_choice ){
+                    coord_to_select = it.first;
+                    break;
+                }
+            }
+
+            // If there are no more available tiles
+            if( coord_to_select.x == -1000 ){
+                break;
+            }
+
+            //
+            crt_province_tiles.insert( coord_to_select );
+            this->set_tile_color(coord_to_select, color_prov);
+        }
 
     }
-    */
 
 }
 
