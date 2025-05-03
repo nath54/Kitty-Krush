@@ -348,12 +348,11 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
         if (dst_tile->_element()->is_bandit())
             { src_prov->update_treasury(DCAST_BUILDING_T(dst_tile->_element())->treasury); }
         //
-        else {
+        else if (dst_prov != nullptr) {
             int towns = count_towns_in_province(dst_prov);
             src_prov->update_treasury((int) ((float)dst_prov->_treasury() / (float)towns));
             dst_prov->update_treasury(- (int) ((float)dst_prov->_treasury() / (float)towns));
         }
-            // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse + copier dans new_unit
     }
 
     // delete bandit element
@@ -559,9 +558,12 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     if (DCAST_BUILDING_T(tile->_element()) != nullptr) {
         if (tile->_element()->is_bandit())
             { src_prov->update_treasury(DCAST_BUILDING_T(tile->_element())->treasury); }
-        else
-            { src_prov->update_treasury(dst_prov->_treasury()); }
-            // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse + copier dans move_unit
+        //
+        else if (dst_prov != nullptr) {
+            int towns = count_towns_in_province(dst_prov);
+            src_prov->update_treasury((int) ((float)dst_prov->_treasury() / (float)towns));
+            dst_prov->update_treasury(- (int) ((float)dst_prov->_treasury() / (float)towns));
+        }
     }
 
     // delete bandit element
