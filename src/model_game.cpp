@@ -257,6 +257,8 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
     if (unit_to_move == nullptr) { return false; } // building or nullptr
     if (!(unit_to_move->can_move)) { return false; } // already moved this turn
     if (unit_to_move->_defense() == 0) { return false; } // bandit
+    if (unit_to_move->_color() != this->current_player) { return false; } // bandit
+
 
     PROVINCE_T src_prov = this->game_map->get_province(src);
     PROVINCE_T dst_prov = this->game_map->get_province(dst);
@@ -267,19 +269,42 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
     // Check if the movement is adjacent to the province
     if (!(this->game_map->adjacent_to_province(dst, src_prov))) { return false; }
 
-    if (dst_prov != nullptr && dst_prov->_color() == src_prov->_color()) {
+    // Check if there is an unit in the tile destination
+    if (dst_tile->_element() != nullptr) {
 
-        if (dst_tile->_element() == nullptr) { return true; }
-
-        // Get the unit at destination tile
+        // Check for unit
         UNIT_T dst_unit = DCAST_UNIT_T(dst_tile->_element());
-        if (dst_unit == nullptr) { return false; } // building, can't move
-        if (dst_unit->is_bandit()) { return true; } // bandit, can move
 
-        // If the destination unit hasn't the same level than the unit to move (no fusion of units to unit of higher level)
-        if (dst_unit->_defense() == MAX_UNIT_LEVEL) { return false; }
-        return (unit_to_move->_defense() == dst_unit->_defense());
+        // If there is an unit
+        if( dst_unit != nullptr ){
+
+            // If it is an unit of the same color
+            if (dst_unit->_color() == this->current_player) {
+
+                // No fusion with units of the same color
+                if (dst_unit->_defense() == MAX_UNIT_LEVEL) { return false; }
+
+                // Okay
+                return (dst_unit->_defense() == unit_to_move->_defense());
+            }
+
+            // If not unit of the same color, and we directly know that the movement is impossible
+            else if (dst_unit->_defense() >= unit_to_move->_defense()) { return false; }
+
+        }
+
+        // check for building
+        BUILDING_T dst_building = DCAST_BUILDING_T(dst_tile->_element());
+
+        // If there is a building, test if the building is the same color of current player
+        if( dst_building != nullptr && dst_building->_color() == this->current_player ){
+            return false;
+        }
+
     }
+
+    if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
+        { return true; } // Same province no defense
 
     // If the source unit is an hero, he can go anywhere
     if (unit_to_move->_defense() == MAX_UNIT_LEVEL) { return true; }
@@ -407,30 +432,38 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
     // Check if there is an unit in the tile destination
     if (tile->_element() != nullptr) {
 
+        // Check for unit
         UNIT_T dst_unit = DCAST_UNIT_T(tile->_element());
 
+        // If there is an unit
         if( dst_unit != nullptr ){
 
             // If it is an unit of the same color
             if (dst_unit->_color() == this->current_player) {
 
-                //
+                // No fusion with units of the same color
                 if (dst_unit->_defense() == MAX_UNIT_LEVEL) { return false; }
+
+                // Okay
                 return (dst_unit->_defense() == elt_level);
             }
+
+            // If not unit of the same color, and we directly know that the movement is impossible
             else if (dst_unit->_defense() >= elt_level) { return false; }
 
         }
 
+        // check for building
         BUILDING_T dst_building = DCAST_BUILDING_T(tile->_element());
 
+        // If there is a building, test if the building is the same color of current player
         if( dst_building != nullptr && dst_building->_color() == this->current_player ){
             return false;
         }
 
     }
 
-    if (dst_prov->_color() == this->current_player)
+    if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
         { return true; } // Same province no defense
 
     // If the source unit is an hero, he can go anywhere
