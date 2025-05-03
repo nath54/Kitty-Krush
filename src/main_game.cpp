@@ -169,14 +169,11 @@ void MainGame::at_player_turn_start()
 {
     if (GAME_DOES_NOT_EXIST) { return; }
 
-    //
     this->test_end_game();
 
-    //
     this->update_current_player_display();
 
-    // TODO: maybe update here with the first province of the current player
-    this->set_selected_province( nullptr );
+    this->set_selected_province(nullptr);
 
     if (!MODEL->do_turn_start_map_loading)
         { MODEL->do_turn_start_map_loading = true; }
@@ -361,9 +358,6 @@ void MainGame::action_move_entity(Coord src, Coord dst)
 
         if (this->main_view->map_viewer->selected_province == province)
             { this->main_view->map_viewer->selected_province = nullptr; }
-
-        // ! TODO: manage the memory correctly ! Because some pointers are lost !
-        // delete province;
     }
 
     this->update_selected_province(dst);
@@ -394,9 +388,6 @@ void MainGame::action_new_entity(Coord dst, int level, bool type)
 
         if (this->main_view->map_viewer->selected_province == province)
             { this->main_view->map_viewer->selected_province = nullptr; }
-
-        // ! TODO: manage the memory correctly ! Because some pointers are lost !
-        // delete province;
     }
 
     this->update_selected_province(dst);

@@ -1,4 +1,3 @@
-//
 #include <queue>
 #include <map>
 #include <vector>
@@ -12,8 +11,6 @@
 #include <random>
 
 
-
-
 // MAP TILE
 
 
@@ -21,13 +18,7 @@
 WindowEltMapTile::WindowEltMapTile(int tile, STYLE_T style, VALUE_T x, VALUE_T y, VALUE_T w, VALUE_T h)
 : WindowElt(style, x, y, w, h), tile(tile)
 {
-    //
-    if ( tile < 0 || tile > 69 ){
-
-        //
-        return;
-
-    }
+    if (tile < 0 || tile > 69) { return; }
 
     //
     std::string img_path;
@@ -37,19 +28,11 @@ WindowEltMapTile::WindowEltMapTile(int tile, STYLE_T style, VALUE_T x, VALUE_T y
     this->ground_top_layer = nullptr;
 
     //
-    if ( allTileData[tile].tags[0] != nullptr  && allTileData[tile].nb_ground_layer_imgs > 0 ){
-
-        this->set_own_ground_base();
-
-    }
-
+    if ( allTileData[tile].tags[0] != nullptr  && allTileData[tile].nb_ground_layer_imgs > 0 )
+        { this->set_own_ground_base(); }
     //
-    if ( allTileData[tile].nb_top_layer_imgs > 0 ){
-
-        this->set_own_ground_top();
-
-    }
-
+    if ( allTileData[tile].nb_top_layer_imgs > 0 )
+        { this->set_own_ground_top(); }
 }
 
 
@@ -1156,70 +1139,40 @@ std::vector< WINDOW_ELT_MAP_TILE_T > WindowEltMapViewer::get_adjacents_tiles_bas
 }
 
 
-//
-WINDOW_ELT_MAP_TILE_T WindowEltMapViewer::get_layer_tile_at_coord(Coord coord){
-
-    //
-    if ( this->tiles_layers.count( coord ) <= 0 ){
-
-        //
-        return nullptr;
-
-    }
-
-    //
-    return this->tiles_layers[coord];
-
-}
+WINDOW_ELT_MAP_TILE_T WindowEltMapViewer::get_layer_tile_at_coord(Coord coord)
+    { return (this->tiles_layers.count(coord) > 0) ? this->tiles_layers[coord] : nullptr; }
 
 
-
-//
-EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord){
-
-    //
+EntityData WindowEltMapViewer::get_entity_data_at_coord(Coord coord)
+{
     EntityData entity = (EntityData){-1, false};
 
-    //
-    if( this->game_model == nullptr){ return entity; }
-    //
-    ELEMENT_T elt = this->game_model->get_tile_element( coord );
-    //
-    if( elt == nullptr){ return entity; }
+    if (this->game_model == nullptr) { return entity; }
 
-    //
+    ELEMENT_T elt = this->game_model->get_tile_element(coord);
+
+    if (elt == nullptr) { return entity; }
+
     entity.level = elt->_defense();
-    //
-    BUILDING_T building = DCAST_BUILDING_T( elt );
-    UNIT_T unit = DCAST_UNIT_T( elt );
-    //
+
+    BUILDING_T building = DCAST_BUILDING_T(elt);
+    UNIT_T unit = DCAST_UNIT_T(elt);
+
     entity.type = (building == nullptr);
 
-    //
-    if( unit != nullptr ){
-        entity.can_move = unit->can_move;
-    }
+    if (unit != nullptr)
+        { entity.can_move = unit->can_move; }
 
-    //
     return entity;
-
 }
 
 
-//
-int WindowEltMapViewer::get_color_at_coord(Coord coord){
-
-    //
-    if( this->game_model == nullptr){ return -1; }
-    //
-    return this->game_model->get_tile_color( coord );
-
-}
+int WindowEltMapViewer::get_color_at_coord(Coord coord)
+    { return (this->game_model != nullptr) ? this->game_model->get_tile_color(coord) : -1; }
 
 
-//
-void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos){
-
+void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos)
+{
     //
     double zoomed_W = (double) TILE_IMG_W * this->zoom;
     double zoomed_H = (double) TILE_IMG_H * this->zoom;
@@ -1228,29 +1181,19 @@ void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos){
     double A = 36.0 * this->zoom;
     double B = 53.0 * this->zoom;
 
-
     //
     double mx = (double) mouse_pos.x + this->cam_x;
     double my = (double) mouse_pos.y + this->cam_y;
 
-    //
     int lx = (int) ( mx / B );
     //
-    if ( lx > 0){
-        lx += 1;
-    }
+    if (lx > 0) { lx += 1; }
 
+    int ly = (int) (my / zoomed_H);
     //
-    int ly = (int) ( my / zoomed_H );
-    //
-    if ( ly <= 0){
-        ly -= 1;
-    }
+    if ( ly <= 0) { ly -= 1; }
 
-    //
-    if ( pos_mod_2(lx) == 1){
-        ly += 1;
-    }
+    if (pos_mod_2(lx) == 1) { ly += 1; }
 
     //
     std::vector< Coord > coords;
@@ -1283,7 +1226,7 @@ void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos){
     center_y.push_back( c4.y * zoomed_H + half_H + pos_mod_2(c4.x) * A );
 
     //
-    for (int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++) {
 
         //
         double cx = center_x[i];
@@ -1296,39 +1239,30 @@ void WindowEltMapViewer::update_mouse_hover_tile(Coord mouse_pos){
         double d = dx * dx + dy * dy;
 
         //
-        if(midist == -1 || d < midist){
+        if (midist == -1 || d < midist) {
             midist = d;
             minidx = i;
         }
-
     }
 
-    //
     this->mouse_hover_tile = coords[minidx];
-
 }
 
 
-//
-void WindowEltMapViewer::drag_entity(Coord tile_to_drag){
-    //
+void WindowEltMapViewer::drag_entity(Coord tile_to_drag)
+{
     this->tile_entity_dragged = tile_to_drag;
     this->dragging_entity = false;
 }
 
 
-//
-void WindowEltMapViewer::stop_dragging_entity(){
-    //
-    this->dragging_entity = false;
-}
+void WindowEltMapViewer::stop_dragging_entity()
+    { this->dragging_entity = false; }
 
 
-//
-void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoom_factor) {
-
-    //
-    if (this->game_end){ return; }
+void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoom_factor)
+{
+    if (this->game_end) { return; }
 
     // Current world point under mouse
     double world_x = (mouse_x + cam_x) / zoom;  // Simplified, adjust based on your system
@@ -1337,47 +1271,30 @@ void WindowEltMapViewer::zoom_at_point(double mouse_x, double mouse_y, float zoo
     // Apply zoom
     this->zoom *= zoom_factor;
 
-    if (this->zoom < 0.25){
-        this->zoom = 0.25;
-    }
-
-    else if (this->zoom > 6){
-        this->zoom = 6;
-    }
+    if (this->zoom < 0.25) { this->zoom = 0.25; }
+    //
+    else if (this->zoom > 6){ this->zoom = 6; }
 
     // Update camera to keep world point under mouse
     this->cam_x = world_x * this->zoom - mouse_x;
     this->cam_y = world_y * this->zoom - mouse_y;
-
 }
 
 
-//
-bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord c, int color){
-
-    //
+bool has_building_of_color_in_neighbours_or_itself(GameModel* game_model, Coord c, int color)
+{
     BUILDING_T b = DCAST_BUILDING_T( game_model->get_tile_element(c) );
 
-    //
-    if( b != nullptr && b->_color() == color ) { return true; }
+    if (b != nullptr && b->_color() == color) { return true; }
 
-    //
-    for(Coord v : neighbours(c)){
+    for (Coord v : neighbours(c)) {
 
-        //
-        b = DCAST_BUILDING_T( game_model->get_tile_element(v) );
-
-        //
-        if( b == nullptr ){ continue; }
-
-        //
-        if( b->_color() == color ) { return true; }
-
+        b = DCAST_BUILDING_T(game_model->get_tile_element(v));
+        if (b == nullptr) { continue; }
+        if (b->_color() == color) { return true; }
     }
 
-    //
     return false;
-
 }
 
 
@@ -1395,44 +1312,31 @@ bool WindowEltMapViewer::check_draw_palissade_between_to_tiles(Coord v1, Coord v
 
     // FOR BANDITS CAMPS
 
-    if( color == 0 ){
+    if (color == 0) {
 
+        if (e1.level == -1 || e1.type)
+            { return false; }
         //
-        if( e1.level == -1 || e1.type ){
-            return false;
-        }
+        if (color2 != color)
+            { return true; }
         //
-        if(color2 != color){
-            return true;
-        }
-        //
-        if( e2.level != -1 && !e2.type && color2 == 0 ){
-            return false;
-        }
+        if (e2.level != -1 && !e2.type && color2 == 0)
+            { return false; }
 
-        //
         return true;
-
     }
 
     // FOR PLAYERS
 
+    if (! has_building_of_color_in_neighbours_or_itself(this->game_model, v1, color))
+        { return false; }
     //
-    if( ! has_building_of_color_in_neighbours_or_itself(this->game_model, v1, color) ){
-        return false;
-    }
+    if (color != color2)
+        { return true;}
+    //
+    if (has_building_of_color_in_neighbours_or_itself(this->game_model, v2, color))
+        { return false; }
 
-    //
-    if( color != color2 ){
-        return true;
-    }
-
-    //
-    if( has_building_of_color_in_neighbours_or_itself(this->game_model, v2, color) ){
-        return false;
-    }
-
-    //
     return true;
 }
 
@@ -1567,87 +1471,57 @@ void on_map_viewer_click_map_creator(WINDOW_ELT_MAP_VIEWER_T map_viewer, MainGam
 
 
 //
-void on_map_viewer_click_in_game(WINDOW_ELT_MAP_VIEWER_T map_viewer, MainGame* main_game, std::vector<std::string> additional_fn_args){
+void on_map_viewer_click_in_game(WINDOW_ELT_MAP_VIEWER_T map_viewer, MainGame* main_game, std::vector<std::string> additional_fn_args)
+{
+    if (map_viewer == nullptr) { return; }
+    if (main_game == nullptr) { return; }
 
-    //
-    if(map_viewer == nullptr){ return; }
-    if(main_game == nullptr){ return; }
-
-
-    //
     main_game->update_selected_province( map_viewer->mouse_hover_tile );
 
-    //
     if (map_viewer->dragging_entity) {
 
-        //
         map_viewer->dragging_entity = false;
 
+        if (map_viewer->dragging_new_entity)
+            { main_game->action_new_entity( map_viewer->mouse_hover_tile, map_viewer->entity_dragged.level, map_viewer->entity_dragged.type ); }
         //
-        if (map_viewer->dragging_new_entity){
+        else
+            { main_game->action_move_entity( map_viewer->tile_entity_dragged, map_viewer->mouse_hover_tile ); }
 
-            // TODO: new entity -> call the model & update the visuals
-            main_game->action_new_entity( map_viewer->mouse_hover_tile, map_viewer->entity_dragged.level, map_viewer->entity_dragged.type );
-        }
-        //
-        else{
-
-            // TODO: move entity -> call the model & update the visuals
-            main_game->action_move_entity( map_viewer->tile_entity_dragged, map_viewer->mouse_hover_tile );
-
-        }
-
-        //
         // (Coord src, bool new_entity, bool reset, int new_entity_level, int new_entity_type)
         main_game->update_where_entity_can_move(map_viewer->mouse_hover_tile, map_viewer->dragging_new_entity, true, map_viewer->entity_dragged.level, map_viewer->entity_dragged.type);
 
-        //
         return;
     }
 
-    //
     EntityData edata = map_viewer->get_entity_data_at_coord( map_viewer->mouse_hover_tile );
 
-    //
-    if( !edata.type || edata.level <= 0 ){ return; }
+    if (!edata.type || edata.level <= 0) { return; }
 
-    //
     int color = map_viewer->get_color_at_coord( map_viewer->mouse_hover_tile );
 
-    //
-    if ( color != main_game->game_model->_current_player() ){ return; }
+    if (color != main_game->game_model->_current_player()) { return; }
 
-    //
     map_viewer->dragging_entity = true;
     map_viewer->dragging_new_entity = false;
     map_viewer->tile_entity_dragged = map_viewer->mouse_hover_tile;
     map_viewer->entity_dragged = edata;
 
-    //
-    // main_game->update_where_entity_can_move( map_viewer->tile_entity_dragged );
-
     // (Coord src, bool new_entity, bool reset, int new_entity_level, int new_entity_type)
     main_game->update_where_entity_can_move(map_viewer->tile_entity_dragged, map_viewer->dragging_new_entity, false, map_viewer->entity_dragged.level, map_viewer->entity_dragged.type);
-
-
 }
 
 
-
-//
-void on_map_viewer_click(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args){
-
-    //
+void on_map_viewer_click(WINDOW_ELT_CLICKABLE_T map_viewer_elt, MainGame* main_game, std::vector<std::string> additional_fn_args)
+{
     WINDOW_ELT_MAP_VIEWER_T map_viewer = DCAST_WINDOW_ELT_MAP_VIEWER_T(map_viewer_elt);
-    //
-    if (map_viewer->game_end){ return; }
+
+    if (map_viewer->game_end) { return; }
 
     // IF MAP CREATOR
-    if ( main_game->menu_state == 3 ) {
-        on_map_viewer_click_map_creator(map_viewer, main_game, additional_fn_args);
-    }
+    if (main_game->menu_state == 3)
+        { on_map_viewer_click_map_creator(map_viewer, main_game, additional_fn_args); }
     // ELSE
-    else if ( main_game->menu_state == 2 ) {
-        on_map_viewer_click_in_game(map_viewer, main_game, additional_fn_args);
-    }
+    else if (main_game->menu_state == 2)
+        { on_map_viewer_click_in_game(map_viewer, main_game, additional_fn_args); }
 }

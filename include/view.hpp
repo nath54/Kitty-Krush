@@ -814,9 +814,6 @@ class WindowEltMapViewer: public WindowEltClickable {
         WINDOW_ELT_ANIMATED_SPRITE_T under_entity_effect;
         WINDOW_ELT_ANIMATED_SPRITE_T can_go_here_effect;
 
-
-        // ! TODO: sprites for all entities
-
         //
         WINDOW_ELT_ANIMATED_SPRITE_T warrior_lvl_0;     // bandit
         WINDOW_ELT_ANIMATED_SPRITE_T warrior_lvl_1;     // villager

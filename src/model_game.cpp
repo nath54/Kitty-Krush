@@ -348,6 +348,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
             { src_prov->add_treasury(DCAST_BUILDING_T(dst_tile->_element())->treasury); }
         else
             { src_prov->add_treasury(dst_prov->_treasury()); }
+            // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse + copier dans new_unit
     }
 
     // delete bandit element
@@ -494,7 +495,7 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
         }
     }
 
-    //
+    // Can move anywhere on the same color
     if (tile->_color() == this->current_player) { return true; }
 
     // If the source unit is an hero, he can go anywhere
@@ -502,8 +503,6 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
 
     // If the current unit to move has an higher defense than the destination tile, he can go there
     return (elt_level > this->get_tile_defense(c));
-
-
 }
 
 
@@ -629,7 +628,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
         TILE_T tile = this->game_map->get_tile(v);
         if (tile == nullptr) { continue; }
         if (tile->_color() != src_prov->_color()) { continue; }
-        
+
         PROVINCE_T prov = this->game_map->get_province(v);
 
         if (prov == nullptr) {
