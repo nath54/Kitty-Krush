@@ -148,6 +148,7 @@ class Map {
         // Initialization
         void recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVINCE_T p = nullptr);
         void init_map(int nb_players, int nb_provinces, int size_provinces, bool bandits);
+        void generate_random_map(int nb_players, int nb_provinces, int size_provinces, bool bandits);
 
         // Provinces managment
         void add_province(PROVINCE_T p);

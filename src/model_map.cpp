@@ -3,6 +3,7 @@
 # include <algorithm> // For remove()
 # include <deque>     // For std::deque
 # include <iostream>
+#include <set>
 
 # include "model_map.hpp"
 
@@ -247,7 +248,7 @@ void Map::recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVIN
         p->add_tile(tile);
     }
 
-    for (auto n : neighbours(c))
+    for (Coord n : neighbours(c))
         { if (rand() % 2) { recursive_fill(n, nb_cover, color_cover, p); } }
 }
 
@@ -300,6 +301,131 @@ void Map::init_map(int nb_players, int nb_prov, int size_prov, bool bandits)
         bandits_layer[seed] = tiles_layer[seed]->_element();
     }
 }
+
+
+int randi(int mini, int maxi){
+    return mini + (rand() % (maxi - mini));
+}
+
+
+void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool bandits){
+
+    // The function that call this one should have clean the map before.
+    // So the map is empty
+
+    // In fact, the screen is always centered at the game start around (nb_tile_to_display / 2; nb_tile_to_display / 2), so we can take one of this coord to start.
+    int seed_x = 10;
+    int seed_y = 10;
+    Coord seed(seed_x, seed_y);
+
+    //
+    int nb_tiles_to_create = (int) ( (float)(this->size) * randi(5, 15) ) + randi(5, 100);
+
+    //
+    std::set<Coord> available_tiles_without_province;
+
+    // FIRST PART : filling the map with ones
+
+    //
+    std::map<Coord, int> tiles_to_pick;
+
+    //
+    // Complexity of the following loops : O( n(n-1)/2 ), with n = nb_tiles_to_create
+    //
+    for(int num_tile; num_tile < nb_tiles_to_create; num_tile++){
+
+        //
+        tiles_to_pick.clear();
+        //
+        int tot_weights = 0;
+
+        // Getting all the neighbours of existing tiles
+        for(std::pair<Coord, TILE_T> it : this->tiles_layer){
+
+            //
+            for(Coord v : neighbours(it.first) ){
+
+                //
+                if( this->tiles_layer.count(v) ){ continue; }
+
+                //
+                tot_weights += 1;
+                if( tiles_to_pick.count(v) ){
+                    tiles_to_pick[v] += 1;
+                }
+                else{
+                    tiles_to_pick[v] = 1;
+                }
+
+            }
+
+        }
+
+        //
+        Coord coord_to_select = (Coord){-1000, -1000};
+
+        // Picking one of the neighbours, with weight on the number of neighbours
+        int choice = randi(0, tot_weights);
+
+        //
+        int crt_choice = 0;
+        //
+        for(std::pair<Coord, int> it : tiles_to_pick ){
+            //
+            if( coord_to_select.x == -1000 ){
+                coord_to_select = it.first;
+            }
+            //
+            crt_choice += it.second;
+            //
+            if( crt_choice <= choice ){
+                coord_to_select = it.first;
+                break;
+            }
+        }
+
+        // If there are no more available tiles
+        if( coord_to_select.x == -1000 ){
+            break;
+        }
+
+        //
+        tiles_layer.insert({coord_to_select, CREATE_TILE_T(coord_to_select, 0)});
+        available_tiles_without_province.insert( coord_to_select );
+
+    }
+
+    // Okay, so now, the map is filled with 0
+    // It is time to add provinces
+
+    //
+    for(int num_prov = 0; num_prov < nb_prov; num_prov++){
+
+        //
+        int color_prov = 1 + (num_prov % (nb_players));
+
+        //
+        // -- Pop random element of available_tiles_without_province --
+        //
+        // Select random index
+        int idx_to_pop = randi( 0, available_tiles_without_province.size() );
+        // Move to the selected index
+        std::set<Coord>::iterator it = available_tiles_without_province.begin();
+        std::advance(it, idx_to_pop);
+        // Get the element
+        Coord c = *it;
+        // Remove from the container
+        available_tiles_without_province.erase(it);
+
+        //
+
+
+
+    }
+
+
+}
+
 
 
 // >> Provinces managment <<
