@@ -20,16 +20,7 @@ int Tile::get_defense() const { return (this->element != nullptr) ? this->elemen
 
 void Tile::convert_color(int new_color) { this->color = new_color; }
 
-void Tile::set_element(ELEMENT_T e)
-{
-    if (this->element != nullptr) {
-        // delete this->element;
-    }
-    this->element = e;
-}
-
-void Tile::reset_element()
-{ this->element = nullptr; }
+void Tile::set_element(ELEMENT_T e) { this->element = e; }
 
 
 // ============================== [ Province ] ================================
@@ -572,7 +563,7 @@ void Map::move_bandit(Coord src, Coord dst)
     ELEMENT_T bandit = this->bandits_layer[src];
     this->bandits_layer.erase(src);
     this->bandits_layer[dst] = bandit;
-    this->get_tile(src)->reset_element();
+    this->get_tile(src)->set_element();
     this->get_tile(dst)->set_element(bandit);
 }
 

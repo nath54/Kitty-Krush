@@ -348,7 +348,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
         //
         else { dst_tile->set_element(unit_to_move); }
 
-        src_tile->reset_element();
+        src_tile->set_element();
 
         return;
     }
@@ -367,7 +367,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 
     // ! TODO: Retrait des troupes si muraille + copier dans new_unit
     dst_tile->set_element(unit_to_move);
-    src_tile->reset_element();
+    src_tile->set_element();
     this->game_map->remove_tile_from_all_prov(dst);
     src_prov->add_tile(dst_tile);
     unit_to_move->can_move = false;
