@@ -3,6 +3,7 @@
 # include <algorithm> // For remove()
 # include <deque>     // For std::deque
 # include <iostream>
+#include <set>
 
 # include "model_map.hpp"
 
@@ -318,7 +319,7 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
     Coord seed(seed_x, seed_y);
 
     //
-    int nb_tiles_to_create = (int) ( (float)(this->size) * randi(5, 15); ) + randi(5, 100);
+    int nb_tiles_to_create = (int) ( (float)(this->size) * randi(5, 15) ) + randi(5, 100);
 
     //
     std::set<Coord> available_tiles_without_province;
@@ -342,7 +343,7 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         for(std::pair<Coord, TILE_T> it : this->tiles_layer){
 
             //
-            for(Coord v : neighbour(it.first) ){
+            for(Coord v : neighbours(it.first) ){
 
                 //
                 if( this->tiles_layer.count(v) ){ continue; }
@@ -364,7 +365,7 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         Coord coord_to_select = (Coord){-1000, -1000};
 
         // Picking one of the neighbours, with weight on the number of neighbours
-        int choice = randit(0, tot_weights);
+        int choice = randi(0, tot_weights);
 
         //
         int crt_choice = 0;
@@ -389,8 +390,8 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         }
 
         //
-        tiles_layer.insert({c, CREATE_TILE_T(c, 0)});
-        available_tiles_without_province.insert( c );
+        tiles_layer.insert({coord_to_select, CREATE_TILE_T(coord_to_select, 0)});
+        available_tiles_without_province.insert( coord_to_select );
 
     }
 
@@ -407,7 +408,7 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         // -- Pop random element of available_tiles_without_province --
         //
         // Select random index
-        int idx_to_pop = randi( available_tiles_without_province.size() );
+        int idx_to_pop = randi( 0, available_tiles_without_province.size() );
         // Move to the selected index
         std::set<Coord>::iterator it = available_tiles_without_province.begin();
         std::advance(it, idx_to_pop);
@@ -417,7 +418,7 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         available_tiles_without_province.erase(it);
 
         //
-        
+
 
 
     }
