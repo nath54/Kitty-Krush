@@ -11,6 +11,8 @@ You play your cat unities to conquer territories and defeat your opponents. Make
 **To run the game, use** `./build_and_run.sh`.  
 If you want to only build it, use `./build.sh`.
 
+> ⚠️ The working directory must be the root of the project.
+
 ## Organization
 
 We followed a standard global organization for C++ projects with a ressource file, a source file, an include file and a makefile.
@@ -29,6 +31,10 @@ We followed a standard global organization for C++ projects with a ressource fil
 
 > TODO: finish
 
+## Menu
+
+> TODO: décrire le menu
+
 ## Rules differences
 
 | KITTY KRUSH | KONKR |
@@ -41,11 +47,6 @@ We followed a standard global organization for C++ projects with a ressource fil
 | Bandits can not go next to an unit. | Bandits can go next to an unit. |
 | Bandits coins are fairly distributed between the different bandit camps. | Bandits coins are stored to the nearest bandit camp. |
 
-
-## Tests
-
-> TODO: Faire des tests pour vérifier que le jeu fonctionne bien, et les décrire ici
-
 ## Conclusion
 
-Well done, it was really fun to play with you ! ⸜(｡˃ ᵕ ˂ )⸝♡
+We hope you have fun on Kitty Krush! ⸜(｡˃ ᵕ ˂ )⸝♡
