@@ -117,7 +117,7 @@ void MainGame::change_page(std::string new_page)
     //
     else if (new_page == "map_creator") {
 
-        for (int i = 8; i < 8 + 70 + 10 + 8; i++) {
+        for (int i = 7; i < 7 + 70 + 10 + 8; i++) {
 
             if (this->main_view->win_page_manager->pages["map_creator"]->elts.size() > i)
                 { this->main_view->win_page_manager->pages["map_creator"]->elts[i]->visible = false; }
@@ -443,7 +443,7 @@ void MainGame::reset_map()
 }
 
 
-void MainGame::generate_random_map(int fn_to_gen){
+void MainGame::generate_random_map(){
 
     if(GAME_DOES_NOT_EXIST) { return; }
 
@@ -473,6 +473,8 @@ void MainGame::generate_random_map(int fn_to_gen){
     int theme = rand() % neutral_tile.size();
 
     //
+    MODEL->_map()->size = 10 + rand() % 100;
+    //
     int nb_players = 2 + (rand() % 2);
     //
     int nb_provinces = nb_players * (1 + (rand() % 2));
@@ -482,12 +484,7 @@ void MainGame::generate_random_map(int fn_to_gen){
     bool bandits = (rand() % 2) == 0;
 
     //
-    if(fn_to_gen == 1){
-        MODEL->_map()->init_map(nb_players, nb_provinces, size_provinces, bandits);
-    }
-    else{
-        MODEL->_map()->generate_random_map(nb_players, nb_provinces, size_provinces, bandits);
-    }
+    MODEL->_map()->generate_random_map(nb_players, nb_provinces, size_provinces, bandits);
 
     //
     for( std::pair<Coord, TILE_T> it : *(MODEL->_map()->_tiles_layer()) ){

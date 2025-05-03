@@ -224,85 +224,6 @@ void Map::reset_provinces_layer() { this->provinces_layer.clear(); }
 
 // >> Initialization <<
 
-void Map::recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVINCE_T p)
-{
-    if (color_cover == NEUTRAL) {
-        if (tiles_layer.size() >= nb_cover) { return; } // inhaf NEUTRAL
-        if (tiles_layer.count(c) != 0) { return; } // already exists
-        tiles_layer.insert({c, CREATE_TILE_T(c, color_cover)});
-    }
-    //
-    else {
-        TILE_T tile = get_tile(c);
-        if (tile == nullptr) { return; }
-        if (tile->_color() != NEUTRAL) { return; }
-
-        if (p == nullptr) {
-            p = CREATE_PROVINCE_T(color_cover);
-            p->add_treasury(7);
-            add_province(p);
-            tile->set_element(CREATE_BUILDING_T(color_cover));
-        }
-
-        if (p->_tiles()->size() >= nb_cover) { return; } // inhaf cover
-        p->add_tile(tile);
-    }
-
-    for (Coord n : neighbours(c))
-        { if (rand() % 2) { recursive_fill(n, nb_cover, color_cover, p); } }
-}
-
-
-void Map::init_map(int nb_players, int nb_prov, int size_prov, bool bandits)
-{
-
-    // Initialize the random seed
-    srand(static_cast<unsigned int>(time(0)));
-    int seed_x = rand() % this->size;
-    int seed_y = rand() % this->size;
-    Coord seed(seed_x, seed_y);
-
-    // Create the map NEUTRAL
-    unsigned int nb_neutral = 0;
-    recursive_fill(seed, (this->size*this->size/3), NEUTRAL, nullptr);
-
-    // Add players' provinces
-    for (int p=1; p<=nb_players; p++) {
-        for (int n=0; n<=nb_prov; n++) {
-            // Get a random tile
-            seed.x = rand() % this->size;
-            seed.y = rand() % this->size;
-
-            while (tiles_layer.count(seed) == 0
-                    || tiles_layer[seed]->_color() != NEUTRAL)
-                { seed.x = rand() % this->size; seed.y = rand() % this->size; }
-
-            recursive_fill(seed, size_prov, p, nullptr);
-        }
-    }
-
-    if (bandits) {
-        seed.x = rand() % this->size;
-        seed.y = rand() % this->size;
-
-        while (tiles_layer.count(seed) == 0
-                || tiles_layer[seed]->_color() != NEUTRAL)
-            { seed.x = rand() % this->size; seed.y = rand() % this->size; }
-
-        tiles_layer[seed]->set_element(CREATE_BUILDING_T(NEUTRAL));
-        DCAST_BUILDING_T(tiles_layer[seed]->_element())->update_treasury(3);
-        bandits_layer[seed] = tiles_layer[seed]->_element();
-
-        while (tiles_layer.count(seed) == 0
-                || tiles_layer[seed]->get_defense() != 0)
-            { seed.x = rand() % this->size; seed.y = rand() % this->size; }
-
-        tiles_layer[seed]->set_element(CREATE_UNIT_T(NEUTRAL, 0));
-        bandits_layer[seed] = tiles_layer[seed]->_element();
-    }
-}
-
-
 int randi(int mini, int maxi){
     return mini + (rand() % (maxi - mini));
 }
@@ -314,8 +235,8 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
     // So the map is empty
 
     // In fact, the screen is always centered at the game start around (nb_tile_to_display / 2; nb_tile_to_display / 2), so we can take one of this coord to start.
-    int seed_x = 10;
-    int seed_y = 10;
+    int seed_x = 5;
+    int seed_y = 5;
     Coord seed = (Coord){seed_x, seed_y};
 
     //
@@ -408,9 +329,9 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
     }
 
     // Okay, so now, the map is filled with 0
-    // It is time to add provinces
+    // It is time to add provinces & units (no developed yet)
 
-    //
+    /*
     for(int num_prov = 0; num_prov < nb_prov; num_prov++){
 
         //
@@ -434,12 +355,10 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         // Remove from the container
         available_tiles_without_province.erase(it);
 
-        //
-
-
+        // ... No developed
 
     }
-
+    */
 
 }
 

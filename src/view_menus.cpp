@@ -240,7 +240,7 @@ void on_bt_map_creator_bt_category(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_ga
     //
     // TILES
     //
-    for(int i = 8; i < 8 + 70; i++){
+    for(int i = 7; i < 7 + 70; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -250,7 +250,7 @@ void on_bt_map_creator_bt_category(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_ga
     //
     // COLORS
     //
-    for(int i = 8 + 70; i < 8 + 70 + 10; i++){
+    for(int i = 7 + 70; i < 7 + 70 + 10; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -260,7 +260,7 @@ void on_bt_map_creator_bt_category(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_ga
     //
     // ENTITIES
     //
-    for(int i = 8 + 70 + 10; i < 8 + 70 + 10 + 8; i++){
+    for(int i = 7 + 70 + 10; i < 7 + 70 + 10 + 8; i++){
         //
         if(main_game->main_view->win_page_manager->pages["map_creator"]->elts.size() <= i){ continue; }
         //
@@ -313,32 +313,6 @@ void on_bt_map_creator_generate(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game,
 
     //
     main_game->generate_random_map();
-
-}
-
-
-
-//
-void on_bt_map_creator_generate2(WINDOW_ELT_CLICKABLE_T elt, MainGame* main_game, std::vector<std::string> additional_fn_args = (std::vector<std::string>){}) {
-
-    //
-    WINDOW_ELT_MAP_VIEWER_T map_viewer = main_game->main_view->map_viewer;
-
-    //
-    if(map_viewer == nullptr){ return; }
-
-    //
-    map_viewer->map_creator_cursor = "";
-    map_viewer->map_creator_elt_category = 0;
-
-    //
-    main_game->main_view->map_viewer->clear();
-    main_game->game_model->reset_bandits_layer();
-    main_game->game_model->reset_provinces();
-    main_game->game_model->reset_tiles_layer();
-
-    //
-    main_game->generate_random_map(2);
 
 }
 
@@ -1210,29 +1184,12 @@ void MainView::init_page_map_creator() {
         //
         CREATE_WINDOW_ELT_BUTTON_T(
             this->win_page_manager->default_style,  // STYLE_T                           style
-            "generate1",                             // std::string                      text
+            "generate",                             // std::string                      text
             nvi(320),                               // VALUE_T                           x
             nvi(70),                                // VALUE_T                           y
             nvi(140),                                // VALUE_T                           w
             nvi(25),                                // VALUE_T                           h
             on_bt_map_creator_generate              // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
-        )
-
-    );
-
-
-    //
-    this->win_page_manager->pages["map_creator"]->elts.push_back(
-
-        //
-        CREATE_WINDOW_ELT_BUTTON_T(
-            this->win_page_manager->default_style,  // STYLE_T                           style
-            "generate2",                             // std::string                      text
-            nvi(450),                               // VALUE_T                           x
-            nvi(70),                                // VALUE_T                           y
-            nvi(140),                                // VALUE_T                           w
-            nvi(25),                                // VALUE_T                           h
-            on_bt_map_creator_generate2             // std::function<void(WINDOW_ELT_CLICKABLE_T, MainGame*, std::vector<std::string>)>    on_click
         )
 
     );

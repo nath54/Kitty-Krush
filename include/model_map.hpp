@@ -106,13 +106,14 @@ class Map {
 
     private:
 
-        int size = 100;
         std::map<Coord, TILE_T> tiles_layer;
         std::map<Coord, ELEMENT_T> bandits_layer;
         std::vector<PROVINCE_T> provinces_layer;
         std::list<PROVINCE_T> provinces_to_remove;
 
     public:
+
+        int size = 50;
 
         // Constructor
         Map() {}; // Default constructor
@@ -145,8 +146,6 @@ class Map {
         void reset_provinces_layer();
 
         // Initialization
-        void recursive_fill(Coord c, unsigned int nb_cover, int color_cover, PROVINCE_T p = nullptr);
-        void init_map(int nb_players, int nb_provinces, int size_provinces, bool bandits);
         void generate_random_map(int nb_players, int nb_provinces, int size_provinces, bool bandits);
 
         // Provinces managment
