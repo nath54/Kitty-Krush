@@ -357,7 +357,6 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 
     if (unit_at_dst != nullptr) {
 
-        std::cout << "Unit at destination tile" << std::endl;
         std::vector<Coord> possible_tiles;
         std::vector<Coord> defended_tiles;
 
@@ -388,12 +387,10 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
 
         if (defended_tiles.size() > 0) {
             int id = rand() % defended_tiles.size();
-            std::cout << "Defended tile" << std::endl;
             this->game_map->get_tile(defended_tiles[id])->set_element(unit_at_dst);
         }
         else if (possible_tiles.size() > 0) {
             int id = rand() % possible_tiles.size();
-            std::cout << "Possible tile" << std::endl;
             this->game_map->get_tile(possible_tiles[id])->set_element(unit_at_dst);
         }
     }
@@ -490,7 +487,7 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
             BUILDING_T dst_building = DCAST_BUILDING_T(tile->_element());
 
             // If there is a building, test if the building is the same color of current player
-            if (dst_building == nullptr && dst_building->_color() == this->current_player)
+            if (dst_building != nullptr && dst_building->_color() == this->current_player)
                 { return false; }
         }
     }
