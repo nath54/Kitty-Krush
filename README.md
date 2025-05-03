@@ -13,6 +13,11 @@ If you want to only build it, use `./build.sh`.
 
 > ⚠️ The working directory must be the root of the project.
 
+> ⚠️ `sdl2` (dev version) / `sdl2_gfx` (dev version) / `sdl2_image` (dev version) / `cmake` must be installed in order to compile the project.
+
+> 📝 This project has been tested on a Ubuntu 24 and archlinux. No windows or mac or other linux distributions have been tested.
+
+
 ## Organization
 
 We followed a standard global organization for C++ projects with a ressource file, a source file, an include file and a makefile.
