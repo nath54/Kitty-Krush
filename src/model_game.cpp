@@ -257,11 +257,9 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
     if (unit_to_move == nullptr) { return false; } // building or nullptr
     if (unit_to_move->is_bandit()) { return false; } // bandit
     if (!(unit_to_move->can_move)) { return false; } // already moved this turn
-    if (unit_to_move->_color() != this->current_player) { return false; } // bandit
 
 
     PROVINCE_T src_prov = this->game_map->get_province(src);
-    PROVINCE_T dst_prov = this->game_map->get_province(dst);
 
     // To avoid system errors, src_prov should always be different than nullptr
     if (src_prov == nullptr) { return false; }
@@ -276,7 +274,7 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
         UNIT_T dst_unit = DCAST_UNIT_T(dst_tile->_element());
 
         // If there is an unit
-        if( dst_unit != nullptr ){
+        if (dst_unit != nullptr) {
 
             // If it is an unit of the same color
             if (dst_unit->_color() == this->current_player) {
@@ -292,20 +290,17 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
             else if (dst_unit->_defense() >= unit_to_move->_defense()) { return false; }
 
         }
+        else {
+            // check for building
+            BUILDING_T dst_building = DCAST_BUILDING_T(dst_tile->_element());
 
-        // check for building
-        BUILDING_T dst_building = DCAST_BUILDING_T(dst_tile->_element());
-
-        // If there is a building, test if the building is the same color of current player
-        if( dst_building != nullptr && dst_building->_color() == this->current_player ){
-            return false;
+            // If there is a building, test if the building is the same color of current player
+            if (dst_building != nullptr && dst_building->_color() == this->current_player)
+                { return false; }
         }
-
     }
 
-    // if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
-    //    { return true; } // Same province no defense
-    //
+    // Can move anywhere on the same color
     if (dst_tile->_color() == this->current_player) { return true; }
 
     // If the source unit is an hero, he can go anywhere
@@ -324,26 +319,20 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     PROVINCE_T src_prov = this->game_map->get_province(src);
     PROVINCE_T dst_prov = this->game_map->get_province(dst);
     UNIT_T unit_to_move = DCAST_UNIT_T(src_tile->_element());
+    UNIT_T unit_at_dst = DCAST_UNIT_T(dst_tile->_element());
 
     if (dst_prov == src_prov) { // Same province, just move and may do fusion
 
-        if (dst_tile->_element() != nullptr) {
+        if (unit_at_dst != nullptr) {
 
-            UNIT_T unit_at_dst = DCAST_UNIT_T(dst_tile->_element());
-
-            if (unit_at_dst != nullptr) {
-
-                if (unit_at_dst->is_bandit()) { // kill bandit
-                    this->game_map->delete_bandit_element(dst);
-                    dst_tile->set_element(unit_to_move);
-                    unit_to_move->can_move = false;
-                }
-                //
-                else // fusion
-                    { unit_at_dst->upgrade(); }
+            if (unit_at_dst->is_bandit()) { // kill bandit
+                this->game_map->delete_bandit_element(dst);
+                dst_tile->set_element(unit_to_move);
+                unit_to_move->can_move = false;
             }
             //
-            else { dst_tile->set_element(unit_to_move); }
+            else // fusion
+                { unit_at_dst->upgrade(); }
         }
         //
         else { dst_tile->set_element(unit_to_move); }
@@ -365,7 +354,49 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     if (dst_tile->_element() != nullptr && dst_tile->_element()->is_bandit())
         { this->game_map->delete_bandit_element(dst); }
 
-    // ! TODO: Retrait des troupes si muraille + copier dans new_unit
+    if (unit_at_dst != nullptr) {
+
+        std::cout << "Unit at destination tile" << std::endl;
+        std::vector<Coord> possible_tiles;
+        std::vector<Coord> defended_tiles;
+
+        for (Coord n : neighbours(dst)) {
+
+            TILE_T tile = this->game_map->get_tile(n);
+
+            if (tile == nullptr) { continue; }
+            if (tile->_color() != dst_tile->_color()) { continue; }
+            if (tile->_element() != nullptr) { continue; }
+
+            possible_tiles.push_back(n);
+
+            for (Coord v : neighbours(n)) {
+
+                TILE_T tile2 = this->game_map->get_tile(v);
+
+                if (tile2 == nullptr) { continue; }
+                if (tile2->_color() != dst_tile->_color()) { continue; }
+                if (tile2->_element() == nullptr) { continue; }
+
+                ELEMENT_T b = DCAST_BUILDING_T(tile2->_element());
+                if (b == nullptr) { continue; }
+
+                defended_tiles.push_back(n);
+            }
+        }
+
+        if (defended_tiles.size() > 0) {
+            int id = rand() % defended_tiles.size();
+            std::cout << "Defended tile" << std::endl;
+            this->game_map->get_tile(defended_tiles[id])->set_element(unit_at_dst);
+        }
+        else if (possible_tiles.size() > 0) {
+            int id = rand() % possible_tiles.size();
+            std::cout << "Possible tile" << std::endl;
+            this->game_map->get_tile(possible_tiles[id])->set_element(unit_at_dst);
+        }
+    }
+
     dst_tile->set_element(unit_to_move);
     src_tile->set_element();
     this->game_map->remove_tile_from_all_prov(dst);
@@ -484,8 +515,6 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     PROVINCE_T dst_prov = this->game_map->get_province(c);
     PROVINCE_T src_prov = nullptr;
 
-    if (tile == nullptr) { return; }
-
     if (dst_prov == nullptr || dst_prov->_color() != this->current_player) {
 
         for (PROVINCE_T p : *(this->game_map->_provinces_layer())) {
@@ -499,8 +528,6 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
     }
     //
     else { src_prov = dst_prov; }
-
-    if (src_prov == nullptr) { return; }
 
     if (dst_prov == src_prov) { // Same province
 
@@ -533,12 +560,54 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
             { src_prov->add_treasury(DCAST_BUILDING_T(tile->_element())->treasury); }
         else
             { src_prov->add_treasury(dst_prov->_treasury()); }
-            // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse
+            // ! TODO: ne pas tout voler si plusieurs towns dans la province avderse + copier dans move_unit
     }
 
     // delete bandit element
     if (tile->_element() != nullptr && tile->_element()->is_bandit())
         { this->game_map->delete_bandit_element(c); }
+
+    UNIT_T unit_at_coord = DCAST_UNIT_T(tile->_element());
+
+    if (unit_at_coord != nullptr) {
+
+        std::vector<Coord> possible_tiles;
+        std::vector<Coord> defended_tiles;
+
+        for (Coord n : neighbours(c)) {
+
+            TILE_T tile1 = this->game_map->get_tile(n);
+
+            if (tile1 == nullptr) { continue; }
+            if (tile1->_color() != tile1->_color()) { continue; }
+            if (tile1->_element() != nullptr) { continue; }
+
+            possible_tiles.push_back(n);
+
+            for (Coord v : neighbours(n)) {
+
+                TILE_T tile2 = this->game_map->get_tile(v);
+
+                if (tile2 == nullptr) { continue; }
+                if (tile2->_color() != tile->_color()) { continue; }
+                if (tile2->_element() == nullptr) { continue; }
+
+                ELEMENT_T b = DCAST_BUILDING_T(tile2->_element());
+                if (b == nullptr) { continue; }
+
+                defended_tiles.push_back(n);
+            }
+        }
+
+        if (defended_tiles.size() > 0) {
+            int id = rand() % defended_tiles.size();
+            this->game_map->get_tile(defended_tiles[id])->set_element(unit_at_coord);
+        }
+        else if (possible_tiles.size() > 0) {
+            int id = rand() % possible_tiles.size();
+            this->game_map->get_tile(possible_tiles[id])->set_element(unit_at_coord);
+        }
+    }
 
     if (is_unit) {
         tile->set_element(CREATE_UNIT_T(this->current_player, elt_level));
@@ -560,6 +629,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
         TILE_T tile = this->game_map->get_tile(v);
         if (tile == nullptr) { continue; }
         if (tile->_color() != src_prov->_color()) { continue; }
+        
         PROVINCE_T prov = this->game_map->get_province(v);
 
         if (prov == nullptr) {
@@ -567,10 +637,10 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
             std::vector<Coord> n2 = neighbours(tile->_coord());
             n.insert(n.end(), n2.begin(), n2.end());
         }
-
+        //
         else if (prov != src_prov)
-            this->game_map->fusion_provinces(src_prov, prov);
-
+            { this->game_map->fusion_provinces(src_prov, prov); }
+        //
         else { continue; }
     }
 
