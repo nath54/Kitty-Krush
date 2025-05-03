@@ -96,6 +96,7 @@ void MainGame::change_page(std::string new_page)
         MODEL->reset_bandits_layer();
         MODEL->reset_provinces();
         MODEL->reset_tiles_layer();
+        this->main_view->map_viewer->game_end = false;
 
         if (this->crt_map_file == "") {
 
@@ -116,7 +117,7 @@ void MainGame::change_page(std::string new_page)
     //
     else if (new_page == "map_creator") {
 
-        for (int i = 7; i < 7 + 70 + 10 + 8; i++) {
+        for (int i = 8; i < 8 + 70 + 10 + 8; i++) {
 
             if (this->main_view->win_page_manager->pages["map_creator"]->elts.size() > i)
                 { this->main_view->win_page_manager->pages["map_creator"]->elts[i]->visible = false; }
@@ -130,6 +131,7 @@ void MainGame::change_page(std::string new_page)
         if (check_file_exists("maps/map_created.kkmap"))
             { this->change_to_in_game_page_with_map_file( "maps/map_created.kkmap" ); }
 
+        this->main_view->map_viewer->game_end  = false;
         this->menu_state = 3;
     }
     //
@@ -441,7 +443,7 @@ void MainGame::reset_map()
 }
 
 
-void MainGame::generate_random_map(){
+void MainGame::generate_random_map(int fn_to_gen){
 
     if(GAME_DOES_NOT_EXIST) { return; }
 
@@ -471,7 +473,7 @@ void MainGame::generate_random_map(){
     int theme = rand() % neutral_tile.size();
 
     //
-    int nb_players = 1 + (rand() % 4);
+    int nb_players = 2 + (rand() % 2);
     //
     int nb_provinces = nb_players * (1 + (rand() % 2));
     //
@@ -480,7 +482,12 @@ void MainGame::generate_random_map(){
     bool bandits = (rand() % 2) == 0;
 
     //
-    MODEL->_map()->init_map(nb_players, nb_provinces, size_provinces, bandits);
+    if(fn_to_gen == 1){
+        MODEL->_map()->init_map(nb_players, nb_provinces, size_provinces, bandits);
+    }
+    else{
+        MODEL->_map()->generate_random_map(nb_players, nb_provinces, size_provinces, bandits);
+    }
 
     //
     for( std::pair<Coord, TILE_T> it : *(MODEL->_map()->_tiles_layer()) ){

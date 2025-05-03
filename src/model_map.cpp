@@ -316,7 +316,7 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
     // In fact, the screen is always centered at the game start around (nb_tile_to_display / 2; nb_tile_to_display / 2), so we can take one of this coord to start.
     int seed_x = 10;
     int seed_y = 10;
-    Coord seed(seed_x, seed_y);
+    Coord seed = (Coord){seed_x, seed_y};
 
     //
     int nb_tiles_to_create = (int) ( (float)(this->size) * randi(5, 15) ) + randi(5, 100);
@@ -324,10 +324,17 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
     //
     std::set<Coord> available_tiles_without_province;
 
+    //
+    int choice = 0;
+
     // FIRST PART : filling the map with ones
 
     //
     std::map<Coord, int> tiles_to_pick;
+
+    // Insert the first tile
+    tiles_layer.insert({seed, CREATE_TILE_T(seed, 0)});
+    available_tiles_without_province.insert( seed );
 
     //
     // Complexity of the following loops : O( n(n-1)/2 ), with n = nb_tiles_to_create
@@ -365,8 +372,13 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
         Coord coord_to_select = (Coord){-1000, -1000};
 
         // Picking one of the neighbours, with weight on the number of neighbours
-        int choice = randi(0, tot_weights);
-
+        if (tot_weights > 0) {
+            choice = randi(0, tot_weights);
+        } else {
+            // Handle the case where there are no available neighbours to pick
+            // This might mean the map generation is stuck or complete for this phase
+            break;
+        }
         //
         int crt_choice = 0;
         //
@@ -378,7 +390,7 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
             //
             crt_choice += it.second;
             //
-            if( crt_choice <= choice ){
+            if( choice <= crt_choice ){
                 coord_to_select = it.first;
                 break;
             }
@@ -403,6 +415,11 @@ void Map::generate_random_map(int nb_players, int nb_prov, int size_prov, bool b
 
         //
         int color_prov = 1 + (num_prov % (nb_players));
+
+        if (available_tiles_without_province.empty()) {
+            // Not enough available tiles to create all provinces
+            break;
+        }
 
         //
         // -- Pop random element of available_tiles_without_province --

@@ -99,7 +99,7 @@ class MainGame{
         void reset_map();
 
         //
-        void generate_random_map();
+        void generate_random_map(int fn_to_gen=1);
 
         //
         void test_end_game();
