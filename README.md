@@ -8,7 +8,7 @@
 KItty Krush is a game inspired from **[konkr.io](https://www.konkr.io/)** (scholar project).
 You play your cat unities to conquer territories and defeat your opponents. Make your army stronger and improve your economy to achieve victory!
 
-**To run the game, use** `./build_and_run.sh`.  
+**To run the game, use** `./build_and_run.sh`.
 If you want to only build it, use `./build.sh`.
 
 > ⚠️ The working directory must be the root of the project.
@@ -19,17 +19,19 @@ We followed a standard global organization for C++ projects with a ressource fil
 
 ###  Main Classes
 
-|   Class    | Description |
-| :--------: | ----------- |
-| `Element`  | Entities you can find on the map. There are two types (implemented in two subclasses), `Unit` and `Building`. |
-|   `Tile`   | To describe each tile on the map. Can be linked to an `Element`. |
-| `Province` | Block of `Tile`s belonging to a player. Must have one town at least to exist. |
-| `Map` | Stores all `Tile`s, `Province`s and the list of bandit `Element`s. |
-| `GameModel` | Has the overview of the game (precisely its `Map`) and its players. |
-| `MainGame` | Do the different links between game (`GameModel`) and display (`MainView`) to execute tasks simultaneously. |
-| `MainView` | Manages the SDL environment & SDL Window. |
+|   Class       | Description |
+| :--------:    | ----------- |
+| `Coord`       | The skeleton of this project: a simple 2d vector (x, y) that represents a tile coordinate. |
+| `Element`     | Entities you can find on the map. There are two types (implemented in two subclasses), `Unit` and `Building`. |
+| `Tile`        | To describe each tile on the map. Can be linked to an `Element`. |
+| `Province`    | Block of `Tile`s belonging to a player. Must have one town at least to exist. |
+| `Map`         | Stores all `Tile`s, `Province`s and the list of bandit `Element`s. |
+| `GameModel`   | Has the overview of the game (precisely its `Map`) and its players. |
+| `MainGame`    | Do the different links between game (`GameModel`) and display (`MainView`) to execute tasks simultaneously. |
+| `MainView`    | Manages the SDL environment & SDL Window. |
+| `WindowElt`   | Represents an element that will be drawn, ex: `WindowEltText` for text, `WindowEltSprite` for sprites, `WindowEltButton` for buttons... |
+| `Event`       | Represents an low level SDL event, ex: `EventMouseMotion`, `EventMouseClick`, `EventMouseDragging`, `EventKeyUp`... |
 
-> TODO: finish
 
 ## Menu
 
