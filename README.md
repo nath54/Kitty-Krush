@@ -21,7 +21,7 @@ We followed a standard global organization for C++ projects with a ressource fil
 
 |   Class       | Description |
 | :--------:    | ----------- |
-| `Coord`       | The skeleton of this project: a simple 2d vector (x, y) that represents a tile coordinate. |
+| `Coord`       | The skeleton of this project: a simple 2d vector (x, y) that represents a `Tile` (or `Element`) coordinates. |
 | `Element`     | Entities you can find on the map. There are two types (implemented in two subclasses), `Unit` and `Building`. |
 | `Tile`        | To describe each tile on the map. Can be linked to an `Element`. |
 | `Province`    | Block of `Tile`s belonging to a player. Must have one town at least to exist. |
@@ -35,7 +35,10 @@ We followed a standard global organization for C++ projects with a ressource fil
 
 ## Menu
 
-> TODO: décrire le menu
+- `Continue game` : allows player to continue his last game, when quitted with _back_ button.
+- `Create a new map` : use the map creator to imagine your own map, or use the random generator (_generate_ button) to create one automatically and randomly.
+- `2p_green_island`, `3p_stranded_on_beach` : predefined test maps (2 or 3 players).
+- `map_created` : the last created map (saved from the map generator when use _back_ button).
 
 ## Rules differences
 
