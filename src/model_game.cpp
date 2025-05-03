@@ -360,17 +360,22 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
         { this->game_map->delete_bandit_element(dst); }
 
     if (unit_at_dst != nullptr && !unit_at_dst->is_bandit()) {
-
+        bool is_protected = false;
         std::vector<Coord> possible_tiles;
         std::vector<Coord> defended_tiles;
 
         for (Coord n : neighbours(dst)) {
 
-            TILE_T tile = this->game_map->get_tile(n);
+            TILE_T tile1 = this->game_map->get_tile(n);
 
-            if (tile == nullptr) { continue; }
-            if (tile->_color() != dst_tile->_color()) { continue; }
-            if (tile->_element() != nullptr) { continue; }
+            if (tile1 == nullptr) { continue; }
+            if (tile1->_color() != tile1->_color()) { continue; }
+            if (tile1->_element() != nullptr) {
+                BUILDING_T b = DCAST_BUILDING_T(tile1->_element());
+                if (b != nullptr && b->_color() == this->current_player)
+                { is_protected = true; }
+                continue;
+            }
 
             possible_tiles.push_back(n);
 
@@ -389,10 +394,13 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
             }
         }
 
-        if (defended_tiles.size() > 0) {
+        if (!is_protected) { /* do not move the atttacked unit */ }
+        //
+        else if (defended_tiles.size() > 0) {
             int id = rand() % defended_tiles.size();
             this->game_map->get_tile(defended_tiles[id])->set_element(unit_at_dst);
         }
+        //
         else if (possible_tiles.size() > 0) {
             int id = rand() % possible_tiles.size();
             this->game_map->get_tile(possible_tiles[id])->set_element(unit_at_dst);
@@ -575,6 +583,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
     if (unit_at_coord != nullptr && !unit_at_coord->is_bandit()) {
 
+        bool is_protected = false;
         std::vector<Coord> possible_tiles;
         std::vector<Coord> defended_tiles;
 
@@ -584,7 +593,12 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
             if (tile1 == nullptr) { continue; }
             if (tile1->_color() != tile1->_color()) { continue; }
-            if (tile1->_element() != nullptr) { continue; }
+            if (tile1->_element() != nullptr) {
+                BUILDING_T b = DCAST_BUILDING_T(tile1->_element());
+                if (b != nullptr && b->_color() == this->current_player)
+                { is_protected = true; }
+                continue;
+            }
 
             possible_tiles.push_back(n);
 
@@ -603,10 +617,13 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
             }
         }
 
-        if (defended_tiles.size() > 0) {
+        if (!is_protected) { /* do not move the atttacked unit */ }
+        //
+        else if (defended_tiles.size() > 0) {
             int id = rand() % defended_tiles.size();
             this->game_map->get_tile(defended_tiles[id])->set_element(unit_at_coord);
         }
+        //
         else if (possible_tiles.size() > 0) {
             int id = rand() % possible_tiles.size();
             this->game_map->get_tile(possible_tiles[id])->set_element(unit_at_coord);
