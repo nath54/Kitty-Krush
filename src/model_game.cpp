@@ -303,8 +303,10 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
 
     }
 
-    if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
-        { return true; } // Same province no defense
+    // if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
+    //    { return true; } // Same province no defense
+    //
+    if (dst_tile->_color() == this->current_player) { return true; }
 
     // If the source unit is an hero, he can go anywhere
     if (unit_to_move->_defense() == MAX_UNIT_LEVEL) { return true; }
@@ -402,14 +404,9 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
     TILE_T tile = this->game_map->get_tile(c);
     if (tile == nullptr) { return false; }
 
-    // Verify the entity_level is correct
-    if (this->current_player == NEUTRAL && elt_level != 0) { return false; }
-
-    else {
-        if (elt_level <= 0) { return false; }
-        if (is_unit && elt_level > MAX_UNIT_LEVEL) { return false; }
-        else if (!is_unit && elt_level > MAX_BUILDING_LEVEL) { return false; }
-    }
+    if (elt_level <= 0) { return false; }
+    if (is_unit && elt_level > MAX_UNIT_LEVEL) { return false; }
+    else if (!is_unit && elt_level > MAX_BUILDING_LEVEL) { return false; }
 
     // Get the unit cost
     int unit_cost = (is_unit ? units_new_costs[elt_level] : buildings_new_costs[elt_level]);
@@ -463,8 +460,8 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
 
     }
 
-    if (dst_prov != nullptr && dst_prov->_color() == this->current_player)
-        { return true; } // Same province no defense
+    //
+    if (tile->_color() == this->current_player) { return true; }
 
     // If the source unit is an hero, he can go anywhere
     if (elt_level == MAX_UNIT_LEVEL) { return true; }
