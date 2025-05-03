@@ -364,6 +364,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     if (dst_tile->_element() != nullptr && dst_tile->_element()->is_bandit())
         { this->game_map->delete_bandit_element(dst); }
 
+    // ! TODO: Retrait des troupes si muraille + copier dans new_unit
     dst_tile->set_element(unit_to_move);
     src_tile->reset_element();
     this->game_map->remove_tile_from_all_prov(dst);
@@ -412,19 +413,19 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
     int unit_cost = (is_unit ? units_new_costs[elt_level] : buildings_new_costs[elt_level]);
 
     // Check if there is a province of the current player color adjacent to this tile that has the money to pay the unit
-    PROVINCE_T dst_prov = nullptr;
+    PROVINCE_T buyer_prov = nullptr;
 
     for (PROVINCE_T prov : *(this->game_map->_provinces_layer())) {
 
         if (prov->is_adjacent_to_coord(c)) {
             if (prov->_color() != this->current_player) { continue; }
             if (prov->_treasury() < unit_cost) { continue; }
-            dst_prov = prov;
+            buyer_prov = prov;
             break;
         }
     }
 
-    if (dst_prov == nullptr) { return false; }
+    if (buyer_prov == nullptr) { return false; }
 
     // Check if there is an unit in the tile destination
     if (tile->_element() != nullptr) {
@@ -433,31 +434,31 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
         UNIT_T dst_unit = DCAST_UNIT_T(tile->_element());
 
         // If there is an unit
-        if( dst_unit != nullptr ){
+        if (dst_unit != nullptr) {
+
+            if (dst_unit->is_bandit()) { return true; }
 
             // If it is an unit of the same color
             if (dst_unit->_color() == this->current_player) {
 
-                // No fusion with units of the same color
+                // No fusion for heroes
                 if (dst_unit->_defense() == MAX_UNIT_LEVEL) { return false; }
 
-                // Okay
                 return (dst_unit->_defense() == elt_level);
             }
 
             // If not unit of the same color, and we directly know that the movement is impossible
             else if (dst_unit->_defense() >= elt_level) { return false; }
-
         }
+        //
+        else {
+            // check for building
+            BUILDING_T dst_building = DCAST_BUILDING_T(tile->_element());
 
-        // check for building
-        BUILDING_T dst_building = DCAST_BUILDING_T(tile->_element());
-
-        // If there is a building, test if the building is the same color of current player
-        if( dst_building != nullptr && dst_building->_color() == this->current_player ){
-            return false;
+            // If there is a building, test if the building is the same color of current player
+            if (dst_building == nullptr && dst_building->_color() == this->current_player)
+                { return false; }
         }
-
     }
 
     //
