@@ -1598,7 +1598,8 @@ void on_map_viewer_click_in_game(WINDOW_ELT_MAP_VIEWER_T map_viewer, MainGame* m
         }
 
         //
-        main_game->update_where_entity_can_move(map_viewer->mouse_hover_tile, false, true);
+        // (Coord src, bool new_entity, bool reset, int new_entity_level, int new_entity_type)
+        main_game->update_where_entity_can_move(map_viewer->mouse_hover_tile, false, true, map_viewer->entity_dragged.level, map_viewer->entity_dragged.type);
 
         //
         return;
@@ -1623,7 +1624,11 @@ void on_map_viewer_click_in_game(WINDOW_ELT_MAP_VIEWER_T map_viewer, MainGame* m
     map_viewer->entity_dragged = edata;
 
     //
-    main_game->update_where_entity_can_move( map_viewer->tile_entity_dragged );
+    // main_game->update_where_entity_can_move( map_viewer->tile_entity_dragged );
+
+    // (Coord src, bool new_entity, bool reset, int new_entity_level, int new_entity_type)
+    main_game->update_where_entity_can_move(map_viewer->tile_entity_dragged, true, false, map_viewer->entity_dragged.level, map_viewer->entity_dragged.type);
+
 
 }
 
