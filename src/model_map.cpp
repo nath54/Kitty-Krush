@@ -526,9 +526,9 @@ void Map::split_province(Coord c, PROVINCE_T p)
 
             BUILDING_T b = DCAST_BUILDING_T(t->_element());
 
-            if (b == nullptr || b->_color() == NEUTRAL) { continue; }
+            if (b == nullptr || b->is_bandit()) { continue; }
 
-            if (b->_defense() == 1) { town = true; break; }
+            if (b->is_town()) { town = true; break; }
         }
 
         if (!town) {
