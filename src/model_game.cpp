@@ -359,7 +359,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     if (dst_tile->_element() != nullptr && dst_tile->_element()->is_bandit())
         { this->game_map->delete_bandit_element(dst); }
 
-    if (unit_at_dst != nullptr && unit_at_dst->is_bandit()) {
+    if (unit_at_dst != nullptr && !unit_at_dst->is_bandit()) {
 
         std::vector<Coord> possible_tiles;
         std::vector<Coord> defended_tiles;
