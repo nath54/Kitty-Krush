@@ -360,7 +360,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
     if (dst_tile->_element() != nullptr && dst_tile->_element()->is_bandit())
         { this->game_map->delete_bandit_element(dst); }
 
-    if (unit_at_dst != nullptr) {
+    if (unit_at_dst != nullptr && unit_at_dst->is_bandit()) {
 
         std::vector<Coord> possible_tiles;
         std::vector<Coord> defended_tiles;
@@ -570,7 +570,7 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
     UNIT_T unit_at_coord = DCAST_UNIT_T(tile->_element());
 
-    if (unit_at_coord != nullptr) {
+    if (unit_at_coord != nullptr && !unit_at_coord->is_bandit()) {
 
         std::vector<Coord> possible_tiles;
         std::vector<Coord> defended_tiles;
