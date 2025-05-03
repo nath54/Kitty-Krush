@@ -258,7 +258,6 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
     if (unit_to_move->is_bandit()) { return false; } // bandit
     if (!(unit_to_move->can_move)) { return false; } // already moved this turn
 
-
     PROVINCE_T src_prov = this->game_map->get_province(src);
 
     // To avoid system errors, src_prov should always be different than nullptr
@@ -286,7 +285,8 @@ bool GameModel::check_action_move_unit(Coord src, Coord dst)
                 return (dst_unit->_defense() == unit_to_move->_defense());
             }
 
-            // If not unit of the same color, and we directly know that the movement is impossible
+            // If ennemy check defense
+            if (unit_to_move->_defense() == MAX_UNIT_LEVEL) { return true; }
             else if (dst_unit->_defense() >= unit_to_move->_defense()) { return false; }
 
         }
@@ -482,7 +482,8 @@ bool GameModel::check_action_new_element(Coord c, int elt_level, bool is_unit)
                 return (dst_unit->_defense() == elt_level);
             }
 
-            // If not unit of the same color, and we directly know that the movement is impossible
+            // If ennemy check defense
+            if (elt_level == MAX_UNIT_LEVEL) { return true; }
             else if (dst_unit->_defense() >= elt_level) { return false; }
         }
         //
