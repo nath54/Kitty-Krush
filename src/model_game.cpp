@@ -336,6 +336,7 @@ void GameModel::do_action_move_unit(Coord src, Coord dst)
                 if (unit_at_dst->is_bandit()) { // kill bandit
                     this->game_map->delete_bandit_element(dst);
                     dst_tile->set_element(unit_to_move);
+                    unit_to_move->can_move = false;
                 }
                 //
                 else // fusion
@@ -507,7 +508,9 @@ void GameModel::do_action_new_element(Coord c, int elt_level, bool is_unit)
 
             if (tile->_element()->is_bandit()) { // kill bandit
                 this->game_map->delete_bandit_element(c);
-                tile->set_element(CREATE_UNIT_T(this->current_player, elt_level));
+                UNIT_T new_unit = CREATE_UNIT_T(this->current_player, elt_level);
+                tile->set_element(new_unit);
+                new_unit->can_move = false;
             }
             //
             else { DCAST_UNIT_T(tile->_element())->upgrade(); } // fusion units
