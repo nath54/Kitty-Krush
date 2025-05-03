@@ -800,20 +800,6 @@ int GameModel::check_game_finished()
 }
 
 
-
-
-
-
-//
-bool check_if_at_least_one_town_in_province(PROVINCE_T p){
-
-    //
-    return count_towns_in_province(p) > 0;
-
-}
-
-
-
 //
 void GameModel::remove_all_empty_provinces(){
 
@@ -827,7 +813,7 @@ void GameModel::remove_all_empty_provinces(){
     while( it != provinces_layer->end() ){
 
         //
-        if( ! check_if_at_least_one_town_in_province( *it ) ){
+        if(count_towns_in_province(*it) == 0){
             //
             this->_map()->remove_province( *it );
         }

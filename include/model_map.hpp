@@ -166,5 +166,5 @@ class Map {
 
 
 //
-bool count_towns_in_province(PROVINCE_T p);
+int count_towns_in_province(PROVINCE_T p);
 

@@ -18,16 +18,16 @@
 void MainView::sdl_error(const char* error_msg){
 
     // Display & log error message
-    SDL_Log( error_msg );
+    SDL_Log("%s", error_msg);
 
     // Destroy all the allocated SDL memory for a clean exit
     this->destroy_all_created();
 
     // Quit TTF
-    if(this->ttf_initialized){ TTF_Quit(); }
+    if (this->ttf_initialized) { TTF_Quit(); }
 
     // Quit SDL then the program
-    if(this->sdl_initialized){ SDL_Quit(); }
+    if (this->sdl_initialized) { SDL_Quit(); }
     //
     exit(1);
 }
