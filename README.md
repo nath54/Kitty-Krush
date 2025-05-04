@@ -17,6 +17,7 @@ If you want to only build it, use `./build.sh`.
 
 > 📝 This project has been tested on a Ubuntu 24 and archlinux. No windows or mac or other linux distributions have been tested.
 
+> If there is a compilation error, you can try to replace the `CMakeLists.txt` file with the `CMakeLists_ubuntu.txt` file.
 
 ## Organization
 
