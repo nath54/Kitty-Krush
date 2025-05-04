@@ -1,0 +1,69 @@
+cmake_minimum_required(VERSION 3.10)
+project(KittyKrush)
+
+# Set the C++ standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Add cmake/ subdir
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+# Find SDL2 packages
+# Use PkgConfig to find modules if available
+find_package(PkgConfig REQUIRED)
+
+# Find main SDL2 library
+find_package(SDL2 REQUIRED)
+
+# Use pkg-config for SDL2_ttf as standard find_package may not work
+pkg_check_modules(SDL2_TTF REQUIRED SDL2_ttf)
+
+# Find SDL2_gfx (using find_package as per original, assuming it works or project provides module)
+find_package(SDL2_gfx REQUIRED)
+
+# Use pkg-config for SDL2_image as standard find_package may not work
+pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
+
+# Find Threads library (often needed by SDL)
+find_package(Threads REQUIRED)
+
+# Collect all source and header files
+# add_executable should come before target_* commands
+# Although headers are often not listed here, keeping as per original
+file(GLOB_RECURSE SOURCES src/*.cpp)
+file(GLOB_RECURSE HEADERS include/*.hpp)
+
+# Add the executable
+add_executable(KittyKrush ${SOURCES} ${HEADERS})
+
+# Specify include directories for the target
+# Use target_include_directories for better practice instead of global include_directories
+target_include_directories(KittyKrush PRIVATE
+    ${CMAKE_SOURCE_DIR}/include # Project's own include dir
+    ${SDL2_INCLUDE_DIRS} # Standard SDL2 include dirs from find_package(SDL2)
+    ${SDL2_TTF_INCLUDE_DIRS} # SDL2_ttf include dirs from pkg-config
+    ${SDL2_IMAGE_INCLUDE_DIRS} # SDL2_image include dirs from pkg-config
+    /usr/include/SDL2 # Explicitly add the common SDL2 include path as a fallback/confirmation
+)
+
+# Link SDL2 and extensions
+target_link_libraries(KittyKrush PRIVATE
+    SDL2 # Link the main SDL2 library found by find_package(SDL2)
+    ${SDL2_TTF_LIBRARIES} # Link SDL2_ttf libraries from pkg-config
+    SDL2_gfx # Link SDL2_gfx library found by find_package(SDL2_gfx)
+    ${SDL2_IMAGE_LIBRARIES} # Link SDL2_image libraries from pkg-config (corrected variable name)
+    ${SDL2_LIBRARIES} # Often redundant if SDL2 is linked directly, but harmless
+    ${CMAKE_THREAD_LIBS_INIT} # Link Threads library found by find_package(Threads)
+)
+
+# Set the output directory for the binary
+set_target_properties(KittyKrush PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# Copy resources to the build directory
+add_custom_target(copy_resources ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/bin/res
+)
+add_dependencies(KittyKrush copy_resources)
